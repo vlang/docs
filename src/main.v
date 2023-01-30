@@ -15,9 +15,8 @@ fn main() {
 	create_output_directory()!
 
 	response := http.get(v_doc_path)!
-	source := response.body
 
-	generate_pages(source)!
+	generate_pages(response.body)!
 }
 
 fn clean_output_directory() ! {
@@ -38,12 +37,14 @@ fn generate_pages(source string) ! {
 	index_page := topics.first()
 	rest_pages := topics[1..]
 
-	write_markdown_to_html('index.html', index_page)!
+	index_html := markdown.to_html(index_page)
+	write_output_file('index.html', index_html)!
 
 	for page in rest_pages {
 		filename := filename_from_topic(page) or { panic(err) }
+		page_html := markdown.to_html(page)
 
-		write_markdown_to_html(filename, page)!
+		write_output_file(filename, page_html)!
 	}
 }
 
@@ -81,8 +82,6 @@ fn extract_title_from_markdown(source string) ?string {
 	return none
 }
 
-fn write_markdown_to_html(filename string, content string) ! {
-	html := markdown.to_html(content)
-
-	os.write_file(os.join_path(output_path, filename), html)!
+fn write_output_file(filename string, content string) ! {
+	os.write_file(os.join_path(output_path, filename), content)!
 }
