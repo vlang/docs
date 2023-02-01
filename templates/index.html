@@ -198,6 +198,11 @@
     const theme = localStorage.getItem("theme");
     if (theme) {
         setTheme(theme);
+    } else {
+        const theme = document.querySelector("html").getAttribute("data-theme");
+
+        localStorage.setItem("theme", theme);
+        setTheme(theme);
     }
 
     const changeThemeButton = document.querySelector(".js-change-theme");
