@@ -1,13 +1,13 @@
 module main
 
-import os
 import net.http
 import markdown
-import regex
 
 const (
-	v_doc_path  = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
-	output_path = 'output'
+	v_doc_path        = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
+	output_path       = 'output'
+	template_path     = 'templates'
+	should_be_skipped = ['Table of Contents']
 )
 
 fn main() {
@@ -17,71 +17,46 @@ fn main() {
 	response := http.get(v_doc_path)!
 
 	generate_pages(response.body)!
-}
-
-fn clean_output_directory() ! {
-	if os.exists(output_path) {
-		os.rmdir_all(output_path)!
-	}
-}
-
-fn create_output_directory() ! {
-	if !os.exists(output_path) {
-		os.mkdir(output_path)!
-	}
+	copy_assets_to_output()!
 }
 
 fn generate_pages(source string) ! {
-	topics := split_source_by_topics(source)
+	mut pages := []Page{}
 
-	index_page := topics.first()
-	rest_pages := topics[1..]
+	markdown_topics := split_source_by_topics(source, 2)
+	index_topic := markdown_topics.first()
+	rest_topics := markdown_topics[1..]
+	topics := extract_topics_from_markdown_parts(rest_topics, false)
 
-	index_html := markdown.to_html(index_page)
-	write_output_file('index.html', index_html)!
+	index_html := markdown.to_html(index_topic)
+	write_output_file('index.html', generate_page_from_template(topics, '', index_html))!
 
-	for page in rest_pages {
-		filename := filename_from_topic(page) or { panic(err) }
-		page_html := markdown.to_html(page)
+	for topic in rest_topics {
+		title := extract_title_from_markdown_topic(topic) or { panic(err) }
 
-		write_output_file(filename, page_html)!
-	}
-}
-
-fn split_source_by_topics(source string) []string {
-	mut split_re := regex.regex_opt(r'^## ') or { panic(err) }
-
-	return split_re.split(source)
-}
-
-fn filename_from_topic(source string) ?string {
-	title := extract_title_from_markdown(source) or { panic(err) }
-
-	if title == '' {
-		return none
-	}
-
-	filename := title.replace_each([' ', '-', '`', '', '/', '', '\\', '']).to_lower()
-
-	return '${filename}.html'
-}
-
-fn extract_title_from_markdown(source string) ?string {
-	mut title_re := regex.regex_opt(r'^#+') or { panic(err) }
-	lines := source.split_into_lines()
-
-	if lines.len > 0 {
-		first_line := lines.first()
-		title := title_re.replace(first_line, '')
-
-		if title != '' {
-			return title
+		if check_page_should_be_skipped(title) {
+			continue
 		}
-	}
 
-	return none
+		pages << Page{
+			title: title
+			content: markdown.to_html(topic)
+		}
+
+		content := generate_page_from_template(topics, title, topic)
+
+		write_output_file('${title_to_filename(title)}.html', content)!
+	}
 }
 
-fn write_output_file(filename string, content string) ! {
-	os.write_file(os.join_path(output_path, filename), content)!
+fn generate_page_from_template(topics []Topic, title string, markdown_content string) string {
+	markdown_subtopics := split_source_by_topics(markdown_content, 3)
+	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
+
+	transformer := HTMLTransformer{
+		content: markdown.to_html(markdown_content)
+	}
+	content := transformer.process()
+
+	return $tmpl('../templates/index.html')
 }
