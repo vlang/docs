@@ -283,8 +283,12 @@ header {
 }
 
 article {
-  height: 100%;
-  width: calc(100vw);
+  width: 100vw;
+  height: calc(100% - 1px);
+
+  display: grid;
+  align-content: space-between;
+
   padding: 0 0 0 300px;
 
   background-color: var(--background);
