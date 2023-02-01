@@ -582,6 +582,7 @@ article {
     code {
       font-family: "JetBrains Mono", monospace;
       font-size: 0.875em;
+      white-space: nowrap;
 
       &.symbol-ref {
         color: var(--theme-color);

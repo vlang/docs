@@ -490,6 +490,7 @@ article main .language-v .playground__wrapper {
 article main code {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.875em;
+  white-space: nowrap;
 }
 article main code.symbol-ref {
   color: var(--theme-color);
