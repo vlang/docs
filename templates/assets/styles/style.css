@@ -619,4 +619,60 @@ article main .tag.deprecated {
   border: 1px solid var(--tag-deprecated-color);
 }
 
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  margin: 40px -10px;
+}
+@media (max-width: 700px) {
+  .cards {
+    grid-template-columns: 1fr;
+    margin: 0;
+  }
+}
+.cards .card {
+  margin: 0 10px 20px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--divider-color);
+  transition: border 0.25s;
+  display: grid;
+}
+.cards .card:hover {
+  cursor: pointer;
+  border: 1px solid var(--theme-color);
+}
+.cards .card:hover .logo svg .background {
+  fill: var(--theme-color);
+}
+@media (max-width: 700px) {
+  .cards .card {
+    margin: 0 0 20px;
+  }
+}
+.cards .card .logo {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.cards .card .logo svg {
+  width: 100%;
+  height: 100%;
+}
+.cards .card .logo svg .background {
+  transition: fill 0.25s;
+}
+.cards .card .title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.cards .card .description {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
 /*# sourceMappingURL=style.css.map */

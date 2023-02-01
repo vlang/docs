@@ -699,3 +699,70 @@ article {
     }
   }
 }
+
+// cards
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  margin: 40px -10px;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+    margin: 0;
+  }
+
+  .card {
+    margin: 0 10px 20px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--divider-color);
+    transition: border .25s;
+
+    display: grid;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid var(--theme-color);
+
+      .logo {
+        svg .background {
+          fill: var(--theme-color);
+        }
+      }
+    }
+
+    @media (max-width: 700px) {
+      margin: 0 0 20px;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 20px;
+      overflow: hidden;
+
+      svg {
+        width: 100%;
+        height: 100%;
+
+        .background {
+          transition: fill .25s;
+        }
+      }
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+  }
+}
