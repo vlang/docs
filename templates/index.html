@@ -191,8 +191,20 @@
     });
 </script>
 
-<script src="assets/scripts/vlang-playground.js" data-selector=".language-v" data-font-size="14px"
-        data-highlight-only="true" data-show-footer="false"></script>
+<script src="assets/scripts/vlang-playground.js"></script>
+
+<script>
+    const playgrounds = []
+    const playgroundElements = [...document.querySelectorAll(".language-v")];
+    playgroundElements.forEach(playgroundElement => {
+        const playground = Playground.create(playgroundElement, {
+            fontSize: "14px",
+            highlightOnly: true,
+            showFooter: false,
+        });
+        playgrounds.push(playground);
+    });
+</script>
 
 <script>
     const theme = localStorage.getItem("theme");
@@ -227,6 +239,10 @@
             svgSun.style.display = "none";
             svgMoon.style.display = "block";
         }
+
+        playgrounds.forEach(playground => {
+            playground.setTheme(newTheme);
+        });
     }
 </script>
 </body>
