@@ -582,7 +582,6 @@ article {
     code {
       font-family: "JetBrains Mono", monospace;
       font-size: 0.875em;
-      white-space: nowrap;
 
       &.symbol-ref {
         color: var(--theme-color);
@@ -590,6 +589,7 @@ article {
     }
 
     :not(pre) > code {
+      white-space: nowrap;
       border-radius: 4px;
       padding: 3px 6px;
       color: var(--code-text-color);
