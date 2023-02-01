@@ -46,8 +46,12 @@ html[data-theme="dark"] {
   --divider-color: #3a3a3a;
   --theme-color: #ff6b00;
   --theme-color-dark: #cc5307;
-  --code-text-color: #c9def1;
+  --code-text-color: #d0d0d0;
   --code-background-color: #484848;
+
+  --code-block-background-color: #1e1f22;
+  --code-block-border-color: #323438;
+  --code-block-text-color: #bbb;
 
   --blockquote-tip-color: #b3b3b3;
   --blockquote-warning-color: #ff6b00;
@@ -71,6 +75,10 @@ html {
   --theme-color-dark: #cc5307;
   --code-text-color: #000000;
   --code-background-color: #f9f9f9;
+
+  --code-block-background-color: #fff;
+  --code-block-border-color: #ecedf1;
+  --code-block-text-color: #000;
 
   --blockquote-tip-color: #7f7f7f;
   --blockquote-warning-color: #ff6b00;
@@ -594,6 +602,15 @@ article {
       padding: 3px 6px;
       color: var(--code-text-color);
       background-color: var(--code-background-color);
+    }
+
+    pre {
+      white-space: pre;
+      border-radius: 0;
+      padding: 10px 20px;
+      color: var(--code-block-text-color);
+      background-color: var(--code-block-background-color);
+      border: 1px solid var(--code-block-border-color);
     }
 
     table {

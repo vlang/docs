@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
-    <link rel="stylesheet" href="assets/styles/vlang-playground.css">
     <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/styles/vlang-playground.css">
 
     <title>V Documentation</title>
 </head>
@@ -159,7 +159,7 @@
     preEls.forEach(preEl => {
         const codeEl = preEl.querySelector("code");
 
-        if (codeEl !== null && codeEl.classList.contains("language-v")) {
+        if (codeEl !== null && (codeEl.classList.contains("language-v") || codeEl.classList.contains("language-c"))) {
             changeTagName(codeEl, "div");
             changeTagName(preEl, "div")
         }
@@ -199,7 +199,7 @@
 
 <script>
     const playgrounds = []
-    const playgroundElements = [...document.querySelectorAll(".language-v")];
+    const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
     playgroundElements.forEach(playgroundElement => {
         const playground = Playground.create(playgroundElement, {
             fontSize: "14px",
