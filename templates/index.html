@@ -50,27 +50,25 @@
 <div class="wrapper">
     <aside>
         <!-- TODO: remove anchor styles -->
-        <a href="index.html">
-            <div class="title">
-                <img src="assets/images/logo.svg" alt="">
-                <span>Documentation</span>
-            </div>
+        <a href="index.html" class="title">
+            <img src="assets/images/logo.svg" alt="">
+            <span>Documentation</span>
         </a>
         <nav>
-                <div class="group">
-                    <section>
-                        <div class="title">Topics</div>
-                            @for topic in topics
-                                <div class="items">
-                                    @if topic.title == title
-                                        <a class="link active" href="@{topic.url}">@{topic.title}</a>
-                                    @else
-                                        <a class="link" href="@{topic.url}">@{topic.title}</a>
-                                    @end
-                                </div>
-                            @end
-                    </section>
-                </div>
+            <div class="group">
+                <section>
+                    <div class="title">Topics</div>
+                    @for topic in topics
+                    <div class="items">
+                        @if topic.title == title
+                        <a class="link active" href="@{topic.url}">@{topic.title}</a>
+                        @else
+                        <a class="link" href="@{topic.url}">@{topic.title}</a>
+                        @end
+                    </div>
+                    @end
+                </section>
+            </div>
         </nav>
     </aside>
 
@@ -120,16 +118,16 @@
                 <div class="aside-content">
                     <div class="aside-container">
                         @if subtopics.len > 0
-                            <div class="title">On this page</div>
-                            <nav>
-                                <ul>
-                                    @for subtopic in subtopics
-                                    <li class="active">
-                                        <a href="#@{subtopic.url}">@{subtopic.title}</a>
-                                    </li>
-                                    @end
-                                </ul>
-                            </nav>
+                        <div class="title">On this page</div>
+                        <nav>
+                            <ul>
+                                @for subtopic in subtopics
+                                <li class="active">
+                                    <a href="#@{subtopic.url}">@{subtopic.title}</a>
+                                </li>
+                                @end
+                            </ul>
+                        </nav>
                         @end
                     </div>
                     <div class="aside-footer"></div>
