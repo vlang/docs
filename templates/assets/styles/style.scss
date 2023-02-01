@@ -55,6 +55,8 @@ html[data-theme="dark"] {
 
   --tag-unsafe-color: #ff6b00;
   --tag-deprecated-color: #9d9d9d;
+
+  --scrollbar-thumb-color: #404042;
 }
 
 html {
@@ -76,10 +78,35 @@ html {
 
   --tag-unsafe-color: #ff6b00;
   --tag-deprecated-color: #808080;
+
+  --scrollbar-thumb-color: #d2d2d2;
 }
 
 * {
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  margin: 5px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
 }
 
 body {
@@ -116,7 +143,7 @@ body {
 
 aside {
   width: 300px;
-  height: 100%;
+  height: 100vh;
 
   position: fixed;
 
@@ -146,11 +173,18 @@ aside {
 
   nav {
     padding: 20px 0 0 0;
+    height: 100%;
   }
 
   .group {
     border-top: 1px solid var(--divider-color);
     padding: 15px 0;
+    height: 100%;
+
+    section {
+      height: 100%;
+      overflow-y: scroll;
+    }
 
     .title {
       font-size: 15px;
