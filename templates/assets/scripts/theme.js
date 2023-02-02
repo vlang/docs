@@ -1,3 +1,4 @@
+const playgrounds = [];
 const theme = localStorage.getItem("theme");
 if (theme) {
     setTheme(theme);
@@ -31,7 +32,9 @@ function setTheme(newTheme) {
         svgMoon.style.display = "block";
     }
 
-    playgrounds.forEach(playground => {
-        playground.setTheme(newTheme);
-    });
+    if (playgrounds !== undefined) {
+        playgrounds.forEach(playground => {
+            playground.setTheme(newTheme);
+        });
+    }
 }
