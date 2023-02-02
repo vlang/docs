@@ -83,6 +83,11 @@ aside {
     grid-column-gap: 10px;
     align-items: center;
     text-decoration: none;
+    margin-top: 3px;
+
+    img {
+      width: 25px;
+    }
 
     span {
       font-size: 17px;
