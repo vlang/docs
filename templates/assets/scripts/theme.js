@@ -9,7 +9,7 @@ if (theme) {
     setTheme(theme);
 }
 
-const changeThemeButton = document.querySelector(".js-change-theme");
+const changeThemeButton = document.querySelector(".js-change-theme__action");
 changeThemeButton.addEventListener("click", () => {
     const currentTheme = document.documentElement.getAttribute("data-theme");
     const newTheme = currentTheme === "dark" ? "light" : "dark";
@@ -18,7 +18,7 @@ changeThemeButton.addEventListener("click", () => {
 });
 
 function setTheme(newTheme) {
-    const changeThemeButton = document.querySelector(".js-change-theme");
+    const changeThemeButton = document.querySelector(".js-change-theme__action");
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
 
