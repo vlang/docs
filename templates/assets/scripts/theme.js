@@ -1,20 +1,23 @@
 const playgrounds = [];
-const theme = localStorage.getItem("theme");
-if (theme) {
-    setTheme(theme);
-} else {
-    const theme = document.querySelector("html").getAttribute("data-theme");
 
-    localStorage.setItem("theme", theme);
-    setTheme(theme);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+        setTheme(theme);
+    } else {
+        const theme = document.querySelector("html").getAttribute("data-theme");
 
-const changeThemeButton = document.querySelector(".js-change-theme__action");
-changeThemeButton.addEventListener("click", () => {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
+        localStorage.setItem("theme", theme);
+        setTheme(theme);
+    }
 
-    setTheme(newTheme);
+    const changeThemeButton = document.querySelector(".js-change-theme__action");
+    changeThemeButton.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+        setTheme(newTheme);
+    });
 });
 
 function setTheme(newTheme) {
