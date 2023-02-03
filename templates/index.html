@@ -207,16 +207,18 @@
 <script src="assets/scripts/vlang-playground.js"></script>
 
 <script>
-    const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
-    playgroundElements.forEach(playgroundElement => {
-        const playground = Playground.create(playgroundElement, {
-            fontSize: "14px",
-            highlightOnly: true,
-            showFooter: false,
-            showLineNumbers: false,
+    document.addEventListener('DOMContentLoaded', () => {
+        const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
+        playgroundElements.forEach(playgroundElement => {
+            const playground = Playground.create(playgroundElement, {
+                fontSize: "14px",
+                highlightOnly: true,
+                showFooter: false,
+                showLineNumbers: false,
+            });
+            playgrounds.push(playground);
         });
-        playgrounds.push(playground);
-    });
+    })
 </script>
 
 <script src="assets/scripts/theme.js"></script>
