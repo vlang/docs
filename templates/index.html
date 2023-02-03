@@ -195,6 +195,13 @@
     h3Els.forEach(h3El => {
         changeTagName(h3El, "h2");
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentNavigationItem = document.querySelector(".link.active");
+        if (currentNavigationItem !== null) {
+            currentNavigationItem.scrollIntoView({block: "center", behavior: "auto"});
+        }
+    })
 </script>
 
 <script src="assets/scripts/vlang-playground.js"></script>
