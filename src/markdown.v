@@ -23,20 +23,22 @@ fn split_source_by_topics(source string, topic_level int) []string {
 fn extract_topics_from_markdown_parts(parts []string, skip_first bool) []Topic {
 	mut topics := []Topic{}
 
-	for index, topic in parts {
+	for index, part in parts {
 		if skip_first && index == 0 {
 			continue
 		}
 
-		if check_page_should_be_skipped(topic) {
+		title := extract_title_from_markdown_topic(part) or { panic(err) }
+		filename := if index == 0 { 'index' } else { title_to_filename(title) }
+
+		if should_be_skipped.contains(title) {
 			continue
 		}
 
-		title := extract_title_from_markdown_topic(topic) or { panic(err) }
-		filename := title_to_filename(title)
-
+		// TODO: remove .html
 		topics << Topic{
 			title: title
+			markdown_content: part
 			url: '${filename}.html'
 		}
 	}

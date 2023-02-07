@@ -21,35 +21,29 @@ fn main() {
 }
 
 fn generate_pages(source string) ! {
-	mut pages := []Page{}
-
 	markdown_topics := split_source_by_topics(source, 2)
-	index_topic := markdown_topics.first()
-	rest_topics := markdown_topics[1..]
-	topics := extract_topics_from_markdown_parts(rest_topics, false)
 
-	index_html := markdown.to_html(index_topic)
-	write_output_file('index.html', generate_page_from_template(topics, '', index_html))!
+	topics := extract_topics_from_markdown_parts(markdown_topics, false)
+	first_topic := topics.first()
+	rest_topics := topics[1..]
 
-	for topic in rest_topics {
-		title := extract_title_from_markdown_topic(topic) or { panic(err) }
+	write_output_file('index.html', generate_page_from_template(rest_topics, '', markdown_topics.first(),
+		Topic{}, topics[1]))!
 
-		if check_page_should_be_skipped(title) {
-			continue
-		}
+	for index, topic in rest_topics {
+		title := topic.title
 
-		pages << Page{
-			title: title
-			content: markdown.to_html(topic)
-		}
+		prev_topic := rest_topics[index - 1] or { first_topic }
+		next_topic := rest_topics[index + 1] or { Topic{} }
 
-		content := generate_page_from_template(topics, title, topic)
+		content := generate_page_from_template(rest_topics, title, topic.markdown_content,
+			prev_topic, next_topic)
 
 		write_output_file('${title_to_filename(title)}.html', content)!
 	}
 }
 
-fn generate_page_from_template(topics []Topic, title string, markdown_content string) string {
+fn generate_page_from_template(topics []Topic, title string, markdown_content string, prev_topic Topic, next_topic Topic) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 3)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 

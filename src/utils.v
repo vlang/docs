@@ -24,12 +24,6 @@ fn write_output_file(filename string, content string) ! {
 	os.write_file(os.join_path(output_path, filename), content)!
 }
 
-fn check_page_should_be_skipped(source string) bool {
-	title := extract_title_from_markdown_topic(source) or { panic(err) }
-
-	return should_be_skipped.contains(title)
-}
-
 fn title_to_filename(title string) string {
 	filename := title.replace_each([' ', '-', '`', '', '/', '', '\\', '']).to_lower()
 

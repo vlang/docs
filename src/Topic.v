@@ -1,6 +1,7 @@
 module main
 
 struct Topic {
-	title string
-	url   string
+	title            string
+	markdown_content string
+	url              string
 }

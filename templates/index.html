@@ -104,18 +104,25 @@
 
                         <!-- only-prev or only-next -->
                         <div class="prev-next">
-                            <div class="page prev-page">
-                                <a class="page-link">
-                                    <span class="desc">Previous page</span>
-                                    <span class="title">Some page</span>
-                                </a>
-                            </div>
-                            <div class="page next-page">
-                                <a class="page-link">
-                                    <span class="desc">Next page</span>
-                                    <span class="title">Some page</span>
-                                </a>
-                            </div>
+                            @if prev_topic.url != ''
+                                <div class="page prev-page">
+                                    <!-- TODO: remove anchor styles -->
+                                    <a class="page-link" href="@prev_topic.url">
+                                        <span class="desc">Previous page</span>
+                                        <span class="title">@prev_topic.title</span>
+                                    </a>
+                                </div>
+                            @end
+
+                            @if next_topic.url != ''
+                                <div class="page next-page">
+                                    <!-- TODO: remove anchor styles -->
+                                    <a class="page-link"  href="@next_topic.url">
+                                        <span class="desc">Next page</span>
+                                        <span class="title">@next_topic.title</span>
+                                    </a>
+                                </div>
+                            @end
                         </div>
                     </footer>
                 </div>
