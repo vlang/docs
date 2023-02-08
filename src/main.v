@@ -36,7 +36,10 @@ fn generate_pages(source string) ! {
 		prev_topic := rest_topics[index - 1] or { first_topic }
 		next_topic := rest_topics[index + 1] or { Topic{} }
 
-		content := generate_page_from_template(rest_topics, title, topic.markdown_content,
+		mut transformer := MarkdownTransformer{
+			content: topic.markdown_content
+		}
+		content := generate_page_from_template(rest_topics, title, transformer.process(),
 			prev_topic, next_topic)
 
 		write_output_file('${title_to_filename(title)}.html', content)!
@@ -47,7 +50,7 @@ fn generate_page_from_template(topics []Topic, title string, markdown_content st
 	markdown_subtopics := split_source_by_topics(markdown_content, 3)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 
-	transformer := HTMLTransformer{
+	mut transformer := HTMLTransformer{
 		content: markdown.to_html(markdown_content)
 	}
 	content := transformer.process()

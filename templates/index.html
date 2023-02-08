@@ -191,18 +191,6 @@
         })
     }
 
-    const h2Els = [...document.querySelectorAll("h2")];
-    const h3Els = [...document.querySelectorAll("h3")];
-
-    h2Els.forEach(h2El => {
-        h2El.classList.add("main");
-
-        changeTagName(h2El, "h1");
-    });
-    h3Els.forEach(h3El => {
-        changeTagName(h3El, "h2");
-    });
-
     document.addEventListener('DOMContentLoaded', () => {
         const currentNavigationItem = document.querySelector(".link.active");
         if (currentNavigationItem !== null) {
