@@ -1,7 +1,5 @@
 module main
 
-import regex
-
 const (
 	v_code_tag      = '<pre><code class="language-v">'
 	c_code_tag      = '<pre><code class="language-c">'
@@ -61,11 +59,4 @@ fn (mut t HTMLTransformer) prepare_v_and_c_code_for_playground() {
 
 fn (t &HTMLTransformer) add_anchors() {
 	// <a href="#deprecated" class="header-anchor" aria-hidden="true">#</a>
-}
-
-fn pre_code_replacer(re regex.RE, in_txt string, _ int, _ int) string {
-	start_of_pre_code := re.get_group_by_id(in_txt, 0)
-	end_of_pre_code := re.get_group_by_id(in_txt, 2)
-
-	return '${start_of_pre_code}test${end_of_pre_code}'
 }
