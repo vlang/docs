@@ -163,34 +163,6 @@
 </div>
 
 <script>
-    const preEls = [...document.querySelectorAll("pre")];
-
-    preEls.forEach(preEl => {
-        const codeEl = preEl.querySelector("code");
-
-        if (codeEl !== null && (codeEl.classList.contains("language-v") || codeEl.classList.contains("language-c"))) {
-            changeTagName(codeEl, "div");
-            changeTagName(preEl, "div")
-        }
-    });
-
-    function changeTagName(element, newTagName) {
-        const newEl = document.createElement(newTagName);
-        newEl.innerHTML = element.innerHTML;
-        copyAttrs(element, newEl);
-
-        // FIXME: remove after implementing themes
-        newEl.setAttribute("data-theme", "dark");
-
-        element.parentNode.replaceChild(newEl, element);
-    }
-
-    function copyAttrs(source, target) {
-        [...source.attributes].forEach(attr => {
-            target.setAttribute(attr.nodeName, attr.nodeValue)
-        })
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         const currentNavigationItem = document.querySelector(".link.active");
         if (currentNavigationItem !== null) {
