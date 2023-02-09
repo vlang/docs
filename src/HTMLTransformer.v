@@ -1,9 +1,13 @@
 module main
 
+import markdown
+
 const (
-	v_code_tag      = '<pre><code class="language-v">'
-	c_code_tag      = '<pre><code class="language-c">'
-	end_of_code_tag = '</code></pre>'
+	v_code_tag   = '<pre><code class="language-v">'
+	c_code_tag   = '<pre><code class="language-c">'
+	code_tag_end = '</code></pre>'
+	h2_tag       = '<h2>'
+	h2_tag_end   = '</h2>'
 )
 
 struct HTMLTransformer {
@@ -45,8 +49,8 @@ fn (mut t HTMLTransformer) prepare_v_and_c_code_for_playground() {
 		}
 
 		if in_v_code_tag {
-			if line.starts_with(end_of_code_tag) {
-				new_line = new_line.replace(end_of_code_tag, '</div>')
+			if line.starts_with(code_tag_end) {
+				new_line = new_line.replace(code_tag_end, '</div>')
 
 				in_v_code_tag = false
 			}
@@ -59,5 +63,23 @@ fn (mut t HTMLTransformer) prepare_v_and_c_code_for_playground() {
 }
 
 fn (mut t HTMLTransformer) add_anchors() {
-	// <a href="#deprecated" class="header-anchor" aria-hidden="true">#</a>
+	mut result := ''
+
+	for line in t.content.split_into_lines() {
+		mut new_line := line
+
+		if line.starts_with(h2_tag) && line.ends_with(h2_tag_end) {
+			title := line.substr_ni(h2_tag.len, -h2_tag_end.len)
+			plain_title := markdown.to_plain(title)
+			id := title_to_filename(plain_title)
+
+			new_line = new_line
+				.replace(title, '${title} <a href="#${id}" class="header-anchor" aria-hidden="true">#</a>')
+				.replace('<h2>', '<h2 id="${id}">')
+		}
+
+		result += '${new_line}\n'
+	}
+
+	t.content = result
 }

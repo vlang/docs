@@ -1,5 +1,7 @@
 module main
 
+import markdown
+
 fn split_source_by_topics(source string, topic_level int) []string {
 	mut sections := []string{}
 	mut current_section := ''
@@ -35,10 +37,12 @@ fn extract_topics_from_markdown_parts(parts []string, skip_first bool) []Topic {
 			continue
 		}
 
+		plain_title := markdown.to_plain(title)
+
 		// TODO: remove .html
 		topics << Topic{
-			id: filename
-			title: title
+			id: title_to_filename(plain_title)
+			title: plain_title
 			markdown_content: part
 			url: '${filename}.html'
 		}
