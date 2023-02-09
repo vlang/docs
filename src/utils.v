@@ -25,7 +25,7 @@ fn write_output_file(filename string, content string) ! {
 }
 
 fn title_to_filename(title string) string {
-	filename := title.replace_each([' ', '-', '`', '', '/', '', '\\', '']).to_lower()
+	filename := title.replace_each([' ', '-', '`', '', '/', '', '\\', '', ':', '']).to_lower()
 
 	return '${filename}'
 }
