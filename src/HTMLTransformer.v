@@ -15,6 +15,7 @@ fn (mut t HTMLTransformer) process() string {
 	t.add_main_class_to_first_h1()
 	t.add_tip_class_to_blockquotes()
 	t.prepare_v_and_c_code_for_playground()
+	t.add_anchors()
 
 	return t.content
 }
@@ -57,6 +58,6 @@ fn (mut t HTMLTransformer) prepare_v_and_c_code_for_playground() {
 	t.content = result
 }
 
-fn (t &HTMLTransformer) add_anchors() {
+fn (mut t HTMLTransformer) add_anchors() {
 	// <a href="#deprecated" class="header-anchor" aria-hidden="true">#</a>
 }

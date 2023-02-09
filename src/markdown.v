@@ -37,6 +37,7 @@ fn extract_topics_from_markdown_parts(parts []string, skip_first bool) []Topic {
 
 		// TODO: remove .html
 		topics << Topic{
+			id: filename
 			title: title
 			markdown_content: part
 			url: '${filename}.html'

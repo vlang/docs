@@ -47,7 +47,7 @@ fn generate_pages(source string) ! {
 }
 
 fn generate_page_from_template(topics []Topic, title string, markdown_content string, prev_topic Topic, next_topic Topic) string {
-	markdown_subtopics := split_source_by_topics(markdown_content, 3)
+	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 
 	mut transformer := HTMLTransformer{
