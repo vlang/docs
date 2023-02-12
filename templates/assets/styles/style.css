@@ -543,6 +543,9 @@ article main code {
 article main code.symbol-ref {
   color: var(--theme-color);
 }
+article main a > code {
+  color: var(--theme-color) !important;
+}
 article main :not(pre) > code {
   white-space: nowrap;
   border-radius: 4px;

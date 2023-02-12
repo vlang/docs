@@ -367,6 +367,10 @@ article {
       }
     }
 
+    a > code {
+      color: var(--theme-color) !important;
+    }
+
     :not(pre) > code {
       white-space: nowrap;
       border-radius: 4px;
