@@ -42,6 +42,19 @@ body {
   overflow-x: hidden;
 }
 
+a {
+  text-decoration-style: dotted;
+}
+
+a.external-link {
+  padding-right: 12px;
+  color: var(--theme-color);
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ff6b00'%3E%3Cpath d='M14 2H5.75l3.595 3.595L2.22 12.72l1.06 1.06 7.125-7.125L14 10.25V2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 11px 11px;
+  background-position: 100% calc(100% - 1px);
+}
+
 .wrapper {
   width: 100vw;
   height: 100vh;
