@@ -1,6 +1,7 @@
 # Binaries for programs and plugins
 main
 vdoc
+generator
 *.exe
 *.exe~
 *.so
@@ -23,3 +24,4 @@ bin/
 *.db
 
 output/
+node_modules/

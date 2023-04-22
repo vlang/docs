@@ -29,7 +29,7 @@ fn (mut t HTMLTransformer) add_main_class_to_first_h1() {
 }
 
 fn (mut t HTMLTransformer) add_tip_class_to_blockquotes() {
-	t.content = t.content.replace_once('<blockquote', '<blockquote class="tip"')
+	t.content = t.content.replace('<blockquote', '<blockquote class="tip"')
 }
 
 fn (mut t HTMLTransformer) prepare_v_and_c_code_for_playground() {
