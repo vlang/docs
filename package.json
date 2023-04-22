@@ -1,0 +1,27 @@
+{
+  "name": "v-docs-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "v -o generator src && ./generator",
+    "serve": "npm run generate && python3 -m http.server -d output 8081",
+    "sass-watch": "sass --watch --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css",
+    "sass-build": "sass --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css",
+    "fmt": "v fmt -w ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walkingdevel/v-docs-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/walkingdevel/v-docs-generator/issues"
+  },
+  "homepage": "https://github.com/walkingdevel/v-docs-generator#readme",
+  "dependencies": {
+    "sass": "~1.62.0"
+  }
+}
