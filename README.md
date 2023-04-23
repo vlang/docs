@@ -6,8 +6,7 @@ It is a simple generator creates multi-page page documentation
 from the original V [doc.md](https://github.com/vlang/v/blob/master/doc/docs.md)
 
 If you need a convenient way to read the original V documentation,
-just use this generator. Perhaps someone will publish the generated content
-on their server, and I will leave a link here.
+just use this generator.
 
 ## Build the documentation
 
