@@ -3,7 +3,7 @@
 ![](./docs/images/screenshot.png)
 
 It is a simple generator creates multi-page page documentation
-from the original V [doc.md](https://github.com/vlang/v/blob/master/doc/docs.md)
+from the original V [docs.md](https://github.com/vlang/v/blob/master/doc/docs.md)
 
 If you need a convenient way to read the original V documentation,
 just use this generator.
@@ -11,7 +11,7 @@ just use this generator.
 This is the initial version of the
 [VOSCA documentation generator](https://github.com/vlang-association/docs),
 which does not have its own documentation but can generate documentation from the V
-[doc.md](https://github.com/vlang/v/blob/master/doc/docs.md)
+[docs.md](https://github.com/vlang/v/blob/master/doc/docs.md)
 file.
 
 ## Build the documentation
