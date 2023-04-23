@@ -1,5 +1,7 @@
 # V Documentation Generator
 
+![](./docs/images/screenshot.png)
+
 ## Build the documentation
 
 To build the documentation, run the following command:
