@@ -2,7 +2,7 @@
 
 ![](./docs/images/screenshot.png)
 
-It is a simple generator creates multi-page page documentation
+It is a simple generator creates multi-page documentation
 from the original V [docs.md](https://github.com/vlang/v/blob/master/doc/docs.md)
 
 If you need a convenient way to read the original V documentation,
