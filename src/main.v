@@ -2,6 +2,7 @@ module main
 
 import net.http
 import markdown
+import time
 
 const (
 	v_doc_path        = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
@@ -49,6 +50,7 @@ fn generate_pages(source string) ! {
 fn generate_page_from_template(topics []Topic, title string, markdown_content string, prev_topic Topic, next_topic Topic) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
+	update_time := time.now()
 
 	mut transformer := HTMLTransformer{
 		content: markdown.to_html(markdown_content)

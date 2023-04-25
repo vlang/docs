@@ -54,7 +54,6 @@
         <nav>
             <div class="group">
                 <section>
-                    <div class="title">Topics</div>
                     @for topic in topics
                     <div class="items">
                         @if topic.title == title
@@ -90,8 +89,10 @@
                                 </a>
                             </div>
                             <div class="last-updated">
-                                Last updated:
-                                <time datetime="2023-01-24T00:15:01.000Z">24.01.2023, 04:15:01</time>
+                                <time datetime="@{update_time.format_rfc3339()}">
+                                    Last updated:
+                                    @{update_time.format_ss()}
+                                </time>
                             </div>
                         </div>
 
