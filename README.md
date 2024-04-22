@@ -33,3 +33,4 @@ Simple, with V
 cd output
 v -e 'import net.http.file; file.serve()'
 ```
+Now load http://localhost:4001/ in your browser.
