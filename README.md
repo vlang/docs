@@ -20,8 +20,8 @@ To build the documentation, run the following command:
 
 ```shell
 v install
-sass --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css
 v run .
+sass --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css
 ```
 
 This will install all dependencies, and generate the documentation in the `output` directory.
