@@ -20,15 +20,7 @@ To build the documentation, run the following command:
 
 ```shell
 v install
-npm run generate
+v run .
 ```
 
 This will install all dependencies, and generate the documentation in the `output` directory.
-
-To run documentation server, run the following command:
-
-```bash
-npm run serve
-```
-
-And then just open http://localhost:8081 in your browser.
