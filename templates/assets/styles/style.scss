@@ -3,6 +3,10 @@
 @import "header";
 @import "aside";
 
+@supports (font-variation-settings: normal) {
+  code { font-family: 'Fira Code VF', monospace; }
+}
+  
 * {
   box-sizing: border-box;
 }
@@ -41,7 +45,7 @@ body {
   margin: 0;
   padding: 0;
 
-  font: 400 14px/1.5 "JetBrainsSans", Helvetica, Arial, sans-serif;
+  font: 400 14px/1.5 "FiraSans", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   font-feature-settings: "kern" 1;
   overflow-x: hidden;
@@ -302,7 +306,7 @@ article {
   }
 
   main {
-    font: 300 16px/1.5 "JetBrainsSans", Helvetica, Arial, sans-serif;
+    font: 300 16px/1.5 "FiraSans", Helvetica, Arial, sans-serif;
     color: var(--text-color);
 
     h1 {
@@ -364,7 +368,7 @@ article {
     }
 
     code {
-      font-family: "JetBrains Mono", monospace;
+      font-family: "Fira Code", monospace;
       font-size: 0.875em;
 
       &.symbol-ref {
@@ -416,7 +420,7 @@ article {
     kbd {
       display: inline-block;
       padding: 3px 5px;
-      font: 11px "JetBrains Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      font: 11px "Fira Code", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       line-height: 10px;
       color: #444d56;
       vertical-align: middle;
