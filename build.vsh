@@ -8,9 +8,6 @@ os.system('rm -rf docs_generator/')
 os.system('git clone --branch generator https://github.com/vlang/docs docs_generator/')
 
 os.chdir('docs_generator/')!
-log.info('    installing dependencies ...')
-os.system('${@VEXE} install')
-
 log.info('    runnning generator...')
 os.system('${@VEXE} run .')
 os.chdir('..')!
