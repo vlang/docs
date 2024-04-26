@@ -1,18 +1,20 @@
 import os
+import log
 
-commit_res := os.execute('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
-latest_v_commit_hash := commit_res.output.all_before('\t')#[..7]
-println('Latest V master commit hash: ${latest_v_commit_hash}')
+log.info('start generating html pages from docs.md')
 
+log.info('    cloning latest version of the generator sources ...')
 os.system('rm -rf docs_generator/')
 os.system('git clone --branch generator https://github.com/vlang/docs docs_generator/')
-os.chdir('docs_generator/')!
 
+os.chdir('docs_generator/')!
+log.info('    installing dependencies ...')
 os.system('v install')
+log.info('    runnning generator...')
 os.system('v run .')
 os.chdir('..')!
-os.system('rsync -a docs_generator/output/ ./')
-os.system('git add .')
-os.system('git commit -m "${latest_v_commit_hash} - update doc pages"')
 
-println('Done')
+log.info('    rsync-ing the output/ folder ...')
+os.system('rsync -a docs_generator/output/ ./')
+
+log.info('done generating html pages from docs.md')
