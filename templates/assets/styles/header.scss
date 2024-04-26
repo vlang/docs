@@ -1,5 +1,5 @@
 header {
-  height: 70px;
+  height: 20px;
   width: 100%;
   position: fixed;
   top: 0;
@@ -11,7 +11,7 @@ header {
   background: var(--header-background);
 
   .header-container {
-    padding: 0 50px;
+    padding: 1px 50px;
     height: 100%;
     width: 100%;
     display: grid;
