@@ -10,9 +10,8 @@ os.chdir('docs_generator/')!
 
 os.system('v install')
 os.system('v run .')
-os.system('mv output/* ../')
-
 os.chdir('..')!
+os.system('rsync -a docs_generator/output/ ./')
 os.system('git add .')
 os.system('git commit -m "${latest_v_commit_hash} - update doc pages"')
 

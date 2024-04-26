@@ -18,5 +18,5 @@ then follow the instructions in its
 [README.md](https://github.com/vlang/docs/blob/generator/README.md) file.
 
 ## External dependencies
-You'll need [V](https://github.com/vlang/v?tab=readme-ov-file#installing-v-from-source),
+You'll need `rsync`, [V](https://github.com/vlang/v?tab=readme-ov-file#installing-v-from-source),
 and [sass](https://sass-lang.com/install/) .
