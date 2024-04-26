@@ -1,7 +1,12 @@
 import os
 import log
 
+os.chdir(os.dir(@FILE))!
+
 log.info('start generating html pages from docs.md')
+
+log.info('    ensure we are working on top of the latest changes ...')
+os.system('git pull --rebase origin main')
 
 log.info('    cloning latest version of the generator sources ...')
 os.system('rm -rf docs_generator/')
