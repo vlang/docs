@@ -1,0 +1,79 @@
+html[data-theme=dark] {
+  --header-background: rgba(36, 36, 36, .7);
+  --text-color: rgba(255, 255, 255, .87);
+  --color: #f3f3f3;
+  --secondary-color: #b3b3b3;
+}
+
+html {
+  --header-background: rgba(255, 255, 255, .7);
+  --text-color: rgba(0, 0, 0, .87);
+  --color: #000;
+  --secondary-color: #7f7f7f;
+}
+
+header {
+  height: 70px;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  -webkit-backdrop-filter: saturate(50%) blur(8px);
+  backdrop-filter: saturate(50%) blur(8px);
+  background: var(--header-background);
+}
+header .header-container {
+  display: grid;
+  padding: 0 50px;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-items: right;
+}
+header .header-container ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+header .header-container ul .change-theme {
+  margin: 2px 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+header .header-container ul .change-theme:hover {
+  cursor: pointer;
+}
+header .header-container ul .change-theme:hover svg path {
+  fill: var(--secondary-color);
+}
+header .header-container ul .change-theme svg {
+  width: 18px;
+  height: 18px;
+}
+header .header-container ul .change-theme svg path {
+  fill: var(--text-color);
+}
+header .header-container ul li {
+  margin: 0 10px;
+}
+header .header-container ul li a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+header .header-container ul li a:hover {
+  cursor: pointer;
+  color: var(--color);
+}
+header .header-container ul li a.active {
+  color: var(--theme-color);
+}
+
+/*# sourceMappingURL=header.css.map */
