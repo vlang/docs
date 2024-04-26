@@ -1,6 +1,6 @@
 # V Documentation Generator
 
-![](./docs/images/screenshot.png)
+![](./screenshot.png)
 
 A simple generator to create multi-page documentation from the
 original V [docs.md](https://github.com/vlang/v/blob/master/doc/docs.md)
@@ -27,10 +27,7 @@ sass --style compressed templates/assets/styles/style.scss:templates/assets/styl
 This will install all dependencies, and generate the documentation in the `output` directory.
 
 ## Testing the output
-
-Simple, with V
 ```shell
-cd output
-v -e 'import net.http.file; file.serve()'
+v -e 'import net.http.file; file.serve(folder: "output/")'
 ```
 Now load http://localhost:4001/ in your browser.
