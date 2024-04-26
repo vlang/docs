@@ -9,13 +9,10 @@ os.system('git clone --branch generator https://github.com/vlang/docs docs_gener
 
 os.chdir('docs_generator/')!
 log.info('    installing dependencies ...')
-$if freebsd {
-	log.info('    installing dependencies TODO: tcc can not compile mbedtls and thus vpm on FreeBSD, you will have to run `v install` manually instead ...')
-} $else {
-	os.system('v install')
-}
+os.system('${@VEXE} install')
+
 log.info('    runnning generator...')
-os.system('v run .')
+os.system('${@VEXE} run .')
 os.chdir('..')!
 
 log.info('    rsync-ing the output/ folder ...')
