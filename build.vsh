@@ -1,6 +1,6 @@
 import os
 
-output_folder_content := 'output/*'
+output_folder_content := 'output/' + '*'
 
 commit_res := os.execute('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
 latest_v_commit_hash := commit_res.output.all_before('\t')#[..7]
