@@ -2,13 +2,11 @@ module main
 
 import markdown
 
-const (
-	v_code_tag   = '<pre><code class="language-v">'
-	c_code_tag   = '<pre><code class="language-c">'
-	code_tag_end = '</code></pre>'
-	h2_tag       = '<h2>'
-	h2_tag_end   = '</h2>'
-)
+const v_code_tag = '<pre><code class="language-v">'
+const c_code_tag = '<pre><code class="language-c">'
+const code_tag_end = '</code></pre>'
+const h2_tag = '<h2>'
+const h2_tag_end = '</h2>'
 
 struct HTMLTransformer {
 mut:

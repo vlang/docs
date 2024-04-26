@@ -25,3 +25,6 @@ bin/
 
 output/
 node_modules/
+
+docs_generator
+docs_generator.exe

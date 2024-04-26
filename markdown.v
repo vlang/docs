@@ -13,24 +13,30 @@ struct Topic {
 
 struct Section {
 	start_line int
-	text string
+	text       string
 }
 
 fn split_source_by_topics(source string, topic_level int) []Section {
 	mut sections := []Section{}
 	mut current_section := ''
-	mut section_start_line := 0
+	mut section_start_line := 1
 	for line_idx, line in source.split_into_lines() {
 		if line.starts_with('${'#'.repeat(topic_level)} ') {
-			section_start_line = line_idx
-			sections << Section{ text: current_section, start_line: section_start_line}
+			sections << Section{
+				text: current_section
+				start_line: section_start_line
+			}
 			current_section = '${line}\n'
+			section_start_line = line_idx + 1
 		} else {
-			current_section += '${line}\n'			
+			current_section += '${line}\n'
 		}
 	}
 	if current_section != '' {
-		sections << Section{ text: current_section, start_line: section_start_line }
+		sections << Section{
+			text: current_section
+			start_line: section_start_line
+		}
 	}
 	return sections
 }

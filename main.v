@@ -5,12 +5,10 @@ import net.http
 import markdown
 import time
 
-const (
-	v_doc_path        = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
-	output_path       = 'output'
-	template_path     = 'templates'
-	should_be_skipped = ['Table of Contents']
-)
+const v_doc_path = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
+const output_path = 'output'
+const template_path = 'templates'
+const should_be_skipped = ['Table of Contents']
 
 fn main() {
 	clean_output_directory()!
@@ -27,12 +25,13 @@ fn main() {
 fn generate_pages(source string, vcommit string) ! {
 	markdown_topics := split_source_by_topics(source, 2)
 	markdown_first_topic := markdown_topics.first()
-	
+
 	topics := extract_topics_from_markdown_parts(markdown_topics, false)
 	first_topic := topics.first()
 	rest_topics := topics[1..]
 
-	index_content := generate_page_from_template(rest_topics, '', markdown_first_topic.text, Topic{}, topics[1], vcommit)
+	index_content := generate_page_from_template(rest_topics, first_topic, markdown_first_topic.text,
+		Topic{}, topics[1], vcommit)
 	write_output_file('index.html', index_content)!
 
 	for index, topic in rest_topics {
@@ -44,16 +43,17 @@ fn generate_pages(source string, vcommit string) ! {
 		mut transformer := MarkdownTransformer{
 			content: topic.markdown_content
 		}
-		content := generate_page_from_template(rest_topics, title, transformer.process(),
+		content := generate_page_from_template(rest_topics, topic, transformer.process(),
 			prev_topic, next_topic, vcommit)
 
 		write_output_file('${title_to_filename(title)}.html', content)!
 	}
 }
 
-fn generate_page_from_template(topics []Topic, title string, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
+fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
+	title := main_topic.title
 	update_time := time.now()
 	update_commit_full := vcommit.clone()
 	update_commit_short := vcommit#[..7]
