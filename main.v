@@ -1,5 +1,6 @@
 module main
 
+import os
 import net.http
 import markdown
 import time
@@ -16,20 +17,23 @@ fn main() {
 	create_output_directory()!
 
 	response := http.get(v_doc_path)!
+	commit_res := os.execute_or_exit('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
+	latest_v_commit_hash := commit_res.output.all_before('\t')
 
-	generate_pages(response.body)!
+	generate_pages(response.body, latest_v_commit_hash)!
 	copy_assets_to_output()!
 }
 
-fn generate_pages(source string) ! {
+fn generate_pages(source string, vcommit string) ! {
 	markdown_topics := split_source_by_topics(source, 2)
-
+	markdown_first_topic := markdown_topics.first()
+	
 	topics := extract_topics_from_markdown_parts(markdown_topics, false)
 	first_topic := topics.first()
 	rest_topics := topics[1..]
 
-	write_output_file('index.html', generate_page_from_template(rest_topics, '', markdown_topics.first(),
-		Topic{}, topics[1]))!
+	index_content := generate_page_from_template(rest_topics, '', markdown_first_topic.text, Topic{}, topics[1], vcommit)
+	write_output_file('index.html', index_content)!
 
 	for index, topic in rest_topics {
 		title := topic.title
@@ -41,21 +45,21 @@ fn generate_pages(source string) ! {
 			content: topic.markdown_content
 		}
 		content := generate_page_from_template(rest_topics, title, transformer.process(),
-			prev_topic, next_topic)
+			prev_topic, next_topic, vcommit)
 
 		write_output_file('${title_to_filename(title)}.html', content)!
 	}
 }
 
-fn generate_page_from_template(topics []Topic, title string, markdown_content string, prev_topic Topic, next_topic Topic) string {
+fn generate_page_from_template(topics []Topic, title string, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 	update_time := time.now()
-
+	update_commit_full := vcommit.clone()
+	update_commit_short := vcommit#[..7]
 	mut transformer := HTMLTransformer{
 		content: markdown.to_html(markdown_content)
 	}
 	content := transformer.process()
-
-	return $tmpl('../templates/index.html')
+	return $tmpl('templates/index.html')
 }
