@@ -1,7 +1,5 @@
 import os
 
-output_folder_content := 'output/' + '*'
-
 commit_res := os.execute('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
 latest_v_commit_hash := commit_res.output.all_before('\t')#[..7]
 println('Latest V master commit hash: ${latest_v_commit_hash}')
@@ -12,7 +10,7 @@ os.chdir('docs_generator/')!
 
 os.system('v install')
 os.system('v run .')
-os.system('mv ${output_folder_content} ../')
+os.system('mv output/* ../')
 
 os.chdir('..')!
 os.system('git add .')
