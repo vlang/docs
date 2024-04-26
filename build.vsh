@@ -9,7 +9,12 @@ os.system('git clone --branch generator https://github.com/vlang/docs docs_gener
 
 os.chdir('docs_generator/')!
 log.info('    runnning generator...')
-os.system('${@VEXE} run .')
+$if freebsd {
+	// workaround for net.mbedtls not being able to be compiled with tcc:'
+	os.system('${@VEXE} -cc clang run .')
+} $else {
+	os.system('${@VEXE} run .')
+}
 os.chdir('..')!
 
 log.info('    rsync-ing the output/ folder ...')
