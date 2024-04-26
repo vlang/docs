@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" style="opacity: 0">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/styles/vlang-playground.css">
+
+    <title>V Documentation</title>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo"></div>
+
+        <ul>
+            <li>
+                <a href="https://github.com/vlang/docs/tree/generator" target="_blank">Source code</a>
+            </li>
+
+            <li class="js-change-theme__action change-theme">
+                <svg class="theme-icon sun" width="30" height="30" viewBox="0 0 30 30" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_4_47)">
+                        <path d="M14.9854 1.92059C14.7382 1.92445 14.5026 2.02624 14.3304 2.20361C14.1581 2.38099 14.0633 2.61946 14.0667 2.86668V5.66668C14.0649 5.79036 14.0878 5.91315 14.1339 6.02792C14.18 6.14269 14.2485 6.24715 14.3353 6.33523C14.4222 6.42331 14.5256 6.49325 14.6398 6.54098C14.7539 6.58872 14.8763 6.61331 15 6.61331C15.1237 6.61331 15.2462 6.58872 15.3603 6.54098C15.4744 6.49325 15.5778 6.42331 15.6647 6.33523C15.7515 6.24715 15.82 6.14269 15.8661 6.02792C15.9122 5.91315 15.9351 5.79036 15.9333 5.66668V2.86668C15.935 2.74181 15.9117 2.61786 15.8646 2.50219C15.8176 2.38651 15.7478 2.28145 15.6594 2.19323C15.571 2.10501 15.4658 2.03542 15.35 1.98859C15.2343 1.94176 15.1103 1.91863 14.9854 1.92059ZM6.41042 5.47892C6.2249 5.47933 6.04372 5.53501 5.88999 5.63885C5.73626 5.7427 5.61696 5.89 5.54732 6.06195C5.47768 6.2339 5.46086 6.4227 5.499 6.60425C5.53714 6.7858 5.62852 6.95187 5.76146 7.08126L7.74115 9.06095C7.82715 9.15052 7.93016 9.22204 8.04415 9.2713C8.15814 9.32056 8.28081 9.34659 8.40498 9.34785C8.52915 9.34912 8.65232 9.32559 8.76728 9.27865C8.88225 9.23172 8.98669 9.16231 9.0745 9.07451C9.1623 8.9867 9.23171 8.88226 9.27864 8.76729C9.32558 8.65233 9.34911 8.52915 9.34784 8.40498C9.34658 8.28081 9.32056 8.15814 9.27129 8.04416C9.22203 7.93017 9.15051 7.82716 9.06094 7.74116L7.08125 5.76147C6.99406 5.67184 6.88975 5.60065 6.77451 5.55211C6.65928 5.50357 6.53546 5.47868 6.41042 5.47892V5.47892ZM23.5604 5.47892C23.3179 5.48614 23.0878 5.58748 22.9188 5.76147L20.9391 7.74116C20.8495 7.82716 20.778 7.93017 20.7287 8.04416C20.6795 8.15814 20.6534 8.28081 20.6522 8.40498C20.6509 8.52915 20.6744 8.65233 20.7214 8.76729C20.7683 8.88225 20.8377 8.9867 20.9255 9.0745C21.0133 9.16231 21.1178 9.23171 21.2327 9.27865C21.3477 9.32558 21.4709 9.34911 21.595 9.34785C21.7192 9.34659 21.8419 9.32056 21.9559 9.2713C22.0698 9.22203 22.1729 9.15052 22.2589 9.06095L24.2385 7.08126C24.3734 6.95016 24.4655 6.78138 24.5028 6.59703C24.5401 6.41268 24.5209 6.22136 24.4476 6.04814C24.3742 5.87493 24.2503 5.7279 24.092 5.62633C23.9337 5.52475 23.7484 5.47337 23.5604 5.47892ZM15 8.46668C13.2673 8.46668 11.6055 9.15501 10.3802 10.3802C9.155 11.6055 8.46667 13.2673 8.46667 15C8.46667 16.7328 9.155 18.3945 10.3802 19.6198C11.6055 20.845 13.2673 21.5333 15 21.5333C16.7328 21.5333 18.3945 20.845 19.6198 19.6198C20.845 18.3945 21.5333 16.7328 21.5333 15C21.5333 13.2673 20.845 11.6055 19.6198 10.3802C18.3945 9.15501 16.7328 8.46668 15 8.46668V8.46668ZM2.86667 14.0667C2.74299 14.0649 2.6202 14.0878 2.50543 14.1339C2.39066 14.18 2.2862 14.2485 2.19812 14.3353C2.11004 14.4222 2.0401 14.5257 1.99237 14.6398C1.94463 14.7539 1.92004 14.8763 1.92004 15C1.92004 15.1237 1.94463 15.2462 1.99237 15.3603C2.0401 15.4744 2.11004 15.5779 2.19812 15.6647C2.2862 15.7515 2.39066 15.82 2.50543 15.8661C2.6202 15.9122 2.74299 15.9351 2.86667 15.9333H5.66667C5.79035 15.9351 5.91314 15.9122 6.02791 15.8661C6.14268 15.82 6.24714 15.7515 6.33522 15.6647C6.4233 15.5779 6.49324 15.4744 6.54098 15.3603C6.58871 15.2462 6.6133 15.1237 6.6133 15C6.6133 14.8763 6.58871 14.7539 6.54098 14.6398C6.49324 14.5257 6.4233 14.4222 6.33522 14.3353C6.24714 14.2485 6.14268 14.18 6.02791 14.1339C5.91314 14.0878 5.79035 14.0649 5.66667 14.0667H2.86667ZM24.3333 14.0667C24.2097 14.0649 24.0869 14.0878 23.9721 14.1339C23.8573 14.18 23.7529 14.2485 23.6648 14.3353C23.5767 14.4222 23.5068 14.5257 23.459 14.6398C23.4113 14.7539 23.3867 14.8763 23.3867 15C23.3867 15.1237 23.4113 15.2462 23.459 15.3603C23.5068 15.4744 23.5767 15.5779 23.6648 15.6647C23.7529 15.7515 23.8573 15.82 23.9721 15.8661C24.0869 15.9122 24.2097 15.9351 24.3333 15.9333H27.1333C27.257 15.9351 27.3798 15.9122 27.4946 15.8661C27.6093 15.82 27.7138 15.7515 27.8019 15.6647C27.89 15.5779 27.9599 15.4744 28.0076 15.3603C28.0554 15.2462 28.08 15.1237 28.08 15C28.08 14.8763 28.0554 14.7539 28.0076 14.6398C27.9599 14.5257 27.89 14.4222 27.8019 14.3353C27.7138 14.2485 27.6093 14.18 27.4946 14.1339C27.3798 14.0878 27.257 14.0649 27.1333 14.0667H24.3333ZM8.38282 20.6565C8.14034 20.6637 7.9102 20.7651 7.74115 20.9391L5.76146 22.9188C5.67189 23.0048 5.60038 23.1078 5.55111 23.2218C5.50185 23.3357 5.47582 23.4584 5.47456 23.5826C5.4733 23.7068 5.49683 23.8299 5.54376 23.9449C5.5907 24.0599 5.6601 24.1643 5.74791 24.2521C5.83572 24.3399 5.94016 24.4093 6.05512 24.4563C6.17009 24.5032 6.29326 24.5267 6.41743 24.5255C6.5416 24.5242 6.66427 24.4982 6.77825 24.4489C6.89224 24.3996 6.99525 24.3281 7.08125 24.2386L9.06094 22.2589C9.19581 22.1278 9.28793 21.959 9.32522 21.7746C9.36252 21.5903 9.34325 21.399 9.26995 21.2257C9.19664 21.0525 9.07272 20.9055 8.91442 20.8039C8.75612 20.7024 8.57082 20.651 8.38282 20.6565ZM21.5898 20.6565C21.4042 20.6566 21.2227 20.712 21.0687 20.8157C20.9147 20.9194 20.7951 21.0667 20.7253 21.2387C20.6554 21.4107 20.6384 21.5997 20.6765 21.7814C20.7146 21.9631 20.806 22.1294 20.9391 22.2589L22.9188 24.2386C23.0048 24.3281 23.1078 24.3996 23.2218 24.4489C23.3357 24.4982 23.4584 24.5242 23.5826 24.5254C23.7067 24.5267 23.8299 24.5032 23.9449 24.4562C24.0598 24.4093 24.1643 24.3399 24.2521 24.2521C24.3399 24.1643 24.4093 24.0599 24.4562 23.9449C24.5032 23.8299 24.5267 23.7068 24.5254 23.5826C24.5242 23.4584 24.4982 23.3357 24.4489 23.2218C24.3996 23.1078 24.3281 23.0048 24.2385 22.9188L22.2589 20.9391C22.1719 20.8497 22.0679 20.7786 21.953 20.7301C21.8381 20.6815 21.7146 20.6565 21.5898 20.6565V20.6565ZM14.9854 23.3873C14.7382 23.3911 14.5026 23.4929 14.3304 23.6703C14.1581 23.8477 14.0633 24.0861 14.0667 24.3333V27.1333C14.0649 27.257 14.0878 27.3798 14.1339 27.4946C14.18 27.6094 14.2485 27.7138 14.3353 27.8019C14.4222 27.89 14.5256 27.9599 14.6398 28.0077C14.7539 28.0554 14.8763 28.08 15 28.08C15.1237 28.08 15.2462 28.0554 15.3603 28.0077C15.4744 27.9599 15.5778 27.89 15.6647 27.8019C15.7515 27.7138 15.82 27.6094 15.8661 27.4946C15.9122 27.3798 15.9351 27.257 15.9333 27.1333V24.3333C15.935 24.2085 15.9117 24.0845 15.8646 23.9689C15.8176 23.8532 15.7478 23.7481 15.6594 23.6599C15.571 23.5717 15.4658 23.5021 15.35 23.4553C15.2343 23.4084 15.1103 23.3853 14.9854 23.3873V23.3873Z"
+                              fill="white"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_4_47">
+                            <rect width="28" height="28" fill="white" transform="translate(1 1)"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+
+                <svg class="theme-icon moon" width="30" height="30" viewBox="0 0 30 30" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M27.1371 20.5912C25.7519 21.0833 24.2605 21.3512 22.7065 21.3512C15.3985 21.3512 9.47424 15.4269 9.47424 8.11889C9.47424 6.10409 9.92454 4.19447 10.73 2.48517C5.60094 4.30725 1.92825 9.20347 1.92825 14.9575C1.92825 22.2655 7.85255 28.1898 15.1605 28.1898C20.4537 28.1898 25.021 25.0818 27.1371 20.5912Z"
+                          fill="white"/>
+                </svg>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<div class="wrapper">
+    <aside>
+        <a href="index.html" class="title">
+            <img src="assets/images/logo.svg" alt="">
+            <span>Documentation</span>
+        </a>
+        <nav>
+            <div class="group">
+                <section>
+
+                    <div class="items">
+
+                        <a class="link" href="introduction.html">Introduction</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="installing-v-from-source.html">Installing V from source</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="packaging-v-for-distribution.html">Packaging V for distribution</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="getting-started.html">Getting started</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="hello-world.html">Hello World</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="running-a-project-folder-with-several-files.html">Running a project folder with several files</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="comments.html">Comments</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="functions.html">Functions</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="symbol-visibility.html">Symbol visibility</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="variables.html">Variables</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link active" href="v-types.html">V Types</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="module-imports.html">Module imports</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="statements-&-expressions.html">Statements & expressions</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="structs.html">Structs</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="unions.html">Unions</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="functions-2.html">Functions 2</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="references.html">References</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="constants.html">Constants</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="builtin-functions.html">Builtin functions</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="modules.html">Modules</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="type-declarations.html">Type Declarations</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="concurrency.html">Concurrency</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="json.html">JSON</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="testing.html">Testing</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="memory-management.html">Memory management</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="orm.html">ORM</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="writing-documentation.html">Writing Documentation</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="tools.html">Tools</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="package-management.html">Package management</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="attributes.html">Attributes</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="conditional-compilation.html">Conditional compilation</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="debugger.html">Debugger</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="call-stack.html">Call stack</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="trace.html">Trace</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="memory-unsafe-code.html">Memory-unsafe code</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="structs-with-reference-fields.html">Structs with reference fields</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="sizeof-and-__offsetof.html">sizeof and __offsetof</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="limited-operator-overloading.html">Limited operator overloading</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="performance-tuning.html">Performance tuning</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="atomics.html">Atomics</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="global-variables.html">Global Variables</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="cross-compilation.html">Cross compilation</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="debugging.html">Debugging</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="v-and-c.html">V and C</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="other-v-features.html">Other V Features</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="appendix-i-keywords.html">Appendix I: Keywords</a>
+                    </div>
+                    <div class="items">
+
+                        <a class="link" href="appendix-ii-operators.html">Appendix II: Operators</a>
+                    </div>
+                </section>
+            </div>
+        </nav>
+    </aside>
+
+    <article>
+        <div class="container">
+            <div class="content">
+                <div class="content-container">
+                    <main>
+                        <h1 class="main">V Types</h1>
+<h2 id="primitive-types">Primitive types <a href="#primitive-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<div class="language-v">bool
+
+string
+
+i8    i16  int  i64      i128 (soon)
+u8    u16  u32  u64      u128 (soon)
+
+rune // represents a Unicode code point
+
+f32 f64
+
+isize, usize // platform-dependent, the size is how many bytes it takes to reference any location in memory
+
+voidptr // this one is mostly used for [C interoperability](#v-and-c)
+
+any // similar to C's void* and Go's interface{}
+</div>
+<blockquote class="tip">
+<p>[!NOTE]
+Unlike C and Go, <code>int</code> is always a 32 bit integer.</p>
+</blockquote>
+<p>There is an exception to the rule that all operators
+in V must have values of the same type on both sides. A small primitive type
+on one side can be automatically promoted if it fits
+completely into the data range of the type on the other side.
+These are the allowed possibilities:</p>
+<div class="language-v">   i8 → i16 → int → i64
+                  ↘     ↘
+                    f32 → f64
+                  ↗     ↗
+   u8 → u16 → u32 → u64 ⬎
+      ↘     ↘     ↘      ptr
+   i8 → i16 → int → i64 ⬏
+</div>
+<p>An <code>int</code> value for example can be automatically promoted to <code>f64</code>
+or <code>i64</code> but not to <code>u32</code>. (<code>u32</code> would mean loss of the sign for
+negative values).
+Promotion from <code>int</code> to <code>f32</code>, however, is currently done automatically
+(but can lead to precision loss for large values).</p>
+<p>Literals like <code>123</code> or <code>4.56</code> are treated in a special way. They do
+not lead to type promotions, however they default to <code>int</code> and <code>f64</code>
+respectively, when their type has to be decided:</p>
+<div class="language-v">u := u16(12)
+v := 13 + u    // v is of type `u16` - no promotion
+x := f32(45.6)
+y := x + 3.14  // y is of type `f32` - no promotion
+a := 75        // a is of type `int` - default for int literal
+b := 14.7      // b is of type `f64` - default for float literal
+c := u + a     // c is of type `int` - automatic promotion of `u`'s value
+d := b + x     // d is of type `f64` - automatic promotion of `x`'s value
+</div>
+<h2 id="strings">Strings <a href="#strings" class="header-anchor" aria-hidden="true">#</a></h2>
+<div class="language-v">name := 'Bob'
+assert name.len == 3       // will print 3
+assert name[0] == u8(66) // indexing gives a byte, u8(66) == `B`
+assert name[1..3] == 'ob'  // slicing gives a string 'ob'
+
+// escape codes
+windows_newline := '\r\n'      // escape special characters like in C
+assert windows_newline.len == 2
+
+// arbitrary bytes can be directly specified using `\x##` notation where `#` is
+// a hex digit
+aardvark_str := '\x61ardvark'
+assert aardvark_str == 'aardvark'
+assert '\xc0'[0] == u8(0xc0)
+
+// or using octal escape `\###` notation where `#` is an octal digit
+aardvark_str2 := '\141ardvark'
+assert aardvark_str2 == 'aardvark'
+
+// Unicode can be specified directly as `\u####` where # is a hex digit
+// and will be converted internally to its UTF-8 representation
+star_str := '\u2605' // ★
+assert star_str == '★'
+assert star_str == '\xe2\x98\x85' // UTF-8 can be specified this way too.
+</div>
+<p>In V, a string is a read-only array of bytes. All Unicode characters are encoded using UTF-8:</p>
+<div class="language-v">s := 'hello 🌎' // emoji takes 4 bytes
+assert s.len == 10
+
+arr := s.bytes() // convert `string` to `[]u8`
+assert arr.len == 10
+
+s2 := arr.bytestr() // convert `[]u8` to `string`
+assert s2 == s
+</div>
+<p>String values are immutable. You cannot mutate elements:</p>
+<div class="language-v">mut s := 'hello 🌎'
+s[0] = `H` // not allowed
+</div>
+<blockquote class="tip">
+<p>error: cannot assign to <code>s[i]</code> since V strings are immutable</p>
+</blockquote>
+<p>Note that indexing a string will produce a <code>u8</code> (byte), not a <code>rune</code> nor another <code>string</code>. Indexes
+correspond to <em>bytes</em> in the string, not Unicode code points. If you want to convert the <code>u8</code> to a
+<code>string</code>, use the <code>.ascii_str()</code> method on the <code>u8</code>:</p>
+<div class="language-v">country := 'Netherlands'
+println(country[0]) // Output: 78
+println(country[0].ascii_str()) // Output: N
+</div>
+<p>Both single and double quotes can be used to denote strings. For consistency, <code>vfmt</code> converts double
+quotes to single quotes unless the string contains a single quote character.</p>
+<p>For raw strings, prepend <code>r</code>. Escape handling is not done for raw strings:</p>
+<div class="language-v">s := r'hello\nworld' // the `\n` will be preserved as two characters
+println(s) // &quot;hello\nworld&quot;
+</div>
+<p>Strings can be easily converted to integers:</p>
+<div class="language-v">s := '42'
+n := s.int() // 42
+
+// all int literals are supported
+assert '0xc3'.int() == 195
+assert '0o10'.int() == 8
+assert '0b1111_0000_1010'.int() == 3850
+assert '-0b1111_0000_1010'.int() == -3850
+</div>
+<p>For more advanced <code>string</code> processing and conversions, refer to the
+<a href="https://modules.vlang.io/strconv.html">vlib/strconv</a> module.</p>
+<h3>String interpolation</h3>
+<p>Basic interpolation syntax is pretty simple - use <code>${</code> before a variable name and <code>}</code> after. The
+variable will be converted to a string and embedded into the literal:</p>
+<div class="language-v">name := 'Bob'
+println('Hello, ${name}!') // Hello, Bob!
+</div>
+<p>It also works with fields: <code>'age = ${user.age}'</code>. You may also use more complex expressions:
+<code>'can register = ${user.age &gt; 13}'</code>.</p>
+<p>Format specifiers similar to those in C's <code>printf()</code> are also supported. <code>f</code>, <code>g</code>, <code>x</code>, <code>o</code>, <code>b</code>,
+etc. are optional and specify the output format. The compiler takes care of the storage size, so
+there is no <code>hd</code> or <code>llu</code>.</p>
+<p>To use a format specifier, follow this pattern:</p>
+<p><code>${varname:[flags][width][.precision][type]}</code></p>
+<ul>
+<li><p>flags: may be zero or more of the following: <code>-</code> to left-align output within the field, <code>0</code> to use
+<code>0</code> as the padding character instead of the default <code>space</code> character.</p>
+<blockquote class="tip">
+<p><strong>Note</strong></p>
+<p>V does not currently support the use of <code>'</code> or <code>#</code> as format flags, and V supports but
+doesn't need <code>+</code> to right-align since that's the default.</p>
+</blockquote>
+</li>
+<li><p>width: may be an integer value describing the minimum width of total field to output.</p>
+</li>
+<li><p>precision: an integer value preceded by a <code>.</code> will guarantee that many digits after the decimal
+point, if the input variable is a float. Ignored if variable is an integer.</p>
+</li>
+<li><p>type: <code>f</code> and <code>F</code> specify the input is a float and should be rendered as such, <code>e</code> and <code>E</code> specify
+the input is a float and should be rendered as an exponent (partially broken), <code>g</code> and <code>G</code> specify
+the input is a float--the renderer will use floating point notation for small values and exponent
+notation for large values, <code>d</code> specifies the input is an integer and should be rendered in base-10
+digits, <code>x</code> and <code>X</code> require an integer and will render it as hexadecimal digits, <code>o</code> requires an
+integer and will render it as octal digits, <code>b</code> requires an integer and will render it as binary
+digits, <code>s</code> requires a string (almost never used).</p>
+<blockquote class="tip">
+<p><strong>Note</strong></p>
+<p>When a numeric type can render alphabetic characters, such as hex strings or special values
+like <code>infinity</code>, the lowercase version of the type forces lowercase alphabetics and the
+uppercase version forces uppercase alphabetics.</p>
+</blockquote>
+<blockquote class="tip">
+<p><strong>Note</strong></p>
+<p>In most cases, it's best to leave the format type empty. Floats will be rendered by
+default as <code>g</code>, integers will be rendered by default as <code>d</code>, and <code>s</code> is almost always redundant.
+There are only three cases where specifying a type is recommended:</p>
+</blockquote>
+</li>
+<li><p>format strings are parsed at compile time, so specifying a type can help detect errors then</p>
+</li>
+<li><p>format strings default to using lowercase letters for hex digits and the <code>e</code> in exponents. Use a
+uppercase type to force the use of uppercase hex digits and an uppercase <code>E</code> in exponents.</p>
+</li>
+<li><p>format strings are the most convenient way to get hex, binary or octal strings from an integer.</p>
+</li>
+</ul>
+<p>See
+<a href="https://en.wikipedia.org/wiki/Printf_format_string#Format_placeholder_specification">Format Placeholder Specification</a>
+for more information.</p>
+<div class="language-v">x := 123.4567
+println('[${x:.2}]') // round to two decimal places =&gt; [123.46]
+println('[${x:10}]') // right-align with spaces on the left =&gt; [   123.457]
+println('[${int(x):-10}]') // left-align with spaces on the right =&gt; [123       ]
+println('[${int(x):010}]') // pad with zeros on the left =&gt; [0000000123]
+println('[${int(x):b}]') // output as binary =&gt; [1111011]
+println('[${int(x):o}]') // output as octal =&gt; [173]
+println('[${int(x):X}]') // output as uppercase hex =&gt; [7B]
+
+println('[${10.0000:.2}]') // remove insignificant 0s at the end =&gt; [10]
+println('[${10.0000:.2f}]') // do show the 0s at the end, even though they do not change the number =&gt; [10.00]
+</div>
+<p>V also has <code>r</code> and <code>R</code> switches, which will repeat the string the specified amount of times.</p>
+<div class="language-v">println('[${'abc':3r}]') // [abcabcabc]
+println('[${'abc':3R}]') // [ABCABCABC]
+</div>
+<h3>String operators</h3>
+<div class="language-v">name := 'Bob'
+bobby := name + 'by' // + is used to concatenate strings
+println(bobby) // &quot;Bobby&quot;
+mut s := 'hello '
+s += 'world' // `+=` is used to append to a string
+println(s) // &quot;hello world&quot;
+</div>
+<p>All operators in V must have values of the same type on both sides. You cannot concatenate an
+integer to a string:</p>
+<div class="language-v">age := 10
+println('age = ' + age) // not allowed
+</div>
+<blockquote class="tip">
+<p>error: infix expr: cannot use <code>int</code> (right expression) as <code>string</code></p>
+</blockquote>
+<p>We have to either convert <code>age</code> to a <code>string</code>:</p>
+<div class="language-v">age := 11
+println('age = ' + age.str())
+</div>
+<p>or use string interpolation (preferred):</p>
+<div class="language-v">age := 12
+println('age = ${age}')
+</div>
+<p>See all methods of <a href="https://modules.vlang.io/index.html#string">string</a>
+and related modules <a href="https://modules.vlang.io/strings.html">strings</a>,
+<a href="https://modules.vlang.io/strconv.html">strconv</a>.</p>
+<h2 id="runes">Runes <a href="#runes" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A <code>rune</code> represents a single Unicode character and is an alias for <code>u32</code>.
+To denote them, use <code>`</code> (backticks) :</p>
+<div class="language-v">rocket := `🚀`
+</div>
+<p>A <code>rune</code> can be converted to a UTF-8 string by using the <code>.str()</code> method.</p>
+<div class="language-v">rocket := `🚀`
+assert rocket.str() == '🚀'
+</div>
+<p>A <code>rune</code> can be converted to UTF-8 bytes by using the <code>.bytes()</code> method.</p>
+<div class="language-v">rocket := `🚀`
+assert rocket.bytes() == [u8(0xf0), 0x9f, 0x9a, 0x80]
+</div>
+<p>Hex, Unicode, and Octal escape sequences also work in a <code>rune</code> literal:</p>
+<div class="language-v">assert `\x61` == `a`
+assert `\141` == `a`
+assert `\u0061` == `a`
+
+// multibyte literals work too
+assert `\u2605` == `★`
+assert `\u2605`.bytes() == [u8(0xe2), 0x98, 0x85]
+assert `\xe2\x98\x85`.bytes() == [u8(0xe2), 0x98, 0x85]
+assert `\342\230\205`.bytes() == [u8(0xe2), 0x98, 0x85]
+</div>
+<p>Note that <code>rune</code> literals use the same escape syntax as strings, but they can only hold one unicode
+character. Therefore, if your code does not specify a single Unicode character, you will receive an
+error at compile time.</p>
+<p>Also remember that strings are indexed as bytes, not runes, so beware:</p>
+<div class="language-v">rocket_string := '🚀'
+assert rocket_string[0] != `🚀`
+assert 'aloha!'[0] == `a`
+</div>
+<p>A string can be converted to runes by the <code>.runes()</code> method.</p>
+<div class="language-v">hello := 'Hello World 👋'
+hello_runes := hello.runes() // [`H`, `e`, `l`, `l`, `o`, ` `, `W`, `o`, `r`, `l`, `d`, ` `, `👋`]
+assert hello_runes.string() == hello
+</div>
+<h2 id="numbers">Numbers <a href="#numbers" class="header-anchor" aria-hidden="true">#</a></h2>
+<div class="language-v">a := 123
+</div>
+<p>This will assign the value of 123 to <code>a</code>. By default <code>a</code> will have the
+type <code>int</code>.</p>
+<p>You can also use hexadecimal, binary or octal notation for integer literals:</p>
+<div class="language-v">a := 0x7B
+b := 0b01111011
+c := 0o173
+</div>
+<p>All of these will be assigned the same value, 123. They will all have type
+<code>int</code>, no matter what notation you used.</p>
+<p>V also supports writing numbers with <code>_</code> as separator:</p>
+<div class="language-v">num := 1_000_000 // same as 1000000
+three := 0b0_11 // same as 0b11
+float_num := 3_122.55 // same as 3122.55
+hexa := 0xF_F // same as 255
+oct := 0o17_3 // same as 0o173
+</div>
+<p>If you want a different type of integer, you can use casting:</p>
+<div class="language-v">a := i64(123)
+b := u8(42)
+c := i16(12345)
+</div>
+<p>Assigning floating point numbers works the same way:</p>
+<div class="language-v">f := 1.0
+f1 := f64(3.14)
+f2 := f32(3.14)
+</div>
+<p>If you do not specify the type explicitly, by default float literals
+will have the type of <code>f64</code>.</p>
+<p>Float literals can also be declared as a power of ten:</p>
+<div class="language-v">f0 := 42e1 // 420
+f1 := 123e-2 // 1.23
+f2 := 456e+2 // 45600
+</div>
+<h2 id="arrays">Arrays <a href="#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>An array is a collection of data elements of the same type. An array literal is a
+list of expressions surrounded by square brackets. An individual element can be
+accessed using an <em>index</em> expression. Indexes start from <code>0</code>:</p>
+<div class="language-v">mut nums := [1, 2, 3]
+println(nums) // `[1, 2, 3]`
+println(nums[0]) // `1`
+println(nums[1]) // `2`
+
+nums[1] = 5
+println(nums) // `[1, 5, 3]`
+</div>
+<p><a id='array-operations'></a></p>
+<p>An element can be appended to the end of an array using the push operator <code>&lt;&lt;</code>.
+It can also append an entire array.</p>
+<div class="language-v">mut nums := [1, 2, 3]
+nums &lt;&lt; 4
+println(nums) // &quot;[1, 2, 3, 4]&quot;
+
+// append array
+nums &lt;&lt; [5, 6, 7]
+println(nums) // &quot;[1, 2, 3, 4, 5, 6, 7]&quot;
+</div>
+<div class="language-v">mut names := ['John']
+names &lt;&lt; 'Peter'
+names &lt;&lt; 'Sam'
+// names &lt;&lt; 10  &lt;-- This will not compile. `names` is an array of strings.
+</div>
+<p><code>val in array</code> returns true if the array contains <code>val</code>. See <a href="#in-operator"><code>in</code> operator</a>.</p>
+<div class="language-v">names := ['John', 'Peter', 'Sam']
+println('Alex' in names) // &quot;false&quot;
+</div>
+<h3>Array Fields</h3>
+<p>There are two fields that control the &quot;size&quot; of an array:</p>
+<ul>
+<li><code>len</code>: <em>length</em> - the number of pre-allocated and initialized elements in the array</li>
+<li><code>cap</code>: <em>capacity</em> - the amount of memory space which has been reserved for elements,
+but not initialized or counted as elements. The array can grow up to this size without
+being reallocated. Usually, V takes care of this field automatically but there are
+cases where the user may want to do manual optimizations (see <a href="#array-initialization">below</a>).</li>
+</ul>
+<div class="language-v">mut nums := [1, 2, 3]
+println(nums.len) // &quot;3&quot;
+println(nums.cap) // &quot;3&quot; or greater
+nums = [] // The array is now empty
+println(nums.len) // &quot;0&quot;
+</div>
+<p><code>data</code> is a field (of type <code>voidptr</code>) with the address of the first
+element. This is for low-level <a href="#memory-unsafe-code"><code>unsafe</code></a> code.</p>
+<blockquote class="tip">
+<p>[!NOTE]
+Fields are read-only and can't be modified by the user.</p>
+</blockquote>
+<h3>Array Initialization</h3>
+<p>The type of an array is determined by the first element:</p>
+<ul>
+<li><code>[1, 2, 3]</code> is an array of ints (<code>[]int</code>).</li>
+<li><code>['a', 'b']</code> is an array of strings (<code>[]string</code>).</li>
+</ul>
+<p>The user can explicitly specify the type for the first element: <code>[u8(16), 32, 64, 128]</code>.
+V arrays are homogeneous (all elements must have the same type).
+This means that code like <code>[1, 'a']</code> will not compile.</p>
+<p>The above syntax is fine for a small number of known elements but for very large or empty
+arrays there is a second initialization syntax:</p>
+<div class="language-v">mut a := []int{len: 10000, cap: 30000, init: 3}
+</div>
+<p>This creates an array of 10000 <code>int</code> elements that are all initialized with <code>3</code>. Memory
+space is reserved for 30000 elements. The parameters <code>len</code>, <code>cap</code> and <code>init</code> are optional;
+<code>len</code> defaults to <code>0</code> and <code>init</code> to the default initialization of the element type (<code>0</code>
+for numerical type, <code>''</code> for <code>string</code>, etc). The run time system makes sure that the
+capacity is not smaller than <code>len</code> (even if a smaller value is specified explicitly):</p>
+<div class="language-v">arr := []int{len: 5, init: -1}
+// `arr == [-1, -1, -1, -1, -1]`, arr.cap == 5
+
+// Declare an empty array:
+users := []int{}
+</div>
+<p>Setting the capacity improves performance of pushing elements to the array
+as reallocations can be avoided:</p>
+<div class="language-v">mut numbers := []int{cap: 1000}
+println(numbers.len) // 0
+// Now appending elements won't reallocate
+for i in 0 .. 1000 {
+    numbers &lt;&lt; i
+}
+</div>
+<blockquote class="tip">
+<p>[!NOTE]
+The above code uses a <a href="#range-for">range <code>for</code></a> statement.</p>
+</blockquote>
+<p>You can initialize the array by accessing the <code>index</code> variable which gives
+the index as shown here:</p>
+<div class="language-v">count := []int{len: 4, init: index}
+assert count == [0, 1, 2, 3]
+
+mut square := []int{len: 6, init: index * index}
+// square == [0, 1, 4, 9, 16, 25]
+</div>
+<h3>Array Types</h3>
+<p>An array can be of these types:</p>
+<table>
+<thead>
+<tr>
+<th>Types</th>
+<th>Example Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number</td>
+<td><code>[]int,[]i64</code></td>
+</tr>
+<tr>
+<td>String</td>
+<td><code>[]string</code></td>
+</tr>
+<tr>
+<td>Rune</td>
+<td><code>[]rune</code></td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><code>[]bool</code></td>
+</tr>
+<tr>
+<td>Array</td>
+<td><code>[][]int</code></td>
+</tr>
+<tr>
+<td>Struct</td>
+<td><code>[]MyStructName</code></td>
+</tr>
+<tr>
+<td>Channel</td>
+<td><code>[]chan f64</code></td>
+</tr>
+<tr>
+<td>Function</td>
+<td><code>[]MyFunctionType</code> <code>[]fn (int) bool</code></td>
+</tr>
+<tr>
+<td>Interface</td>
+<td><code>[]MyInterfaceName</code></td>
+</tr>
+<tr>
+<td>Sum Type</td>
+<td><code>[]MySumTypeName</code></td>
+</tr>
+<tr>
+<td>Generic Type</td>
+<td><code>[]T</code></td>
+</tr>
+<tr>
+<td>Map</td>
+<td><code>[]map[string]f64</code></td>
+</tr>
+<tr>
+<td>Enum</td>
+<td><code>[]MyEnumType</code></td>
+</tr>
+<tr>
+<td>Alias</td>
+<td><code>[]MyAliasTypeName</code></td>
+</tr>
+<tr>
+<td>Thread</td>
+<td><code>[]thread int</code></td>
+</tr>
+<tr>
+<td>Reference</td>
+<td><code>[]&amp;f64</code></td>
+</tr>
+<tr>
+<td>Shared</td>
+<td><code>[]shared MyStructType</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example Code:</strong></p>
+<p>This example uses <a href="#structs">Structs</a> and <a href="#sum-types">Sum Types</a> to create an array
+which can handle different types (e.g. Points, Lines) of data elements.</p>
+<div class="language-v">struct Point {
+    x int
+    y int
+}
+
+struct Line {
+    p1 Point
+    p2 Point
+}
+
+type ObjectSumType = Line | Point
+
+mut object_list := []ObjectSumType{}
+object_list &lt;&lt; Point{1, 1}
+object_list &lt;&lt; Line{
+    p1: Point{3, 3}
+    p2: Point{4, 4}
+}
+dump(object_list)
+/*
+object_list: [ObjectSumType(Point{
+    x: 1
+    y: 1
+}), ObjectSumType(Line{
+    p1: Point{
+        x: 3
+        y: 3
+    }
+    p2: Point{
+        x: 4
+        y: 4
+    }
+})]
+*/
+</div>
+<h3>Multidimensional Arrays</h3>
+<p>Arrays can have more than one dimension.</p>
+<p>2d array example:</p>
+<div class="language-v">mut a := [][]int{len: 2, init: []int{len: 3}}
+a[0][1] = 2
+println(a) // [[0, 2, 0], [0, 0, 0]]
+</div>
+<p>3d array example:</p>
+<div class="language-v">mut a := [][][]int{len: 2, init: [][]int{len: 3, init: []int{len: 2}}}
+a[0][1][1] = 2
+println(a) // [[[0, 0], [0, 2], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
+</div>
+<h3>Array methods</h3>
+<p>All arrays can be easily printed with <code>println(arr)</code> and converted to a string
+with <code>s := arr.str()</code>.</p>
+<p>Copying the data from the array is done with <code>.clone()</code>:</p>
+<div class="language-v">nums := [1, 2, 3]
+nums_copy := nums.clone()
+</div>
+<p>Arrays can be efficiently filtered and mapped with the <code>.filter()</code> and
+<code>.map()</code> methods:</p>
+<div class="language-v">nums := [1, 2, 3, 4, 5, 6]
+even := nums.filter(it % 2 == 0)
+println(even) // [2, 4, 6]
+// filter can accept anonymous functions
+even_fn := nums.filter(fn (x int) bool {
+    return x % 2 == 0
+})
+println(even_fn)
+</div>
+<div class="language-v">words := ['hello', 'world']
+upper := words.map(it.to_upper())
+println(upper) // ['HELLO', 'WORLD']
+// map can also accept anonymous functions
+upper_fn := words.map(fn (w string) string {
+    return w.to_upper()
+})
+println(upper_fn) // ['HELLO', 'WORLD']
+</div>
+<p><code>it</code> is a builtin variable which refers to the element currently being
+processed in filter/map methods.</p>
+<p>Additionally, <code>.any()</code> and <code>.all()</code> can be used to conveniently test
+for elements that satisfy a condition.</p>
+<div class="language-v">nums := [1, 2, 3]
+println(nums.any(it == 2)) // true
+println(nums.all(it &gt;= 2)) // false
+</div>
+<p>There are further built-in methods for arrays:</p>
+<ul>
+<li><code>a.repeat(n)</code> concatenates the array elements <code>n</code> times</li>
+<li><code>a.insert(i, val)</code> inserts a new element <code>val</code> at index <code>i</code> and
+shifts all following elements to the right</li>
+<li><code>a.insert(i, [3, 4, 5])</code> inserts several elements</li>
+<li><code>a.prepend(val)</code> inserts a value at the beginning, equivalent to <code>a.insert(0, val)</code></li>
+<li><code>a.prepend(arr)</code> inserts elements of array <code>arr</code> at the beginning</li>
+<li><code>a.trim(new_len)</code> truncates the length (if <code>new_length &lt; a.len</code>, otherwise does nothing)</li>
+<li><code>a.clear()</code> empties the array without changing <code>cap</code> (equivalent to <code>a.trim(0)</code>)</li>
+<li><code>a.delete_many(start, size)</code> removes <code>size</code> consecutive elements from index <code>start</code>
+– triggers reallocation</li>
+<li><code>a.delete(index)</code> equivalent to <code>a.delete_many(index, 1)</code></li>
+<li><code>a.delete_last()</code> removes the last element</li>
+<li><code>a.first()</code> equivalent to <code>a[0]</code></li>
+<li><code>a.last()</code> equivalent to <code>a[a.len - 1]</code></li>
+<li><code>a.pop()</code> removes the last element and returns it</li>
+<li><code>a.reverse()</code> makes a new array with the elements of <code>a</code> in reverse order</li>
+<li><code>a.reverse_in_place()</code> reverses the order of elements in <code>a</code></li>
+<li><code>a.join(joiner)</code> concatenates an array of strings into one string
+using <code>joiner</code> string as a separator</li>
+</ul>
+<p>See all methods of <a href="https://modules.vlang.io/index.html#array">array</a></p>
+<p>See also <a href="https://modules.vlang.io/arrays.html">vlib/arrays</a>.</p>
+<h4>Sorting Arrays</h4>
+<p>Sorting arrays of all kinds is very simple and intuitive. Special variables <code>a</code> and <code>b</code>
+are used when providing a custom sorting condition.</p>
+<div class="language-v">mut numbers := [1, 3, 2]
+numbers.sort() // 1, 2, 3
+numbers.sort(a &gt; b) // 3, 2, 1
+</div>
+<div class="language-v">struct User {
+    age  int
+    name string
+}
+
+mut users := [User{21, 'Bob'}, User{20, 'Zarkon'}, User{25, 'Alice'}]
+users.sort(a.age &lt; b.age) // sort by User.age int field
+users.sort(a.name &gt; b.name) // reverse sort by User.name string field
+</div>
+<p>V also supports custom sorting, through the <code>sort_with_compare</code> array method.
+Which expects a comparing function which will define the sort order.
+Useful for sorting on multiple fields at the same time by custom sorting rules.
+The code below sorts the array ascending on <code>name</code> and descending <code>age</code>.</p>
+<div class="language-v">struct User {
+    age  int
+    name string
+}
+
+mut users := [User{21, 'Bob'}, User{65, 'Bob'}, User{25, 'Alice'}]
+
+custom_sort_fn := fn (a &amp;User, b &amp;User) int {
+    // return -1 when a comes before b
+    // return 0, when both are in same order
+    // return 1 when b comes before a
+    if a.name == b.name {
+        if a.age &lt; b.age {
+            return 1
+        }
+        if a.age &gt; b.age {
+            return -1
+        }
+        return 0
+    }
+    if a.name &lt; b.name {
+        return -1
+    } else if a.name &gt; b.name {
+        return 1
+    }
+    return 0
+}
+users.sort_with_compare(custom_sort_fn)
+</div>
+<h3>Array Slices</h3>
+<p>A slice is a part of a parent array. Initially it refers to the elements
+between two indices separated by a <code>..</code> operator. The right-side index must
+be greater than or equal to the left side index.</p>
+<p>If a right-side index is absent, it is assumed to be the array length. If a
+left-side index is absent, it is assumed to be 0.</p>
+<div class="language-v">nums := [0, 10, 20, 30, 40]
+println(nums[1..4]) // [10, 20, 30]
+println(nums[..4]) // [0, 10, 20, 30]
+println(nums[1..]) // [10, 20, 30, 40]
+</div>
+<p>In V slices are arrays themselves (they are not distinct types). As a result
+all array operations may be performed on them. E.g. they can be pushed onto an
+array of the same type:</p>
+<div class="language-v">array_1 := [3, 5, 4, 7, 6]
+mut array_2 := [0, 1]
+array_2 &lt;&lt; array_1[..3]
+println(array_2) // `[0, 1, 3, 5, 4]`
+</div>
+<p>A slice is always created with the smallest possible capacity <code>cap == len</code> (see
+<a href="#array-initialization"><code>cap</code> above</a>) no matter what the capacity or length
+of the parent array is. As a result it is immediately reallocated and copied to another
+memory location when the size increases thus becoming independent from the
+parent array (<em>copy on grow</em>). In particular pushing elements to a slice
+does not alter the parent:</p>
+<div class="language-v">mut a := [0, 1, 2, 3, 4, 5]
+mut b := a[2..4]
+b[0] = 7 // `b[0]` is referring to `a[2]`
+println(a) // `[0, 1, 7, 3, 4, 5]`
+b &lt;&lt; 9
+// `b` has been reallocated and is now independent from `a`
+println(a) // `[0, 1, 7, 3, 4, 5]` - no change
+println(b) // `[7, 3, 9]`
+</div>
+<p>Appending to the parent array may or may not make it independent from its child slices.
+The behaviour depends on the parent's capacity and is predictable:</p>
+<div class="language-v">mut a := []int{len: 5, cap: 6, init: 2}
+mut b := unsafe { a[1..4] }
+a &lt;&lt; 3
+// no reallocation - fits in `cap`
+b[2] = 13 // `a[3]` is modified
+a &lt;&lt; 4
+// a has been reallocated and is now independent from `b` (`cap` was exceeded)
+b[1] = 3 // no change in `a`
+println(a) // `[2, 2, 2, 13, 2, 3, 4]`
+println(b) // `[2, 3, 13]`
+</div>
+<p>You can call .clone() on the slice, if you do want to have an independent copy right away:</p>
+<div class="language-v">mut a := [0, 1, 2, 3, 4, 5]
+mut b := a[2..4].clone()
+b[0] = 7 // Note: `b[0]` is NOT referring to `a[2]`, as it would have been, without the .clone()
+println(a) // [0, 1, 2, 3, 4, 5]
+println(b) // [7, 3]
+</div>
+<h4>Slices with negative indexes</h4>
+<p>V supports array and string slices with negative indexes.
+Negative indexing starts from the end of the array towards the start,
+for example <code>-3</code> is equal to <code>array.len - 3</code>.
+Negative slices have a different syntax from normal slices, i.e. you need
+to add a <code>gate</code> between the array name and the square bracket: <code>a#[..-3]</code>.
+The <code>gate</code> specifies that this is a different type of slice and remember that
+the result is &quot;locked&quot; inside the array.
+The returned slice is always a valid array, though it may be empty:</p>
+<div class="language-v">a := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+println(a#[-3..]) // [7, 8, 9]
+println(a#[-20..]) // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+println(a#[-20..-8]) // [0, 1]
+println(a#[..-3]) // [0, 1, 2, 3, 4, 5, 6]
+
+// empty arrays
+println(a#[-20..-10]) // []
+println(a#[20..10]) // []
+println(a#[20..30]) // []
+</div>
+<h3>Array method chaining</h3>
+<p>You can chain the calls of array methods like <code>.filter()</code> and <code>.map()</code> and use
+the <code>it</code> built-in variable to achieve a classic <code>map/filter</code> functional paradigm:</p>
+<div class="language-v">// using filter, map and negatives array slices
+files := ['pippo.jpg', '01.bmp', '_v.txt', 'img_02.jpg', 'img_01.JPG']
+filtered := files.filter(it#[-4..].to_lower() == '.jpg').map(it.to_upper())
+// ['PIPPO.JPG', 'IMG_02.JPG', 'IMG_01.JPG']
+</div>
+<h2 id="fixed-size-arrays">Fixed size arrays <a href="#fixed-size-arrays" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V also supports arrays with fixed size. Unlike ordinary arrays, their
+length is constant. You cannot append elements to them, nor shrink them.
+You can only modify their elements in place.</p>
+<p>However, access to the elements of fixed size arrays is more efficient,
+they need less memory than ordinary arrays, and unlike ordinary arrays,
+their data is on the stack, so you may want to use them as buffers if you
+do not want additional heap allocations.</p>
+<p>Most methods are defined to work on ordinary arrays, not on fixed size arrays.
+You can convert a fixed size array to an ordinary array with slicing:</p>
+<div class="language-v">mut fnums := [3]int{} // fnums is a fixed size array with 3 elements.
+fnums[0] = 1
+fnums[1] = 10
+fnums[2] = 100
+println(fnums) // =&gt; [1, 10, 100]
+println(typeof(fnums).name) // =&gt; [3]int
+
+fnums2 := [1, 10, 100]! // short init syntax that does the same (the syntax will probably change)
+
+anums := fnums[..] // same as `anums := fnums[0..fnums.len]`
+println(anums) // =&gt; [1, 10, 100]
+println(typeof(anums).name) // =&gt; []int
+</div>
+<p>Note that slicing will cause the data of the fixed size array to be copied to
+the newly created ordinary array.</p>
+<h2 id="maps">Maps <a href="#maps" class="header-anchor" aria-hidden="true">#</a></h2>
+<div class="language-v">mut m := map[string]int{} // a map with `string` keys and `int` values
+m['one'] = 1
+m['two'] = 2
+println(m['one']) // &quot;1&quot;
+println(m['bad_key']) // &quot;0&quot;
+println('bad_key' in m) // Use `in` to detect whether such key exists
+println(m.keys()) // ['one', 'two']
+m.delete('two')
+</div>
+<p>Maps can have keys of type string, rune, integer, float or voidptr.</p>
+<p>The whole map can be initialized using this short syntax:</p>
+<div class="language-v">numbers := {
+    'one': 1
+    'two': 2
+}
+println(numbers)
+</div>
+<p>If a key is not found, a zero value is returned by default:</p>
+<div class="language-v">sm := {
+    'abc': 'xyz'
+}
+val := sm['bad_key']
+println(val) // ''
+</div>
+<div class="language-v">intm := {
+    1: 1234
+    2: 5678
+}
+s := intm[3]
+println(s) // 0
+</div>
+<p>It's also possible to use an <code>or {}</code> block to handle missing keys:</p>
+<div class="language-v">mm := map[string]int{}
+val := mm['bad_key'] or { panic('key not found') }
+</div>
+<p>You can also check, if a key is present, and get its value, if it was present, in one go:</p>
+<div class="language-v">m := {
+    'abc': 'def'
+}
+if v := m['abc'] {
+    println('the map value for that key is: ${v}')
+}
+</div>
+<p>The same option check applies to arrays:</p>
+<div class="language-v">arr := [1, 2, 3]
+large_index := 999
+val := arr[large_index] or { panic('out of bounds') }
+println(val)
+// you can also do this, if you want to *propagate* the access error:
+val2 := arr[333]!
+println(val2)
+</div>
+<p>V also supports nested maps:</p>
+<div class="language-v">mut m := map[string]map[string]int{}
+m['greet'] = {
+    'Hello': 1
+}
+m['place'] = {
+    'world': 2
+}
+m['code']['orange'] = 123
+print(m)
+</div>
+<p>Maps are ordered by insertion, like dictionaries in Python. The order is a
+guaranteed language feature. This may change in the future.</p>
+<p>See all methods of
+<a href="https://modules.vlang.io/index.html#map">map</a>
+and
+<a href="https://modules.vlang.io/maps.html">maps</a>.</p>
+<h2 id="map-update-syntax">Map update syntax <a href="#map-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>As with structs, V lets you initialise a map with an update applied on top of
+another map:</p>
+<div class="language-v">const base_map = {
+    'a': 4
+    'b': 5
+}
+
+foo := {
+    ...base_map
+    'b': 88
+    'c': 99
+}
+
+println(foo) // {'a': 4, 'b': 88, 'c': 99}
+</div>
+<p>This is functionally equivalent to cloning the map and updating it, except that
+you don't have to declare a mutable variable:</p>
+<div class="language-v">// same as above (except mutable)
+mut foo := base_map.clone()
+foo['b'] = 88
+foo['c'] = 99
+</div>
+
+                    </main>
+                    <footer>
+                        <div class="edit-info">
+                            <div class="edit-link">
+                                <a class="link edit-link-button"
+                                   href="https://github.com/vlang/v/edit/master/doc/docs.md" target="_blank"
+                                   rel="noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="edit-link-icon">
+                                        <path d="M18,23H4c-1.7,0-3-1.3-3-3V6c0-1.7,1.3-3,3-3h7c0.6,0,1,0.4,1,1s-0.4,1-1,1H4C3.4,5,3,5.4,3,6v14c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1v-7c0-0.6,0.4-1,1-1s1,0.4,1,1v7C21,21.7,19.7,23,18,23z"></path>
+                                        <path d="M8,17c-0.3,0-0.5-0.1-0.7-0.3C7,16.5,6.9,16.1,7,15.8l1-4c0-0.2,0.1-0.3,0.3-0.5l9.5-9.5c1.2-1.2,3.2-1.2,4.4,0c1.2,1.2,1.2,3.2,0,4.4l-9.5,9.5c-0.1,0.1-0.3,0.2-0.5,0.3l-4,1C8.2,17,8.1,17,8,17zM9.9,12.5l-0.5,2.1l2.1-0.5l9.3-9.3c0.4-0.4,0.4-1.1,0-1.6c-0.4-0.4-1.2-0.4-1.6,0l0,0L9.9,12.5z M18.5,2.5L18.5,2.5L18.5,2.5z"></path>
+                                    </svg>
+                                    Edit this page on GitHub
+                                </a>
+                            </div>
+                            <div class="last-updated">
+                                <time datetime="2024-04-26T11:26:28.619Z">
+                                    Last updated:
+                                    2024-04-26 14:26:28
+                                </time>
+                            </div>
+                        </div>
+
+                        <!-- only-prev or only-next -->
+                        <div class="prev-next">
+
+                            <div class="page prev-page">
+                                <a class="page-link" href="variables.html">
+                                    <span class="desc">Previous page</span>
+                                    <span class="title">Variables</span>
+                                </a>
+                            </div>
+
+
+                            <div class="page next-page">
+                                <a class="page-link" href="module-imports.html">
+                                    <span class="desc">Next page</span>
+                                    <span class="title">Module imports</span>
+                                </a>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <div class="aside">
+                <div class="aside-content">
+                    <div class="aside-container">
+
+                        <div class="title">On this page</div>
+                        <nav>
+                            <ul>
+
+                                <li class="active">
+                                    <a href="#primitive-types">Primitive types</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#strings">Strings</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#runes">Runes</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#numbers">Numbers</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#arrays">Arrays</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#fixed-size-arrays">Fixed size arrays</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#maps">Maps</a>
+                                </li>
+                                <li class="active">
+                                    <a href="#map-update-syntax">Map update syntax</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="aside-footer"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentNavigationItem = document.querySelector(".link.active");
+        if (currentNavigationItem !== null) {
+            currentNavigationItem.scrollIntoView({block: "center", behavior: "auto"});
+        }
+    })
+</script>
+
+<script src="assets/scripts/vlang-playground.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
+        playgroundElements.forEach(playgroundElement => {
+            const playground = Playground.create(playgroundElement, {
+                fontSize: "14px",
+                highlightOnly: true,
+                showFooter: false,
+                showLineNumbers: false,
+            });
+            playgrounds.push(playground);
+        });
+    })
+</script>
+
+<script src="assets/scripts/theme.js"></script>
+
+<script>
+    document.addEventListener("keydown", (event) => {
+
+        if (event.key === "ArrowLeft") {
+            window.open("variables.html", "_self")
+        }
+
+
+        if (event.key === "ArrowRight") {
+            window.open("module-imports.html", "_self")
+        }
+    })
+
+    window.onload = () => {
+        const html = document.querySelector("html");
+        html.style.opacity = '1'
+    }
+</script>
+</body>
+</html>
