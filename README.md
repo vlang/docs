@@ -30,9 +30,11 @@ the documentation on your computer.
 To build the documentation, after the setup, run the following commands:
 ```shell
 v run .
-sass --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css
 ```
-This will install all dependencies, and generate the documentation in the `output` directory.
+This will download the latest version 
+of [docs.md](https://github.com/vlang/v/edit/master/doc/docs.md),
+then it will regenerate the documentation from it, and save it in the `output`
+directory.
 
 
 ## Testing the output
