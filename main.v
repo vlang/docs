@@ -11,6 +11,7 @@ const template_path = 'templates'
 const should_be_skipped = ['Table of Contents']
 
 fn main() {
+	os.chdir(os.dir(@FILE))!
 	clean_output_directory()!
 	create_output_directory()!
 
@@ -20,6 +21,7 @@ fn main() {
 
 	generate_pages(response.body, latest_v_commit_hash)!
 	copy_assets_to_output()!
+	os.system('sass --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css')
 }
 
 fn generate_pages(source string, vcommit string) ! {
