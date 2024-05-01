@@ -283,6 +283,24 @@ fn main() {
     assert bf == BitField.read | .write
     assert bf.all(.read | .write)
     assert !bf.has(.other)
+    empty := BitField.zero()
+    assert empty.is_empty()
+    assert !empty.has(.read)
+    assert !empty.has(.write)
+    assert !empty.has(.other)
+    mut full := empty
+    full.set_all()
+    assert int(full) == 7 // 0x01 + 0x02 + 0x04
+    assert full == .read | .write | .other
+    mut v := full
+    v.clear(.read | .other)
+    assert v == .write
+    v.clear_all()
+    assert v == empty
+    assert BitField.read == BitField.from('read')!
+    assert BitField.other == BitField.from('other')!
+    assert BitField.write == BitField.from(2)!
+    assert BitField.zero() == BitField.from('')!
 }
 </div>
 <p>Struct field deprecations:</p>
@@ -445,7 +463,7 @@ fn main() {
                                 </a>
                             </div>
                             <div class="last-updated">
-                                <time datetime="2024-05-01T11:46:21.224Z">Last updated: 2024-05-01 14:46:21, V Commit: <a href="https://github.com/vlang/v/commit/b7387af57a6aea4faec89d769fece75fb3778c37">b7387af</a></time>
+                                <time datetime="2024-05-01T11:53:53.180Z">Last updated: 2024-05-01 14:53:53, V Commit: <a href="https://github.com/vlang/v/commit/a097e540a2197ea1f50b23182450f1c7f476c000">a097e54</a></time>
                             </div>
                         </div>
 
