@@ -339,7 +339,7 @@ source code.</p>
 <p><code>$</code> is used as a prefix for compile time (also referred to as 'comptime') operations.</p>
 <p>Having built-in JSON support is nice, but V also allows you to create efficient
 serializers for any data format. V has compile time <code>if</code> and <code>for</code> constructs:</p>
-<h3><h4 id="comptime-fields">.fields</h4></h3>
+<h3 id=".fields"><h4 id="comptime-fields">.fields</h4> <a href="#.fields" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can iterate over struct fields using <code>.fields</code>, it also works with generic types
 (e.g. <code>T.fields</code>) and generic arguments (e.g. <code>param.fields</code> where <code>fn gen[T](param T) {</code>).</p>
 <div class="language-v">struct User {
@@ -358,7 +358,7 @@ fn main() {
 // Output:
 // name is of type string
 </div>
-<h3><h4 id="comptime-values">.values</h4></h3>
+<h3 id=".values"><h4 id="comptime-values">.values</h4> <a href="#.values" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read <a href="#enums">Enum</a> values and their attributes.</p>
 <pre><code class="language-V">enum Color {
     red @[RED] // first attribute
@@ -378,7 +378,7 @@ fn main() {
 // blue
 // ['BLUE']
 </code></pre>
-<h3><h4 id="comptime-attrs">.attributes</h4></h3>
+<h3 id=".attributes"><h4 id="comptime-attrs">.attributes</h4> <a href="#.attributes" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read <a href="#structs">Struct</a> attributes.</p>
 <pre><code class="language-V">@[COLOR]
 struct Foo {
@@ -399,7 +399,7 @@ fn main() {
 //    kind: plain
 // }
 </code></pre>
-<h3><h4 id="comptime-variants">.variants</h4></h3>
+<h3 id=".variants"><h4 id="comptime-variants">.variants</h4> <a href="#.variants" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read variant types from <a href="#sum-types">Sum type</a>.</p>
 <pre><code class="language-V">type MySum = int | string
 
@@ -417,7 +417,7 @@ fn main() {
 // has int type
 // has string type
 </code></pre>
-<h3><h4 id="comptime-methods">.methods</h4></h3>
+<h3 id=".methods"><h4 id="comptime-methods">.methods</h4> <a href="#.methods" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can retrieve information about struct methods.</p>
 <pre><code class="language-V">struct Foo {
 }
@@ -451,7 +451,7 @@ fn main() {
 <p>See <a href="/examples/compiletime/reflection.v"><code>examples/compiletime/reflection.v</code></a>
 for a more complete example.</p>
 <h2 id="compile-time-code">Compile time code <a href="#compile-time-code" class="header-anchor" aria-hidden="true">#</a></h2>
-<h3><code>$if</code> condition</h3>
+<h3 id="$if-condition"><code>$if</code> condition <a href="#$if-condition" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">fn main() {
     // Support for multiple conditions in one branch
     $if ios || android {
@@ -538,7 +538,7 @@ Full list of builtin options:</p>
 </tr>
 </tbody>
 </table>
-<h3><code>$embed_file</code></h3>
+<h3 id="$embed_file"><code>$embed_file</code> <a href="#$embed_file" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">import os
 fn main() {
     embedded_file := $embed_file('v.png')
@@ -571,7 +571,7 @@ already compressed.</p>
 <p><code>$embed_file</code> returns
 <a href="https://modules.vlang.io/v.embed_file.html#EmbedFileData">EmbedFileData</a>
 which could be used to obtain the file contents as <code>string</code> or <code>[]u8</code>.</p>
-<h3><code>$tmpl</code> for embedding and parsing V template files</h3>
+<h3 id="$tmpl-for-embedding-and-parsing-v-template-files"><code>$tmpl</code> for embedding and parsing V template files <a href="#$tmpl-for-embedding-and-parsing-v-template-files" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>V has a simple template language for text and html templates, and they can easily
 be embedded via <code>$tmpl('path/to/template.txt')</code>:</p>
 <div class="language-v">fn build() string {
@@ -608,7 +608,7 @@ numbers: [1, 2, 3]
 3
 </code></pre>
 <p>See more <a href="https://github.com/vlang/v/blob/master/vlib/v/TEMPLATES.md">details</a></p>
-<h3><code>$env</code></h3>
+<h3 id="$env"><code>$env</code> <a href="#$env" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">module main
 
 fn main() {
@@ -619,7 +619,7 @@ fn main() {
 <p>V can bring in values at compile time from environment variables.
 <code>$env('ENV_VAR')</code> can also be used in top-level <code>#flag</code> and <code>#include</code> statements:
 <code>#flag linux -I $env('JAVA_HOME')/include</code>.</p>
-<h3><code>$compile_error</code> and <code>$compile_warn</code></h3>
+<h3 id="$compile_error-and-$compile_warn"><code>$compile_error</code> and <code>$compile_warn</code> <a href="#$compile_error-and-$compile_warn" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>These two comptime functions are very useful for displaying custom errors/warnings during
 compile time.</p>
 <p>Both receive as their only argument a string literal that contains the message to display:</p>
@@ -737,7 +737,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                 </a>
                             </div>
                             <div class="last-updated">
-                                <time datetime="2024-05-01T19:56:30.339Z">Last updated: 2024-05-01 22:56:30, V Commit: <a href="https://github.com/vlang/v/commit/c3d75cf4f9a3106ea291c17511890b4a42d0cc11">c3d75cf</a></time>
+                                <time datetime="2024-05-02T06:04:00.434Z">Last updated: 2024-05-02 09:04:00, V Commit: <a href="https://github.com/vlang/v/commit/7c89d77d5b79d32c4a946d472a84822d056354ff">7c89d77</a></time>
                             </div>
                         </div>
 

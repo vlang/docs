@@ -444,7 +444,7 @@ fn main() {
     }
 }
 </div>
-<h3>Implement an interface</h3>
+<h3 id="implement-an-interface">Implement an interface <a href="#implement-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>A type implements an interface by implementing its methods and fields.
 There is no explicit declaration of intent, no &quot;implements&quot; keyword.</p>
 <p>An interface can have a <code>mut:</code> section. Implementing types will need
@@ -489,7 +489,7 @@ fn fn1(s Foo) {
 //      println(s.write('Foo'))
 // }
 </div>
-<h3>Casting an interface</h3>
+<h3 id="casting-an-interface">Casting an interface <a href="#casting-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>We can test the underlying type of an interface using dynamic cast operators.</p>
 <blockquote class="tip">
 <p>[!NOTE]
@@ -553,7 +553,7 @@ fn main() {
 }
 </div>
 <p>For more information, see <a href="#dynamic-casts">Dynamic casts</a>.</p>
-<h3>Interface method definitions</h3>
+<h3 id="interface-method-definitions">Interface method definitions <a href="#interface-method-definitions" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Also unlike Go, an interface can have its own methods, similar to how
 structs can have their methods. These 'interface methods' do not have
 to be implemented, by structs which implement that interface.
@@ -601,7 +601,7 @@ fn main() {
     // }
 }
 </div>
-<h3>Embedded interface</h3>
+<h3 id="embedded-interface">Embedded interface <a href="#embedded-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Interfaces support embedding, just like structs:</p>
 <div class="language-v">pub interface Reader {
 mut:
@@ -667,7 +667,7 @@ fn main() {
     println(sum(tree)) // 0.2 + 0.3 + 0.4 + 0.5 = 1.4
 }
 </div>
-<h3>Dynamic casts</h3>
+<h3 id="dynamic-casts">Dynamic casts <a href="#dynamic-casts" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>To check whether a sum type instance holds a certain type, use <code>sum is Type</code>.
 To cast a sum type to one of its variants you can use <code>sum as Type</code>:</p>
 <div class="language-v">struct Moon {}
@@ -695,7 +695,7 @@ fn main() {
 </div>
 <p><code>as</code> will panic if <code>w</code> doesn't hold a <code>Mars</code> instance.
 A safer way is to use a smart cast.</p>
-<h3>Smart casting</h3>
+<h3 id="smart-casting">Smart casting <a href="#smart-casting" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">if w is Mars {
     assert typeof(w).name == 'Mars'
     if w.dust_storm() {
@@ -718,7 +718,7 @@ That's why you have to declare a <code>mut</code> before the <code>is</code> exp
 <blockquote class="tip">
 <p>This works for both simple variables and complex expressions like <code>user.name</code></p>
 </blockquote>
-<h3>Matching sum types</h3>
+<h3 id="matching-sum-types">Matching sum types <a href="#matching-sum-types" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can also use <code>match</code> to determine the variant:</p>
 <div class="language-v">struct Moon {}
 
@@ -828,7 +828,7 @@ to the <code>error()</code> function.</p>
     return
 }
 </div>
-<h3>Handling options/results</h3>
+<h3 id="handling-optionsresults">Handling options/results <a href="#handling-optionsresults" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>There are four ways of handling an option/result. The first method is to
 propagate the error:</p>
 <div class="language-v">import net.http
@@ -995,7 +995,7 @@ println(compare(1.1, 1.2)) //         -1
                                 </a>
                             </div>
                             <div class="last-updated">
-                                <time datetime="2024-05-01T19:56:30.272Z">Last updated: 2024-05-01 22:56:30, V Commit: <a href="https://github.com/vlang/v/commit/c3d75cf4f9a3106ea291c17511890b4a42d0cc11">c3d75cf</a></time>
+                                <time datetime="2024-05-02T06:04:00.355Z">Last updated: 2024-05-02 09:04:00, V Commit: <a href="https://github.com/vlang/v/commit/7c89d77d5b79d32c4a946d472a84822d056354ff">7c89d77</a></time>
                             </div>
                         </div>
 

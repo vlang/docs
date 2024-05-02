@@ -373,7 +373,7 @@ fn main() {
 <p>Channels are the preferred way to communicate between threads. V's channels work basically like
 those in Go. You can push objects into a channel on one end and pop objects from the other end.
 Channels can be buffered or unbuffered and it is possible to <code>select</code> from multiple channels.</p>
-<h3>Syntax and Usage</h3>
+<h3 id="syntax-and-usage">Syntax and Usage <a href="#syntax-and-usage" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Channels have the type <code>chan objtype</code>. An optional buffer length can be specified as the <code>cap</code> field
 in the declaration:</p>
 <div class="language-v">ch := chan int{} // unbuffered - &quot;synchronous&quot;
@@ -422,7 +422,7 @@ m := &lt;-ch or {
 // propagate error
 y := &lt;-ch2 ?
 </div>
-<h3>Channel Select</h3>
+<h3 id="channel-select">Channel Select <a href="#channel-select" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The <code>select</code> command allows monitoring several channels at the same time
 without noticeable CPU load. It consists of a list of possible transfers and associated branches
 of statements - similar to the <a href="#match">match</a> command:</p>
@@ -484,7 +484,7 @@ that becomes <code>false</code> if all channels are closed:</p>
     // channel is closed
 }
 </div>
-<h3>Special Channel Features</h3>
+<h3 id="special-channel-features">Special Channel Features <a href="#special-channel-features" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>For special purposes there are some builtin fields and methods:</p>
 <div class="language-v">struct Abc {
     x int
@@ -555,7 +555,7 @@ fn main() {
                                 </a>
                             </div>
                             <div class="last-updated">
-                                <time datetime="2024-05-01T19:56:30.298Z">Last updated: 2024-05-01 22:56:30, V Commit: <a href="https://github.com/vlang/v/commit/c3d75cf4f9a3106ea291c17511890b4a42d0cc11">c3d75cf</a></time>
+                                <time datetime="2024-05-02T06:04:00.385Z">Last updated: 2024-05-02 09:04:00, V Commit: <a href="https://github.com/vlang/v/commit/7c89d77d5b79d32c4a946d472a84822d056354ff">7c89d77</a></time>
                             </div>
                         </div>
 

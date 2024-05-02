@@ -329,7 +329,7 @@ fn test() []int {
 }
 </div>
 <h2 id="stack-and-heap">Stack and Heap <a href="#stack-and-heap" class="header-anchor" aria-hidden="true">#</a></h2>
-<h3>Stack and Heap Basics</h3>
+<h3 id="stack-and-heap-basics">Stack and Heap Basics <a href="#stack-and-heap-basics" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Like with most other programming languages there are two locations where data can
 be stored:</p>
 <ul>
@@ -345,7 +345,7 @@ calls that delegate the administrative tasks to the OS. This means that they can
 remain valid across several function calls, however, the administration is
 expensive.</li>
 </ul>
-<h3>V's default approach</h3>
+<h3 id="v's-default-approach">V's default approach <a href="#v's-default-approach" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Due to performance considerations V tries to put objects on the stack if possible
 but allocates them on the heap when obviously necessary. Example:</p>
 <div class="language-v">struct MyStruct {
@@ -410,7 +410,7 @@ fn (mut a MyStruct) f(b &amp;MyStruct) int {
 these references are leaving <code>main()</code>. However the <em>lifetime</em> of these
 references lies inside the scope of <code>main()</code> so <code>q</code> and <code>w</code> are allocated
 on the stack.</p>
-<h3>Manual Control for Stack and Heap</h3>
+<h3 id="manual-control-for-stack-and-heap">Manual Control for Stack and Heap <a href="#manual-control-for-stack-and-heap" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>In the last example the V compiler could put <code>q</code> and <code>w</code> on the stack
 because it assumed that in the call <code>q.f(&amp;w)</code> these references were only
 used for reading and modifying the referred values – and not to pass the
@@ -563,7 +563,7 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                 </a>
                             </div>
                             <div class="last-updated">
-                                <time datetime="2024-05-01T19:56:30.313Z">Last updated: 2024-05-01 22:56:30, V Commit: <a href="https://github.com/vlang/v/commit/c3d75cf4f9a3106ea291c17511890b4a42d0cc11">c3d75cf</a></time>
+                                <time datetime="2024-05-02T06:04:00.402Z">Last updated: 2024-05-02 09:04:00, V Commit: <a href="https://github.com/vlang/v/commit/7c89d77d5b79d32c4a946d472a84822d056354ff">7c89d77</a></time>
                             </div>
                         </div>
 
