@@ -33,7 +33,7 @@ fn generate_pages(source string, vcommit string) ! {
 	rest_topics := topics[1..]
 
 	index_content := generate_page_from_template(rest_topics, first_topic, markdown_first_topic.text,
-		Topic{}, topics[1], vcommit)
+		Topic{}, topics[1], vcommit).replace_once('<head>', '<head><script>window.location.replace("introduction.html");</script>')
 	write_output_file('index.html', index_content)!
 
 	for index, topic in rest_topics {
