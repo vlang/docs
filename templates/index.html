@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="assets/styles/vlang-playground.css">
 
     <title>V Documentation</title>
+	<style>
+		.subtopic {
+			margin-left:20px !important;
+		}
+	</style>
+
+
 </head>
 <body>
 
@@ -61,8 +68,12 @@
                         @else
                         <a class="link" href="@{topic.url}">@{topic.title}</a>
                         @end
-                    </div>
+						@for subtopic in topic.subtopics
+							<a class="link subtopic" href="@{topic.url}#@{subtopic.id}"> @{subtopic.title}</a>
+
+						@end
                     @end
+                    </div>
                 </section>
             </div>
         </nav>

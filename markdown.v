@@ -9,6 +9,7 @@ struct Topic {
 	id                 string
 	url                string
 	section_start_line int = 1
+	subtopics          []Topic // for the ToC
 }
 
 struct Section {
@@ -41,7 +42,7 @@ fn split_source_by_topics(source string, topic_level int) []Section {
 	return sections
 }
 
-fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic {
+fn extract_topics_from_markdown_parts(parts []Section, skip_first bool, is_subtopic bool) []Topic {
 	mut topics := []Topic{}
 	for index, part in parts {
 		if skip_first && index == 0 {
@@ -54,12 +55,21 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic 
 		}
 		plain_title := markdown.to_plain(title)
 		// TODO: remove .html
+
+		// Get subtopics for this topic
+		mut subtopics := []Topic{}
+		if !is_subtopic {
+			markdown_subtopics := split_source_by_topics(part.text, 3)
+			subtopics = extract_topics_from_markdown_parts(markdown_subtopics, true, true)
+		}
+
 		topics << Topic{
 			id: title_to_filename(plain_title)
 			title: plain_title
 			markdown_content: part.text
 			section_start_line: part.start_line
 			url: '${filename}.html'
+			subtopics: subtopics
 		}
 	}
 	return topics
