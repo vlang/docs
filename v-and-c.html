@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="assets/styles/vlang-playground.css">
 
     <title>V Documentation</title>
+	<style>
+		.subtopic {
+			margin-left:20px !important;
+		}
+	</style>
+
+
 </head>
 <body>
 
@@ -58,194 +65,391 @@
                     <div class="items">
 
                         <a class="link" href="introduction.html">Introduction</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="installing-v-from-source.html">Installing V from source</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="packaging-v-for-distribution.html">Packaging V for distribution</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="getting-started.html">Getting started</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="hello-world.html">Hello World</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="running-a-project-folder-with-several-files.html">Running a project folder with several files</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="comments.html">Comments</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="functions.html">Functions</a>
-                    </div>
+
+							<a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+
+							<a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
+
                     <div class="items">
 
                         <a class="link" href="symbol-visibility.html">Symbol visibility</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="variables.html">Variables</a>
-                    </div>
+
+							<a class="link subtopic" href="variables.html#mutable-variables"> Mutable variables</a>
+
+							<a class="link subtopic" href="variables.html#initialization-vs-assignment"> Initialization vs assignment</a>
+
+							<a class="link subtopic" href="variables.html#warnings-and-declaration-errors"> Warnings and declaration errors</a>
+
                     <div class="items">
 
                         <a class="link" href="v-types.html">V Types</a>
-                    </div>
+
+							<a class="link subtopic" href="v-types.html#primitive-types"> Primitive types</a>
+
+							<a class="link subtopic" href="v-types.html#strings"> Strings</a>
+
+							<a class="link subtopic" href="v-types.html#runes"> Runes</a>
+
+							<a class="link subtopic" href="v-types.html#numbers"> Numbers</a>
+
+							<a class="link subtopic" href="v-types.html#arrays"> Arrays</a>
+
+							<a class="link subtopic" href="v-types.html#fixed-size-arrays"> Fixed size arrays</a>
+
+							<a class="link subtopic" href="v-types.html#maps"> Maps</a>
+
+							<a class="link subtopic" href="v-types.html#map-update-syntax"> Map update syntax</a>
+
                     <div class="items">
 
                         <a class="link" href="module-imports.html">Module imports</a>
-                    </div>
+
+							<a class="link subtopic" href="module-imports.html#selective-imports"> Selective imports</a>
+
+							<a class="link subtopic" href="module-imports.html#module-import-aliasing"> Module import aliasing</a>
+
                     <div class="items">
 
                         <a class="link" href="statements-&-expressions.html">Statements & expressions</a>
-                    </div>
+
+							<a class="link subtopic" href="statements-&-expressions.html#if"> If</a>
+
+							<a class="link subtopic" href="statements-&-expressions.html#match"> Match</a>
+
+							<a class="link subtopic" href="statements-&-expressions.html#in-operator"> In operator</a>
+
+							<a class="link subtopic" href="statements-&-expressions.html#for-loop"> For loop</a>
+
+							<a class="link subtopic" href="statements-&-expressions.html#defer"> Defer</a>
+
+							<a class="link subtopic" href="statements-&-expressions.html#goto"> Goto</a>
+
                     <div class="items">
 
                         <a class="link" href="structs.html">Structs</a>
-                    </div>
+
+							<a class="link subtopic" href="structs.html#heap-structs"> Heap structs</a>
+
+							<a class="link subtopic" href="structs.html#default-field-values"> Default field values</a>
+
+							<a class="link subtopic" href="structs.html#required-fields"> Required fields</a>
+
+							<a class="link subtopic" href="structs.html#short-struct-literal-syntax"> Short struct literal syntax</a>
+
+							<a class="link subtopic" href="structs.html#struct-update-syntax"> Struct update syntax</a>
+
+							<a class="link subtopic" href="structs.html#trailing-struct-literal-arguments"> Trailing struct literal arguments</a>
+
+							<a class="link subtopic" href="structs.html#access-modifiers"> Access modifiers</a>
+
+							<a class="link subtopic" href="structs.html#anonymous-structs"> Anonymous structs</a>
+
+							<a class="link subtopic" href="structs.html#static-type-methods"> Static type methods</a>
+
+							<a class="link subtopic" href="structs.html#[noinit]-structs"> [noinit] structs</a>
+
+							<a class="link subtopic" href="structs.html#methods"> Methods</a>
+
+							<a class="link subtopic" href="structs.html#embedded-structs"> Embedded structs</a>
+
                     <div class="items">
 
                         <a class="link" href="unions.html">Unions</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="functions-2.html">Functions 2</a>
-                    </div>
+
+							<a class="link subtopic" href="functions-2.html#immutable-function-args-by-default"> Immutable function args by default</a>
+
+							<a class="link subtopic" href="functions-2.html#mutable-arguments"> Mutable arguments</a>
+
+							<a class="link subtopic" href="functions-2.html#variable-number-of-arguments"> Variable number of arguments</a>
+
+							<a class="link subtopic" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
+
+							<a class="link subtopic" href="functions-2.html#closures"> Closures</a>
+
+							<a class="link subtopic" href="functions-2.html#parameter-evaluation-order"> Parameter evaluation order</a>
+
                     <div class="items">
 
                         <a class="link" href="references.html">References</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="constants.html">Constants</a>
-                    </div>
+
+							<a class="link subtopic" href="constants.html#required-module-prefix"> Required module prefix</a>
+
                     <div class="items">
 
                         <a class="link" href="builtin-functions.html">Builtin functions</a>
-                    </div>
+
+							<a class="link subtopic" href="builtin-functions.html#println"> println</a>
+
+							<a class="link subtopic" href="builtin-functions.html#printing-custom-types"> Printing custom types</a>
+
+							<a class="link subtopic" href="builtin-functions.html#dumping-expressions-at-runtime"> Dumping expressions at runtime</a>
+
                     <div class="items">
 
                         <a class="link" href="modules.html">Modules</a>
-                    </div>
+
+							<a class="link subtopic" href="modules.html#create-modules"> Create modules</a>
+
+							<a class="link subtopic" href="modules.html#special-considerations-for-project-folders"> Special considerations for project folders</a>
+
+							<a class="link subtopic" href="modules.html#init-functions"> init functions</a>
+
+							<a class="link subtopic" href="modules.html#cleanup-functions"> cleanup functions</a>
+
                     <div class="items">
 
                         <a class="link" href="type-declarations.html">Type Declarations</a>
-                    </div>
+
+							<a class="link subtopic" href="type-declarations.html#type-aliases"> Type aliases</a>
+
+							<a class="link subtopic" href="type-declarations.html#enums"> Enums</a>
+
+							<a class="link subtopic" href="type-declarations.html#function-types"> Function Types</a>
+
+							<a class="link subtopic" href="type-declarations.html#interfaces"> Interfaces</a>
+
+							<a class="link subtopic" href="type-declarations.html#sum-types"> Sum types</a>
+
+							<a class="link subtopic" href="type-declarations.html#optionresult-types-and-error-handling"> Option/Result types and error handling</a>
+
+							<a class="link subtopic" href="type-declarations.html#custom-error-types"> Custom error types</a>
+
+							<a class="link subtopic" href="type-declarations.html#generics"> Generics</a>
+
                     <div class="items">
 
                         <a class="link" href="concurrency.html">Concurrency</a>
-                    </div>
+
+							<a class="link subtopic" href="concurrency.html#spawning-concurrent-tasks"> Spawning Concurrent Tasks</a>
+
+							<a class="link subtopic" href="concurrency.html#channels"> Channels</a>
+
+							<a class="link subtopic" href="concurrency.html#shared-objects"> Shared Objects</a>
+
                     <div class="items">
 
                         <a class="link" href="json.html">JSON</a>
-                    </div>
+
+							<a class="link subtopic" href="json.html#decoding-json"> Decoding JSON</a>
+
+							<a class="link subtopic" href="json.html#encoding-json"> Encoding JSON</a>
+
                     <div class="items">
 
                         <a class="link" href="testing.html">Testing</a>
-                    </div>
+
+							<a class="link subtopic" href="testing.html#asserts"> Asserts</a>
+
+							<a class="link subtopic" href="testing.html#asserts-with-an-extra-message"> Asserts with an extra message</a>
+
+							<a class="link subtopic" href="testing.html#asserts-that-do-not-abort-your-program"> Asserts that do not abort your program</a>
+
+							<a class="link subtopic" href="testing.html#test-files"> Test files</a>
+
+							<a class="link subtopic" href="testing.html#running-tests"> Running tests</a>
+
                     <div class="items">
 
                         <a class="link" href="memory-management.html">Memory management</a>
-                    </div>
+
+							<a class="link subtopic" href="memory-management.html#control"> Control</a>
+
+							<a class="link subtopic" href="memory-management.html#stack-and-heap"> Stack and Heap</a>
+
                     <div class="items">
 
                         <a class="link" href="orm.html">ORM</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="writing-documentation.html">Writing Documentation</a>
-                    </div>
+
+							<a class="link subtopic" href="writing-documentation.html#newlines-in-documentation-comments"> Newlines in Documentation Comments</a>
+
                     <div class="items">
 
                         <a class="link" href="tools.html">Tools</a>
-                    </div>
+
+							<a class="link subtopic" href="tools.html#v-fmt"> v fmt</a>
+
+							<a class="link subtopic" href="tools.html#v-shader"> v shader</a>
+
+							<a class="link subtopic" href="tools.html#profiling"> Profiling</a>
+
                     <div class="items">
 
                         <a class="link" href="package-management.html">Package management</a>
-                    </div>
+
+							<a class="link subtopic" href="package-management.html#package-commands"> Package commands</a>
+
+							<a class="link subtopic" href="package-management.html#publish-package"> Publish package</a>
+
                     <div class="items">
 
                         <a class="link" href="attributes.html">Attributes</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="conditional-compilation.html">Conditional compilation</a>
-                    </div>
+
+							<a class="link subtopic" href="conditional-compilation.html#compile-time-pseudo-variables"> Compile time pseudo variables</a>
+
+							<a class="link subtopic" href="conditional-compilation.html#compile-time-reflection"> Compile time reflection</a>
+
+							<a class="link subtopic" href="conditional-compilation.html#compile-time-code"> Compile time code</a>
+
+							<a class="link subtopic" href="conditional-compilation.html#compile-time-types"> Compile time types</a>
+
+							<a class="link subtopic" href="conditional-compilation.html#environment-specific-files"> Environment specific files</a>
+
                     <div class="items">
 
                         <a class="link" href="debugger.html">Debugger</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="call-stack.html">Call stack</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="trace.html">Trace</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="memory-unsafe-code.html">Memory-unsafe code</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="structs-with-reference-fields.html">Structs with reference fields</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="sizeof-and-__offsetof.html">sizeof and __offsetof</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="limited-operator-overloading.html">Limited operator overloading</a>
-                    </div>
+
+							<a class="link subtopic" href="limited-operator-overloading.html#implicitly-generated-overloads"> Implicitly generated overloads</a>
+
+							<a class="link subtopic" href="limited-operator-overloading.html#restriction"> Restriction</a>
+
                     <div class="items">
 
                         <a class="link" href="performance-tuning.html">Performance tuning</a>
-                    </div>
+
+							<a class="link subtopic" href="performance-tuning.html#tuning-operations-details"> Tuning operations details</a>
+
                     <div class="items">
 
                         <a class="link" href="atomics.html">Atomics</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="global-variables.html">Global Variables</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="cross-compilation.html">Cross compilation</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="debugging.html">Debugging</a>
-                    </div>
+
+							<a class="link subtopic" href="debugging.html#c-backend-binaries-(default)"> C Backend binaries (Default)</a>
+
+							<a class="link subtopic" href="debugging.html#native-backend-binaries"> Native Backend binaries</a>
+
+							<a class="link subtopic" href="debugging.html#javascript-backend"> Javascript Backend</a>
+
                     <div class="items">
 
                         <a class="link active" href="v-and-c.html">V and C</a>
-                    </div>
+
+							<a class="link subtopic" href="v-and-c.html#calling-c-from-v"> Calling C from V</a>
+
+							<a class="link subtopic" href="v-and-c.html#calling-v-from-c"> Calling V from C</a>
+
+							<a class="link subtopic" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
+
+							<a class="link subtopic" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+
+							<a class="link subtopic" href="v-and-c.html#including-c-code"> Including C code</a>
+
+							<a class="link subtopic" href="v-and-c.html#c-types"> C types</a>
+
+							<a class="link subtopic" href="v-and-c.html#c-declarations"> C Declarations</a>
+
+							<a class="link subtopic" href="v-and-c.html#export-to-shared-library"> Export to shared library</a>
+
+							<a class="link subtopic" href="v-and-c.html#translating-c-to-v"> Translating C to V</a>
+
+							<a class="link subtopic" href="v-and-c.html#working-around-c-issues"> Working around C issues</a>
+
                     <div class="items">
 
                         <a class="link" href="other-v-features.html">Other V Features</a>
-                    </div>
+
+							<a class="link subtopic" href="other-v-features.html#inline-assembly"> Inline assembly</a>
+
+							<a class="link subtopic" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
+
+							<a class="link subtopic" href="other-v-features.html#cross-platform-shell-scripts-in-v"> Cross-platform shell scripts in V</a>
+
+							<a class="link subtopic" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+
                     <div class="items">
 
                         <a class="link" href="appendix-i-keywords.html">Appendix I: Keywords</a>
-                    </div>
+
                     <div class="items">
 
                         <a class="link" href="appendix-ii-operators.html">Appendix II: Operators</a>
+
                     </div>
                 </section>
             </div>
@@ -566,7 +770,7 @@ meaning it could cause more issues than it solves.</p>
                                 </a>
                             </div>
                             <div class="last-updated">
-                                <time datetime="2024-05-03T17:24:47.215Z">Last updated: 2024-05-03 20:24:47, V Commit: <a href="https://github.com/vlang/v/commit/065399e931521f35d6486857475816d536ce99ea">065399e</a></time>
+                                <time datetime="2024-05-04T14:12:11.136Z">Last updated: 2024-05-04 17:12:11, V Commit: <a href="https://github.com/vlang/v/commit/f0abc452fa9ab3844bd443eaa49d80880e5058d0">f0abc45</a></time>
                             </div>
                         </div>
 
