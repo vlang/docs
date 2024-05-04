@@ -21,7 +21,7 @@ fn main() {
 
 	generate_pages(response.body, latest_v_commit_hash)!
 	copy_assets_to_output()!
-	os.system('sassc --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css')
+	os.system('sass --style compressed templates/assets/styles/style.scss:templates/assets/styles/style.css')
 }
 
 fn generate_pages(source string, vcommit string) ! {
@@ -56,8 +56,6 @@ fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_conten
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true, true)
 	title := main_topic.title
-	println('ZZZ GEN title=$title stopics=${subtopics.map(it.title)}')
-	println('FROM S=$markdown_content')
 	update_time := time.now()
 	update_commit_full := vcommit.clone()
 	update_commit_short := vcommit#[..7]
