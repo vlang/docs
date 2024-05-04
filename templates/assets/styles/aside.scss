@@ -17,21 +17,48 @@ aside {
 
   .title {
     display: grid;
-    grid-template-columns: max-content auto;
+    grid-template-columns: auto max-content;
     grid-column-gap: 10px;
     align-items: center;
     text-decoration: none;
     margin-top: 3px;
 
-    img {
-      width: 25px;
+    a {
+      display: grid;
+      grid-template-columns: max-content auto;
+      grid-column-gap: 10px;
+      align-items: center;
+      text-decoration: none;
+
+      img {
+        width: 25px;
+      }
+
+      span {
+        font-size: 17px;
+        font-weight: 500;
+        color: var(--color);
+      }
     }
 
-    span {
-      font-size: 17px;
-      font-weight: 500;
-      color: var(--color);
+    .aside-topics-close {
+      &:hover {
+        cursor: pointer;
+
+        svg {
+          path {
+            fill: var(--color);
+          }
+        }
+      }
+
+      svg {
+        path {
+          fill: var(--secondary-color);
+        }
+      }
     }
+
   }
 
   nav {
