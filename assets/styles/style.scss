@@ -90,10 +90,10 @@ article {
     padding: 0px 50px 20px 20px;
 
     @media (max-width: 1200px) {
-      grid-template-columns: 100%;
+      grid-template-columns: 100vw;
 
-      padding-left: 20px;
-      padding-right: 20px;
+       padding-left: 0px;
+       padding-right: 0px;
 
       .aside {
         display: none;
@@ -311,6 +311,10 @@ article {
 
     h1 {
       font-size: 35px;
+
+      @media (max-width: 1200px) {
+        margin-bottom: 0px;
+      }
     }
 
     section {
