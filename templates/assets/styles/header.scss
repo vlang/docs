@@ -1,6 +1,6 @@
 header {
-  height: 20px;
-  width: 100%;
+  height: 40px;
+  width: 100vw;
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -11,12 +11,39 @@ header {
   background: var(--header-background);
 
   .header-container {
-    padding: 1px 50px;
+    padding: 1px 40px;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     display: grid;
-    grid-template-columns: auto max-content;
+    grid-template-columns: max-content auto max-content;
     align-items: center;
+
+    .header-container-left-section {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 2px 0 0 0;
+
+      .aside-topics-open {
+        vertical-align: middle;
+
+        &:hover {
+          cursor: pointer;
+
+          svg {
+            path {
+              fill: var(--color);
+            }
+          }
+        }
+
+        svg {
+          path {
+            fill: var(--secondary-color);
+          }
+        }
+      }
+    }
 
     .logo {
       display: grid;
@@ -44,7 +71,7 @@ header {
       }
     }
 
-    ul {
+    .header-container-right-section {
       display: flex;
       list-style: none;
       padding: 0;
