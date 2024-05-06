@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -484,8 +484,8 @@
                             <h1 class="main">Modules</h1>
 <p>Every file in the root of a folder is part of the same module.
 Simple programs don't need to specify module name, in which case it defaults to 'main'.</p>
-<p>See <a href="#symbol-visibility">symbol visibility</a>, <a href="#access-modifiers">Access modifiers</a>.</p>
-<h2 id="create-modules">Create modules <a href="#create-modules" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>See <a href="symbol-visibility.html">symbol visibility</a>, <a href="structs.html#access-modifiers">Access modifiers</a>.</p>
+<h2 id="create-modules">Create modules <a href="modules.html#create-modules" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V is a very modular language. Creating reusable modules is encouraged and is
 quite easy to do.
 To create a new module, create a directory with your module's name containing
@@ -528,7 +528,7 @@ fn main() {
 <li>You can create modules anywhere.</li>
 <li>All modules are compiled statically into a single executable.</li>
 </ul>
-<h2 id="special-considerations-for-project-folders">Special considerations for project folders <a href="#special-considerations-for-project-folders" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="special-considerations-for-project-folders">Special considerations for project folders <a href="modules.html#special-considerations-for-project-folders" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>For the top level project folder (the one, compiled with <code>v .</code>), and <em>only</em>
 that folder, you can have several .v files, that may be mentioning different modules
 with <code>module main</code>, <code>module abc</code> etc</p>
@@ -539,7 +539,7 @@ with <code>module main</code>, <code>module abc</code> etc</p>
 <li>when that makes logical sense to be further organised, put them into their own directory module.</li>
 </ul>
 <p>Note that in ordinary modules, all .v files must start with <code>module name_of_folder</code>.</p>
-<h2 id="init-functions"><code>init</code> functions <a href="#init-functions" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="init-functions"><code>init</code> functions <a href="modules.html#init-functions" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>If you want a module to automatically call some setup/initialization code when it is imported,
 you can define a module <code>init</code> function:</p>
 <div class="language-v">fn init() {
@@ -549,7 +549,7 @@ you can define a module <code>init</code> function:</p>
 <p>The <code>init</code> function cannot be public - it will be called automatically by V, <em>just once</em>, no matter
 how many times the module was imported in your program. This feature is particularly useful for
 initializing a C library.</p>
-<h2 id="cleanup-functions"><code>cleanup</code> functions <a href="#cleanup-functions" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="cleanup-functions"><code>cleanup</code> functions <a href="modules.html#cleanup-functions" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>If you want a module to automatically call some cleanup/deinitialization code, when your program
 ends, you can define a module <code>cleanup</code> function:</p>
 <div class="language-v">fn cleanup() {
@@ -580,9 +580,9 @@ transitively by other modules several times, in the reverse order of the init ca
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.056Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.820Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

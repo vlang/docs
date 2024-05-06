@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,7 +482,7 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Concurrency</h1>
-<h2 id="spawning-concurrent-tasks">Spawning Concurrent Tasks <a href="#spawning-concurrent-tasks" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="spawning-concurrent-tasks">Spawning Concurrent Tasks <a href="concurrency.html#spawning-concurrent-tasks" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V's model of concurrency is going to be very similar to Go's.
 For now, <code>spawn foo()</code> runs <code>foo()</code> concurrently in a different thread:</p>
 <div class="language-v">import math
@@ -593,11 +593,11 @@ fn main() {
 
 // Output: All jobs finished: [1, 4, 9, 16, 25, 36, 49, 64, 81]
 </div>
-<h2 id="channels">Channels <a href="#channels" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="channels">Channels <a href="concurrency.html#channels" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Channels are the preferred way to communicate between threads. V's channels work basically like
 those in Go. You can push objects into a channel on one end and pop objects from the other end.
 Channels can be buffered or unbuffered and it is possible to <code>select</code> from multiple channels.</p>
-<h3 id="syntax-and-usage">Syntax and Usage <a href="#syntax-and-usage" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="syntax-and-usage">Syntax and Usage <a href="concurrency.html#syntax-and-usage" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Channels have the type <code>chan objtype</code>. An optional buffer length can be specified as the <code>cap</code> field
 in the declaration:</p>
 <div class="language-v">ch := chan int{} // unbuffered - &quot;synchronous&quot;
@@ -633,7 +633,7 @@ y = &lt;-ch2 // pop into existing variable
 to do so will then result in a runtime panic (with the exception of <code>select</code> and
 <code>try_push()</code> - see below). Attempts to pop will return immediately if the
 associated channel has been closed and the buffer is empty. This situation can be
-handled using an <code>or {}</code> block (see <a href="#handling-optionsresults">Handling options/results</a>).</p>
+handled using an <code>or {}</code> block (see <a href="type-declarations.html#handling-optionsresults">Handling options/results</a>).</p>
 <div class="language-v">ch := chan int{}
 ch2 := chan f64{}
 // ...
@@ -646,10 +646,10 @@ m := &lt;-ch or {
 // propagate error
 y := &lt;-ch2 ?
 </div>
-<h3 id="channel-select">Channel Select <a href="#channel-select" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="channel-select">Channel Select <a href="concurrency.html#channel-select" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The <code>select</code> command allows monitoring several channels at the same time
 without noticeable CPU load. It consists of a list of possible transfers and associated branches
-of statements - similar to the <a href="#match">match</a> command:</p>
+of statements - similar to the <a href="statements-&-expressions.html#match">match</a> command:</p>
 <div class="language-v">import time
 
 fn main() {
@@ -708,7 +708,7 @@ that becomes <code>false</code> if all channels are closed:</p>
     // channel is closed
 }
 </div>
-<h3 id="special-channel-features">Special Channel Features <a href="#special-channel-features" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="special-channel-features">Special Channel Features <a href="concurrency.html#special-channel-features" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>For special purposes there are some builtin fields and methods:</p>
 <div class="language-v">struct Abc {
     x int
@@ -733,9 +733,9 @@ the reason why not.
 Usage of these methods and fields in production is not recommended -
 algorithms based on them are often subject to race conditions. Especially <code>.len</code> and
 <code>.closed</code> should not be used to make decisions.
-Use <code>or</code> branches, error propagation or <code>select</code> instead (see <a href="#syntax-and-usage">Syntax and Usage</a>
-and <a href="#channel-select">Channel Select</a> above).</p>
-<h2 id="shared-objects">Shared Objects <a href="#shared-objects" class="header-anchor" aria-hidden="true">#</a></h2>
+Use <code>or</code> branches, error propagation or <code>select</code> instead (see <a href="concurrency.html#syntax-and-usage">Syntax and Usage</a>
+and <a href="concurrency.html#channel-select">Channel Select</a> above).</p>
+<h2 id="shared-objects">Shared Objects <a href="concurrency.html#shared-objects" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Data can be exchanged between a thread and the calling thread via a shared variable.
 Such variables should be created as <code>shared</code> and passed to the thread as such, too.
 The underlying <code>struct</code> contains a hidden <em>mutex</em> that allows locking concurrent access
@@ -784,9 +784,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.101Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.881Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

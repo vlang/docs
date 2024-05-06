@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,20 +482,20 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Functions 2</h1>
-<h2 id="immutable-function-args-by-default">Immutable function args by default <a href="#immutable-function-args-by-default" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="immutable-function-args-by-default">Immutable function args by default <a href="functions-2.html#immutable-function-args-by-default" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>In V function arguments are immutable by default, and mutable args have to be
 marked on call.</p>
 <p>Since there are also no globals, that means that the return values of the functions,
 are a function of their arguments only, and their evaluation has no side effects
 (unless the function uses I/O).</p>
-<p>Function arguments are immutable by default, even when <a href="#references">references</a> are passed.</p>
+<p>Function arguments are immutable by default, even when <a href="references.html">references</a> are passed.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 However, V is not a purely functional language.</p>
 </blockquote>
 <p>There is a compiler flag to enable global variables (<code>-enable-globals</code>), but this is
 intended for low-level applications like kernels and drivers.</p>
-<h2 id="mutable-arguments">Mutable arguments <a href="#mutable-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="mutable-arguments">Mutable arguments <a href="functions-2.html#mutable-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>It is possible to modify function arguments by declaring them with the keyword <code>mut</code>:</p>
 <div class="language-v">struct User {
     name string
@@ -533,7 +533,7 @@ Modifying arguments should only be done in performance-critical parts of your ap
 to reduce allocations and copying.</p>
 <p>For this reason V doesn't allow the modification of arguments with primitive types (e.g. integers).
 Only more complex types such as arrays and maps may be modified.</p>
-<h2 id="variable-number-of-arguments">Variable number of arguments <a href="#variable-number-of-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="variable-number-of-arguments">Variable number of arguments <a href="functions-2.html#variable-number-of-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the
 <code>...</code> prefix.
 Below, <code>a ...int</code> refers to an arbitrary amount of parameters that will be collected
@@ -591,7 +591,7 @@ fn main() {
     println(fns_map['cube'](2)) // &quot;8&quot;
 }
 </div>
-<h2 id="closures">Closures <a href="#closures" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="closures">Closures <a href="functions-2.html#closures" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports closures too.
 This means that anonymous functions can inherit variables from the scope they were created in.
 They must do so explicitly by listing all variables that are inherited.</p>
@@ -638,7 +638,7 @@ print_counter() // 0
 i = 10
 print_counter() // 10
 </div>
-<h2 id="parameter-evaluation-order">Parameter evaluation order <a href="#parameter-evaluation-order" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="parameter-evaluation-order">Parameter evaluation order <a href="functions-2.html#parameter-evaluation-order" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>The evaluation order of the parameters of function calls is <em>NOT</em> guaranteed.
 Take for example the following program:</p>
 <div class="language-v">fn f(a1 int, a2 int, a3 int) {
@@ -673,9 +673,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.046Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.807Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

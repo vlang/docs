@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -498,8 +498,8 @@ fn print_backtrace() // prints backtraces on stderr
 Although the <code>print</code> functions take a string, V accepts other printable types too.
 See below for details.</p>
 </blockquote>
-<p>There is also a special built-in function called <a href="#dumping-expressions-at-runtime"><code>dump</code></a>.</p>
-<h2 id="println">println <a href="#println" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>There is also a special built-in function called <a href="builtin-functions.html#dumping-expressions-at-runtime"><code>dump</code></a>.</p>
+<h2 id="println">println <a href="builtin-functions.html#println" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>println</code> is a simple yet powerful builtin function, that can print anything:
 strings, numbers, arrays, maps, structs.</p>
 <div class="language-v">struct User {
@@ -512,9 +512,9 @@ println('hi') // &quot;hi&quot;
 println([1, 2, 3]) // &quot;[1, 2, 3]&quot;
 println(User{ name: 'Bob', age: 20 }) // &quot;User{name:'Bob', age:20}&quot;
 </div>
-<p>See also <a href="#array-methods">Array methods</a>.</p>
+<p>See also <a href="v-types.html#array-methods">Array methods</a>.</p>
 <p><a id='custom-print-of-types'></a></p>
-<h2 id="printing-custom-types">Printing custom types <a href="#printing-custom-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="printing-custom-types">Printing custom types <a href="builtin-functions.html#printing-custom-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>If you want to define a custom print value for your type, simply define a
 <code>str() string</code> method:</p>
 <div class="language-v">struct Color {
@@ -534,7 +534,7 @@ red := Color{
 }
 println(red)
 </div>
-<h2 id="dumping-expressions-at-runtime">Dumping expressions at runtime <a href="#dumping-expressions-at-runtime" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="dumping-expressions-at-runtime">Dumping expressions at runtime <a href="builtin-functions.html#dumping-expressions-at-runtime" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can dump/trace the value of any V expression using <code>dump(expr)</code>.
 For example, save this code sample as <code>factorial.v</code>, then run it with
 <code>v run factorial.v</code>:</p>
@@ -585,9 +585,9 @@ the expression itself, and the expression value.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.054Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.816Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,7 +482,7 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Other V Features</h1>
-<h2 id="inline-assembly">Inline assembly <a href="#inline-assembly" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="inline-assembly">Inline assembly <a href="other-v-features.html#inline-assembly" class="header-anchor" aria-hidden="true">#</a></h2>
 <!-- ignore because it doesn't pass fmt test (why?) -->
 <div class="language-v">a := 100
 b := 20
@@ -501,7 +501,7 @@ println('c: ${c}') // 120
 </div>
 <p>For more examples, see
 <a href="https://github.com/vlang/v/tree/master/vlib/v/slow_tests/assembly/asm_test.amd64.v">vlib/v/slow_tests/assembly/asm_test.amd64.v</a></p>
-<h2 id="hot-code-reloading">Hot code reloading <a href="#hot-code-reloading" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="hot-code-reloading">Hot code reloading <a href="other-v-features.html#hot-code-reloading" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">module main
 
 import time
@@ -540,7 +540,7 @@ so that new calls to those @[live] functions will be made to the newly loaded li
 from heap variables and from globals), allowing to tweak the code in the merged functions quickly.</p>
 <p>When there are more substantial changes (to data structures, or to functions that were not marked),
 you will have to restart the running app manually.</p>
-<h2 id="cross-platform-shell-scripts-in-v">Cross-platform shell scripts in V <a href="#cross-platform-shell-scripts-in-v" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="cross-platform-shell-scripts-in-v">Cross-platform shell scripts in V <a href="other-v-features.html#cross-platform-shell-scripts-in-v" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V can be used as an alternative to Bash to write deployment scripts, build scripts, etc.</p>
 <p>The advantage of using V for this, is the simplicity and predictability of the language, and
 cross-platform support. &quot;V scripts&quot; run on Unix-like systems, as well as on Windows.</p>
@@ -604,7 +604,7 @@ anywhere:
 <code>v run deploy.vsh</code></p>
 <p>On Unix-like platforms, the file can be run directly after making it executable using <code>chmod +x</code>:
 <code>./deploy.vsh</code></p>
-<h2 id="vsh-scripts-with-no-extension">Vsh scripts with no extension <a href="#vsh-scripts-with-no-extension" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="vsh-scripts-with-no-extension">Vsh scripts with no extension <a href="other-v-features.html#vsh-scripts-with-no-extension" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Whilst V does normally not allow vsh scripts without the designated file extension, there is a way
 to circumvent this rule and have a file with a fully custom name and shebang. Whilst this feature
 exists it is only recommended for specific usecases like scripts that will be put in the path and
@@ -636,9 +636,9 @@ instead use <code>#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run</code>.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.209Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:25.023Z">Last updated:
+                                        2024-05-06 12:00:25, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

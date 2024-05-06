@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -515,7 +515,7 @@ fn main() {
 </div>
 <p>To generate a <code>client.exe</code> executable do: <code>v -d as_client -o client.exe .</code>
 To generate a <code>server.exe</code> executable do: <code>v -d as_server -o server.exe .</code></p>
-<h2 id="compile-time-pseudo-variables">Compile time pseudo variables <a href="#compile-time-pseudo-variables" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="compile-time-pseudo-variables">Compile time pseudo variables <a href="conditional-compilation.html#compile-time-pseudo-variables" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V also gives your code access to a set of pseudo string variables,
 that are substituted at compile time:</p>
 <ul>
@@ -559,7 +559,7 @@ will be embedded into the executable, produced by compiling it. Also note that p
 is done with <code>print</code> and not <code>println</code>, to not add another new line, missing in the
 source code.</p>
 </blockquote>
-<h2 id="compile-time-reflection">Compile time reflection <a href="#compile-time-reflection" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="compile-time-reflection">Compile time reflection <a href="conditional-compilation.html#compile-time-reflection" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>$</code> is used as a prefix for compile time (also referred to as 'comptime') operations.</p>
 <p>Having built-in JSON support is nice, but V also allows you to create efficient
 serializers for any data format. V has compile time <code>if</code> and <code>for</code> constructs:</p>
@@ -583,7 +583,7 @@ fn main() {
 // name is of type string
 </div>
 <h3 id=".values"><h4 id="comptime-values">.values</h4> <a href="#.values" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>You can read <a href="#enums">Enum</a> values and their attributes.</p>
+<p>You can read <a href="type-declarations.html#enums">Enum</a> values and their attributes.</p>
 <pre><code class="language-V">enum Color {
     red @[RED] // first attribute
     blue @[BLUE] // second attribute
@@ -603,7 +603,7 @@ fn main() {
 // ['BLUE']
 </code></pre>
 <h3 id=".attributes"><h4 id="comptime-attrs">.attributes</h4> <a href="#.attributes" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>You can read <a href="#structs">Struct</a> attributes.</p>
+<p>You can read <a href="structs.html">Struct</a> attributes.</p>
 <pre><code class="language-V">@[COLOR]
 struct Foo {
     a int
@@ -624,7 +624,7 @@ fn main() {
 // }
 </code></pre>
 <h3 id=".variants"><h4 id="comptime-variants">.variants</h4> <a href="#.variants" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>You can read variant types from <a href="#sum-types">Sum type</a>.</p>
+<p>You can read variant types from <a href="type-declarations.html#sum-types">Sum type</a>.</p>
 <pre><code class="language-V">type MySum = int | string
 
 fn main() {
@@ -672,10 +672,10 @@ fn main() {
 // test returns int: 123
 // test2 returns string: foo
 </code></pre>
-<p>See <a href="/examples/compiletime/reflection.v"><code>examples/compiletime/reflection.v</code></a>
+<p>See <a href="https://github.com/vlang/v/blob/master/examples/compiletime/reflection.v"><code>examples/compiletime/reflection.v</code></a>
 for a more complete example.</p>
-<h2 id="compile-time-code">Compile time code <a href="#compile-time-code" class="header-anchor" aria-hidden="true">#</a></h2>
-<h3 id="$if-condition"><code>$if</code> condition <a href="#$if-condition" class="header-anchor" aria-hidden="true">#</a></h3>
+<h2 id="compile-time-code">Compile time code <a href="conditional-compilation.html#compile-time-code" class="header-anchor" aria-hidden="true">#</a></h2>
+<h3 id="$if-condition"><code>$if</code> condition <a href="conditional-compilation.html#$if-condition" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">fn main() {
     // Support for multiple conditions in one branch
     $if ios || android {
@@ -762,7 +762,7 @@ Full list of builtin options:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="$embed_file"><code>$embed_file</code> <a href="#$embed_file" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="$embed_file"><code>$embed_file</code> <a href="conditional-compilation.html#$embed_file" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">import os
 fn main() {
     embedded_file := $embed_file('v.png')
@@ -795,7 +795,7 @@ already compressed.</p>
 <p><code>$embed_file</code> returns
 <a href="https://modules.vlang.io/v.embed_file.html#EmbedFileData">EmbedFileData</a>
 which could be used to obtain the file contents as <code>string</code> or <code>[]u8</code>.</p>
-<h3 id="$tmpl-for-embedding-and-parsing-v-template-files"><code>$tmpl</code> for embedding and parsing V template files <a href="#$tmpl-for-embedding-and-parsing-v-template-files" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="$tmpl-for-embedding-and-parsing-v-template-files"><code>$tmpl</code> for embedding and parsing V template files <a href="conditional-compilation.html#$tmpl-for-embedding-and-parsing-v-template-files" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>V has a simple template language for text and html templates, and they can easily
 be embedded via <code>$tmpl('path/to/template.txt')</code>:</p>
 <div class="language-v">fn build() string {
@@ -832,7 +832,7 @@ numbers: [1, 2, 3]
 3
 </code></pre>
 <p>See more <a href="https://github.com/vlang/v/blob/master/vlib/v/TEMPLATES.md">details</a></p>
-<h3 id="$env"><code>$env</code> <a href="#$env" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="$env"><code>$env</code> <a href="conditional-compilation.html#$env" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">module main
 
 fn main() {
@@ -843,7 +843,7 @@ fn main() {
 <p>V can bring in values at compile time from environment variables.
 <code>$env('ENV_VAR')</code> can also be used in top-level <code>#flag</code> and <code>#include</code> statements:
 <code>#flag linux -I $env('JAVA_HOME')/include</code>.</p>
-<h3 id="$compile_error-and-$compile_warn"><code>$compile_error</code> and <code>$compile_warn</code> <a href="#$compile_error-and-$compile_warn" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="$compile_error-and-$compile_warn"><code>$compile_error</code> and <code>$compile_warn</code> <a href="conditional-compilation.html#$compile_error-and-$compile_warn" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>These two comptime functions are very useful for displaying custom errors/warnings during
 compile time.</p>
 <p>Both receive as their only argument a string literal that contains the message to display:</p>
@@ -866,29 +866,29 @@ x.v:4:5: error: Linux is not supported
     5 | }
     6 |
 </div>
-<h2 id="compile-time-types">Compile time types <a href="#compile-time-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="compile-time-types">Compile time types <a href="conditional-compilation.html#compile-time-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Compile time types group multiple types into a general higher-level type. This is useful in
 functions with generic parameters, where the input type must have a specific property, for example
 the <code>.len</code> attribute in arrays.</p>
 <p>V supports the following compile time types:</p>
 <ul>
-<li><code>$alias</code> =&gt; matches <a href="#type-aliases">Type aliases</a>.</li>
-<li><code>$array</code> =&gt; matches <a href="#arrays">Arrays</a> and <a href="#fixed-size-arrays">Fixed Size Arrays</a>.</li>
-<li><code>$array_dynamic</code> =&gt; matches <a href="#arrays">Arrays</a>, but not <a href="#fixed-size-arrays">Fixed Size Arrays</a>.</li>
-<li><code>$array_fixed</code> =&gt; matches <a href="#fixed-size-arrays">Fixed Size Arrays</a>, but not <a href="#arrays">Arrays</a></li>
-<li><code>$enum</code> =&gt; matches <a href="#enums">Enums</a>.</li>
+<li><code>$alias</code> =&gt; matches <a href="type-declarations.html#type-aliases">Type aliases</a>.</li>
+<li><code>$array</code> =&gt; matches <a href="v-types.html#arrays">Arrays</a> and <a href="v-types.html#fixed-size-arrays">Fixed Size Arrays</a>.</li>
+<li><code>$array_dynamic</code> =&gt; matches <a href="v-types.html#arrays">Arrays</a>, but not <a href="v-types.html#fixed-size-arrays">Fixed Size Arrays</a>.</li>
+<li><code>$array_fixed</code> =&gt; matches <a href="v-types.html#fixed-size-arrays">Fixed Size Arrays</a>, but not <a href="v-types.html#arrays">Arrays</a></li>
+<li><code>$enum</code> =&gt; matches <a href="type-declarations.html#enums">Enums</a>.</li>
 <li><code>$float</code> =&gt; matches <code>f32</code>, <code>f64</code> and float literals.</li>
-<li><code>$function</code> =&gt; matches <a href="#function-types">Function Types</a>.</li>
+<li><code>$function</code> =&gt; matches <a href="type-declarations.html#function-types">Function Types</a>.</li>
 <li><code>$int</code> =&gt; matches <code>int</code>, <code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>isize</code>, <code>usize</code>
 and integer literals.</li>
-<li><code>$interface</code> =&gt; matches <a href="#interfaces">Interfaces</a>.</li>
-<li><code>$map</code> =&gt; matches <a href="#maps">Maps</a>.</li>
-<li><code>$option</code> =&gt; matches <a href="#optionresult-types-and-error-handling">Option Types</a>.</li>
-<li><code>$struct</code> =&gt; matches <a href="#structs">Structs</a>.</li>
-<li><code>$sumtype</code> =&gt; matches <a href="#sum-types">Sum Types</a>.</li>
-<li><code>$string</code> =&gt; matches <a href="#strings">Strings</a>.</li>
+<li><code>$interface</code> =&gt; matches <a href="type-declarations.html#interfaces">Interfaces</a>.</li>
+<li><code>$map</code> =&gt; matches <a href="v-types.html#maps">Maps</a>.</li>
+<li><code>$option</code> =&gt; matches <a href="type-declarations.html#optionresult-types-and-error-handling">Option Types</a>.</li>
+<li><code>$struct</code> =&gt; matches <a href="structs.html">Structs</a>.</li>
+<li><code>$sumtype</code> =&gt; matches <a href="type-declarations.html#sum-types">Sum Types</a>.</li>
+<li><code>$string</code> =&gt; matches <a href="v-types.html#strings">Strings</a>.</li>
 </ul>
-<h2 id="environment-specific-files">Environment specific files <a href="#environment-specific-files" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="environment-specific-files">Environment specific files <a href="conditional-compilation.html#environment-specific-files" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>If a file has an environment-specific suffix, it will only be compiled for that environment.</p>
 <ul>
 <li><code>.js.v</code> =&gt; will be used only by the JS backend. These files can contain JS. code.</li>
@@ -944,7 +944,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
 <em>only</em> if you do NOT pass <code>-d customflag</code> to V.</p>
 </li>
 </ul>
-<p>See also <a href="#cross-compilation">Cross Compilation</a>.</p>
+<p>See also <a href="cross-compilation.html">Cross Compilation</a>.</p>
 
                         </main>
                         <footer>
@@ -966,9 +966,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.149Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.945Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

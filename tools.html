@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,7 +482,7 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Tools</h1>
-<h2 id="v-fmt">v fmt <a href="#v-fmt" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="v-fmt">v fmt <a href="tools.html#v-fmt" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You don't need to worry about formatting your code or setting style guidelines.
 <code>v fmt</code> takes care of that:</p>
 <pre><code class="language-shell">v fmt file.v
@@ -490,7 +490,7 @@
 <p>It's recommended to set up your editor, so that <code>v fmt -w</code> runs on every save.
 A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 <p>Always run <code>v fmt -w file.v</code> before pushing your code.</p>
-<h3 id="disabling-the-formatting-locally">Disabling the formatting locally <a href="#disabling-the-formatting-locally" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="disabling-the-formatting-locally">Disabling the formatting locally <a href="tools.html#disabling-the-formatting-locally" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>To disable formatting for a block of code, wrap it with <code>// vfmt off</code> and
 <code>// vfmt on</code> comments.</p>
 <pre><code class="language-bash">// Not affected by fmt
@@ -503,7 +503,7 @@ A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 // Affected by fmt
 ... your code here ...
 </code></pre>
-<h2 id="v-shader">v shader <a href="#v-shader" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="v-shader">v shader <a href="tools.html#v-shader" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can use GPU shaders with V graphical apps. You write your shaders in an
 <a href="https://github.com/vlang/v/blob/1d8ece7/examples/sokol/02_cubes_glsl/cube_glsl.glsl">annotated GLSL dialect</a>
 and use <code>v shader</code> to compile them for all supported target platforms.</p>
@@ -512,7 +512,7 @@ and use <code>v shader</code> to compile them for all supported target platforms
 <p>Currently you need to
 <a href="https://github.com/vlang/v/blob/c14c324/examples/sokol/02_cubes_glsl/cube_glsl.v#L43-L46">include a header and declare a glue function</a>
 before using the shader in your code.</p>
-<h2 id="profiling">Profiling <a href="#profiling" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="profiling">Profiling <a href="tools.html#profiling" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V has good support for profiling your programs: <code>v -profile profile.txt run file.v</code>
 That will produce a profile.txt file, which you can then analyze.</p>
 <p>The generated profile.txt file will have lines with 4 columns:
@@ -552,9 +552,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.131Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.921Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

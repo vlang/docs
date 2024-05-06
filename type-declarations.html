@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,11 +482,11 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Type Declarations</h1>
-<h2 id="type-aliases">Type aliases <a href="#type-aliases" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="type-aliases">Type aliases <a href="type-declarations.html#type-aliases" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>To define a new type <code>NewType</code> as an alias for <code>ExistingType</code>,
 do <code>type NewType = ExistingType</code>.<br/>
-This is a special case of a <a href="#sum-types">sum type</a> declaration.</p>
-<h2 id="enums">Enums <a href="#enums" class="header-anchor" aria-hidden="true">#</a></h2>
+This is a special case of a <a href="type-declarations.html#sum-types">sum type</a> declaration.</p>
+<h2 id="enums">Enums <a href="type-declarations.html#enums" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">enum Color as u8 {
     red
     green
@@ -590,7 +590,7 @@ println(Cycle.one.str())
 two
 one
 </code></pre>
-<h2 id="function-types">Function Types <a href="#function-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="function-types">Function Types <a href="type-declarations.html#function-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can use type aliases for naming specific function signatures - for
 example:</p>
 <div class="language-v">type Filter = fn (string) string
@@ -632,7 +632,7 @@ local variable:</p>
 </div>
 <p>You can see the complete
 <a href="https://github.com/vlang/v/tree/master/examples/function_types.v">example here</a>.</p>
-<h2 id="interfaces">Interfaces <a href="#interfaces" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="interfaces">Interfaces <a href="type-declarations.html#interfaces" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">// interface-example.1
 struct Dog {
     breed string
@@ -668,7 +668,7 @@ fn main() {
     }
 }
 </div>
-<h3 id="implement-an-interface">Implement an interface <a href="#implement-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="implement-an-interface">Implement an interface <a href="type-declarations.html#implement-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>A type implements an interface by implementing its methods and fields.
 There is no explicit declaration of intent, no &quot;implements&quot; keyword.</p>
 <p>An interface can have a <code>mut:</code> section. Implementing types will need
@@ -713,7 +713,7 @@ fn fn1(s Foo) {
 //      println(s.write('Foo'))
 // }
 </div>
-<h3 id="casting-an-interface">Casting an interface <a href="#casting-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="casting-an-interface">Casting an interface <a href="type-declarations.html#casting-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>We can test the underlying type of an interface using dynamic cast operators.</p>
 <blockquote class="tip">
 <p>[!NOTE]
@@ -776,8 +776,8 @@ fn main() {
     }
 }
 </div>
-<p>For more information, see <a href="#dynamic-casts">Dynamic casts</a>.</p>
-<h3 id="interface-method-definitions">Interface method definitions <a href="#interface-method-definitions" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>For more information, see <a href="type-declarations.html#dynamic-casts">Dynamic casts</a>.</p>
+<h3 id="interface-method-definitions">Interface method definitions <a href="type-declarations.html#interface-method-definitions" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Also unlike Go, an interface can have its own methods, similar to how
 structs can have their methods. These 'interface methods' do not have
 to be implemented, by structs which implement that interface.
@@ -825,7 +825,7 @@ fn main() {
     // }
 }
 </div>
-<h3 id="embedded-interface">Embedded interface <a href="#embedded-interface" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="embedded-interface">Embedded interface <a href="type-declarations.html#embedded-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Interfaces support embedding, just like structs:</p>
 <div class="language-v">pub interface Reader {
 mut:
@@ -846,7 +846,7 @@ pub interface ReaderWriter {
     Writer
 }
 </div>
-<h2 id="sum-types">Sum types <a href="#sum-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="sum-types">Sum types <a href="type-declarations.html#sum-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>A sum type instance can hold a value of several different types. Use the <code>type</code>
 keyword to declare a sum type:</p>
 <div class="language-v">struct Moon {}
@@ -891,7 +891,7 @@ fn main() {
     println(sum(tree)) // 0.2 + 0.3 + 0.4 + 0.5 = 1.4
 }
 </div>
-<h3 id="dynamic-casts">Dynamic casts <a href="#dynamic-casts" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="dynamic-casts">Dynamic casts <a href="type-declarations.html#dynamic-casts" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>To check whether a sum type instance holds a certain type, use <code>sum is Type</code>.
 To cast a sum type to one of its variants you can use <code>sum as Type</code>:</p>
 <div class="language-v">struct Moon {}
@@ -919,7 +919,7 @@ fn main() {
 </div>
 <p><code>as</code> will panic if <code>w</code> doesn't hold a <code>Mars</code> instance.
 A safer way is to use a smart cast.</p>
-<h3 id="smart-casting">Smart casting <a href="#smart-casting" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="smart-casting">Smart casting <a href="type-declarations.html#smart-casting" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">if w is Mars {
     assert typeof(w).name == 'Mars'
     if w.dust_storm() {
@@ -942,7 +942,7 @@ That's why you have to declare a <code>mut</code> before the <code>is</code> exp
 <blockquote class="tip">
 <p>This works for both simple variables and complex expressions like <code>user.name</code></p>
 </blockquote>
-<h3 id="matching-sum-types">Matching sum types <a href="#matching-sum-types" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="matching-sum-types">Matching sum types <a href="type-declarations.html#matching-sum-types" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can also use <code>match</code> to determine the variant:</p>
 <div class="language-v">struct Moon {}
 
@@ -990,7 +990,7 @@ fn pass_time(w World) {
     }
 }
 </div>
-<h2 id="optionresult-types-and-error-handling">Option/Result types and error handling <a href="#optionresult-types-and-error-handling" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="optionresult-types-and-error-handling">Option/Result types and error handling <a href="type-declarations.html#optionresult-types-and-error-handling" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Option types are for types which may represent <code>none</code>. Result types may
 represent an error returned from a function.</p>
 <p><code>Option</code> types are declared by prepending <code>?</code> to the type name: <code>?Type</code>.
@@ -1052,7 +1052,7 @@ to the <code>error()</code> function.</p>
     return
 }
 </div>
-<h3 id="handling-optionsresults">Handling options/results <a href="#handling-optionsresults" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="handling-optionsresults">Handling options/results <a href="type-declarations.html#handling-optionsresults" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>There are four ways of handling an option/result. The first method is to
 propagate the error:</p>
 <div class="language-v">import net.http
@@ -1113,7 +1113,7 @@ if resp := http.get('https://google.com') {
 </div>
 <p>Above, <code>http.get</code> returns a <code>!http.Response</code>. <code>resp</code> is only in scope for the first
 <code>if</code> branch. <code>err</code> is only in scope for the <code>else</code> branch.</p>
-<h2 id="custom-error-types">Custom error types <a href="#custom-error-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="custom-error-types">Custom error types <a href="type-declarations.html#custom-error-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V gives you the ability to define custom error types through the <code>IError</code> interface.
 The interface requires two methods: <code>msg() string</code> and <code>code() int</code>. Every type that
 implements these methods can be used as an error.</p>
@@ -1141,7 +1141,7 @@ fn main() {
     try_open('/tmp') or { panic(err) }
 }
 </div>
-<h2 id="generics">Generics <a href="#generics" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="generics">Generics <a href="type-declarations.html#generics" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">
 struct Repo[T] {
     db DB
@@ -1224,9 +1224,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.070Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.839Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

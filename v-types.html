@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,7 +482,7 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">V Types</h1>
-<h2 id="primitive-types">Primitive types <a href="#primitive-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="primitive-types">Primitive types <a href="v-types.html#primitive-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">bool
 
 string
@@ -534,7 +534,7 @@ b := 14.7      // b is of type `f64` - default for float literal
 c := u + a     // c is of type `int` - automatic promotion of `u`'s value
 d := b + x     // d is of type `f64` - automatic promotion of `x`'s value
 </div>
-<h2 id="strings">Strings <a href="#strings" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="strings">Strings <a href="v-types.html#strings" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">name := 'Bob'
 assert name.len == 3       // will print 3
 assert name[0] == u8(66) // indexing gives a byte, u8(66) == `B`
@@ -602,7 +602,7 @@ assert '-0b1111_0000_1010'.int() == -3850
 </div>
 <p>For more advanced <code>string</code> processing and conversions, refer to the
 <a href="https://modules.vlang.io/strconv.html">vlib/strconv</a> module.</p>
-<h3 id="string-interpolation">String interpolation <a href="#string-interpolation" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="string-interpolation">String interpolation <a href="v-types.html#string-interpolation" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Basic interpolation syntax is pretty simple - use <code>${</code> before a variable name and <code>}</code> after. The
 variable will be converted to a string and embedded into the literal:</p>
 <div class="language-v">name := 'Bob'
@@ -676,7 +676,7 @@ println('[${10.0000:.2f}]') // do show the 0s at the end, even though they do no
 <div class="language-v">println('[${'abc':3r}]') // [abcabcabc]
 println('[${'abc':3R}]') // [ABCABCABC]
 </div>
-<h3 id="string-operators">String operators <a href="#string-operators" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="string-operators">String operators <a href="v-types.html#string-operators" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">name := 'Bob'
 bobby := name + 'by' // + is used to concatenate strings
 println(bobby) // &quot;Bobby&quot;
@@ -703,7 +703,7 @@ println('age = ${age}')
 <p>See all methods of <a href="https://modules.vlang.io/index.html#string">string</a>
 and related modules <a href="https://modules.vlang.io/strings.html">strings</a>,
 <a href="https://modules.vlang.io/strconv.html">strconv</a>.</p>
-<h2 id="runes">Runes <a href="#runes" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="runes">Runes <a href="v-types.html#runes" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>A <code>rune</code> represents a single Unicode character and is an alias for <code>u32</code>.
 To denote them, use <code>`</code> (backticks) :</p>
 <div class="language-v">rocket := `🚀`
@@ -740,7 +740,7 @@ assert 'aloha!'[0] == `a`
 hello_runes := hello.runes() // [`H`, `e`, `l`, `l`, `o`, ` `, `W`, `o`, `r`, `l`, `d`, ` `, `👋`]
 assert hello_runes.string() == hello
 </div>
-<h2 id="numbers">Numbers <a href="#numbers" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="numbers">Numbers <a href="v-types.html#numbers" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">a := 123
 </div>
 <p>This will assign the value of 123 to <code>a</code>. By default <code>a</code> will have the
@@ -776,7 +776,7 @@ will have the type of <code>f64</code>.</p>
 f1 := 123e-2 // 1.23
 f2 := 456e+2 // 45600
 </div>
-<h2 id="arrays">Arrays <a href="#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="arrays">Arrays <a href="v-types.html#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>An array is a collection of data elements of the same type. An array literal is a
 list of expressions surrounded by square brackets. An individual element can be
 accessed using an <em>index</em> expression. Indexes start from <code>0</code>:</p>
@@ -804,18 +804,18 @@ names &lt;&lt; 'Peter'
 names &lt;&lt; 'Sam'
 // names &lt;&lt; 10  &lt;-- This will not compile. `names` is an array of strings.
 </div>
-<p><code>val in array</code> returns true if the array contains <code>val</code>. See <a href="#in-operator"><code>in</code> operator</a>.</p>
+<p><code>val in array</code> returns true if the array contains <code>val</code>. See <a href="statements-&-expressions.html#in-operator"><code>in</code> operator</a>.</p>
 <div class="language-v">names := ['John', 'Peter', 'Sam']
 println('Alex' in names) // &quot;false&quot;
 </div>
-<h3 id="array-fields">Array Fields <a href="#array-fields" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="array-fields">Array Fields <a href="v-types.html#array-fields" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>There are two fields that control the &quot;size&quot; of an array:</p>
 <ul>
 <li><code>len</code>: <em>length</em> - the number of pre-allocated and initialized elements in the array</li>
 <li><code>cap</code>: <em>capacity</em> - the amount of memory space which has been reserved for elements,
 but not initialized or counted as elements. The array can grow up to this size without
 being reallocated. Usually, V takes care of this field automatically but there are
-cases where the user may want to do manual optimizations (see <a href="#array-initialization">below</a>).</li>
+cases where the user may want to do manual optimizations (see <a href="v-types.html#array-initialization">below</a>).</li>
 </ul>
 <div class="language-v">mut nums := [1, 2, 3]
 println(nums.len) // &quot;3&quot;
@@ -824,12 +824,12 @@ nums = [] // The array is now empty
 println(nums.len) // &quot;0&quot;
 </div>
 <p><code>data</code> is a field (of type <code>voidptr</code>) with the address of the first
-element. This is for low-level <a href="#memory-unsafe-code"><code>unsafe</code></a> code.</p>
+element. This is for low-level <a href="memory-unsafe-code.html"><code>unsafe</code></a> code.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 Fields are read-only and can't be modified by the user.</p>
 </blockquote>
-<h3 id="array-initialization">Array Initialization <a href="#array-initialization" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="array-initialization">Array Initialization <a href="v-types.html#array-initialization" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The type of an array is determined by the first element:</p>
 <ul>
 <li><code>[1, 2, 3]</code> is an array of ints (<code>[]int</code>).</li>
@@ -864,7 +864,7 @@ for i in 0 .. 1000 {
 </div>
 <blockquote class="tip">
 <p>[!NOTE]
-The above code uses a <a href="#range-for">range <code>for</code></a> statement.</p>
+The above code uses a <a href="statements-&-expressions.html#range-for">range <code>for</code></a> statement.</p>
 </blockquote>
 <p>You can initialize the array by accessing the <code>index</code> variable which gives
 the index as shown here:</p>
@@ -874,7 +874,7 @@ assert count == [0, 1, 2, 3]
 mut square := []int{len: 6, init: index * index}
 // square == [0, 1, 4, 9, 16, 25]
 </div>
-<h3 id="array-types">Array Types <a href="#array-types" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="array-types">Array Types <a href="v-types.html#array-types" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>An array can be of these types:</p>
 <table>
 <thead>
@@ -955,7 +955,7 @@ mut square := []int{len: 6, init: index * index}
 </tbody>
 </table>
 <p><strong>Example Code:</strong></p>
-<p>This example uses <a href="#structs">Structs</a> and <a href="#sum-types">Sum Types</a> to create an array
+<p>This example uses <a href="structs.html">Structs</a> and <a href="type-declarations.html#sum-types">Sum Types</a> to create an array
 which can handle different types (e.g. Points, Lines) of data elements.</p>
 <div class="language-v">struct Point {
     x int
@@ -992,7 +992,7 @@ object_list: [ObjectSumType(Point{
 })]
 */
 </div>
-<h3 id="multidimensional-arrays">Multidimensional Arrays <a href="#multidimensional-arrays" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="multidimensional-arrays">Multidimensional Arrays <a href="v-types.html#multidimensional-arrays" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Arrays can have more than one dimension.</p>
 <p>2d array example:</p>
 <div class="language-v">mut a := [][]int{len: 2, init: []int{len: 3}}
@@ -1004,7 +1004,7 @@ println(a) // [[0, 2, 0], [0, 0, 0]]
 a[0][1][1] = 2
 println(a) // [[[0, 0], [0, 2], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
 </div>
-<h3 id="array-methods">Array methods <a href="#array-methods" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="array-methods">Array methods <a href="v-types.html#array-methods" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>All arrays can be easily printed with <code>println(arr)</code> and converted to a string
 with <code>s := arr.str()</code>.</p>
 <p>Copying the data from the array is done with <code>.clone()</code>:</p>
@@ -1063,7 +1063,7 @@ using <code>joiner</code> string as a separator</li>
 </ul>
 <p>See all methods of <a href="https://modules.vlang.io/index.html#array">array</a></p>
 <p>See also <a href="https://modules.vlang.io/arrays.html">vlib/arrays</a>.</p>
-<h4 id="sorting-arrays">Sorting Arrays <a href="#sorting-arrays" class="header-anchor" aria-hidden="true">#</a></h4>
+<h4 id="sorting-arrays">Sorting Arrays <a href="v-types.html#sorting-arrays" class="header-anchor" aria-hidden="true">#</a></h4>
 <p>Sorting arrays of all kinds is very simple and intuitive. Special variables <code>a</code> and <code>b</code>
 are used when providing a custom sorting condition.</p>
 <div class="language-v">mut numbers := [1, 3, 2]
@@ -1112,7 +1112,7 @@ custom_sort_fn := fn (a &amp;User, b &amp;User) int {
 }
 users.sort_with_compare(custom_sort_fn)
 </div>
-<h3 id="array-slices">Array Slices <a href="#array-slices" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="array-slices">Array Slices <a href="v-types.html#array-slices" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>A slice is a part of a parent array. Initially it refers to the elements
 between two indices separated by a <code>..</code> operator. The right-side index must
 be greater than or equal to the left side index.</p>
@@ -1132,7 +1132,7 @@ array_2 &lt;&lt; array_1[..3]
 println(array_2) // `[0, 1, 3, 5, 4]`
 </div>
 <p>A slice is always created with the smallest possible capacity <code>cap == len</code> (see
-<a href="#array-initialization"><code>cap</code> above</a>) no matter what the capacity or length
+<a href="v-types.html#array-initialization"><code>cap</code> above</a>) no matter what the capacity or length
 of the parent array is. As a result it is immediately reallocated and copied to another
 memory location when the size increases thus becoming independent from the
 parent array (<em>copy on grow</em>). In particular pushing elements to a slice
@@ -1166,7 +1166,7 @@ b[0] = 7 // Note: `b[0]` is NOT referring to `a[2]`, as it would have been, with
 println(a) // [0, 1, 2, 3, 4, 5]
 println(b) // [7, 3]
 </div>
-<h4 id="slices-with-negative-indexes">Slices with negative indexes <a href="#slices-with-negative-indexes" class="header-anchor" aria-hidden="true">#</a></h4>
+<h4 id="slices-with-negative-indexes">Slices with negative indexes <a href="v-types.html#slices-with-negative-indexes" class="header-anchor" aria-hidden="true">#</a></h4>
 <p>V supports array and string slices with negative indexes.
 Negative indexing starts from the end of the array towards the start,
 for example <code>-3</code> is equal to <code>array.len - 3</code>.
@@ -1186,7 +1186,7 @@ println(a#[-20..-10]) // []
 println(a#[20..10]) // []
 println(a#[20..30]) // []
 </div>
-<h3 id="array-method-chaining">Array method chaining <a href="#array-method-chaining" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="array-method-chaining">Array method chaining <a href="v-types.html#array-method-chaining" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can chain the calls of array methods like <code>.filter()</code> and <code>.map()</code> and use
 the <code>it</code> built-in variable to achieve a classic <code>map/filter</code> functional paradigm:</p>
 <div class="language-v">// using filter, map and negatives array slices
@@ -1194,7 +1194,7 @@ files := ['pippo.jpg', '01.bmp', '_v.txt', 'img_02.jpg', 'img_01.JPG']
 filtered := files.filter(it#[-4..].to_lower() == '.jpg').map(it.to_upper())
 // ['PIPPO.JPG', 'IMG_02.JPG', 'IMG_01.JPG']
 </div>
-<h2 id="fixed-size-arrays">Fixed size arrays <a href="#fixed-size-arrays" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="fixed-size-arrays">Fixed size arrays <a href="v-types.html#fixed-size-arrays" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V also supports arrays with fixed size. Unlike ordinary arrays, their
 length is constant. You cannot append elements to them, nor shrink them.
 You can only modify their elements in place.</p>
@@ -1219,7 +1219,7 @@ println(typeof(anums).name) // =&gt; []int
 </div>
 <p>Note that slicing will cause the data of the fixed size array to be copied to
 the newly created ordinary array.</p>
-<h2 id="maps">Maps <a href="#maps" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="maps">Maps <a href="v-types.html#maps" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">mut m := map[string]int{} // a map with `string` keys and `int` values
 m['one'] = 1
 m['two'] = 2
@@ -1289,7 +1289,7 @@ guaranteed language feature. This may change in the future.</p>
 <a href="https://modules.vlang.io/index.html#map">map</a>
 and
 <a href="https://modules.vlang.io/maps.html">maps</a>.</p>
-<h2 id="map-update-syntax">Map update syntax <a href="#map-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="map-update-syntax">Map update syntax <a href="v-types.html#map-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>As with structs, V lets you initialise a map with an update applied on top of
 another map:</p>
 <div class="language-v">const base_map = {
@@ -1333,9 +1333,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:45.961Z">Last updated:
-                                        2024-05-06 11:18:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.680Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

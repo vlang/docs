@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -496,9 +496,9 @@ println(p.x) // Struct fields are accessed using a dot
 p = Point{10, 20}
 assert p.x == 10
 </div>
-<h2 id="heap-structs">Heap structs <a href="#heap-structs" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="heap-structs">Heap structs <a href="structs.html#heap-structs" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Structs are allocated on the stack. To allocate a struct on the heap
-and get a <a href="#references">reference</a> to it, use the <code>&amp;</code> prefix:</p>
+and get a <a href="references.html">reference</a> to it, use the <code>&amp;</code> prefix:</p>
 <div class="language-v">struct Point {
     x int
     y int
@@ -508,7 +508,7 @@ p := &amp;Point{10, 10}
 // References have the same syntax for accessing fields
 println(p.x)
 </div>
-<p>The type of <code>p</code> is <code>&amp;Point</code>. It's a <a href="#references">reference</a> to <code>Point</code>.
+<p>The type of <code>p</code> is <code>&amp;Point</code>. It's a <a href="references.html">reference</a> to <code>Point</code>.
 References are similar to Go pointers and C++ references.</p>
 <div class="language-v">struct Foo {
 mut:
@@ -533,8 +533,8 @@ assert c.x == 2
 println(fc) // Foo{ x: 2 }
 println(c) // &amp;Foo{ x: 2 } // Note `&amp;` prefixed.
 </div>
-<p>see also <a href="#stack-and-heap">Stack and Heap</a></p>
-<h2 id="default-field-values">Default field values <a href="#default-field-values" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>see also <a href="memory-management.html#stack-and-heap">Stack and Heap</a></p>
+<h2 id="default-field-values">Default field values <a href="structs.html#default-field-values" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">struct Foo {
     n   int    // n is 0 by default
     s   string // s is '' by default
@@ -544,20 +544,20 @@ println(c) // &amp;Foo{ x: 2 } // Note `&amp;` prefixed.
 </div>
 <p>All struct fields are zeroed by default during the creation of the struct.
 Array and map fields are allocated.
-In case of reference value, see <a href="#structs-with-reference-fields">here</a>.</p>
+In case of reference value, see <a href="structs-with-reference-fields.html">here</a>.</p>
 <p>It's also possible to define custom default values.</p>
-<h2 id="required-fields">Required fields <a href="#required-fields" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="required-fields">Required fields <a href="structs.html#required-fields" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">struct Foo {
     n int @[required]
 }
 </div>
-<p>You can mark a struct field with the <code>[required]</code> <a href="#attributes">attribute</a>, to tell V that
+<p>You can mark a struct field with the <code>[required]</code> <a href="attributes.html">attribute</a>, to tell V that
 that field must be initialized when creating an instance of that struct.</p>
 <p>This example will not compile, since the field <code>n</code> isn't explicitly initialized:</p>
 <div class="language-v">_ = Foo{}
 </div>
 <p><a id='short-struct-initialization-syntax'></a></p>
-<h2 id="short-struct-literal-syntax">Short struct literal syntax <a href="#short-struct-literal-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="short-struct-literal-syntax">Short struct literal syntax <a href="structs.html#short-struct-literal-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">struct Point {
     x int
     y int
@@ -579,7 +579,7 @@ println(points) // [Point{x: 10, y: 20}, Point{x: 20, y: 30}, Point{x: 40,y: 50}
 </div>
 <p>Omitting the struct name also works for returning a struct literal or passing one
 as a function argument.</p>
-<h2 id="struct-update-syntax">Struct update syntax <a href="#struct-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="struct-update-syntax">Struct update syntax <a href="structs.html#struct-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V makes it easy to return a modified version of an object:</p>
 <div class="language-v">struct User {
     name          string
@@ -601,7 +601,7 @@ mut user := User{
 user = register(user)
 println(user)
 </div>
-<h2 id="trailing-struct-literal-arguments">Trailing struct literal arguments <a href="#trailing-struct-literal-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="trailing-struct-literal-arguments">Trailing struct literal arguments <a href="structs.html#trailing-struct-literal-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V doesn't have default function arguments or named arguments, for that trailing struct
 literal syntax can be used instead:</p>
 <div class="language-v">@[params]
@@ -643,7 +643,7 @@ has its default value, otherwise the compiler will produce this error message,
 when you call the function with no parameters:
 <code>error: expected 1 arguments, but got 0</code>.</p>
 </blockquote>
-<h2 id="access-modifiers">Access modifiers <a href="#access-modifiers" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="access-modifiers">Access modifiers <a href="structs.html#access-modifiers" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Struct fields are private and immutable by default (making structs immutable as well).
 Their access modifiers can be changed with
 <code>pub</code> and <code>mut</code>. In total, there are 5 possible options:</p>
@@ -661,10 +661,10 @@ __global:
     f int // public and mutable both inside and outside parent module
 }
 </div>
-<p>Private fields are available only inside the same <a href="#modules">module</a>, any attempt
+<p>Private fields are available only inside the same <a href="modules.html">module</a>, any attempt
 to directly access them from another module will cause an error during compilation.
 Public immutable fields are readonly everywhere.</p>
-<h2 id="anonymous-structs">Anonymous structs <a href="#anonymous-structs" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="anonymous-structs">Anonymous structs <a href="structs.html#anonymous-structs" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports anonymous structs: structs that don't have to be declared separately
 with a struct name.</p>
 <div class="language-v">struct Book {
@@ -685,7 +685,7 @@ book := Book{
 assert book.author.name == 'Samantha Black'
 assert book.author.age == 24
 </div>
-<h2 id="static-type-methods">Static type methods <a href="#static-type-methods" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="static-type-methods">Static type methods <a href="structs.html#static-type-methods" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V now supports static type methods like <code>User.new()</code>. These are defined on a struct via
 <code>fn [Type name].[function name]</code> and allow to organize all functions related to a struct:</p>
 <div class="language-v">struct User {}
@@ -703,7 +703,7 @@ instead.</p>
 Note, that these are not constructors, but simple functions. V doesn't have constructors or
 classes.</p>
 </blockquote>
-<h2 id="[noinit]-structs"><code>[noinit]</code> structs <a href="#[noinit]-structs" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="[noinit]-structs"><code>[noinit]</code> structs <a href="structs.html#[noinit]-structs" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports <code>[noinit]</code> structs, which are structs that cannot be initialised outside the module
 they are defined in. They are either meant to be used internally or they can be used externally
 through <em>factory functions</em>.</p>
@@ -741,7 +741,7 @@ fn main() {
     println(info)
 }
 </div>
-<h2 id="methods">Methods <a href="#methods" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="methods">Methods <a href="structs.html#methods" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">struct User {
     age int
 }
@@ -766,7 +766,7 @@ Methods must be in the same module as the receiver type.</p>
 <p>In this example, the <code>can_register</code> method has a receiver of type <code>User</code> named <code>u</code>.
 The convention is not to use receiver names like <code>self</code> or <code>this</code>,
 but a short, preferably one letter long, name.</p>
-<h2 id="embedded-structs">Embedded structs <a href="#embedded-structs" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="embedded-structs">Embedded structs <a href="structs.html#embedded-structs" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports embedded structs.</p>
 <div class="language-v">struct Size {
 mut:
@@ -849,9 +849,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.034Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.792Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

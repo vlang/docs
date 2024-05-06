@@ -118,7 +118,7 @@
 
                             <a class="link active" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -498,12 +498,12 @@ fn sub(x int, y int) int {
 <p>Again, the type comes after the argument's name.</p>
 <p>Just like in Go and C, functions cannot be overloaded.
 This simplifies the code and improves maintainability and readability.</p>
-<h2 id="hoistings">Hoistings <a href="#hoistings" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="hoisting">Hoisting <a href="functions.html#hoisting" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Functions can be used before their declaration:
 <code>add</code> and <code>sub</code> are declared after <code>main</code>, but can still be called from <code>main</code>.
 This is true for all declarations in V and eliminates the need for header files
 or thinking about the order of files and declarations.</p>
-<h2 id="returning-multiple-values">Returning multiple values <a href="#returning-multiple-values" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="returning-multiple-values">Returning multiple values <a href="functions.html#returning-multiple-values" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">fn foo() (int, int) {
     return 2, 3
 }
@@ -534,9 +534,9 @@ c, _ := foo() // ignore values using `_`
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:45.930Z">Last updated:
-                                        2024-05-06 11:18:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.645Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 
@@ -570,7 +570,7 @@ c, _ := foo() // ignore values using `_`
                                 <ul>
 
                                     <li class="active">
-                                        <a href="#hoistings">Hoistings</a>
+                                        <a href="#hoisting">Hoisting</a>
                                     </li>
                                     <li class="active">
                                         <a href="#returning-multiple-values">Returning multiple values</a>

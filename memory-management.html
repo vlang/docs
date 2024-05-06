@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -494,7 +494,7 @@ heavy GC tracing everything or expensive RC for each object.</p>
 <p>For developers willing to have more low level control, memory can be managed manually with
 <code>-gc none</code>.</p>
 <p>Arena allocation is available via v <code>-prealloc</code>.</p>
-<h2 id="control">Control <a href="#control" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="control">Control <a href="memory-management.html#control" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can take advantage of V's autofree engine and define a <code>free()</code> method on custom
 data types:</p>
 <div class="language-v">struct MyType {}
@@ -509,7 +509,7 @@ fn (data &amp;MyType) free() {
 <p>Autofree can be enabled with an <code>-autofree</code> flag.</p>
 <p>For developers willing to have more low level control, autofree can be disabled with
 <code>-manualfree</code>, or by adding a <code>[manualfree]</code> on each function that wants manage its
-memory manually. (See <a href="#attributes">attributes</a>).</p>
+memory manually. (See <a href="attributes.html">attributes</a>).</p>
 <blockquote class="tip">
 <p>[!NOTE]
 Autofree is still WIP. Until it stabilises and becomes the default, please
@@ -552,8 +552,8 @@ fn test() []int {
     return numbers2
 }
 </div>
-<h2 id="stack-and-heap">Stack and Heap <a href="#stack-and-heap" class="header-anchor" aria-hidden="true">#</a></h2>
-<h3 id="stack-and-heap-basics">Stack and Heap Basics <a href="#stack-and-heap-basics" class="header-anchor" aria-hidden="true">#</a></h3>
+<h2 id="stack-and-heap">Stack and Heap <a href="memory-management.html#stack-and-heap" class="header-anchor" aria-hidden="true">#</a></h2>
+<h3 id="stack-and-heap-basics">Stack and Heap Basics <a href="memory-management.html#stack-and-heap-basics" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Like with most other programming languages there are two locations where data can
 be stored:</p>
 <ul>
@@ -569,7 +569,7 @@ calls that delegate the administrative tasks to the OS. This means that they can
 remain valid across several function calls, however, the administration is
 expensive.</li>
 </ul>
-<h3 id="v's-default-approach">V's default approach <a href="#v's-default-approach" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="v's-default-approach">V's default approach <a href="memory-management.html#v's-default-approach" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Due to performance considerations V tries to put objects on the stack if possible
 but allocates them on the heap when obviously necessary. Example:</p>
 <div class="language-v">struct MyStruct {
@@ -634,7 +634,7 @@ fn (mut a MyStruct) f(b &amp;MyStruct) int {
 these references are leaving <code>main()</code>. However the <em>lifetime</em> of these
 references lies inside the scope of <code>main()</code> so <code>q</code> and <code>w</code> are allocated
 on the stack.</p>
-<h3 id="manual-control-for-stack-and-heap">Manual Control for Stack and Heap <a href="#manual-control-for-stack-and-heap" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="manual-control-for-stack-and-heap">Manual Control for Stack and Heap <a href="memory-management.html#manual-control-for-stack-and-heap" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>In the last example the V compiler could put <code>q</code> and <code>w</code> on the stack
 because it assumed that in the call <code>q.f(&amp;w)</code> these references were only
 used for reading and modifying the referred values – and not to pass the
@@ -678,7 +678,7 @@ as <code>g()</code> is running but <code>r</code> is used in <code>main()</code>
 the compiler would complain about the assignment in <code>f()</code> because <code>s</code> <em>&quot;might
 refer to an object stored on stack&quot;</em>. The assumption made in <code>g()</code> that the call
 <code>r.f(&amp;s)</code> would only borrow the reference to <code>s</code> is wrong.</p>
-<p>A solution to this dilemma is the <code>[heap]</code> <a href="#attributes">attribute</a> at the declaration of
+<p>A solution to this dilemma is the <code>[heap]</code> <a href="attributes.html">attribute</a> at the declaration of
 <code>struct MyStruct</code>. It instructs the compiler to <em>always</em> allocate <code>MyStruct</code>-objects
 on the heap. This way the reference to <code>s</code> remains valid even after <code>g()</code> returns.
 The compiler takes into consideration that <code>MyStruct</code> objects are always heap
@@ -792,9 +792,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.118Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.906Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

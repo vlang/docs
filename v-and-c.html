@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,7 +482,7 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">V and C</h1>
-<h2 id="calling-c-from-v">Calling C from V <a href="#calling-c-from-v" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="calling-c-from-v">Calling C from V <a href="v-and-c.html#calling-c-from-v" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><strong>Example</strong></p>
 <div class="language-v">#flag freebsd -I/usr/local/include -L/usr/local/lib
 #flag -lsqlite3
@@ -549,11 +549,11 @@ fn main() {
     C.sqlite3_close(db)
 }
 </div>
-<h2 id="calling-v-from-c">Calling V from C <a href="#calling-v-from-c" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="calling-v-from-c">Calling V from C <a href="v-and-c.html#calling-v-from-c" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Since V can compile to C, calling V code from C is very easy, once you know how.</p>
 <p>Use <code>v -o file.c your_file.v</code> to generate a C file, corresponding to the V code.</p>
-<p>More details in <a href="../examples/call_v_from_c">call_v_from_c example</a>.</p>
-<h2 id="passing-c-compilation-flags">Passing C compilation flags <a href="#passing-c-compilation-flags" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>More details in <a href="https://github.com/vlang/v/blob/master/doc/../examples/call_v_from_c">call_v_from_c example</a>.</p>
+<h2 id="passing-c-compilation-flags">Passing C compilation flags <a href="v-and-c.html#passing-c-compilation-flags" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Add <code>#flag</code> directives to the top of your V files to provide C compilation flags like:</p>
 <ul>
 <li><code>-I</code> for adding C include files search paths</li>
@@ -604,7 +604,7 @@ to handle other cases.</p>
     #pkgconfig mariadb
 }
 </div>
-<h2 id="including-c-code">Including C code <a href="#including-c-code" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="including-c-code">Including C code <a href="v-and-c.html#including-c-code" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can also include C code directly in your V module.
 For example, let's say that your C code is located in a folder named 'c' inside your module folder.
 Then:</p>
@@ -645,7 +645,7 @@ You can see a complete minimal example for using C code in a V wrapper module he
 <a href="https://github.com/vlang/v/tree/master/vlib/v/tests/project_with_c_code">project_with_c_code</a>.
 Another example, demonstrating passing structs from C to V and back again:
 <a href="https://github.com/vlang/v/tree/master/vlib/v/tests/project_with_c_code_2">interoperate between C to V to C</a>.</p>
-<h2 id="c-types">C types <a href="#c-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="c-types">C types <a href="v-and-c.html#c-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Ordinary zero terminated C strings can be converted to V strings with
 <code>unsafe { &amp;char(cstring).vstring() }</code> or if you know their length already with
 <code>unsafe { &amp;char(cstring).vstring_with_len(len) }</code>.</p>
@@ -668,7 +668,7 @@ These can be converted to V strings with <code>string_from_wide(&amp;u16(cwidest
 <p>To cast a <code>voidptr</code> to a V reference, use <code>user := &amp;User(user_void_ptr)</code>.</p>
 <p><code>voidptr</code> can also be dereferenced into a V struct through casting: <code>user := User(user_void_ptr)</code>.</p>
 <p><a href="https://github.com/vlang/v/blob/master/vlib/v/tests/project_with_c_code/mod1/wrapper.c.v">an example of a module that calls C code from V</a></p>
-<h2 id="c-declarations">C Declarations <a href="#c-declarations" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="c-declarations">C Declarations <a href="v-and-c.html#c-declarations" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>C identifiers are accessed with the <code>C</code> prefix similarly to how module-specific
 identifiers are accessed. Functions must be redeclared in V before they can be used.
 Any C types may be used behind the <code>C</code> prefix, but types must be redeclared in V in
@@ -704,9 +704,9 @@ order to access type members.</p>
 </div>
 <p>The existence of the data members is made known to V, and they may be used without
 re-creating the original structure exactly.</p>
-<p>Alternatively, you may <a href="#embedded-structs">embed</a> the sub-data-structures to maintain
+<p>Alternatively, you may <a href="structs.html#embedded-structs">embed</a> the sub-data-structures to maintain
 a parallel code structure.</p>
-<h2 id="export-to-shared-library">Export to shared library <a href="#export-to-shared-library" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="export-to-shared-library">Export to shared library <a href="v-and-c.html#export-to-shared-library" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>By default all V functions have the following naming scheme in C: <code>[module name]__[fn_name]</code>.</p>
 <p>For example, <code>fn foo() {}</code> in module <code>bar</code> will result in <code>bar__foo()</code>.</p>
 <p>To use a custom export name, use the <code>[export]</code> attribute:</p>
@@ -714,7 +714,7 @@ a parallel code structure.</p>
 fn foo() {
 }
 </code></pre>
-<h2 id="translating-c-to-v">Translating C to V <a href="#translating-c-to-v" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="translating-c-to-v">Translating C to V <a href="v-and-c.html#translating-c-to-v" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V can translate your C code to human readable V code, and generating V wrappers
 on top of C libraries.</p>
 <p>C2V currently uses Clang's AST to generate V, so to translate a C file to V
@@ -753,7 +753,7 @@ which is much safer and easier to develop in than C.</li>
 <li>Cross-compilation becomes a lot easier. You don't have to worry about it at all.</li>
 <li>No more build flags and include files either.</li>
 </ul>
-<h2 id="working-around-c-issues">Working around C issues <a href="#working-around-c-issues" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="working-around-c-issues">Working around C issues <a href="v-and-c.html#working-around-c-issues" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>In some cases, C interop can be extremely difficult.
 One of these such cases is when headers conflict with each other.
 For example, V needs to include the Windows header libraries in order for your V binaries to work
@@ -795,9 +795,9 @@ meaning it could cause more issues than it solves.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.198Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:25.009Z">Last updated:
+                                        2024-05-06 12:00:25, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

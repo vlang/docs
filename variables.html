@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -497,10 +497,10 @@ To choose a different type, use type conversion:
 the expression <code>T(v)</code> converts the value <code>v</code> to the
 type <code>T</code>.</p>
 <p>Unlike most other languages, V only allows defining variables in functions.
-By default V does not allow <strong>global variables</strong>. See more <a href="#global-variables">details</a>.</p>
+By default V does not allow <strong>global variables</strong>. See more <a href="global-variables.html">details</a>.</p>
 <p>For consistency across different code bases, all variable and function names
 must use the <code>snake_case</code> style, as opposed to type names, which must use <code>PascalCase</code>.</p>
-<h2 id="mutable-variables">Mutable variables <a href="#mutable-variables" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="mutable-variables">Mutable variables <a href="variables.html#mutable-variables" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">mut age := 20
 println(age)
 age = 21
@@ -510,7 +510,7 @@ println(age)
 immutable by default.
 To be able to change the value of the variable, you have to declare it with <code>mut</code>.</p>
 <p>Try compiling the program above after removing <code>mut</code> from the first line.</p>
-<h2 id="initialization-vs-assignment">Initialization vs assignment <a href="#initialization-vs-assignment" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="initialization-vs-assignment">Initialization vs assignment <a href="variables.html#initialization-vs-assignment" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Note the (important) difference between <code>:=</code> and <code>=</code>.
 <code>:=</code> is used for declaring and initializing, <code>=</code> is used for assigning.</p>
 <div class="language-v">fn main() {
@@ -531,7 +531,7 @@ println('${a}, ${b}') // 0, 1
 a, b = b, a
 println('${a}, ${b}') // 1, 0
 </div>
-<h2 id="warnings-and-declaration-errors">Warnings and declaration errors <a href="#warnings-and-declaration-errors" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="warnings-and-declaration-errors">Warnings and declaration errors <a href="variables.html#warnings-and-declaration-errors" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>In development mode the compiler will warn you that you haven't used the variable
 (you'll get an &quot;unused variable&quot; warning).
 In production mode (enabled by passing the <code>-prod</code> flag to v – <code>v -prod foo.v</code>)
@@ -599,9 +599,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:45.932Z">Last updated:
-                                        2024-05-06 11:18:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.648Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

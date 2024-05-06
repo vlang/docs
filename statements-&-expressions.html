@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -482,7 +482,7 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Statements &amp; expressions</h1>
-<h2 id="if">If <a href="#if" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="if">If <a href="statements-&-expressions.html#if" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">a := 10
 b := 20
 if a &lt; b {
@@ -538,7 +538,7 @@ u_name := if v := arr[0] {
 }
 println(u_name) // John
 </div>
-<h3 id="type-checks-and-casts">Type checks and casts <a href="#type-checks-and-casts" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="type-checks-and-casts">Type checks and casts <a href="statements-&-expressions.html#type-checks-and-casts" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can check the current type of a sum type using <code>is</code> and its negated form <code>!is</code>.</p>
 <p>You can do it either in an <code>if</code>:</p>
 <div class="language-v">struct Abc {
@@ -626,7 +626,7 @@ match mut x {
     }
 }
 </div>
-<h2 id="match">Match <a href="#match" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="match">Match <a href="statements-&-expressions.html#match" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">os := 'windows'
 print('V is running on ')
 match os {
@@ -716,7 +716,7 @@ println(num)
 <p>[!NOTE]
 <code>match</code> as an expression is not usable in <code>for</code> loop and <code>if</code> statements.</p>
 </blockquote>
-<h2 id="in-operator">In operator <a href="#in-operator" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="in-operator">In operator <a href="statements-&-expressions.html#in-operator" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>in</code> allows to check whether an array or a map contains an element.
 To do the opposite, use <code>!in</code>.</p>
 <div class="language-v">nums := [1, 2, 3]
@@ -757,12 +757,12 @@ if parser.token in [.plus, .minus, .div, .mult] {
 </div>
 <p>V optimizes such expressions,
 so both <code>if</code> statements above produce the same machine code and no arrays are created.</p>
-<h2 id="for-loop">For loop <a href="#for-loop" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="for-loop">For loop <a href="statements-&-expressions.html#for-loop" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V has only one looping keyword: <code>for</code>, with several forms.</p>
-<h3 id="forin"><code>for</code>/<code>in</code> <a href="#forin" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="forin"><code>for</code>/<code>in</code> <a href="statements-&-expressions.html#forin" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>This is the most common form. You can use it with an array, map or
 numeric range.</p>
-<h4 id="array-for">Array <code>for</code> <a href="#array-for" class="header-anchor" aria-hidden="true">#</a></h4>
+<h4 id="array-for">Array <code>for</code> <a href="statements-&-expressions.html#array-for" class="header-anchor" aria-hidden="true">#</a></h4>
 <div class="language-v">numbers := [1, 2, 3, 4, 5]
 for num in numbers {
     println(num)
@@ -785,7 +785,7 @@ for mut num in numbers {
 println(numbers) // [1, 2, 3]
 </div>
 <p>When an identifier is just a single underscore, it is ignored.</p>
-<h4 id="custom-iterators">Custom iterators <a href="#custom-iterators" class="header-anchor" aria-hidden="true">#</a></h4>
+<h4 id="custom-iterators">Custom iterators <a href="statements-&-expressions.html#custom-iterators" class="header-anchor" aria-hidden="true">#</a></h4>
 <p>Types that implement a <code>next</code> method returning an <code>Option</code> can be iterated
 with a <code>for</code> loop.</p>
 <div class="language-v">struct SquareIterator {
@@ -819,7 +819,7 @@ for squared in iter {
 16
 25
 </code></pre>
-<h4 id="map-for">Map <code>for</code> <a href="#map-for" class="header-anchor" aria-hidden="true">#</a></h4>
+<h4 id="map-for">Map <code>for</code> <a href="statements-&-expressions.html#map-for" class="header-anchor" aria-hidden="true">#</a></h4>
 <div class="language-v">m := {
     'one': 1
     'two': 2
@@ -848,7 +848,7 @@ for _, value in m {
     //         2
 }
 </div>
-<h4 id="range-for">Range <code>for</code> <a href="#range-for" class="header-anchor" aria-hidden="true">#</a></h4>
+<h4 id="range-for">Range <code>for</code> <a href="statements-&-expressions.html#range-for" class="header-anchor" aria-hidden="true">#</a></h4>
 <div class="language-v">// Prints '01234'
 for i in 0 .. 5 {
     print(i)
@@ -867,7 +867,7 @@ simplifying handling and minimizing errors, especially with adjacent subsequence
 This logical and efficient approach shapes our language design, emphasizing clarity
 and reducing confusion in programming.</p>
 </blockquote>
-<h3 id="condition-for">Condition <code>for</code> <a href="#condition-for" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="condition-for">Condition <code>for</code> <a href="statements-&-expressions.html#condition-for" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">mut sum := 0
 mut i := 0
 for i &lt;= 100 {
@@ -879,7 +879,7 @@ println(sum) // &quot;5050&quot;
 <p>This form of the loop is similar to <code>while</code> loops in other languages.
 The loop will stop iterating once the boolean condition evaluates to false.
 Again, there are no parentheses surrounding the condition, and the braces are always required.</p>
-<h3 id="bare-for">Bare <code>for</code> <a href="#bare-for" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="bare-for">Bare <code>for</code> <a href="statements-&-expressions.html#bare-for" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">mut num := 0
 for {
     num += 2
@@ -890,7 +890,7 @@ for {
 println(num) // &quot;10&quot;
 </div>
 <p>The condition can be omitted, resulting in an infinite loop.</p>
-<h3 id="c-for">C <code>for</code> <a href="#c-for" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="c-for">C <code>for</code> <a href="statements-&-expressions.html#c-for" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">for i := 0; i &lt; 10; i += 2 {
     // Don't print 6
     if i == 6 {
@@ -925,7 +925,7 @@ The above code prints:</p>
 6
 7
 </code></pre>
-<h2 id="defer">Defer <a href="#defer" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="defer">Defer <a href="statements-&-expressions.html#defer" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>A defer statement defers the execution of a block of statements
 until the surrounding function returns.</p>
 <div class="language-v">import os
@@ -1018,7 +1018,7 @@ fn (mut app App) auth_with_user_middleware() (bool, string) {
     return true, 'TestUser'
 }
 </div>
-<h2 id="goto">Goto <a href="#goto" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="goto">Goto <a href="statements-&-expressions.html#goto" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V allows unconditionally jumping to a label with <code>goto</code>. The label name must be contained
 within the same function as the <code>goto</code> statement. A program may <code>goto</code> a label outside
 or deeper than the current scope. <code>goto</code> allows jumping past variable initialization or
@@ -1036,7 +1036,7 @@ jumping back to code that accesses memory that has already been freed, so it req
 my_label:
 </div>
 <p><code>goto</code> should be avoided, particularly when <code>for</code> can be used instead.
-<a href="#labelled-break--continue">Labelled break/continue</a> can be used to break out of
+<a href="statements-&-expressions.html#labelled-break-&-continue">Labelled break/continue</a> can be used to break out of
 a nested loop, and those do not risk violating memory-safety.</p>
 
                         </main>
@@ -1059,9 +1059,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.013Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.763Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 

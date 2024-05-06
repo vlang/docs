@@ -118,7 +118,7 @@
 
                             <a class="link" href="functions.html">Functions</a>
 
-                            <a class="link subtopic" href="functions.html#hoistings"> Hoistings</a>
+                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
 
                             <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
 
@@ -485,7 +485,7 @@
 <p>By default V does not allow global variables. However, in low level applications they have their
 place so their usage can be enabled with the compiler flag <code>-enable-globals</code>.
 Declarations of global variables must be surrounded with a <code>__global ( ... )</code>
-specification – as in the example <a href="#atomics">above</a>.</p>
+specification – as in the example <a href="atomics.html">above</a>.</p>
 <p>An initializer for global variables must be explicitly converted to the
 desired target type. If no initializer is given a default initialization is done.
 Some objects like semaphores and mutexes require an explicit initialization <em>in place</em>, i.e.
@@ -511,7 +511,7 @@ to race conditions. There are several approaches to deal with these:</p>
 <ul>
 <li>use <code>shared</code> types for the variable declarations and use <code>lock</code> blocks for access.
 This is most appropriate for larger objects like structs, arrays or maps.</li>
-<li>handle primitive data types as &quot;atomics&quot; using special C-functions (see <a href="#atomics">above</a>).</li>
+<li>handle primitive data types as &quot;atomics&quot; using special C-functions (see <a href="atomics.html">above</a>).</li>
 <li>use explicit synchronization primitives like mutexes to control access. The compiler
 cannot really help in this case, so you have to know what you are doing.</li>
 <li>don't care – this approach is possible but makes only sense if the exact values
@@ -542,9 +542,9 @@ synchronization primitives would represent.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-06T08:18:46.191Z">Last updated:
-                                        2024-05-06 11:18:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ea1df0260e8207070fa6fe1b6c5c231dd1ba8b1d">ea1df02</a></time>
+                                    <time datetime="2024-05-06T09:00:24.998Z">Last updated:
+                                        2024-05-06 12:00:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4885b815f42a64ecff0fbcd1ca0116dd154db855">4885b81</a></time>
                                 </div>
                             </div>
 
