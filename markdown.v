@@ -3,6 +3,11 @@ module main
 import regex
 import markdown
 
+struct TopicTitle {
+	title string
+	level int
+}
+
 struct Topic {
 	title              string
 	markdown_content   string
@@ -10,6 +15,7 @@ struct Topic {
 	url                string
 	section_start_line int = 1
 	subtopics          []Topic // for the ToC
+	level              int
 }
 
 struct Section {
@@ -42,13 +48,16 @@ fn split_source_by_topics(source string, topic_level int) []Section {
 	return sections
 }
 
-fn extract_topics_from_markdown_parts(parts []Section, skip_first bool, is_subtopic bool) []Topic {
+fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic {
 	mut topics := []Topic{}
 	for index, part in parts {
 		if skip_first && index == 0 {
 			continue
 		}
-		title := extract_title_from_markdown_topic(part.text) or { panic(err) }
+
+		topic_title := extract_title_from_markdown_topic(part.text) or { panic(err) }
+		title := topic_title.title
+
 		filename := if index == 0 { 'index' } else { title_to_filename(title) }
 		if should_be_skipped.contains(title) {
 			continue
@@ -57,11 +66,8 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool, is_subto
 		// TODO: remove .html
 
 		// Get subtopics for this topic
-		mut subtopics := []Topic{}
-		if !is_subtopic {
-			markdown_subtopics := split_source_by_topics(part.text, 3)
-			subtopics = extract_topics_from_markdown_parts(markdown_subtopics, true, true)
-		}
+		markdown_subtopics := split_source_by_topics(part.text, topic_title.level + 1)
+		subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 
 		topics << Topic{
 			id: title_to_filename(plain_title)
@@ -69,22 +75,37 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool, is_subto
 			markdown_content: part.text
 			section_start_line: part.start_line
 			url: '${filename}.html'
+			level: topic_title.level
 			subtopics: subtopics
 		}
 	}
 	return topics
 }
 
-fn extract_title_from_markdown_topic(source string) ?string {
+fn extract_title_from_markdown_topic(source string) ?TopicTitle {
 	mut title_re := regex.regex_opt(r'^#+') or { panic(err) }
 	lines := source.split_into_lines()
 	if lines.len > 0 {
 		first_line := lines.first()
 		title := title_re.replace(first_line, '')
-
+		level := first_line.len - title.len
 		if title != '' {
-			return title.trim_space()
+			return TopicTitle{title.trim_space(), level}
 		}
 	}
+	return none
+}
+
+fn find_topic_by_filename(root Topic, filename string) ?Topic {
+	if root.url == filename {
+		return root
+	}
+
+	for subtopic in root.subtopics {
+		if topic := find_topic_by_filename(subtopic, filename) {
+			return topic
+		}
+	}
+
 	return none
 }

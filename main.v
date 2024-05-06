@@ -28,7 +28,7 @@ fn generate_pages(source string, vcommit string) ! {
 	markdown_topics := split_source_by_topics(source, 2)
 	markdown_first_topic := markdown_topics.first()
 
-	topics := extract_topics_from_markdown_parts(markdown_topics, false, false)
+	topics := extract_topics_from_markdown_parts(markdown_topics, false)
 	first_topic := topics.first()
 	rest_topics := topics[1..]
 
@@ -54,13 +54,14 @@ fn generate_pages(source string, vcommit string) ! {
 
 fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
-	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true, true)
+	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 	title := main_topic.title
 	update_time := time.now()
 	update_commit_full := vcommit.clone()
 	update_commit_short := vcommit#[..7]
 	mut transformer := HTMLTransformer{
 		content: markdown.to_html(markdown_content)
+		topics: topics
 	}
 	content := transformer.process()
 	return $tmpl('templates/index.html')
