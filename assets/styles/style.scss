@@ -1,7 +1,7 @@
-@import "fonts";
-@import "variables";
-@import "header";
-@import "aside";
+@import "fonts.scss";
+@import "variables.scss";
+@import "header.scss";
+@import "aside.scss";
 
 @supports (font-variation-settings: normal) {
   code { font-family: 'Fira Code VF', monospace; }
