@@ -584,9 +584,9 @@ fn main() {
 </div>
 <h3 id=".values"><h4 id="comptime-values">.values</h4> <a href="#.values" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read <a href="type-declarations.html#enums">Enum</a> values and their attributes.</p>
-<pre><code class="language-V">enum Color {
-    red @[RED] // first attribute
-    blue @[BLUE] // second attribute
+<div class="language-v">enum Color {
+    red  @[RED] // first attribute
+    blue  @[BLUE] // second attribute
 }
 
 fn main() {
@@ -601,10 +601,10 @@ fn main() {
 // ['RED']
 // blue
 // ['BLUE']
-</code></pre>
+</div>
 <h3 id=".attributes"><h4 id="comptime-attrs">.attributes</h4> <a href="#.attributes" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read <a href="structs.html">Struct</a> attributes.</p>
-<pre><code class="language-V">@[COLOR]
+<div class="language-v">@[COLOR]
 struct Foo {
     a int
 }
@@ -622,10 +622,10 @@ fn main() {
 //    arg: ''
 //    kind: plain
 // }
-</code></pre>
+</div>
 <h3 id=".variants"><h4 id="comptime-variants">.variants</h4> <a href="#.variants" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read variant types from <a href="type-declarations.html#sum-types">Sum type</a>.</p>
-<pre><code class="language-V">type MySum = int | string
+<div class="language-v">type MySum = int | string
 
 fn main() {
     $for v in MySum.variants {
@@ -640,10 +640,10 @@ fn main() {
 // Output:
 // has int type
 // has string type
-</code></pre>
+</div>
 <h3 id=".methods"><h4 id="comptime-methods">.methods</h4> <a href="#.methods" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can retrieve information about struct methods.</p>
-<pre><code class="language-V">struct Foo {
+<div class="language-v">struct Foo {
 }
 
 fn (f Foo) test() int {
@@ -653,7 +653,6 @@ fn (f Foo) test() int {
 fn (f Foo) test2() string {
     return 'foo'
 }
-
 
 fn main() {
     foo := Foo{}
@@ -671,7 +670,7 @@ fn main() {
 // Output:
 // test returns int: 123
 // test2 returns string: foo
-</code></pre>
+</div>
 <p>See <a href="https://github.com/vlang/v/blob/master/examples/compiletime/reflection.v"><code>examples/compiletime/reflection.v</code></a>
 for a more complete example.</p>
 <h2 id="compile-time-code">Compile time code <a href="conditional-compilation.html#compile-time-code" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -966,9 +965,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-08T16:15:56.599Z">Last updated:
-                                        2024-05-08 19:15:56, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/0c6c1f315094727fba6d15f118528634234ac3e6">0c6c1f3</a></time>
+                                    <time datetime="2024-05-09T03:55:42.521Z">Last updated:
+                                        2024-05-09 06:55:42, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6a6d8e0fcdbcc426f0d3334e6eef6a69ed3c37e1">6a6d8e0</a></time>
                                 </div>
                             </div>
 
