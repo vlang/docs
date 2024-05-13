@@ -27,7 +27,6 @@ body {
   font: 400 14px/1.5 "FiraSans", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   font-feature-settings: "kern" 1;
-  overflow-x: hidden;
 }
 
 a {
@@ -44,12 +43,9 @@ a.external-link {
 }
 
 .wrapper {
-  width: 100vw;
-  height: 100vh;
 }
 
 article {
-  width: 100vw;
   height: calc(100% - 1px);
 
   display: grid;
