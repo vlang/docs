@@ -19,9 +19,9 @@ fn main() {
 	commit_res := os.execute_or_exit('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
 	latest_v_commit_hash := commit_res.output.all_before('\t')
 
+	update_sass()
 	generate_pages(response.body, latest_v_commit_hash)!
 	copy_assets_to_output()!
-	update_sass()
 }
 
 fn generate_pages(source string, vcommit string) ! {

@@ -4,9 +4,11 @@
 @import "aside.scss";
 
 @supports (font-variation-settings: normal) {
-  code { font-family: 'Fira Code VF', monospace; }
+  code {
+    font-family: "Fira Code VF", monospace;
+  }
 }
-  
+
 * {
   box-sizing: border-box;
 }
@@ -14,29 +16,6 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb-color);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 5px;
-  margin: 5px;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-track-piece {
-  background-color: transparent;
 }
 
 body {
@@ -48,7 +27,6 @@ body {
   font: 400 14px/1.5 "FiraSans", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   font-feature-settings: "kern" 1;
-  overflow-x: hidden;
 }
 
 a {
@@ -65,12 +43,9 @@ a.external-link {
 }
 
 .wrapper {
-  width: 100vw;
-  height: 100vh;
 }
 
 article {
-  width: 100vw;
   height: calc(100% - 1px);
 
   display: grid;
@@ -90,10 +65,10 @@ article {
     padding: 0px 50px 20px 20px;
 
     @media (max-width: 1200px) {
-      grid-template-columns: 100vw;
+      grid-template-columns: 100%;
 
-       padding-left: 0px;
-       padding-right: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
 
       .aside {
         display: none;
@@ -101,10 +76,10 @@ article {
     }
 
     .content {
-      padding: 0 30px;
+      padding: 72px 30px 0;
 
       @media (max-width: 1000px) {
-        padding: 0;
+        padding: 72px 0 0;
       }
 
       .content-container {
@@ -149,7 +124,7 @@ article {
               font-weight: 500;
               color: var(--theme-color);
               text-decoration: none;
-              transition: color .25s;
+              transition: color 0.25s;
             }
 
             svg {
@@ -158,7 +133,7 @@ article {
               width: 14px;
               height: 14px;
               fill: var(--theme-color);
-              transition: fill .25s;
+              transition: fill 0.25s;
             }
           }
 
@@ -196,7 +171,7 @@ article {
             padding: 11px 16px 13px;
             width: 100%;
             height: 100%;
-            transition: border-color .25s;
+            transition: border-color 0.25s;
             text-decoration: none;
 
             &:hover {
@@ -222,7 +197,7 @@ article {
               font-size: 14px;
               font-weight: 500;
               color: var(--theme-color);
-              transition: color .25s;
+              transition: color 0.25s;
             }
           }
         }
@@ -336,7 +311,7 @@ article {
       font-weight: 500;
       user-select: none;
       opacity: 1;
-      transition: color .25s, opacity .25s;
+      transition: color 0.25s, opacity 0.25s;
 
       &:hover {
         cursor: pointer;
@@ -348,7 +323,7 @@ article {
       font-weight: 500;
       color: var(--theme-color);
       text-decoration-style: dotted;
-      transition: color .25s;
+      transition: color 0.25s;
     }
 
     .language-v {
@@ -417,7 +392,8 @@ article {
     kbd {
       display: inline-block;
       padding: 3px 5px;
-      font: 11px "Fira Code", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      font: 11px "Fira Code", Consolas, "Liberation Mono", Menlo, Courier,
+        monospace;
       line-height: 10px;
       color: #444d56;
       vertical-align: middle;
@@ -499,7 +475,7 @@ article {
     padding: 20px;
     border-radius: 5px;
     border: 1px solid var(--divider-color);
-    transition: border .25s;
+    transition: border 0.25s;
 
     display: grid;
 
@@ -529,7 +505,7 @@ article {
         height: 100%;
 
         .background {
-          transition: fill .25s;
+          transition: fill 0.25s;
         }
       }
     }
