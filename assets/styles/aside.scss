@@ -7,7 +7,7 @@ aside {
   color: var(--text-color);
   background-color: var(--aside-background);
 
-  padding: 20px 20px 20px 50px;
+  padding: 20px 20px 20px 40px;
 
   z-index: 1000;
 
@@ -21,7 +21,7 @@ aside {
     grid-column-gap: 10px;
     align-items: center;
     text-decoration: none;
-    margin-top: 3px;
+    padding: 12px 0px;
 
     a {
       display: grid;
@@ -58,11 +58,9 @@ aside {
         }
       }
     }
-
   }
 
   nav {
-    padding: 20px 0 0 0;
     height: 100%;
   }
 
@@ -100,7 +98,6 @@ aside {
           color: var(--theme-color);
         }
       }
-
     }
   }
 }

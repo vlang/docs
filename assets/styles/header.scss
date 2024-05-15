@@ -1,5 +1,5 @@
 header {
-  height: 40px;
+  height: 72px;
   width: 100vw;
   position: fixed;
   top: 0;
@@ -9,6 +9,7 @@ header {
   -webkit-backdrop-filter: saturate(50%) blur(8px);
   backdrop-filter: saturate(50%) blur(8px);
   background: var(--header-background);
+  border-bottom: solid var(--divider-color);
 
   .header-container {
     padding: 1px 40px;
@@ -22,7 +23,7 @@ header {
       display: flex;
       list-style: none;
       padding: 0;
-      margin: 2px 0 0 0;
+      margin: 8px 0 0 0;
 
       .aside-topics-open {
         vertical-align: middle;
