@@ -1036,6 +1036,11 @@ fn main() {
     println(user.name) // &quot;Charles&quot;
 
     user2 := repo.find_user_by_id2(10) or { return }
+
+    // To create an Option var directly:
+    my_optional_int := ?int(none)
+    my_optional_string := ?string(none)
+    my_optional_user := ?User(none)
 }
 </div>
 <p>V used to combine <code>Option</code> and <code>Result</code> into one type, now they are separate.</p>
@@ -1224,9 +1229,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-20T18:29:47.157Z">Last updated:
-                                        2024-05-20 21:29:47, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/cbc7477ecf09f616a7dcb88ee4eeef746ded8dcc">cbc7477</a></time>
+                                    <time datetime="2024-05-20T18:53:24.967Z">Last updated:
+                                        2024-05-20 21:53:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/f3624d58cf749621a51265fc4884168906a18d70">f3624d5</a></time>
                                 </div>
                             </div>
 
