@@ -86,23 +86,22 @@ function sectionToLink(section) {
 	return `${section.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')}.html`;
 }
 
+async function handleSearch() {
+	const query = document.getElementById('searchInput').value;
+	const resultsElement = document.getElementById('searchResults');
+	if (!fileContent) {
+		await fetchFileContent();
+	}
+	const results = searchFileContent(query);
+	resultsElement.innerHTML = createResultLinks(results);
+}
+
 // Initialize the search functionality when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-	document.getElementById('searchButton').addEventListener('click', async () => {
-		const query = document.getElementById('searchInput').value;
-		const resultsElement = document.getElementById('searchResults');
-
-		if (!fileContent) {
-			await fetchFileContent();
-		}
-
-		const results = searchFileContent(query);
-		resultsElement.innerHTML = createResultLinks(results);
-	});
-	 document.getElementById('searchInput').addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    handleSearch();
-                }
-            });
+	document.getElementById('searchButton').addEventListener('click', handleSearch);
+    document.getElementById('searchInput').addEventListener('keydown', (event) => {
+		if (event.key === 'Enter') {
+			handleSearch();
+        }
+    });
 });
-
