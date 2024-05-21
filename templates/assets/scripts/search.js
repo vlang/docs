@@ -87,8 +87,13 @@ function sectionToLink(section) {
 	if (fixed_url) { return fixed_url; }
 	const existing_html_page = fnames[ section ];
 	if (existing_html_page) { return existing_html_page; }
-	// probably a 3rd level or lower title, that currently has no reverse mapping; redirect to the main docs.md:
+	// try with a simpler normalized version of the section title:
 	const slug = section.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
+	const sfixed_url = titles_to_fnames[ slug ];
+	if (sfixed_url) { return sfixed_url; }
+	const sexisting_html_page = fnames[ slug ];
+	if (sexisting_html_page) { return sexisting_html_page; }
+	// probably a 3rd level or lower title, that currently has no reverse mapping; redirect to the main docs.md:
 	return `https://github.com/vlang/v/blob/master/doc/docs.md#${slug}`;
 }
 
