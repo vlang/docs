@@ -15,6 +15,7 @@ struct Topic {
 	url                string
 	section_start_line int = 1
 	subtopics          []Topic // for the ToC
+	subsubtopics       []Topic // for the search/reverse mapping
 	level              int
 }
 
@@ -66,8 +67,13 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic 
 		// TODO: remove .html
 
 		// Get subtopics for this topic
-		markdown_subtopics := split_source_by_topics(part.text, topic_title.level + 1)
-		subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
+		subtopics := get_subtopics_for_level(part.text, topic_title.level + 1)
+
+		mut subsubtopics := []Topic{}
+		subsubtopics << get_subtopics_for_level(part.text, topic_title.level + 2)
+		subsubtopics << get_subtopics_for_level(part.text, topic_title.level + 3)
+		subsubtopics << get_subtopics_for_level(part.text, topic_title.level + 4)
+		subsubtopics << get_subtopics_for_level(part.text, topic_title.level + 5)
 
 		topics << Topic{
 			id: title_to_filename(plain_title)
@@ -77,9 +83,15 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic 
 			url: '${filename}.html'
 			level: topic_title.level
 			subtopics: subtopics
+			subsubtopics: subsubtopics
 		}
 	}
 	return topics
+}
+
+fn get_subtopics_for_level(text string, level int) []Topic {
+	markdown_subtopics := split_source_by_topics(text, level)
+	return extract_topics_from_markdown_parts(markdown_subtopics, true)
 }
 
 fn extract_title_from_markdown_topic(source string) ?TopicTitle {
@@ -100,12 +112,10 @@ fn find_topic_by_filename(root Topic, filename string) ?Topic {
 	if root.url == filename {
 		return root
 	}
-
 	for subtopic in root.subtopics {
 		if topic := find_topic_by_filename(subtopic, filename) {
 			return topic
 		}
 	}
-
 	return none
 }

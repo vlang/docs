@@ -104,6 +104,15 @@ fn (mut ctx Context) generate_page_from_template(topics []Topic, main_topic Topi
 			for subtopic in subtopics {
 				ctx.titles_to_fnames[subtopic.title] = '${topic.url}#${subtopic.id}'
 			}
+			for subtopic in topic.subsubtopics {
+				full_subtopic_url := '${topic.url}#${subtopic.id}'
+				plain_title := markdown.to_plain(subtopic.title)
+				id := title_to_filename(plain_title)
+				ctx.titles_to_fnames[subtopic.title] = full_subtopic_url
+				ctx.titles_to_fnames[plain_title] = full_subtopic_url
+				ctx.titles_to_fnames[id] = full_subtopic_url
+				// eprintln('>>> plain_title: $plain_title | id: $id | subtopic.title: $subtopic.title | full_subtopic_url: $full_subtopic_url')
+			}
 		}
 	}
 	return $tmpl('templates/index.html')
