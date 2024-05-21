@@ -4,6 +4,7 @@ import os
 import net.http
 import markdown
 import time
+import json
 
 const v_doc_path = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
 const output_path = 'output'
@@ -20,11 +21,13 @@ fn main() {
 	latest_v_commit_hash := commit_res.output.all_before('\t')
 
 	update_sass()
-	generate_pages(response.body, latest_v_commit_hash)!
+	titles_to_fnames := generate_pages(response.body, latest_v_commit_hash)!
+	eprintln('> Total titles: ${titles_to_fnames.len}')
 	copy_assets_to_output()!
+	write_output_file('assets/titles_to_fnames.json', json.encode(titles_to_fnames))!
 }
 
-fn generate_pages(source string, vcommit string) ! {
+fn generate_pages(source string, vcommit string) !map[string]string {
 	markdown_topics := split_source_by_topics(source, 2)
 	markdown_first_topic := markdown_topics.first()
 
@@ -36,6 +39,7 @@ fn generate_pages(source string, vcommit string) ! {
 		Topic{}, topics[1], vcommit).replace_once('<head>', '<head><script>window.location.replace("introduction.html");</script>')
 	write_output_file('index.html', index_content)!
 
+	mut titles_to_fnames := map[string]string{}
 	for index, topic in rest_topics {
 		title := topic.title
 
@@ -48,8 +52,11 @@ fn generate_pages(source string, vcommit string) ! {
 		content := generate_page_from_template(rest_topics, topic, transformer.process(),
 			prev_topic, next_topic, vcommit)
 
-		write_output_file('${title_to_filename(title)}.html', content)!
+		fname := '${title_to_filename(title)}.html'
+		write_output_file(fname, content)!
+		titles_to_fnames[title] = fname
 	}
+	return titles_to_fnames
 }
 
 fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
