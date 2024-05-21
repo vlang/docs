@@ -71,8 +71,10 @@ fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_conten
 	}
 	content := transformer.process()
 	for topic in topics {
-		for subtopic in subtopics {
-			titles_to_fnames[subtopic.title] = '${topic.url}#${subtopic.id}'
+		if topic.title == title {
+			for subtopic in subtopics {
+				titles_to_fnames[subtopic.title] = '${topic.url}#${subtopic.id}'
+			}
 		}
 	}
 	return $tmpl('templates/index.html')
