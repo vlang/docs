@@ -99,5 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		const results = searchFileContent(query);
 		resultsElement.innerHTML = createResultLinks(results);
 	});
+	 document.getElementById('searchInput').addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    handleSearch();
+                }
+            });
 });
 
