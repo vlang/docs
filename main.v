@@ -34,7 +34,7 @@ fn main() {
 struct Context {
 mut:
 	full_text        string
-	pages            map[string]int
+	pages            map[string]string
 	titles_to_fnames map[string]string
 }
 
@@ -53,7 +53,7 @@ fn (mut ctx Context) write_doc() ! {
 }
 
 fn (mut ctx Context) write_html_page(fname string, content string) ! {
-	ctx.pages[fname] = 1
+	ctx.pages[fname] = fname
 	write_output_file(fname, content)!
 }
 
