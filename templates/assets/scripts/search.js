@@ -1,14 +1,15 @@
-const fileUrl = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md';
-let fileContent = null;
+const original_docs_md_url = 'https://github.com/vlang/v/blob/master/doc/docs.md';
+const search_source_url = 'https://docs.vlang.io/assets/docs.md';
+let file_content = null;
 
 // Function to fetch and cache the file content
 async function fetchFileContent() {
 	try {
-		const response = await fetch(fileUrl);
+		const response = await fetch(search_source_url);
 		if (!response.ok) {
 			throw new Error('Network response was not ok ' + response.statusText);
 		}
-		fileContent = await response.text();
+		file_content = await response.text();
 	} catch (error) {
 		console.error('Failed to fetch file content:', error);
 	}
@@ -35,11 +36,11 @@ function parseMarkdown(content) {
 
 // Function to search through the cached file content and map results to sections
 function searchFileContent(query) {
-	if (!fileContent) {
+	if (!file_content) {
 		return 'File content not loaded. Please try again later.';
 	}
 
-	const sections = parseMarkdown(fileContent);
+	const sections = parseMarkdown(file_content);
 	const results = [];
 	const regex = new RegExp(query, 'gi');
 
@@ -94,13 +95,13 @@ function sectionToLink(section) {
 	const sexisting_html_page = fnames[ slug ];
 	if (sexisting_html_page) { return sexisting_html_page; }
 	// probably a 3rd level or lower title, that currently has no reverse mapping; redirect to the main docs.md:
-	return `https://github.com/vlang/v/blob/master/doc/docs.md#${slug}`;
+	return `${original_docs_md_url}#${slug}`;
 }
 
 async function handleSearch() {
 	const query = document.getElementById('searchInput').value;
 	const resultsElement = document.getElementById('searchResults');
-	if (!fileContent) {
+	if (!file_content) {
 		await fetchFileContent();
 	}
 	const results = searchFileContent(query);
