@@ -87,6 +87,17 @@ fn (mut ctx Context) generate_pages(vcommit string) ! {
 	}
 }
 
+fn (mut ctx Context) add_backlink(title string, url string) {
+	ctx.titles_to_fnames[title] = url
+	ctx.titles_to_fnames[title.to_lower()] = url
+	ctx.titles_to_fnames[title.to_upper()] = url
+	ctx.titles_to_fnames[title_to_filename(title)] = url
+	//
+	plain_title := markdown.to_plain(title)
+	ctx.titles_to_fnames[plain_title] = url
+	ctx.titles_to_fnames[title_to_filename(plain_title)] = url
+}
+
 fn (mut ctx Context) generate_page_from_template(topics []Topic, main_topic Topic, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
@@ -102,16 +113,10 @@ fn (mut ctx Context) generate_page_from_template(topics []Topic, main_topic Topi
 	for topic in topics {
 		if topic.title == title {
 			for subtopic in subtopics {
-				ctx.titles_to_fnames[subtopic.title] = '${topic.url}#${subtopic.id}'
+				ctx.add_backlink(subtopic.title, '${topic.url}#${subtopic.id}')
 			}
 			for subtopic in topic.subsubtopics {
-				full_subtopic_url := '${topic.url}#${subtopic.id}'
-				plain_title := markdown.to_plain(subtopic.title)
-				id := title_to_filename(plain_title)
-				ctx.titles_to_fnames[subtopic.title] = full_subtopic_url
-				ctx.titles_to_fnames[plain_title] = full_subtopic_url
-				ctx.titles_to_fnames[id] = full_subtopic_url
-				// eprintln('>>> plain_title: $plain_title | id: $id | subtopic.title: $subtopic.title | full_subtopic_url: $full_subtopic_url')
+				ctx.add_backlink(subtopic.title, '${topic.url}#${subtopic.id}')
 			}
 		}
 	}
