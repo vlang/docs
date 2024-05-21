@@ -83,6 +83,8 @@ function createResultLinks(results) {
 
 // Helper function to convert section titles to links
 function sectionToLink(section) {
+	const fixed_url = titles_to_fnames[ section ];
+	if (fixed_url) { return fixed_url; }
 	return `${section.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')}.html`;
 }
 
