@@ -21,13 +21,14 @@ fn main() {
 	latest_v_commit_hash := commit_res.output.all_before('\t')
 
 	update_sass()
-	titles_to_fnames := generate_pages(response.body, latest_v_commit_hash)!
+	mut titles_to_fnames := map[string]string{}
+	generate_pages(response.body, latest_v_commit_hash, mut titles_to_fnames)!
 	eprintln('> Total titles: ${titles_to_fnames.len}')
 	copy_assets_to_output()!
 	write_output_file('assets/scripts/titles_to_fnames.js', 'const titles_to_fnames = ${json.encode_pretty(titles_to_fnames)};\n')!
 }
 
-fn generate_pages(source string, vcommit string) !map[string]string {
+fn generate_pages(source string, vcommit string, mut titles_to_fnames map[string]string) ! {
 	markdown_topics := split_source_by_topics(source, 2)
 	markdown_first_topic := markdown_topics.first()
 
@@ -36,10 +37,9 @@ fn generate_pages(source string, vcommit string) !map[string]string {
 	rest_topics := topics[1..]
 
 	index_content := generate_page_from_template(rest_topics, first_topic, markdown_first_topic.text,
-		Topic{}, topics[1], vcommit).replace_once('<head>', '<head><script>window.location.replace("introduction.html");</script>')
+		Topic{}, topics[1], vcommit, mut titles_to_fnames).replace_once('<head>', '<head><script>window.location.replace("introduction.html");</script>')
 	write_output_file('index.html', index_content)!
 
-	mut titles_to_fnames := map[string]string{}
 	for index, topic in rest_topics {
 		title := topic.title
 
@@ -50,16 +50,15 @@ fn generate_pages(source string, vcommit string) !map[string]string {
 			content: topic.markdown_content
 		}
 		content := generate_page_from_template(rest_topics, topic, transformer.process(),
-			prev_topic, next_topic, vcommit)
+			prev_topic, next_topic, vcommit, mut titles_to_fnames)
 
 		fname := '${title_to_filename(title)}.html'
 		write_output_file(fname, content)!
 		titles_to_fnames[title] = fname
 	}
-	return titles_to_fnames
 }
 
-fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string) string {
+fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_content string, prev_topic Topic, next_topic Topic, vcommit string, mut titles_to_fnames map[string]string) string {
 	markdown_subtopics := split_source_by_topics(markdown_content, 2)
 	subtopics := extract_topics_from_markdown_parts(markdown_subtopics, true)
 	title := main_topic.title
@@ -71,5 +70,10 @@ fn generate_page_from_template(topics []Topic, main_topic Topic, markdown_conten
 		topics: topics
 	}
 	content := transformer.process()
+	for topic in topics {
+		for subtopic in subtopics {
+			titles_to_fnames[subtopic.title] = '${topic.url}#${subtopic.id}'
+		}
+	}
 	return $tmpl('templates/index.html')
 }
