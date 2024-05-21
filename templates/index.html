@@ -14,9 +14,6 @@
             margin-left: 20px !important;
         }
     </style>
-
-	<script src="assets/scripts/search.js">
-    </script>
 </head>
 
 <body>
@@ -192,9 +189,7 @@
             }
         })
     </script>
-
     <script src="assets/scripts/vlang-playground.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
@@ -209,9 +204,7 @@
             });
         })
     </script>
-
     <script src="assets/scripts/theme.js"></script>
-
     <script>
         document.addEventListener("keydown", (event) => {
             //@if prev_topic.url != ''
@@ -232,7 +225,6 @@
             //html.style.opacity = '1'
         //}
     </script>
-
     <script>
         document.getElementsByClassName("aside-topics-open")[0].addEventListener("click", (event) => {
             document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'block')
@@ -242,6 +234,8 @@
             document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'none')
         })
     </script>
+	<script src="assets/scripts/titles_to_fnames.js"></script>
+	<script src="assets/scripts/search.js"></script>
 </body>
 
 </html>

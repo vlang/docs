@@ -24,7 +24,7 @@ fn main() {
 	titles_to_fnames := generate_pages(response.body, latest_v_commit_hash)!
 	eprintln('> Total titles: ${titles_to_fnames.len}')
 	copy_assets_to_output()!
-	write_output_file('assets/titles_to_fnames.json', json.encode(titles_to_fnames))!
+	write_output_file('assets/scripts/titles_to_fnames.js', 'const titles_to_fnames = ${json.encode_pretty(titles_to_fnames)};\n')!
 }
 
 fn generate_pages(source string, vcommit string) !map[string]string {
