@@ -85,7 +85,11 @@ function createResultLinks(results) {
 function sectionToLink(section) {
 	const fixed_url = titles_to_fnames[ section ];
 	if (fixed_url) { return fixed_url; }
-	return `${section.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')}.html`;
+	const existing_html_page = fnames[ section ];
+	if (existing_html_page) { return existing_html_page; }
+	// probably a 3rd level or lower title, that currently has no reverse mapping; redirect to the main docs.md:
+	const slug = section.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
+	return `https://github.com/vlang/v/blob/master/doc/docs.md#${slug}`;
 }
 
 async function handleSearch() {
