@@ -206,7 +206,7 @@
 
                             <a class="link subtopic" href="structs.html#static-type-methods"> Static type methods</a>
 
-                            <a class="link subtopic" href="structs.html#[noinit]-structs"> [noinit] structs</a>
+                            <a class="link subtopic" href="structs.html#noinit-structs"> [noinit] structs</a>
 
                             <a class="link subtopic" href="structs.html#methods"> Methods</a>
 
@@ -558,7 +558,7 @@ how their programs actually perform&quot;.</p>
 </tbody>
 </table>
 <h2 id="tuning-operations-details">Tuning operations details <a href="performance-tuning.html#tuning-operations-details" class="header-anchor" aria-hidden="true">#</a></h2>
-<h3 id="[inline]"><code>[inline]</code> <a href="performance-tuning.html#[inline]" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="inline"><code>[inline]</code> <a href="performance-tuning.html#inline" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can tag functions with <code>[inline]</code>, so the C compiler will try to inline them, which in some
 cases, may be beneficial for performance, but may impact the size of your executable.</p>
 <p><strong>When to Use</strong></p>
@@ -570,7 +570,7 @@ cases, may be beneficial for performance, but may impact the size of your execut
 <li>Large functions, as it might cause code bloat and actually decrease performance.</li>
 <li>Large functions in <code>if</code> expressions - may have negative impact on instructions cache.</li>
 </ul>
-<h3 id="[direct_array_access]"><code>[direct_array_access]</code> <a href="performance-tuning.html#[direct_array_access]" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="direct_array_access"><code>[direct_array_access]</code> <a href="performance-tuning.html#direct_array_access" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>In functions tagged with <code>[direct_array_access]</code> the compiler will translate array operations
 directly into C array operations - omitting bounds checking. This may save a lot of time in a
 function that iterates over an array but at the cost of making the function unsafe - unless the
@@ -584,7 +584,7 @@ sure that the access index will be valid.</li>
 <ul>
 <li>Everywhere else.</li>
 </ul>
-<h3 id="[packed]"><code>[packed]</code> <a href="performance-tuning.html#[packed]" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="packed"><code>[packed]</code> <a href="performance-tuning.html#packed" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The <code>@[packed]</code> attribute can be applied to a structure to create an unaligned memory layout,
 which decreases the overall memory footprint of the structure. Using the <code>[packed]</code> attribute
 may negatively impact performance or even be prohibited on certain CPU architectures.</p>
@@ -597,7 +597,7 @@ may negatively impact performance or even be prohibited on certain CPU architect
 <li>On CPU architectures that do not support unaligned memory access or when high-speed memory access
 is needed.</li>
 </ul>
-<h3 id="[aligned]"><code>[aligned]</code> <a href="performance-tuning.html#[aligned]" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="aligned"><code>[aligned]</code> <a href="performance-tuning.html#aligned" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The <code>@[aligned]</code> attribute can be applied to a structure or union to specify a minimum alignment
 (in bytes) for variables of that type. Using the <code>@[aligned]</code> attribute you can only <em>increase</em>
 the default alignment. Use <code>@[packed]</code> if you want to <em>decrease</em> it. The alignment of any struct
@@ -633,7 +633,7 @@ can choose whatever instructions copy the biggest chunks of memory, when perform
 from the variables which have types that you have aligned this way.</p>
 </blockquote>
 <p>See also <a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf">&quot;What Every Programmer Should Know About Memory&quot;, by Ulrich Drepper</a> .</p>
-<h3 id="[minify]"><code>[minify]</code> <a href="performance-tuning.html#[minify]" class="header-anchor" aria-hidden="true">#</a></h3>
+<h3 id="minify"><code>[minify]</code> <a href="performance-tuning.html#minify" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The <code>[minify]</code> attribute can be added to a struct, allowing the compiler to reorder the fields in
 a way that minimizes internal gaps while maintaining alignment. Using the <code>[minify]</code> attribute may
 cause issues with binary serialization or reflection. Be mindful of these potential side effects
@@ -780,8 +780,8 @@ rm pgo_gen
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-05-21T20:46:49.521Z">Last updated:
-                                        2024-05-21 23:46:49, V Commit: <a
+                                    <time datetime="2024-05-21T21:02:02.878Z">Last updated:
+                                        2024-05-22 00:02:02, V Commit: <a
                                             href="https://github.com/vlang/v/commit/619714008547b5d86b4e1fa5f6d4314cb87edef1">6197140</a></time>
                                 </div>
                             </div>
