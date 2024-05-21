@@ -26,6 +26,7 @@ fn main() {
 	eprintln('> Total titles: ${titles_to_fnames.len}')
 	copy_assets_to_output()!
 	write_output_file('assets/scripts/titles_to_fnames.js', 'const titles_to_fnames = ${json.encode_pretty(titles_to_fnames)};\n')!
+	write_output_file('assets/docs.md', response.body)!
 }
 
 fn generate_pages(source string, vcommit string, mut titles_to_fnames map[string]string) ! {
