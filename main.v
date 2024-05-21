@@ -22,25 +22,43 @@ fn main() {
 
 	update_sass()
 
-	mut ctx := Context{}
-	ctx.generate_pages(response.body, latest_v_commit_hash)!
+	mut ctx := Context{
+		full_text: response.body
+	}
+	ctx.generate_pages(latest_v_commit_hash)!
 	copy_assets_to_output()!
 	ctx.write_mapping()!
-	write_output_file('assets/docs.md', response.body)!
+	ctx.write_doc()!
 }
 
 struct Context {
 mut:
+	full_text        string
+	pages            map[string]int
 	titles_to_fnames map[string]string
 }
 
 fn (mut ctx Context) write_mapping() ! {
+	content := '
+const titles_to_fnames = ${json.encode_pretty(ctx.titles_to_fnames)};
+const fnames = ${json.encode_pretty(ctx.pages)};
+'
+	write_output_file('assets/scripts/titles_to_fnames.js', content)!
 	eprintln('> Total titles: ${ctx.titles_to_fnames.len}')
-	write_output_file('assets/scripts/titles_to_fnames.js', 'const titles_to_fnames = ${json.encode_pretty(ctx.titles_to_fnames)};\n')!
+	eprintln('> HTML pages: ${ctx.pages.len}')
 }
 
-fn (mut ctx Context) generate_pages(source string, vcommit string) ! {
-	markdown_topics := split_source_by_topics(source, 2)
+fn (mut ctx Context) write_doc() ! {
+	write_output_file('assets/docs.md', ctx.full_text)!
+}
+
+fn (mut ctx Context) write_html_page(fname string, content string) ! {
+	ctx.pages[fname] = 1
+	write_output_file(fname, content)!
+}
+
+fn (mut ctx Context) generate_pages(vcommit string) ! {
+	markdown_topics := split_source_by_topics(ctx.full_text, 2)
 	markdown_first_topic := markdown_topics.first()
 
 	topics := extract_topics_from_markdown_parts(markdown_topics, false)
@@ -49,7 +67,7 @@ fn (mut ctx Context) generate_pages(source string, vcommit string) ! {
 
 	index_content := ctx.generate_page_from_template(rest_topics, first_topic, markdown_first_topic.text,
 		Topic{}, topics[1], vcommit).replace_once('<head>', '<head><script>window.location.replace("introduction.html");</script>')
-	write_output_file('index.html', index_content)!
+	ctx.write_html_page('index.html', index_content)!
 
 	for index, topic in rest_topics {
 		title := topic.title
@@ -64,7 +82,7 @@ fn (mut ctx Context) generate_pages(source string, vcommit string) ! {
 			prev_topic, next_topic, vcommit)
 
 		fname := '${title_to_filename(title)}.html'
-		write_output_file(fname, content)!
+		ctx.write_html_page(fname, content)!
 		ctx.titles_to_fnames[title] = fname
 	}
 }
