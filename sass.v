@@ -12,7 +12,7 @@ fn update_sass() {
 	// a) `transition: fill 0.25s;` vs `transition: fill .25s;`
 	// b) some newlines at the end of each CSS rule
 	// c) style.css.map is different.
-	sass_cmd := 'sassc --sourcemap=auto --style=compressed templates/assets/styles/style.scss templates/assets/styles/style.css'
+	sass_cmd := 'sassc --sourcemap=auto --style=expanded templates/assets/styles/style.scss templates/assets/styles/style.css'
 	// sass_cmd := 'sass --style=expanded templates/assets/styles/style.scss templates/assets/styles/style.css'
 	res := os.system(sass_cmd)
 	if res != 0 {
