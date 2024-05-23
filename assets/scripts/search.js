@@ -125,3 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}	    
 	});
 });
+
+window.onbeforeunload = function () {
+	display_search_results("none");   	
+}
