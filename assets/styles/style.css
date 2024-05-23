@@ -247,6 +247,14 @@ aside {
   }
 }
 
+aside #searchResults {
+  position: absolute;
+  overflow: scroll;
+  height: 600px;
+  width: 300px;
+  background: #343434;
+}
+
 aside .title {
   display: grid;
   grid-template-columns: auto max-content;
