@@ -98,6 +98,10 @@ function sectionToLink(section) {
 	return `${original_docs_md_url}#${slug}`;
 }
 
+function display_search_results(how) {
+	document.getElementById('searchResults').display = how;
+}
+
 async function handleSearch() {
 	const query = document.getElementById('searchInput').value;
 	const resultsElement = document.getElementById('searchResults');
@@ -106,6 +110,7 @@ async function handleSearch() {
 	}
 	const results = searchFileContent(query);
 	resultsElement.innerHTML = createResultLinks(results);
+	display_search_results("block");
 }
 
 // Initialize the search functionality when the DOM is fully loaded
@@ -114,6 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('searchInput').addEventListener('keydown', (event) => {
 		if (event.key === 'Enter') {
 			handleSearch();
-        }
-    });
+		}
+		if (event.key === 'Escape') {
+			display_search_results("none");
+		}	    
+	});
 });
