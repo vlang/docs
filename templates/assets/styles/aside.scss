@@ -15,6 +15,14 @@ aside {
     display: none;
   }
 
+  #searchResults {
+    position: absolute;
+    overflow: scroll;
+    height: 600px;
+    width: 300px;
+    background: #343434;
+  }
+
   .title {
     display: grid;
     grid-template-columns: auto max-content;

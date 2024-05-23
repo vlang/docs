@@ -247,6 +247,14 @@ aside {
   }
 }
 
+aside #searchResults {
+  position: absolute;
+  overflow: scroll;
+  height: 600px;
+  width: 300px;
+  background: #343434;
+}
+
 aside .title {
   display: grid;
   grid-template-columns: auto max-content;
@@ -287,7 +295,7 @@ aside .title .aside-topics-close svg path {
 }
 
 aside nav {
-  height: 90%;
+  height: 100%;
   padding-bottom: 40px;
 }
 
