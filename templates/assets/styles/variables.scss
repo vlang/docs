@@ -2,6 +2,7 @@ html[data-theme="dark"] {
   --background: #242424;
   --aside-background: #1a1a1a;
   --header-background: rgba(36, 36, 36, .7);
+  --search-results-background: #343434; 
   --color: #f3f3f3;
   --text-color: rgba(255, 255, 255, .87);
   --link-color: #dddd44;
@@ -24,13 +25,14 @@ html[data-theme="dark"] {
   --tag-unsafe-color: #ff6b00;
   --tag-deprecated-color: #9d9d9d;
 
-  --scrollbar-thumb-color: #404042;
+  --scrollbar-thumb-color: #404042;   
 }
 
 html {
   --background: #ffffff;
   --aside-background: #f9f9f9;
   --header-background: rgba(255, 255, 255, .7);
+  --search-results-background: #ebebeb;
   --color: #000000;
   --text-color: rgba(0, 0, 0, .87);
   --link-color: #4444dd;
