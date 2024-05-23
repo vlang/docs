@@ -99,7 +99,7 @@ function sectionToLink(section) {
 }
 
 function display_search_results(how) {
-	document.getElementById('searchResults').display = how;
+	document.getElementById('searchResults').style.display = how;
 }
 
 async function handleSearch() {
