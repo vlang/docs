@@ -287,7 +287,8 @@ aside .title .aside-topics-close svg path {
 }
 
 aside nav {
-  height: 90%;
+  height: 100%;
+  padding-bottom: 40px;
 }
 
 aside .group {
