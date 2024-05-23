@@ -248,11 +248,13 @@ aside {
 }
 
 aside #searchResults {
+  display: none;
   position: absolute;
   overflow: scroll;
   height: 600px;
-  width: 300px;
+  width: 250px;
   background: #343434;
+  border-radius: 10px;
 }
 
 aside .title {
