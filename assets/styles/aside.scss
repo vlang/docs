@@ -21,7 +21,7 @@ aside {
     overflow: scroll;
     height: 600px;
     width: 250px;
-    background: #343434;
+    background: var(--search-results-background);
 	border-radius: 10px;	
   }
 
