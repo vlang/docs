@@ -848,6 +848,53 @@ fn main() {
 <p>V can bring in values at compile time from environment variables.
 <code>$env('ENV_VAR')</code> can also be used in top-level <code>#flag</code> and <code>#include</code> statements:
 <code>#flag linux -I $env('JAVA_HOME')/include</code>.</p>
+<h3 id="$d"><code>$d</code> <a href="conditional-compilation.html#$d" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>V can bring in values at compile time from <code>-d ident=value</code> flag defines, passed on
+the command line to the compiler. You can also pass <code>-d ident</code>, which will have the
+same meaning as passing <code>-d ident=true</code>.</p>
+<p>To get the value in your code, use: <code>$d('ident', default)</code>, where <code>default</code>
+can be <code>false</code> for booleans, <code>0</code> or <code>123</code> for i64 numbers, <code>0.0</code> or <code>113.0</code>
+for f64 numbers, <code>'a string'</code> for strings.</p>
+<p>When a flag is not provided via the command line, <code>$d()</code> will return the <code>default</code>
+value provided as the <em>second</em> argument.</p>
+<div class="language-v">module main
+
+const my_i64 = $d('my_i64', 1024)
+
+fn main() {
+    compile_time_value := $d('my_string', 'V')
+    println(compile_time_value)
+    println(my_i64)
+}
+</div>
+<p>Running the above with <code>v run .</code> will output:</p>
+<pre><code>V
+1024
+</code></pre>
+<p>Running the above with <code>v -d my_i64=4096 -d my_string=&quot;V rocks&quot; run .</code> will output:</p>
+<pre><code>V rocks
+4096
+</code></pre>
+<p>Here is an example of how to use the default values, which have to be <em>pure</em> literals:</p>
+<div class="language-v">fn main() {
+    val_str := $d('id_str', 'value') // can be changed by providing `-d id_str=&quot;my id&quot;`
+    val_f64 := $d('id_f64', 42.0) // can be changed by providing `-d id_f64=84.0`
+    val_i64 := $d('id_i64', 56) // can be changed by providing `-d id_i64=123`
+    val_bool := $d('id_bool', false) // can be changed by providing `-d id_bool=true`
+    val_char := $d('id_char', `f`) // can be changed by providing `-d id_char=v`
+    println(val_str)
+    println(val_f64)
+    println(val_i64)
+    println(val_bool)
+    println(rune(val_char))
+}
+</div>
+<p><code>$d('ident','value')</code> can also be used in top-level statements like <code>#flag</code> and <code>#include</code>:
+<code>#flag linux -I $d('my_include','/usr')/include</code>. The default value for <code>$d</code> when used in these
+statements should be literal <code>string</code>s.</p>
+<p><code>$d('ident', false)</code> can also be used inside <code>$if $d('ident', false) {</code> statements,
+granting you the ability to selectively turn on/off certain sections of code, at compile
+time, without modifying your source code, or keeping different versions of it.</p>
 <h3 id="$compile_error-and-$compile_warn"><code>$compile_error</code> and <code>$compile_warn</code> <a href="conditional-compilation.html#$compile_error-and-$compile_warn" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>These two comptime functions are very useful for displaying custom errors/warnings during
 compile time.</p>
@@ -971,9 +1018,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-06-19T03:58:12.602Z">Last updated:
-                                        2024-06-19 06:58:12, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/aaa23bb05805d7e9fbcde832b42cf0f17970a0ed">aaa23bb</a></time>
+                                    <time datetime="2024-06-19T04:28:26.065Z">Last updated:
+                                        2024-06-19 07:28:26, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/78b77b9f14b44c7d4917c4ce0f336fde5fac513b">78b77b9</a></time>
                                 </div>
                             </div>
 

@@ -481,6 +481,8 @@ const titles_to_fnames = {
 	"$tmpl-for-embedding-and-parsing-v-template-files":	"conditional-compilation.html#$tmpl-for-embedding-and-parsing-v-template-files",
 	"$env":	"conditional-compilation.html#$env",
 	"$ENV":	"conditional-compilation.html#$env",
+	"$d":	"conditional-compilation.html#$d",
+	"$D":	"conditional-compilation.html#$d",
 	"$compile_error and $compile_warn":	"conditional-compilation.html#$compile_error-and-$compile_warn",
 	"$COMPILE_ERROR AND $COMPILE_WARN":	"conditional-compilation.html#$compile_error-and-$compile_warn",
 	"$compile_error-and-$compile_warn":	"conditional-compilation.html#$compile_error-and-$compile_warn",
