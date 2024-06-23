@@ -605,9 +605,9 @@ sh('ls')
 </div>
 <p>Now you can either compile this like a normal V program and get an executable you can deploy and run
 anywhere:
-<code>v deploy.vsh &amp;&amp; ./deploy</code></p>
-<p>Or just run it more like a traditional Bash script:
-<code>v run deploy.vsh</code></p>
+<code>v -skip-running deploy.vsh &amp;&amp; ./deploy</code></p>
+<p>Or run it like a traditional Bash script:
+<code>v run deploy.vsh</code> (or simply just <code>v deploy.vsh</code>)</p>
 <p>On Unix-like platforms, the file can be run directly after making it executable using <code>chmod +x</code>:
 <code>./deploy.vsh</code></p>
 <h2 id="vsh-scripts-with-no-extension">Vsh scripts with no extension <a href="other-v-features.html#vsh-scripts-with-no-extension" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -642,9 +642,9 @@ instead use <code>#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run</code>.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-06-23T07:33:50.155Z">Last updated:
-                                        2024-06-23 10:33:50, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/cc14272444650c0db38fd66f1925714afd76d315">cc14272</a></time>
+                                    <time datetime="2024-06-23T08:34:09.857Z">Last updated:
+                                        2024-06-23 11:34:09, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d364e61b8c211ddff606c1511dae9475402f6eb5">d364e61</a></time>
                                 </div>
                             </div>
 
