@@ -742,28 +742,52 @@ Full list of builtin options:</p>
 <td><code>debug</code>, <code>prod</code>, <code>test</code></td>
 </tr>
 <tr>
-<td><code>mac</code>, <code>darwin</code>, <code>ios</code>,</td>
+<td><code>darwin</code>, <code>ios</code>, <code>bsd</code></td>
 <td><code>clang</code>, <code>mingw</code></td>
 <td><code>i386</code>, <code>arm32</code></td>
 <td><code>js</code>, <code>glibc</code>, <code>prealloc</code></td>
 </tr>
 <tr>
-<td><code>android</code>, <code>mach</code>, <code>dragonfly</code></td>
+<td><code>freebsd</code>, <code>openbsd</code>, <code>netbsd</code></td>
 <td><code>msvc</code></td>
-<td><code>x64</code>, <code>x32</code></td>
+<td><code>rv64</code>, <code>rv32</code></td>
 <td><code>no_bounds_checking</code>, <code>freestanding</code></td>
 </tr>
 <tr>
-<td><code>gnu</code>, <code>hpux</code>, <code>haiku</code>, <code>qnx</code></td>
+<td><code>android</code>, <code>mach</code>, <code>dragonfly</code></td>
 <td><code>cplusplus</code></td>
-<td><code>little_endian</code>, <code>big_endian</code></td>
+<td><code>x64</code>, <code>x32</code></td>
 <td><code>no_segfault_handler</code>, <code>no_backtrace</code></td>
+</tr>
+<tr>
+<td><code>gnu</code>, <code>hpux</code>, <code>haiku</code>, <code>qnx</code></td>
+<td></td>
+<td><code>little_endian</code>, <code>big_endian</code></td>
+<td><code>no_main</code>, <code>fast_math</code>, <code>apk</code>, <code>threads</code></td>
 </tr>
 <tr>
 <td><code>solaris</code>, <code>termux</code></td>
 <td></td>
 <td></td>
-<td><code>no_main</code>, 'fast_math'</td>
+<td><code>js_node</code>, <code>js_browser</code>, <code>js_freestanding</code></td>
+</tr>
+<tr>
+<td><code>serenity</code>, <code>vinix</code>, <code>plan9</code></td>
+<td></td>
+<td></td>
+<td><code>interpreter</code>, <code>es5</code>, <code>profile</code>, <code>wasm32</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>wasm32_emscripten</code>, <code>wasm32_wasi</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><code>native</code>, <code>autofree</code></td>
 </tr>
 </tbody>
 </table>
@@ -1018,9 +1042,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-07-05T11:24:24.790Z">Last updated:
-                                        2024-07-05 14:24:24, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/56d2ba6281536f098c6de9976bcde3a1e83be923">56d2ba6</a></time>
+                                    <time datetime="2024-07-05T23:38:56.588Z">Last updated:
+                                        2024-07-06 02:38:56, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ff102c95b7535d62ea1e414be246df000e205653">ff102c9</a></time>
                                 </div>
                             </div>
 
