@@ -440,6 +440,85 @@
                         <main>
                             <h1 class="main">V and C</h1>
 <h2 id="calling-c-from-v">Calling C from V <a href="v-and-c.html#calling-c-from-v" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V currently does not have a parser for C code. That means that even
+though it allows you to <code>#include</code> existing C header and source files,
+it will not know anything about the declarations in them. The <code>#include</code>
+statement will only appear in the generated C code, to be used by the
+C compiler backend itself.</p>
+<p><strong>Example of #include</strong></p>
+<div class="language-v">#include &lt;stdio.h&gt;
+</div>
+<p>After this statement, V will <em>not</em> know anything about the functions and
+structs declared in <code>stdio.h</code>, but if you try to compile the .v file,
+it will add the include in the generated C code, so that if that header file
+is missing, you will get a C error (you will not in this specific case, if you
+have a proper C compiler setup, since <code>&lt;stdio.h&gt;</code> is part of the
+standard C library).</p>
+<p>To overcome that limitation (that V does not have a C parser), V needs you to
+redeclare the C functions and structs, on the V side, in your <code>.c.v</code> files.
+Note that such redeclarations only need to have enough details about the
+functions/structs that you want to use.
+Note also that they <em>do not have</em> to be complete, unlike the ones in the .h files.</p>
+<p><strong>C. struct redeclarations</strong>
+For example, if a struct has 3 fields on the C side, but you want to only
+refer to 1 of them, you can declare it like this:</p>
+<p><strong>Example of C struct redeclaration</strong></p>
+<div class="language-v">struct C.NameOfTheStruct {
+    a_field int
+}
+</div>
+<p>Another feature, that is very frequently needed for C interoperability,
+is the <code>@[typedef]</code> attribute. It is used for marking <code>C.</code> structs,
+that are defined with <code>typedef struct SomeName { ..... } TypeName;</code> in the C headers.</p>
+<p>For that case, you will have to write something like this in your .c.v file:</p>
+<div class="language-v">@[typedef]
+pub struct C.TypeName {
+}
+</div>
+<p>Note that the name of the <code>C.</code> struct in V, is the one <em>after</em> the <code>struct SomeName {...}</code>.</p>
+<p><strong>C. function redeclarations</strong>
+The situation is similar for <code>C.</code> functions. If you are going to call just 1 function in a
+library, but its .h header declares dozens of them, you will only need to declare that single
+function, for example:</p>
+<p><strong>Example of C function redeclaration</strong></p>
+<div class="language-v">fn C.name_of_the_C_function(param1 int, const_param2 &amp;char, param3 f32) f64
+</div>
+<p>... and then later, you will be able to call the same way you would V function:</p>
+<div class="language-v">f := C.name_of_the_C_function(123, c'here is some C style string', 1.23)
+dump(f)
+</div>
+<p><strong>Example of using a C function from stdio, by redeclaring it on the V side</strong></p>
+<div class="language-v">#include &lt;stdio.h&gt;
+
+// int dprintf(int fd, const char *format, ...)
+fn C.dprintf(fd int, const_format &amp;char, ...voidptr) int
+
+value := 12345
+x := C.dprintf(0, c'Hello world, value: %d\n', value)
+dump(x)
+</div>
+<p>If your C backend compiler is properly setup, you should see something like this, when you try
+to run it:</p>
+<pre><code class="language-console">#0 10:42:32 /v/examples&gt; v run a.v
+Hello world, value: 12345
+[a.v:8] x: 26
+#0 10:42:33 /v/examples&gt;
+</code></pre>
+<p>Note, that the C function redeclarations look very simillar to the V ones, with some differences:</p>
+<ol>
+<li>They lack a body (they are defined on the C side) .</li>
+<li>Their names start with <code>C.</code> .</li>
+<li>Their names can have capital letters (unlike V ones, that are required to use snake_case) .</li>
+</ol>
+<p>Note also the second parameter <code>const char *format</code>, which was redeclared as <code>const_format &amp;char</code> .
+The <code>const_</code> prefix in that redeclaration may seem arbitrary, but it is important, if you want
+to compile your code with <code>-cstrict</code> or thirdparty C static analysis tools. V currently does not
+have another way to express that this parameter is a const (this will probably change in V 1.0).</p>
+<p>For some C functions, that use variadics (<code>...</code>) as parameters, V supports a special syntax for
+the parameters - <code>...voidptr</code>, that is not available for ordinary V functions (V's variadics are
+<em>required</em> to have the same exact type). Usually those are functions of the printf/scanf family
+i.e for <code>printf</code>, <code>fprintf</code>, <code>scanf</code>, <code>sscanf</code>, etc, and other formatting/parsing/logging
+functions.</p>
 <p><strong>Example</strong></p>
 <div class="language-v">#flag freebsd -I/usr/local/include -L/usr/local/lib
 #flag -lsqlite3
@@ -752,9 +831,9 @@ meaning it could cause more issues than it solves.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-07-31T12:18:04.546Z">Last updated:
-                                        2024-07-31 15:18:04, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/007f76f05e51124bce399e1657be9d82ac5abcce">007f76f</a></time>
+                                    <time datetime="2024-07-31T13:08:38.469Z">Last updated:
+                                        2024-07-31 16:08:38, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/340535fe06860955d2f00077655802537c0f922f">340535f</a></time>
                                 </div>
                             </div>
 
