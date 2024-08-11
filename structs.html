@@ -553,7 +553,7 @@ fn register(u User) User {
 
 mut user := User{
     name: 'abc'
-    age: 23
+    age:  23
 }
 user = register(user)
 println(user)
@@ -577,9 +577,9 @@ struct Button {
 
 fn new_button(c ButtonConfig) &amp;Button {
     return &amp;Button{
-        width: c.width
+        width:  c.width
         height: c.height
-        text: c.text
+        text:   c.text
     }
 }
 
@@ -636,7 +636,7 @@ with a struct name.</p>
 book := Book{
     author: struct {
         name: 'Samantha Black'
-        age: 24
+        age:  24
     }
 }
 assert book.author.name == 'Samantha Black'
@@ -743,7 +743,7 @@ struct Button {
 <p>With embedding, the struct <code>Button</code> will automatically get all the fields and methods from
 the struct <code>Size</code>, which allows you to do:</p>
 <div class="language-v">mut button := Button{
-    title: 'Click me'
+    title:  'Click me'
     height: 2
 }
 
@@ -769,14 +769,14 @@ in OOP, <em>NOT</em> base classes.</p>
 <p>You can also initialize an embedded struct:</p>
 <div class="language-v">mut button := Button{
     Size: Size{
-        width: 3
+        width:  3
         height: 2
     }
 }
 </div>
 <p>or assign values:</p>
 <div class="language-v">button.Size = Size{
-    width: 4
+    width:  4
     height: 5
 }
 </div>
@@ -806,9 +806,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-08-10T19:17:27.228Z">Last updated:
-                                        2024-08-10 22:17:27, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/99da5726db0c6cad653dafd179ee8174fd2cce3d">99da572</a></time>
+                                    <time datetime="2024-08-11T06:16:01.622Z">Last updated:
+                                        2024-08-11 09:16:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/c51d30bf5309653c6b573ec815268e69a78ea8cc">c51d30b</a></time>
                                 </div>
                             </div>
 
