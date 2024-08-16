@@ -584,7 +584,9 @@ doesn't need <code>+</code> to right-align since that's the default.</p>
 <li><p>width: may be an integer value describing the minimum width of total field to output.</p>
 </li>
 <li><p>precision: an integer value preceded by a <code>.</code> will guarantee that many digits after the decimal
-point, if the input variable is a float. Ignored if variable is an integer.</p>
+point without any insignificant trailing zeros. If displaying insignificant zero's is desired,
+append a <code>f</code> specifier to the precision value (see examples below). Applies only to float
+variables and is ignored for integer variables.</p>
 </li>
 <li><p>type: <code>f</code> and <code>F</code> specify the input is a float and should be rendered as such, <code>e</code> and <code>E</code> specify
 the input is a float and should be rendered as an exponent (partially broken), <code>g</code> and <code>G</code> specify
@@ -1302,9 +1304,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-08-16T18:14:30.624Z">Last updated:
-                                        2024-08-16 21:14:30, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/4940f2d41cb7c221070b163d63ce94ecfa33f6d5">4940f2d</a></time>
+                                    <time datetime="2024-08-16T18:27:05.399Z">Last updated:
+                                        2024-08-16 21:27:05, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/82105933499204c533831e7bdb56c75aeaccca36">8210593</a></time>
                                 </div>
                             </div>
 
