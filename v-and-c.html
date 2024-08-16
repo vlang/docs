@@ -574,7 +574,7 @@ fn main() {
     nr_users := C.sqlite3_column_int(stmt, 0)
     C.sqlite3_finalize(stmt)
     println('There are ${nr_users} users in the database.')
-    //
+
     error_msg := &amp;char(0)
     query_all_users := 'select * from users'
     rc := C.sqlite3_exec(db, &amp;char(query_all_users.str), my_callback, voidptr(7), &amp;error_msg)
@@ -831,9 +831,9 @@ meaning it could cause more issues than it solves.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-08-16T08:40:30.506Z">Last updated:
-                                        2024-08-16 11:40:30, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/38e23a76f3e48679cc029cf0e9904566e94c5df9">38e23a7</a></time>
+                                    <time datetime="2024-08-16T09:15:07.450Z">Last updated:
+                                        2024-08-16 12:15:07, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/cb58db56ef75964d02403adaf5979539969c954c">cb58db5</a></time>
                                 </div>
                             </div>
 
