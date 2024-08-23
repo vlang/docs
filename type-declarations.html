@@ -1014,6 +1014,16 @@ to the <code>error()</code> function.</p>
     return
 }
 </div>
+<h3 id="optionsresults-when-returning-multiple-values">Options/results when returning multiple values <a href="type-declarations.html#optionsresults-when-returning-multiple-values" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Only one <code>Option</code> or <code>Result</code> is allowed to be returned from a function. It is
+possible to return multiple values and still signal an error.</p>
+<div class="language-v">fn multireturn(v int) !(int, int) {
+    if v &lt; 0 {
+        return error('must be positive')
+    }
+    return v, v * v
+}
+</div>
 <h3 id="handling-optionsresults">Handling options/results <a href="type-declarations.html#handling-optionsresults" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>There are four ways of handling an option/result. The first method is to
 propagate the error:</p>
@@ -1186,9 +1196,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-08-23T07:04:25.963Z">Last updated:
-                                        2024-08-23 10:04:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/89d0743fd60f08d4ef5202cbf317a13f7aee8585">89d0743</a></time>
+                                    <time datetime="2024-08-23T07:23:06.095Z">Last updated:
+                                        2024-08-23 10:23:06, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7baee04727936c133cf621503416f73fc2e959c7">7baee04</a></time>
                                 </div>
                             </div>
 
