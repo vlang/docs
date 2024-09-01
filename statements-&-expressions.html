@@ -453,12 +453,30 @@ if a &lt; b {
 <p><code>if</code> statements are pretty straightforward and similar to most other languages.
 Unlike other C-like languages,
 there are no parentheses surrounding the condition and the braces are always required.</p>
-<p><code>if</code> can be used as an expression:</p>
+<h3 id="if-expressions"><code>If</code> expressions <a href="statements-&-expressions.html#if-expressions" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Unlike C, V does not have a ternary operator, that would allow you to do: <code>x = c ? 1 : 2</code> .
+Instead, it has a bit more verbose, but also clearer to read, ability to use <code>if</code> as an
+expression. The direct translation in V of the ternary construct above, assuming <code>c</code> is a
+boolean condition, would be: <code>x = if c { 1 } else { 2 }</code>.</p>
+<p>Here is another example:</p>
 <div class="language-v">num := 777
 s := if num % 2 == 0 { 'even' } else { 'odd' }
 println(s)
 // &quot;odd&quot;
 </div>
+<p>You can use multiple statements in each of the branches of an <code>if</code> expression, followed by a final
+value, that will become the value of the entire <code>if</code> expression, when it takes that branch:</p>
+<div class="language-v">n := arguments().len
+x := if n &gt; 2 {
+    dump(arguments())
+    42
+} else {
+    println('something else')
+    100
+}
+dump(x)
+</div>
+<h3 id="if-unwrapping"><code>If</code> unwrapping <a href="statements-&-expressions.html#if-unwrapping" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Anywhere you can use <code>or {}</code>, you can also use &quot;if unwrapping&quot;. This binds the unwrapped value
 of an expression to a variable when that expression is not none nor an error.</p>
 <div class="language-v">m := {
@@ -1001,7 +1019,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1615"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1617"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1016,9 +1034,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-09-01T05:02:08.874Z">Last updated:
-                                        2024-09-01 08:02:08, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/8a9abbb14d09789bce1bf92d649dbe0fbfdb5ae7">8a9abbb</a></time>
+                                    <time datetime="2024-09-01T06:10:54.339Z">Last updated:
+                                        2024-09-01 09:10:54, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d130939ad6a3b38bb778d8ea863eba77fb8c5002">d130939</a></time>
                                 </div>
                             </div>
 
