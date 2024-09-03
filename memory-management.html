@@ -465,7 +465,7 @@ fn (data &amp;MyType) free() {
 <code>free()</code> calls for your data type at the end of each variable's lifetime.</p>
 <p>Autofree can be enabled with an <code>-autofree</code> flag.</p>
 <p>For developers willing to have more low level control, autofree can be disabled with
-<code>-manualfree</code>, or by adding a <code>[manualfree]</code> on each function that wants manage its
+<code>-manualfree</code>, or by adding a <code>[manualfree]</code> on each function that wants to manage its
 memory manually. (See <a href="attributes.html">attributes</a>).</p>
 <blockquote class="tip">
 <p>[!NOTE]
@@ -563,7 +563,7 @@ fn f() (RefStruct, &amp;MyStruct) {
 <p>Here <code>a</code> is stored on the stack since its address never leaves the function <code>f()</code>.
 However a reference to <code>b</code> is part of <code>e</code> which is returned. Also a reference to
 <code>c</code> is returned. For this reason <code>b</code> and <code>c</code> will be heap allocated.</p>
-<p>Things become less obvious when a reference to an object is passed as function argument:</p>
+<p>Things become less obvious when a reference to an object is passed as a function argument:</p>
 <div class="language-v">struct MyStruct {
 mut:
     n int
@@ -749,9 +749,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-09-02T17:45:24.396Z">Last updated:
-                                        2024-09-02 20:45:24, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/da228e93dfa822ad3c0e884710f5f400815d4273">da228e9</a></time>
+                                    <time datetime="2024-09-03T04:54:03.333Z">Last updated:
+                                        2024-09-03 07:54:03, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/0a61b4a076733cdb838a3d3184910915b6c44dac">0a61b4a</a></time>
                                 </div>
                             </div>
 
