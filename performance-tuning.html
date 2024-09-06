@@ -504,6 +504,11 @@ how their programs actually perform&quot;.</p>
 <td>Risk of reduced CPU compatibility</td>
 </tr>
 <tr>
+<td><code>-compress</code></td>
+<td>Size</td>
+<td>Harder to debug, extra dependency <code>upx</code></td>
+</tr>
+<tr>
 <td><code>PGO</code></td>
 <td>Performance, Size</td>
 <td>Usage complexity</td>
@@ -669,6 +674,20 @@ with identical hardware.</li>
 <ul>
 <li>When distributing the software to users with potentially older CPUs.</li>
 </ul>
+<h3 id="-compress"><code>-compress</code> <a href="performance-tuning.html#-compress" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>This flag executes <code>upx</code> to compress the resultant executable,
+reducing its size by around 50%-70%.</p>
+<p><strong>When to Use</strong></p>
+<ul>
+<li>For really tiny environments, where the size of the executable on the file system,
+or when deploying is important. The executable will be uncompressed at runtime,
+so it will take a bit more time to start.</li>
+</ul>
+<p><strong>When to Avoid</strong></p>
+<ul>
+<li>When you need to debug the application, or when your app's startup time
+is extremely important (where 1-2ms can be meaningful for you).</li>
+</ul>
 <h3 id="pgo-(profile-guided-optimization)">PGO (Profile-Guided Optimization) <a href="performance-tuning.html#pgo-(profile-guided-optimization)" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>PGO allows the compiler to optimize code based on its behavior during sample runs. This can improve
 performance and reduce the size of the output executable, but it adds complexity to the build
@@ -733,9 +752,9 @@ rm pgo_gen
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-09-06T16:56:31.683Z">Last updated:
-                                        2024-09-06 19:56:31, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/023fd9234d0d1629b74c1e7df9bfc5374e3b0a2b">023fd92</a></time>
+                                    <time datetime="2024-09-06T17:03:06.945Z">Last updated:
+                                        2024-09-06 20:03:06, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/61609454d602d4a7b5c312e59b06909c9b3519a2">6160945</a></time>
                                 </div>
                             </div>
 

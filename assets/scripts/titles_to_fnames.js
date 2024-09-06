@@ -555,6 +555,8 @@ const titles_to_fnames = {
 	"-cflags -march=native":	"performance-tuning.html#-cflags--march=native",
 	"-CFLAGS -MARCH=NATIVE":	"performance-tuning.html#-cflags--march=native",
 	"-cflags--march=native":	"performance-tuning.html#-cflags--march=native",
+	"-compress":	"performance-tuning.html#-compress",
+	"-COMPRESS":	"performance-tuning.html#-compress",
 	"PGO (Profile-Guided Optimization)":	"performance-tuning.html#pgo-(profile-guided-optimization)",
 	"pgo (profile-guided optimization)":	"performance-tuning.html#pgo-(profile-guided-optimization)",
 	"PGO (PROFILE-GUIDED OPTIMIZATION)":	"performance-tuning.html#pgo-(profile-guided-optimization)",
