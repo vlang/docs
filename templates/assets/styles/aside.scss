@@ -15,6 +15,47 @@ aside {
     display: none;
   }
 
+  #searchbox {
+    position: relative;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 10px 14px 10px 36px;
+      background-color: var(--background);
+      border: 1px solid var(--divider-color);
+      border-radius: 8px;
+      color: var(--secondary-color);
+      font-size: 0.875rem;
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+      &:hover {
+        border-color: var(--theme-color);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--theme-color);
+        box-shadow: 0 0 0 3px var(--divider-color);
+      }
+    }
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      height: 16px;
+      color: var(--secondary-color);
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
   #searchResults {
     display: none;
     position: absolute;
