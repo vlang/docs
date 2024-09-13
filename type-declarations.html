@@ -626,8 +626,7 @@ fn main() {
 }
 </div>
 <h3 id="implement-an-interface">Implement an interface <a href="type-declarations.html#implement-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>A type implements an interface by implementing its methods and fields.
-There is no explicit declaration of intent, no &quot;implements&quot; keyword.</p>
+<p>A type implements an interface by implementing its methods and fields.</p>
 <p>An interface can have a <code>mut:</code> section. Implementing types will need
 to have a <code>mut</code> receiver, for methods declared in the <code>mut:</code> section
 of an interface.</p>
@@ -669,6 +668,27 @@ fn fn1(s Foo) {
 // fn fn2(s Bar) { // does not match
 //      println(s.write('Foo'))
 // }
+</div>
+<p>There is an <strong>optional</strong> <code>implements</code> keyword for explicit declaration
+of intent, which applies to <code>struct</code> declarations.</p>
+<div class="language-v">struct PathError implements IError {
+    Error
+    path string
+}
+
+fn (err PathError) msg() string {
+    return 'Failed to open path: ${err.path}'
+}
+
+fn try_open(path string) ! {
+    return PathError{
+        path: path
+    }
+}
+
+fn main() {
+    try_open('/tmp') or { panic(err) }
+}
 </div>
 <h3 id="casting-an-interface">Casting an interface <a href="type-declarations.html#casting-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>We can test the underlying type of an interface using dynamic cast operators.</p>
@@ -1196,9 +1216,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-09-13T08:01:45.882Z">Last updated:
-                                        2024-09-13 11:01:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/56013a443ac8bcb1fe5125a9213ce32dcb6b7005">56013a4</a></time>
+                                    <time datetime="2024-09-13T14:05:27.501Z">Last updated:
+                                        2024-09-13 17:05:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/888d84d26de29e87760aab5d7544cc78dcec9e6f">888d84d</a></time>
                                 </div>
                             </div>
 
