@@ -66,8 +66,12 @@
 
             <div id="searchbox">
                 <!-- Search Input and Button -->
-                <input type="text" id="searchInput" placeholder="Enter search term">
-                <button id="searchButton">Search</button>
+                <input type="text" id="searchInput" placeholder="Search">
+                <button id="searchButton">
+                     <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                         <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                     </svg>
+                </button>
                 <div id="searchResults"></div>
             </div>
 
@@ -497,8 +501,19 @@ using git bisect etc).</li>
 next to the nearest v.mod file (as a string).</li>
 <li><code>@VMODROOT</code> =&gt; will be substituted with the <em>folder</em>,
 where the nearest v.mod file is (as a string).</li>
+<li><code>@BUILD_DATE</code> =&gt; replaced with the build date, for example '2024-09-13' .</li>
+<li><code>@BUILD_TIME</code> =&gt; replaced with the build time, for example '12:32:07' .</li>
+<li><code>@BUILD_TIMESTAMP</code> =&gt; replaced with the build timestamp, for example '1726219885' .
+Note: <code>@BUILD_DATE</code>, <code>@BUILD_TIME</code>, <code>@BUILD_TIMESTAMP</code> represent times in the UTC timezone.
+By default, they are based on the current time of the compilation/build. They can be overriden
+by setting the environment variable <code>SOURCE_DATE_EPOCH</code>. That is also useful while making
+releases, since you can use the equivalent of this in your build system/script:
+<code>export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) ;</code> , and then use <code>@BUILD_DATE</code> etc.,
+inside your program, when you for example print your version information to users.
+See also <a href="https://reproducible-builds.org/docs/source-date-epoch/">https://reproducible-builds.org/docs/source-date-epoch/</a> .</li>
 </ul>
-<p>That allows you to do the following example, useful while debugging/logging/tracing your code:</p>
+<p>The compile time pseudo variables allow you to do the following
+example, which is useful while debugging/logging/tracing your code:</p>
 <div class="language-v">eprintln(@LOCATION)
 </div>
 <p>Another example, is if you want to embed the version/name from v.mod <em>inside</em> your executable:</p>
@@ -508,6 +523,11 @@ eprintln('${vm.name} ${vm.version}\n ${vm.description}')
 </div>
 <p>A program that prints its own source code (a quine):</p>
 <div class="language-v">print($embed_file(@FILE).to_string())
+</div>
+<p>A program that prints the time when it was built:</p>
+<div class="language-v">import time
+
+println('This program, was compiled at ${time.unix(@BUILD_TIMESTAMP.i64()).format_ss_milli()} .')
 </div>
 <blockquote class="tip">
 <p>[!NOTE]
@@ -627,6 +647,26 @@ fn main() {
 // Output:
 // test returns int: 123
 // test2 returns string: foo
+</div>
+<h3 id=".params"><h4 id="comptime-method-params">.params</h4> <a href="#.params" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>You can retrieve information about struct method params.</p>
+<div class="language-v">struct Test {
+}
+
+fn (t Test) foo(arg1 int, arg2 string) {
+}
+
+fn main() {
+    $for m in Test.methods {
+        $for param in m.params {
+            println('${typeof(param.typ).name}: ${param.name}')
+        }
+    }
+}
+
+// Output:
+// int: arg1
+// string: arg2
 </div>
 <p>See <a href="https://github.com/vlang/v/blob/master/examples/compiletime/reflection.v"><code>examples/compiletime/reflection.v</code></a>
 for a more complete example.</p>
@@ -929,31 +969,31 @@ For example, if you have both <code>file_linux.c.v</code> and <code>file_default
 and you are compiling for linux, then only <code>file_linux.c.v</code> will be used,
 and <code>file_default.c.v</code> will be ignored.</li>
 </ul>
-<p>Here is a more complete example:
-main.v:</p>
+<p>Here is a more complete example:</p>
+<p><code>main.v</code>:</p>
 <div class="language-v">module main
 fn main() { println(message) }
 </div>
-<p>main_default.c.v:</p>
+<p><code>main_default.c.v</code>:</p>
 <div class="language-v">module main
 const message = 'Hello world'
 </div>
-<p>main_linux.c.v:</p>
+<p><code>main_linux.c.v</code>:</p>
 <div class="language-v">module main
 const message = 'Hello linux'
 </div>
-<p>main_windows.c.v:</p>
+<p><code>main_windows.c.v</code>:</p>
 <div class="language-v">module main
 const message = 'Hello windows'
 </div>
 <p>With the example above:</p>
 <ul>
-<li><p>when you compile for windows, you will get 'Hello windows'</p>
+<li><p>when you compile for Windows, you will get <code>Hello windows</code></p>
 </li>
-<li><p>when you compile for linux, you will get 'Hello linux'</p>
+<li><p>when you compile for Linux, you will get <code>Hello linux</code></p>
 </li>
 <li><p>when you compile for any other platform, you will get the
-non specific 'Hello world' message.</p>
+non specific <code>Hello world</code> message.</p>
 </li>
 <li><p><code>_d_customflag.v</code> =&gt; will be used <em>only</em> if you pass <code>-d customflag</code> to V.
 That corresponds to <code>$if customflag ? {}</code>, but for a whole file, not just a
@@ -978,7 +1018,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5787"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5821"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -993,9 +1033,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-09-13T21:45:59.217Z">Last updated:
-                                        2024-09-14 00:45:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/26ab7d4fe109f6a4da68b2179f36bbc8d9b9e0bd">26ab7d4</a></time>
+                                    <time datetime="2024-09-19T10:57:52.843Z">Last updated:
+                                        2024-09-19 13:57:52, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9a0f4d846190c3e1a19a84902a58027b4a079dfb">9a0f4d8</a></time>
                                 </div>
                             </div>
 

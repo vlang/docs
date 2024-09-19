@@ -66,8 +66,12 @@
 
             <div id="searchbox">
                 <!-- Search Input and Button -->
-                <input type="text" id="searchInput" placeholder="Enter search term">
-                <button id="searchButton">Search</button>
+                <input type="text" id="searchInput" placeholder="Search">
+                <button id="searchButton">
+                     <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                         <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                     </svg>
+                </button>
                 <div id="searchResults"></div>
             </div>
 
@@ -439,15 +443,19 @@
                     <div class="content-container">
                         <main>
                             <h1 class="main">Cross compilation</h1>
-<p>To cross compile your project simply run</p>
+<p>Cross compilation is supported for Windows, Linux and FreeBSD.</p>
+<p>To cross compile your project simply run:</p>
 <pre><code class="language-shell">v -os windows .
 </code></pre>
 <p>or</p>
 <pre><code class="language-shell">v -os linux .
 </code></pre>
+<p>or</p>
+<pre><code class="language-shell">v -os freebsd .
+</code></pre>
 <blockquote class="tip">
 <p>[!NOTE]
-Cross-compiling a windows binary on a linux machine requires the GNU C compiler for
+Cross-compiling a Windows binary on a Linux machine requires the GNU C compiler for
 MinGW-w64 (targeting Win64) to first be installed.</p>
 </blockquote>
 <p>For Ubuntu/Debian based distributions:</p>
@@ -467,7 +475,7 @@ libraries and include files for Windows and Linux. V will provide you with a lin
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7152"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7229"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -482,9 +490,9 @@ libraries and include files for Windows and Linux. V will provide you with a lin
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-09-13T21:45:59.298Z">Last updated:
-                                        2024-09-14 00:45:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/26ab7d4fe109f6a4da68b2179f36bbc8d9b9e0bd">26ab7d4</a></time>
+                                    <time datetime="2024-09-19T10:57:52.926Z">Last updated:
+                                        2024-09-19 13:57:52, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9a0f4d846190c3e1a19a84902a58027b4a079dfb">9a0f4d8</a></time>
                                 </div>
                             </div>
 

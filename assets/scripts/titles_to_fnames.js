@@ -482,6 +482,8 @@ const titles_to_fnames = {
 	".VARIANTS":	"conditional-compilation.html#.variants",
 	".methods":	"conditional-compilation.html#.methods",
 	".METHODS":	"conditional-compilation.html#.methods",
+	".params":	"conditional-compilation.html#.params",
+	".PARAMS":	"conditional-compilation.html#.params",
 	"$if condition":	"conditional-compilation.html#$if-condition",
 	"$IF CONDITION":	"conditional-compilation.html#$if-condition",
 	"$if-condition":	"conditional-compilation.html#$if-condition",
