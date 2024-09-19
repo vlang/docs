@@ -26,5 +26,3 @@ then follow the instructions in its
 ## External dependencies
 You'll need `rsync`, [V](https://github.com/vlang/v?tab=readme-ov-file#installing-v-from-source),
 and [sass](https://sass-lang.com/install/) .
-
-## Small test
