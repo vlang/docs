@@ -42,3 +42,5 @@ directory.
 v -e 'import net.http.file; file.serve(folder: "output/")'
 ```
 Now load http://localhost:4001/ in your browser.
+
+## Test if pushing works
