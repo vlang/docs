@@ -115,15 +115,29 @@ async function handleSearch() {
 
 // Initialize the search functionality when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-	document.getElementById('searchButton').addEventListener('click', handleSearch);
-    document.getElementById('searchInput').addEventListener('keydown', (event) => {
+	const searchInput = document.getElementById('searchInput');
+	const searchKeys = document.getElementById('searchKeys');
+	searchKeys.innerHTML = (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl') + '&nbsp;K';
+	document.addEventListener('keydown', (event) => {
+		if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+			event.preventDefault();
+			searchInput.focus();
+		}
+	});
+	searchInput.onfocus = () => searchKeys.style.display = 'none';
+	searchInput.onblur = () => searchKeys.style.display = 'block';
+	searchInput.onkeydown = (event) => {
 		if (event.key === 'Enter') {
 			handleSearch();
-		}
-		if (event.key === 'Escape') {
+		} else if (event.key === 'Escape') {
+			if (document.getElementById('searchResults').style.display === 'none') {
+				searchInput.blur();
+				return
+			}
 			display_search_results("none");
-		}	    
-	});
+		}
+	};
+	document.getElementById('searchButton').onclick(handleSearch);
 });
 
 window.onbeforeunload = function () {
