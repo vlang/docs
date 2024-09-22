@@ -150,7 +150,7 @@ aside {
 
       .link {
         display: block;
-        margin: 4px 0;
+        margin: 10px 0 0;
         color: var(--secondary-color);
         text-decoration: none;
 
@@ -161,6 +161,10 @@ aside {
 
         &.active {
           color: var(--theme-color);
+        }
+
+        &.subtopic {
+          margin: 6px 0 0;
         }
       }
     }

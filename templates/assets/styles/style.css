@@ -378,7 +378,7 @@ aside .group .items {
 
 aside .group .items .link {
   display: block;
-  margin: 4px 0;
+  margin: 10px 0 0;
   color: var(--secondary-color);
   text-decoration: none;
 }
@@ -390,6 +390,10 @@ aside .group .items .link:hover {
 
 aside .group .items .link.active {
   color: var(--theme-color);
+}
+
+aside .group .items .link.subtopic {
+  margin: 6px 0 0;
 }
 
 @supports (font-variation-settings: normal) {
