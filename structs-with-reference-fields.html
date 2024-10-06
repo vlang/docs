@@ -408,16 +408,16 @@ cause a panic.</p>
 }
 
 // Reference fields must be initialized unless an initial value is declared.
-// Zero (0) is OK but use with caution, it's a nil pointer.
+// Nil is OK but use with caution, it's a nil pointer.
 foo := Node{
-    a: 0
+    a: unsafe { nil }
 }
 bar := Node{
     a: &amp;foo
 }
 baz := Node{
-    a: 0
-    b: 0
+    a: unsafe { nil }
+    b: unsafe { nil }
 }
 qux := Node{
     a: &amp;foo
@@ -447,9 +447,9 @@ println(qux)
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-10-06T19:45:27.452Z">Last updated:
-                                        2024-10-06 22:45:27, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a2d385aee3f1295966991ab9caf1d98319de479d">a2d385a</a></time>
+                                    <time datetime="2024-10-06T22:58:45.319Z">Last updated:
+                                        2024-10-07 01:58:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/2b52153c1477bb782645f6c50ce6773db6bb5092">2b52153</a></time>
                                 </div>
                             </div>
 
