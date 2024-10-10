@@ -92,8 +92,8 @@
             <nav>
                 <div class="group">
                     <section>
-                        @for topic in topics
                         <div class="items">
+                            @for topic in topics
                             @if topic.title == title
                             <a class="link active" href="@{topic.url}">@{topic.title}</a>
                             @else
@@ -101,7 +101,6 @@
                             @end
                             @for subtopic in topic.subtopics
                             <a class="link subtopic" href="@{topic.url}#@{subtopic.id}"> @{subtopic.title}</a>
-
                             @end
                             @end
                         </div>
