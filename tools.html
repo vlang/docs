@@ -291,11 +291,13 @@ before using the shader in your code.</p>
 <h2 id="profiling">Profiling <a href="tools.html#profiling" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V has good support for profiling your programs: <code>v -profile profile.txt run file.v</code>
 That will produce a profile.txt file, which you can then analyze.</p>
-<p>The generated profile.txt file will have lines with 4 columns:
-a) how many times a function was called
-b) how much time in total a function took (in ms)
-c) how much time on average, a call to a function took (in ns)
-d) the name of the v function</p>
+<p>The generated profile.txt file will have lines with 4 columns:</p>
+<ol>
+<li>How many times a function was called.</li>
+<li>How much time in total a function took (in ms).</li>
+<li>How much time on average, a call to a function took (in ns).</li>
+<li>The name of the v function.</li>
+</ol>
 <p>You can sort on column 3 (average time per function) using:
 <code>sort -n -k3 profile.txt|tail</code></p>
 <p>You can also use stopwatches to measure just portions of your code explicitly:</p>
@@ -328,9 +330,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-10-16T11:22:43.992Z">Last updated:
-                                        2024-10-16 14:22:43, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c5e8ad19dfd6b57396b7781d423195305ce8c6b4">c5e8ad1</a></time>
+                                    <time datetime="2024-10-16T12:24:06.169Z">Last updated:
+                                        2024-10-16 15:24:06, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/3326392ce2630075b9c1a66d8fe8e795ab457ebe">3326392</a></time>
                                 </div>
                             </div>
 
