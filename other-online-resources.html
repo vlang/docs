@@ -193,7 +193,7 @@
                             <a class="link subtopic" href="tools.html#v-fmt"> v fmt</a>
                             <a class="link subtopic" href="tools.html#v-shader"> v shader</a>
                             <a class="link subtopic" href="tools.html#profiling"> Profiling</a>
-                            <a class="link active" href="package-management.html">Package management</a>
+                            <a class="link" href="package-management.html">Package management</a>
                             <a class="link subtopic" href="package-management.html#package-commands"> Package commands</a>
                             <a class="link subtopic" href="package-management.html#publish-package"> Publish package</a>
                             <a class="link" href="attributes.html">Attributes</a>
@@ -239,7 +239,7 @@
                             <a class="link subtopic" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
                             <a class="link" href="appendix-i-keywords.html">Appendix I: Keywords</a>
                             <a class="link" href="appendix-ii-operators.html">Appendix II: Operators</a>
-                            <a class="link" href="other-online-resources.html">Other online resources</a>
+                            <a class="link active" href="other-online-resources.html">Other online resources</a>
                             <a class="link subtopic" href="other-online-resources.html#v-contributing-guide"> V contributing guide</a>
                             <a class="link subtopic" href="other-online-resources.html#v-language-documentation"> V language documentation</a>
                             <a class="link subtopic" href="other-online-resources.html#v-standard-module-documentation"> V standard module documentation</a>
@@ -257,137 +257,41 @@
                 <div class="content">
                     <div class="content-container">
                         <main>
-                            <h1 class="main">Package management</h1>
-<p>A V <em>module</em> is a single folder with .v files inside. A V <em>package</em> can
-contain one or more V modules. A V <em>package</em> should have a <code>v.mod</code> file
-at its top folder, describing the contents of the package.</p>
-<p>V packages are installed normally in your <code>~/.vmodules</code> folder. That
-location can be overridden by setting the env variable <code>VMODULES</code>.</p>
-<h2 id="package-commands">Package commands <a href="package-management.html#package-commands" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>You can use the V frontend to do package operations, just like you can
-use it for compiling code, formatting code, vetting code etc.</p>
-<pre><code class="language-powershell">v [package_command] [param]
-</code></pre>
-<p>where a package command can be one of:</p>
-<pre><code>   install           Install a package from VPM.
-   remove            Remove a package that was installed from VPM.
-   search            Search for a package from VPM.
-   update            Update an installed package from VPM.
-   upgrade           Upgrade all the outdated packages.
-   list              List all installed packages.
-   outdated          Show installed packages that need updates.
-</code></pre>
-<p>You can install packages already created by someone else with <a href="https://vpm.vlang.io/">VPM</a>:</p>
-<pre><code class="language-powershell">v install [package]
-</code></pre>
-<p><strong>Example:</strong></p>
-<pre><code class="language-powershell">v install ui
-</code></pre>
-<p>Packages can be installed directly from git or mercurial repositories.</p>
-<pre><code class="language-powershell">v install [--once] [--git|--hg] [url]
-</code></pre>
-<p><strong>Example:</strong></p>
-<pre><code class="language-powershell">v install --git https://github.com/vlang/markdown
-</code></pre>
-<p>Sometimes you may want to install the dependencies <strong>ONLY</strong> if those are not installed:</p>
-<pre><code>v install --once [package]
-</code></pre>
-<p>Removing a package with v:</p>
-<pre><code class="language-powershell">v remove [package]
-</code></pre>
-<p><strong>Example:</strong></p>
-<pre><code class="language-powershell">v remove ui
-</code></pre>
-<p>Updating an installed package from <a href="https://vpm.vlang.io/">VPM</a>:</p>
-<pre><code class="language-powershell">v update [package]
-</code></pre>
-<p><strong>Example:</strong></p>
-<pre><code class="language-powershell">v update ui
-</code></pre>
-<p>Or you can update all your packages:</p>
-<pre><code class="language-powershell">v update
-</code></pre>
-<p>To see all the packages you have installed, you can use:</p>
-<pre><code class="language-powershell">v list
-</code></pre>
-<p><strong>Example:</strong></p>
-<pre><code class="language-powershell">&gt; v list
-Installed packages:
-  markdown
-  ui
-</code></pre>
-<p>To see all the packages that need updates:</p>
-<pre><code class="language-powershell">v outdated
-</code></pre>
-<p><strong>Example:</strong></p>
-<pre><code class="language-powershell">&gt; v outdated
-Package are up to date.
-</code></pre>
-<h2 id="publish-package">Publish package <a href="package-management.html#publish-package" class="header-anchor" aria-hidden="true">#</a></h2>
-<ol>
-<li><p>Put a <code>v.mod</code> file inside the toplevel folder of your package (if you
-created your package with the command <code>v new mypackage</code> or <code>v init</code>
-you already have a <code>v.mod</code> file).</p>
-<pre><code class="language-sh">v new mypackage
-Input your project description: My nice package.
-Input your project version: (0.0.0) 0.0.1
-Input your project license: (MIT)
-Initialising ...
-Complete!
-</code></pre>
-<p>Example <code>v.mod</code>:</p>
-<div class="language-v">Module {
-    name: 'mypackage'
-    description: 'My nice package.'
-    version: '0.0.1'
-    license: 'MIT'
-    dependencies: []
-}
-</div>
-<p>Minimal file structure:</p>
-<pre><code>v.mod
-mypackage.v
-</code></pre>
-<p>The name of your package should be used with the <code>module</code> directive
-at the top of all files in your package. For <code>mypackage.v</code>:</p>
-<div class="language-v">module mypackage
-
-pub fn hello_world() {
-    println('Hello World!')
-}
-</div>
-</li>
-<li><p>Create a git repository in the folder with the <code>v.mod</code> file
-(this is not required if you used <code>v new</code> or <code>v init</code>):</p>
-<pre><code class="language-sh">git init
-git add .
-git commit -m &quot;INIT&quot;
-</code></pre>
-</li>
-<li><p>Create a public repository on github.com.</p>
-</li>
-<li><p>Connect your local repository to the remote repository and push the changes.</p>
-</li>
-<li><p>Add your package to the public V package registry VPM:
-<a href="https://vpm.vlang.io/new">https://vpm.vlang.io/new</a></p>
-<p>You will have to login with your Github account to register the package.
-<strong>Warning:</strong> <em>Currently it is not possible to edit your entry after submitting.
-Check your package name and github url twice as this cannot be changed by you later.</em></p>
-</li>
-<li><p>The final package name is a combination of your github account and
-the package name you provided e.g. <code>mygithubname.mypackage</code>.</p>
-</li>
-</ol>
-<p><strong>Optional:</strong> tag your V package with <code>vlang</code> and <code>vlang-package</code> on github.com
-to allow for a better search experience.</p>
-<h1>Advanced Topics</h1>
+                            <h1 class="main">Other online resources</h1>
+<h2 id="v-contributing-guide"><a href="https://github.com/vlang/v/blob/master/CONTRIBUTING.md">V contributing guide</a> <a href="#v-contributing-guide" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V would be much less, than what it is today, without the help of all
+its contributors. If you like and want to help the V project succeed,
+please read that document, choose a task, and dive in!</p>
+<h2 id="v-language-documentation"><a href="https://docs.vlang.io/introduction.html">V language documentation</a> <a href="#v-language-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The site has the same information as this document, but split to pages,
+for easier reading on mobile devices. Updated automatically on each
+commit to the main repository.</p>
+<h2 id="v-standard-module-documentation"><a href="https://modules.vlang.io/">V standard module documentation</a> <a href="#v-standard-module-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The site has the documentation of all the modules in V's standard
+library (vlib). Updated automatically on each commit to the main
+repository.</p>
+<h2 id="v-online-playground"><a href="https://play.vlang.io/">V online playground</a> <a href="#v-online-playground" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The site allows you to enter and edit small V programs, then compile
+and run them. Updated automatically on each commit to the main
+repository. Use it, to test your ideas, when you do not have access
+to a computer or an Android phone, where V has been already installed.</p>
+<h2 id="awesome-v"><a href="https://github.com/vlang/awesome-v">Awesome V</a> <a href="#awesome-v" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>When you make a cool new project or a library, you can submit it to that
+list too. You can also use the list, for ideas about new projects to do
+with V.</p>
+<h2 id="the-v-language-discord"><a href="https://discord.gg/vlang">The V language Discord</a> <a href="#the-v-language-discord" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>This is the place to be, to discuss the V language, learn about latest
+developments, quickly get help with issues, witness/participate in
+<del>epic flame wars</del> constructive criticism exchanges and design decisions.
+Join it, and learn more about languages, games, editors, people, Klingons,
+Conway's law and the universe.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5403"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8073"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -402,8 +306,8 @@ to allow for a better search experience.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-10-16T05:48:37.829Z">Last updated:
-                                        2024-10-16 08:48:37, V Commit: <a
+                                    <time datetime="2024-10-16T05:48:38.017Z">Last updated:
+                                        2024-10-16 08:48:38, V Commit: <a
                                             href="https://github.com/vlang/v/commit/a5adbe8f1fa3db15fbf3c707a230643dd204aeb4">a5adbe8</a></time>
                                 </div>
                             </div>
@@ -411,18 +315,12 @@ to allow for a better search experience.</p>
                             <!-- only-prev or only-next -->
                             <div class="prev-next">
                                 <div class="page prev-page">
-                                    <a class="page-link" href="tools.html">
+                                    <a class="page-link" href="appendix-ii-operators.html">
                                         <span class="desc">Previous page</span>
-                                        <span class="title">Tools</span>
+                                        <span class="title">Appendix II: Operators</span>
                                     </a>
                                 </div>
 
-                                <div class="page next-page">
-                                    <a class="page-link" href="attributes.html">
-                                        <span class="desc">Next page</span>
-                                        <span class="title">Attributes</span>
-                                    </a>
-                                </div>
                             </div>
                         </footer>
                     </div>
@@ -434,10 +332,22 @@ to allow for a better search experience.</p>
                             <nav>
                                 <ul>
                                     <li class="active">
-                                        <a href="#package-commands">Package commands</a>
+                                        <a href="#v-contributing-guide">V contributing guide</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#publish-package">Publish package</a>
+                                        <a href="#v-language-documentation">V language documentation</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#v-standard-module-documentation">V standard module documentation</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#v-online-playground">V online playground</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#awesome-v">Awesome V</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#the-v-language-discord">The V language Discord</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -476,12 +386,9 @@ to allow for a better search experience.</p>
     <script>
         document.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
-                window.open("tools.html", "_self")
+                window.open("appendix-ii-operators.html", "_self")
             }
 
-            if (event.key === "ArrowRight") {
-                window.open("attributes.html", "_self")
-            }
         })
 
         //window.onload = () => {

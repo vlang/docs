@@ -641,7 +641,32 @@ const titles_to_fnames = {
 	"about-keeping-states-in-hot-reloading-functions-with-v--live-run":	"other-v-features.html#about-keeping-states-in-hot-reloading-functions-with-v--live-run",
 	"Other V Features":	"other-v-features.html",
 	"Appendix I: Keywords":	"appendix-i-keywords.html",
-	"Appendix II: Operators":	"appendix-ii-operators.html"
+	"Appendix II: Operators":	"appendix-ii-operators.html",
+	"V contributing guide":	"other-online-resources.html#v-contributing-guide",
+	"v contributing guide":	"other-online-resources.html#v-contributing-guide",
+	"V CONTRIBUTING GUIDE":	"other-online-resources.html#v-contributing-guide",
+	"v-contributing-guide":	"other-online-resources.html#v-contributing-guide",
+	"V language documentation":	"other-online-resources.html#v-language-documentation",
+	"v language documentation":	"other-online-resources.html#v-language-documentation",
+	"V LANGUAGE DOCUMENTATION":	"other-online-resources.html#v-language-documentation",
+	"v-language-documentation":	"other-online-resources.html#v-language-documentation",
+	"V standard module documentation":	"other-online-resources.html#v-standard-module-documentation",
+	"v standard module documentation":	"other-online-resources.html#v-standard-module-documentation",
+	"V STANDARD MODULE DOCUMENTATION":	"other-online-resources.html#v-standard-module-documentation",
+	"v-standard-module-documentation":	"other-online-resources.html#v-standard-module-documentation",
+	"V online playground":	"other-online-resources.html#v-online-playground",
+	"v online playground":	"other-online-resources.html#v-online-playground",
+	"V ONLINE PLAYGROUND":	"other-online-resources.html#v-online-playground",
+	"v-online-playground":	"other-online-resources.html#v-online-playground",
+	"Awesome V":	"other-online-resources.html#awesome-v",
+	"awesome v":	"other-online-resources.html#awesome-v",
+	"AWESOME V":	"other-online-resources.html#awesome-v",
+	"awesome-v":	"other-online-resources.html#awesome-v",
+	"The V language Discord":	"other-online-resources.html#the-v-language-discord",
+	"the v language discord":	"other-online-resources.html#the-v-language-discord",
+	"THE V LANGUAGE DISCORD":	"other-online-resources.html#the-v-language-discord",
+	"the-v-language-discord":	"other-online-resources.html#the-v-language-discord",
+	"Other online resources":	"other-online-resources.html"
 };
 const fnames = {
 	"index.html":	"index.html",
@@ -692,5 +717,6 @@ const fnames = {
 	"v-and-c.html":	"v-and-c.html",
 	"other-v-features.html":	"other-v-features.html",
 	"appendix-i-keywords.html":	"appendix-i-keywords.html",
-	"appendix-ii-operators.html":	"appendix-ii-operators.html"
+	"appendix-ii-operators.html":	"appendix-ii-operators.html",
+	"other-online-resources.html":	"other-online-resources.html"
 };
