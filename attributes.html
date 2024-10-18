@@ -347,6 +347,19 @@ pub mut:
 }
 </div>
 <p>Function/method deprecations:</p>
+<p>Functions are deprecated before they are finally removed to give users time to migrate their code.
+Adding a date is preferable in most cases. An immediate change, without a deprecation date, may be
+used for functions that are found to be conceptually broken and obsoleted by much better
+functionality. Other than that setting a date is advisable to grant users a grace period.</p>
+<p>Deprecated functions cause warnings, which cause errors if built with <code>-prod</code>. To avoid immediate
+CI breakage, it is advisable to set a future date, ahead of the date when the code is merged. This
+gives people who actively developed V projects, the chance to see the deprecation notice at least
+once and fix the uses. Setting a date in the next 30 days, assumes they would have compiled their
+projects manually at least once, within that time. For small changes, this should be plenty time.
+For complex changes, this time may need to be longer.</p>
+<p>Different V projects and maintainers may reasonably choose different deprecation policies.
+Depending on the type and impact of the change, you may want to consult with them first, before
+deprecating a function.</p>
 <div class="language-v">// Calling this function will result in a deprecation warning
 
 @[deprecated]
@@ -500,9 +513,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-10-18T08:22:31.323Z">Last updated:
-                                        2024-10-18 11:22:31, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ce8f62146b1ec9d6efd264d893ca744c38add833">ce8f621</a></time>
+                                    <time datetime="2024-10-18T10:16:15.569Z">Last updated:
+                                        2024-10-18 13:16:15, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5ec9bb54b80bfde832e5fbfe78cd282b2ccac759">5ec9bb5</a></time>
                                 </div>
                             </div>
 
