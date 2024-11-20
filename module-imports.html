@@ -120,6 +120,7 @@
                             <a class="link subtopic" href="v-types.html#map-update-syntax"> Map update syntax</a>
                             <a class="link active" href="module-imports.html">Module imports</a>
                             <a class="link subtopic" href="module-imports.html#selective-imports"> Selective imports</a>
+                            <a class="link subtopic" href="module-imports.html#module-hierarchy"> Module hierarchy</a>
                             <a class="link subtopic" href="module-imports.html#module-import-aliasing"> Module import aliasing</a>
                             <a class="link" href="statements-&-expressions.html">Statements & expressions</a>
                             <a class="link subtopic" href="statements-&-expressions.html#if"> If</a>
@@ -299,6 +300,41 @@ println('Name: ${name}')
 current_os := user_os()
 println('Your OS is ${current_os}.')
 </div>
+<h2 id="module-hierarchy">Module hierarchy <a href="module-imports.html#module-hierarchy" class="header-anchor" aria-hidden="true">#</a></h2>
+<blockquote class="tip">
+<p>[!NOTE]
+This section is valid when .v files are not in the project's root directory.</p>
+</blockquote>
+<p>Modules names in .v files, must match the name of their directory.</p>
+<p>A .v file <code>./abc/source.v</code> must start with <code>module abc</code>. All .v files in this directory
+belong to the same module <code>abc</code>. They should also start with <code>module abc</code>.</p>
+<p>If you have <code>abc/def/</code>, and .v files in both folders, you can <code>import abc</code>, but you will have
+to <code>import abc.def</code> too, to get to the symbols in the subfolder. It is independent.</p>
+<p>In <code>module name</code> statement, name never repeats directory's hierarchy, but only its directory.
+So in <code>abc/def/source.v</code> the first line will be <code>module def</code>, and not <code>module abc.def</code>.</p>
+<p><code>import module_name</code> statements must respect file hierarchy, you cannot <code>import def</code>, only
+<code>abc.def</code></p>
+<p>Refering to a module symbol such as a function or const, only needs module name as prefix:</p>
+<div class="language-v">module def
+
+// func is a dummy example function.
+pub fn func() {
+    println('func')
+}
+</div>
+<p>can be called like this:</p>
+<div class="language-v">module main
+
+import def
+
+fn main() {
+    def.func()
+}
+</div>
+<p>A function, located in <code>abc/def/source.v</code>, is called with <code>def.func()</code>, not <code>abc.def.func()</code></p>
+<p>This always implies a <em>single prefix</em>, whatever sub-module depth. This behavior flattens
+modules/sub-modules hierarchy. Should you have two modules with the same name in different
+directories, then you should use Module import aliasing (see below).</p>
 <h2 id="module-import-aliasing">Module import aliasing <a href="module-imports.html#module-import-aliasing" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Any imported module name can be aliased using the <code>as</code> keyword:</p>
 <blockquote class="tip">
@@ -342,7 +378,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1525"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1526"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -357,9 +393,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-11-20T03:22:55.973Z">Last updated:
-                                        2024-11-20 05:22:55, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ad24dbdff1e44b38dc0d08ad613c2310ccb0fc88">ad24dbd</a></time>
+                                    <time datetime="2024-11-20T07:05:31.220Z">Last updated:
+                                        2024-11-20 09:05:31, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/26837d4862562064da26a6176316fd537bf440a6">26837d4</a></time>
                                 </div>
                             </div>
 
@@ -390,6 +426,9 @@ fn main() {
                                 <ul>
                                     <li class="active">
                                         <a href="#selective-imports">Selective imports</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#module-hierarchy">Module hierarchy</a>
                                     </li>
                                     <li class="active">
                                         <a href="#module-import-aliasing">Module import aliasing</a>
