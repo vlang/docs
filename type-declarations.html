@@ -283,16 +283,15 @@ match color {
 <p>The enum type can be any integer type, but can be omitted, if it is <code>int</code>: <code>enum Color {</code>.</p>
 <p>Enum match must be exhaustive or have an <code>else</code> branch.
 This ensures that if a new enum field is added, it's handled everywhere in the code.</p>
-<p>Enum fields cannot re-use reserved keywords. However, reserved keywords may be escaped
-with an @.</p>
+<p>Enum fields can re-use reserved keywords:</p>
 <div class="language-v">enum Color {
-    @none
+    none
     red
     green
     blue
 }
 
-color := Color.@none
+color := Color.none
 println(color)
 </div>
 <p>Integers may be assigned to enum fields.</p>
@@ -1036,9 +1035,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-11-23T12:08:02.035Z">Last updated:
-                                        2024-11-23 14:08:02, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/660f73395e3ec98ccc3241aa2765f18657b0e478">660f733</a></time>
+                                    <time datetime="2024-11-23T12:22:24.580Z">Last updated:
+                                        2024-11-23 14:22:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/393e4ea8b2ee6bff41023b5baa64a9fb436fbcf8">393e4ea</a></time>
                                 </div>
                             </div>
 
