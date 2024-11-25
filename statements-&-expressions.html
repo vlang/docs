@@ -485,6 +485,20 @@ typ := match c {
 println(typ)
 // 'lowercase'
 </div>
+<p>A match statement also can match the variant types of a <code>sumtype</code>. Note that
+in that case, the match is exhaustive, since all variant types are mentioned
+explicitly, so there is no need for an <code>else{}</code> branch.</p>
+<div class="language-v">struct Dog {}
+struct Cat {}
+struct Veasel {}
+type Animal = Dog | Cat | Veasel
+a := Animal(Veasel{})
+match a {
+    Dog { println('Bay') }
+    Cat { println('Meow') }
+    Veasel { println('Vrrrrr-eeee') } // see: https://www.youtube.com/watch?v=qTJEDyj2N0Q
+}
+</div>
 <p>You can also use ranges as <code>match</code> patterns. If the value falls within the range
 of a branch, that branch will be executed.</p>
 <p>Note that the ranges use <code>...</code> (three dots) rather than <code>..</code> (two dots). This is
@@ -854,9 +868,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-11-25T16:29:58.859Z">Last updated:
-                                        2024-11-25 18:29:58, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/19318110d95519a9b6aeaa90f00b2d83eaa395e1">1931811</a></time>
+                                    <time datetime="2024-11-25T19:16:18.915Z">Last updated:
+                                        2024-11-25 21:16:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/95e5ba44ae8a74ff878d604d3c84eb806bb970ce">95e5ba4</a></time>
                                 </div>
                             </div>
 
