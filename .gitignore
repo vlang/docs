@@ -15,6 +15,7 @@ bin/
 .DS_Store
 .idea/
 .vscode/
+.nova/
 *.iml
 
 # ENV
