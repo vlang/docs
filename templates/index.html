@@ -5,15 +5,13 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
-    <link rel="stylesheet" href="assets/styles/style.css">
-    <link rel="stylesheet" href="assets/styles/vlang-playground.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+
+    <link rel="stylesheet" href="assets/styles/v-docs.css">
+    <link rel="stylesheet" href="assets/styles/v-docs-cm-theme.css">
+
 
     <title>V Documentation</title>
-    <style>
-        .subtopic {
-            margin-left: 20px !important;
-        }
-    </style>
 </head>
 
 <body>
@@ -113,7 +111,7 @@
             <div class="container">
                 <div class="content">
                     <div class="content-container">
-                        <main>
+                        <main class="v-doc">
                             @{content}
                         </main>
                         <footer>
@@ -195,22 +193,16 @@
             }
         })
     </script>
-    <script src="assets/scripts/vlang-playground.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
-            playgroundElements.forEach(playgroundElement => {
-                const playground = Playground.create(playgroundElement, {
-                    fontSize: "14px",
-                    highlightOnly: true,
-                    showFooter: false,
-                    showLineNumbers: false,
-                });
-                playgrounds.push(playground);
-            });
-        })
-    </script>
-    <script src="assets/scripts/theme.js"></script>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.js"></script>
+
+    <script src="assets/scripts/v-docs.js"></script>
+    <script src="assets/scripts/cm-lang-v.js"></script>
+
     <script>
         document.addEventListener("keydown", (event) => {
             //@if prev_topic.url != ''
@@ -231,17 +223,8 @@
             //html.style.opacity = '1'
         //}
     </script>
-    <script>
-        document.getElementsByClassName("aside-topics-open")[0].addEventListener("click", (event) => {
-            document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'block')
-        })
 
-        document.getElementsByClassName("aside-topics-close")[0].addEventListener("click", (event) => {
-            document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'none')
-        })
-    </script>
-	<script src="assets/scripts/titles_to_fnames.js"></script>
-	<script src="assets/scripts/search.js"></script>
+
 </body>
 
 </html>
