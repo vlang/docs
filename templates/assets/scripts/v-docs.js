@@ -22,7 +22,7 @@ var vdocs = {
 	},
 	hydrate: function(){
 		this.ui.hydrateTheme();
-		this.ui.hydrateTOCPanel();
+		this.ui.hydrateSidebar();
 		this.ui.hydrateSearch();
 		vdocs.examples.init();
 	},
@@ -32,14 +32,24 @@ vdocs.ui = {
 	btnChangeTheme: null,
 	currentTheme: 'dark',
 
-	hydrateTOCPanel: function(){
-		document.getElementsByClassName("aside-topics-open")[0].addEventListener("click", (event) => {
-			document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'block')
+	tocPanel: null,
+	sidebar: null,
+	hydrateSidebar: function(){
+		this.sidebar = document.getElementById("sidebar-main");
+		this.tocPanel = document.getElementById("topics");
+
+		document.querySelector(".sidebar-open-btn").addEventListener("click", (event) => {
+			this.sidebar.style.setProperty('display', 'block')
 		})
 
-		document.getElementsByClassName("aside-topics-close")[0].addEventListener("click", (event) => {
-			document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'none')
+		document.querySelector(".sidebar-close-btn").addEventListener("click", (event) => {
+			this.sidebar.style.setProperty('display', 'none')
 		})
+
+		//scroll to show selected topic
+		const target = document.querySelector('.nav-entry.is-selected');
+		target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
 	},
 	hydrateTheme: function(){
 		this.btnChangeTheme = document.querySelector("header .change-theme");
@@ -80,9 +90,9 @@ vdocs.ui = {
 	searchVisible: false,
 	hydrateSearch: function(){
 		// Initialize the search functionality when the DOM is fully loaded
-		this.searchInput = document.getElementById('searchInput');
+		this.searchInput = document.getElementById('search-input');
 
-		const searchKeys = document.getElementById('searchKeys');
+		const searchKeys = document.getElementById('search-kb-shortcut');
 		searchKeys.innerHTML = (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl') + '&nbsp;K';
 
 		var handleDocKey = (e)=>{
@@ -92,37 +102,43 @@ vdocs.ui = {
 			}
 		};
 
-
+		const closeBtn = document.getElementById('search-results-close');
+		closeBtn.addEventListener('click', (event) => {
+			event.preventDefault();
+			this.hideSearchResults();
+		});
 
 		document.addEventListener('keydown', (event) => {
 
 			if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
 				event.preventDefault();
-				searchInput.focus();
+				this.searchInput.value = '';
+				this.searchInput.focus();
 			}else if (event.key === "Escape" && this.searchVisible) {
 				event.preventDefault();
 				this.hideSearchResults();
 			}
 		});
 
-		this.searchResults = document.getElementById('searchResults');
+		this.searchResults = document.getElementById('search-results');
+		this.searchResultsContainer = document.getElementById('search-result-container');
 
 		this.searchInput.onfocus = () => searchKeys.style.display = 'none';
 		this.searchInput.onblur = () => searchKeys.style.display = 'block';
 		this.searchInput.onkeydown = (event) => {
+
 			if (event.key === 'Enter') {
 				this.handleSearch();
-				//document.addEventListener('keydown', handleDocKey);
 			} else if (event.key === 'Escape') {
-				if (document.getElementById('searchResults').style.display === 'none') {
-					searchInput.blur();
+				if (this.searchResults.style.display === 'none') {
+					this.searchInput.blur();
 					return
 				}
 				this.hideSearchResults();
 			}
 		};
 
-		document.getElementById('searchButton').addEventListener('click', (evt)=>{
+		document.getElementById('search-button').addEventListener('click', (evt)=>{
 			this.handleSearch();
 		});
 
@@ -152,8 +168,8 @@ vdocs.ui = {
 	},
 	hideSearchResults: function(){
 		this.searchVisible = false;
-		this.searchInput.style.display = 'none';
-		//document.removeEventListener('keydown', handleDocKey);
+
+		this.sidebar.classList.remove("search-results-open");
 	},
 	handleSearch: function(){
 		vdocs.search.topic( this.searchInput.value,  (items) => this.showSearchResults(items) );
@@ -169,15 +185,15 @@ vdocs.ui = {
 			const sectionLink = this.helperGetLinkToSection(item.section);
 
 			return `
-				<div class="result-item">
-					<a href="${sectionLink}" class="result-link">${item.section}</a>
-					<p>${item.snippet}</p>
+				<div class="nav-entry is-search-result">
+					<a href="${sectionLink}" class="nav-entry-link">${item.section}</a>
+					<p class="nav-entry-text">${item.snippet}</p>
 				</div>`;
 		}).join('');
 
 		this.searchVisible = true;
-		this.searchResults.innerHTML = rows;
-		this.searchResults.style.display = 'block';
+		this.searchResultsContainer.innerHTML = rows;
+		this.sidebar.classList.add("search-results-open");
 	},
 
 };
