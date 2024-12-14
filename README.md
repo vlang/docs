@@ -7,12 +7,9 @@ original V [docs.md](https://github.com/vlang/v/blob/master/doc/docs.md)
 
 ## External dependencies
 
-You'll need V, of course.  Best to
+This project only requires V.  Best to
 [install it from source](https://github.com/vlang/v?tab=readme-ov-file#installing-v-from-source)
 if you don't already have it.
-
-Make sure you have [sass](https://sass-lang.com/install/) installed
-locally to build the css files.
 
 
 ## Contributing
@@ -31,14 +28,20 @@ To build the documentation, after the setup, run the following commands:
 ```shell
 v run .
 ```
-This will download the latest version 
+This will download the latest version
 of [docs.md](https://github.com/vlang/v/edit/master/doc/docs.md),
 then it will regenerate the documentation from it, and save it in the `output`
 directory.
 
 
 ## Testing the output
+
+Use V to serve your local copy of the documentation.
+
 ```shell
 v -e 'import net.http.file; file.serve(folder: "output/")'
 ```
-Now load http://localhost:4001/ in your browser.
+
+The line of code executed will start a basic web server with the documentation created in the "outputs" folder.
+
+Access the documentation on your browser using this url http://localhost:4001/.

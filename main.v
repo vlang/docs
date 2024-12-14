@@ -20,7 +20,8 @@ fn main() {
 	commit_res := os.execute_or_exit('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
 	latest_v_commit_hash := commit_res.output.all_before('\t')
 
-	update_sass()
+	//Removed need for sass, using css variables
+	//update_sass()
 
 	mut ctx := Context{
 		full_text: response.body
@@ -39,11 +40,18 @@ mut:
 }
 
 fn (mut ctx Context) write_mapping() ! {
-	content := '
-const titles_to_fnames = ${json.encode_pretty(ctx.titles_to_fnames)};
-const fnames = ${json.encode_pretty(ctx.pages)};
-'
-	write_output_file('assets/scripts/titles_to_fnames.js', content)!
+	js_file_index := '
+	// Lookups of sections to files
+	vdocs.titles_to_fnames = ${json.encode_pretty(ctx.titles_to_fnames)};
+	vdocs.fnames = ${json.encode_pretty(ctx.pages)};'
+
+	js_src := os.read_file('templates/assets/scripts/v-docs.js') or {
+		eprintln('Failed to read file: $err')
+		return
+	}
+
+	write_output_file('assets/scripts/v-docs.js', js_src + js_file_index)!
+
 	eprintln('> Total titles: ${ctx.titles_to_fnames.len}')
 	eprintln('> HTML pages: ${ctx.pages.len}')
 }
