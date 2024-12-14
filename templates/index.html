@@ -19,7 +19,7 @@
     <header>
         <div class="header-container">
             <ul class="header-container-left-section">
-                <li class="aside-topics-open">
+                <li class="sidebar-open-btn" role="button" aria-label="Open sidebar...">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
                         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" fill="white" />
                     </svg>
@@ -33,7 +33,7 @@
                     <a href="https://github.com/vlang/docs/tree/generator" target="_blank">Source code</a>
                 </li>
 
-                <li class="js-change-theme__action change-theme">
+                <li class="js-change-theme__action change-theme" role="button" aria-label="Change theme...">
                     <svg class="theme-icon sun" width="30" height="30" viewBox="0 0 30 30" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <!-- <g clip-path="url(#clip0_4_47)"> -->
@@ -60,26 +60,13 @@
     </header>
 
     <div class="wrapper">
-        <aside class="aside-topics">
-
-            <div id="searchbox">
-                <!-- Search Input and Button -->
-                <input type="text" id="searchInput" placeholder="Search">
-                <button id="searchButton">
-                     <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                         <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
-                     </svg>
-                </button>
-                <kbd id="searchKeys"></kbd>
-                <div id="searchResults"></div>
-            </div>
-
-            <div class="title">
+        <aside id="sidebar-main">
+            <div class="sidebar-header">
                 <a href="index.html">
                     <img src="assets/images/logo.svg" alt="">
                     <span>Documentation</span>
                 </a>
-                <div class="aside-topics-close">
+                <div class="sidebar-close-btn" role="button" aria-label="Close sidebar...">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
                         <path
                             d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
@@ -87,22 +74,52 @@
                     </svg>
                 </div>
             </div>
-            <nav>
-                <div class="group">
-                    <section>
-                        <div class="items">
-                            @for topic in topics
-                            @if topic.title == title
-                            <a class="link active" href="@{topic.url}">@{topic.title}</a>
-                            @else
-                            <a class="link" href="@{topic.url}">@{topic.title}</a>
-                            @end
-                            @for subtopic in topic.subtopics
-                            <a class="link subtopic" href="@{topic.url}#@{subtopic.id}"> @{subtopic.title}</a>
-                            @end
-                            @end
-                        </div>
-                    </section>
+            <div id="search-widget" class="sidebar-tool">
+                <!-- Search Input and Button -->
+                <input type="text" id="search-input" placeholder="Search">
+                <button id="search-button" role="button" aria-label="Perform search...">
+                     <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                         <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                     </svg>
+                </button>
+                <kbd id="search-kb-shortcut" class="kb-shortcut"></kbd>
+            </div>
+            <nav id="search-results" class="nav-list">
+                <div id="search-results-header">
+                    <span>Search results...</span>
+                    <div id="search-results-close" role="button" aria-label="Close search results..." title="Press ESC to close search results....">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
+                            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" fill="white"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="nav-contents">
+                    <div class="nav-group" id="search-result-container">
+                    </div>
+                </div>
+            </nav>
+            <nav id="topics" class="nav-list">
+                <div class="nav-contents">
+
+                    @for topic in topics
+                    <div class="nav-group">
+                    @if topic.title == title
+                    <div class="nav-entry is-group-header is-selected">
+                    @else
+                    <div class="nav-entry is-group-header">
+                    @end
+                    <a class="nav-entry-link" href="@{topic.url}">@{topic.title}</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    @for subtopic in topic.subtopics
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="@{topic.url}#@{subtopic.id}"> @{subtopic.title}</a>
+                    </div>
+                    @end
+                    </div>
+                    </div>
+                    @end
                 </div>
             </nav>
         </aside>
