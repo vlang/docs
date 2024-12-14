@@ -5,15 +5,13 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
-    <link rel="stylesheet" href="assets/styles/style.css">
-    <link rel="stylesheet" href="assets/styles/vlang-playground.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+
+    <link rel="stylesheet" href="assets/styles/v-docs.css">
+    <link rel="stylesheet" href="assets/styles/v-docs-cm-theme.css">
+
 
     <title>V Documentation</title>
-    <style>
-        .subtopic {
-            margin-left: 20px !important;
-        }
-    </style>
 </head>
 
 <body>
@@ -21,7 +19,7 @@
     <header>
         <div class="header-container">
             <ul class="header-container-left-section">
-                <li class="aside-topics-open">
+                <li class="sidebar-open-btn" role="button" aria-label="Open sidebar...">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
                         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" fill="white" />
                     </svg>
@@ -35,7 +33,7 @@
                     <a href="https://github.com/vlang/docs/tree/generator" target="_blank">Source code</a>
                 </li>
 
-                <li class="js-change-theme__action change-theme">
+                <li class="js-change-theme__action change-theme" role="button" aria-label="Change theme...">
                     <svg class="theme-icon sun" width="30" height="30" viewBox="0 0 30 30" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <!-- <g clip-path="url(#clip0_4_47)"> -->
@@ -62,26 +60,13 @@
     </header>
 
     <div class="wrapper">
-        <aside class="aside-topics">
-
-            <div id="searchbox">
-                <!-- Search Input and Button -->
-                <input type="text" id="searchInput" placeholder="Search">
-                <button id="searchButton">
-                     <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                         <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
-                     </svg>
-                </button>
-                <kbd id="searchKeys"></kbd>
-                <div id="searchResults"></div>
-            </div>
-
-            <div class="title">
+        <aside id="sidebar-main">
+            <div class="sidebar-header">
                 <a href="index.html">
                     <img src="assets/images/logo.svg" alt="">
                     <span>Documentation</span>
                 </a>
-                <div class="aside-topics-close">
+                <div class="sidebar-close-btn" role="button" aria-label="Close sidebar...">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
                         <path
                             d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
@@ -89,166 +74,740 @@
                     </svg>
                 </div>
             </div>
-            <nav>
-                <div class="group">
-                    <section>
-                        <div class="items">
-                            <a class="link" href="introduction.html">Introduction</a>
-                            <a class="link" href="installing-v-from-source.html">Installing V from source</a>
-                            <a class="link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
-                            <a class="link" href="packaging-v-for-distribution.html">Packaging V for distribution</a>
-                            <a class="link" href="getting-started.html">Getting started</a>
-                            <a class="link" href="hello-world.html">Hello World</a>
-                            <a class="link" href="running-a-project-folder-with-several-files.html">Running a project folder with several files</a>
-                            <a class="link" href="comments.html">Comments</a>
-                            <a class="link" href="functions.html">Functions</a>
-                            <a class="link subtopic" href="functions.html#hoisting"> Hoisting</a>
-                            <a class="link subtopic" href="functions.html#returning-multiple-values"> Returning multiple values</a>
-                            <a class="link" href="symbol-visibility.html">Symbol visibility</a>
-                            <a class="link" href="variables.html">Variables</a>
-                            <a class="link subtopic" href="variables.html#mutable-variables"> Mutable variables</a>
-                            <a class="link subtopic" href="variables.html#initialization-vs-assignment"> Initialization vs assignment</a>
-                            <a class="link subtopic" href="variables.html#warnings-and-declaration-errors"> Warnings and declaration errors</a>
-                            <a class="link" href="v-types.html">V Types</a>
-                            <a class="link subtopic" href="v-types.html#primitive-types"> Primitive types</a>
-                            <a class="link subtopic" href="v-types.html#strings"> Strings</a>
-                            <a class="link subtopic" href="v-types.html#runes"> Runes</a>
-                            <a class="link subtopic" href="v-types.html#numbers"> Numbers</a>
-                            <a class="link subtopic" href="v-types.html#arrays"> Arrays</a>
-                            <a class="link subtopic" href="v-types.html#fixed-size-arrays"> Fixed size arrays</a>
-                            <a class="link subtopic" href="v-types.html#maps"> Maps</a>
-                            <a class="link subtopic" href="v-types.html#map-update-syntax"> Map update syntax</a>
-                            <a class="link" href="module-imports.html">Module imports</a>
-                            <a class="link subtopic" href="module-imports.html#selective-imports"> Selective imports</a>
-                            <a class="link subtopic" href="module-imports.html#module-hierarchy"> Module hierarchy</a>
-                            <a class="link subtopic" href="module-imports.html#module-import-aliasing"> Module import aliasing</a>
-                            <a class="link" href="statements-&-expressions.html">Statements & expressions</a>
-                            <a class="link subtopic" href="statements-&-expressions.html#if"> If</a>
-                            <a class="link subtopic" href="statements-&-expressions.html#match"> Match</a>
-                            <a class="link subtopic" href="statements-&-expressions.html#in-operator"> In operator</a>
-                            <a class="link subtopic" href="statements-&-expressions.html#for-loop"> For loop</a>
-                            <a class="link subtopic" href="statements-&-expressions.html#defer"> Defer</a>
-                            <a class="link subtopic" href="statements-&-expressions.html#goto"> Goto</a>
-                            <a class="link" href="structs.html">Structs</a>
-                            <a class="link subtopic" href="structs.html#heap-structs"> Heap structs</a>
-                            <a class="link subtopic" href="structs.html#default-field-values"> Default field values</a>
-                            <a class="link subtopic" href="structs.html#required-fields"> Required fields</a>
-                            <a class="link subtopic" href="structs.html#short-struct-literal-syntax"> Short struct literal syntax</a>
-                            <a class="link subtopic" href="structs.html#struct-update-syntax"> Struct update syntax</a>
-                            <a class="link subtopic" href="structs.html#trailing-struct-literal-arguments"> Trailing struct literal arguments</a>
-                            <a class="link subtopic" href="structs.html#access-modifiers"> Access modifiers</a>
-                            <a class="link subtopic" href="structs.html#anonymous-structs"> Anonymous structs</a>
-                            <a class="link subtopic" href="structs.html#static-type-methods"> Static type methods</a>
-                            <a class="link subtopic" href="structs.html#noinit-structs"> [noinit] structs</a>
-                            <a class="link subtopic" href="structs.html#methods"> Methods</a>
-                            <a class="link subtopic" href="structs.html#embedded-structs"> Embedded structs</a>
-                            <a class="link" href="unions.html">Unions</a>
-                            <a class="link" href="functions-2.html">Functions 2</a>
-                            <a class="link subtopic" href="functions-2.html#immutable-function-args-by-default"> Immutable function args by default</a>
-                            <a class="link subtopic" href="functions-2.html#mutable-arguments"> Mutable arguments</a>
-                            <a class="link subtopic" href="functions-2.html#variable-number-of-arguments"> Variable number of arguments</a>
-                            <a class="link subtopic" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
-                            <a class="link subtopic" href="functions-2.html#closures"> Closures</a>
-                            <a class="link subtopic" href="functions-2.html#parameter-evaluation-order"> Parameter evaluation order</a>
-                            <a class="link" href="references.html">References</a>
-                            <a class="link" href="constants.html">Constants</a>
-                            <a class="link subtopic" href="constants.html#required-module-prefix"> Required module prefix</a>
-                            <a class="link" href="builtin-functions.html">Builtin functions</a>
-                            <a class="link subtopic" href="builtin-functions.html#println"> println</a>
-                            <a class="link subtopic" href="builtin-functions.html#printing-custom-types"> Printing custom types</a>
-                            <a class="link subtopic" href="builtin-functions.html#dumping-expressions-at-runtime"> Dumping expressions at runtime</a>
-                            <a class="link" href="modules.html">Modules</a>
-                            <a class="link subtopic" href="modules.html#create-modules"> Create modules</a>
-                            <a class="link subtopic" href="modules.html#special-considerations-for-project-folders"> Special considerations for project folders</a>
-                            <a class="link subtopic" href="modules.html#init-functions"> init functions</a>
-                            <a class="link subtopic" href="modules.html#cleanup-functions"> cleanup functions</a>
-                            <a class="link" href="type-declarations.html">Type Declarations</a>
-                            <a class="link subtopic" href="type-declarations.html#type-aliases"> Type aliases</a>
-                            <a class="link subtopic" href="type-declarations.html#enums"> Enums</a>
-                            <a class="link subtopic" href="type-declarations.html#function-types"> Function Types</a>
-                            <a class="link subtopic" href="type-declarations.html#interfaces"> Interfaces</a>
-                            <a class="link subtopic" href="type-declarations.html#sum-types"> Sum types</a>
-                            <a class="link subtopic" href="type-declarations.html#optionresult-types-and-error-handling"> Option/Result types and error handling</a>
-                            <a class="link subtopic" href="type-declarations.html#custom-error-types"> Custom error types</a>
-                            <a class="link subtopic" href="type-declarations.html#generics"> Generics</a>
-                            <a class="link" href="concurrency.html">Concurrency</a>
-                            <a class="link subtopic" href="concurrency.html#spawning-concurrent-tasks"> Spawning Concurrent Tasks</a>
-                            <a class="link subtopic" href="concurrency.html#channels"> Channels</a>
-                            <a class="link subtopic" href="concurrency.html#shared-objects"> Shared Objects</a>
-                            <a class="link" href="json.html">JSON</a>
-                            <a class="link subtopic" href="json.html#decoding-json"> Decoding JSON</a>
-                            <a class="link subtopic" href="json.html#encoding-json"> Encoding JSON</a>
-                            <a class="link" href="testing.html">Testing</a>
-                            <a class="link subtopic" href="testing.html#asserts"> Asserts</a>
-                            <a class="link subtopic" href="testing.html#asserts-with-an-extra-message"> Asserts with an extra message</a>
-                            <a class="link subtopic" href="testing.html#asserts-that-do-not-abort-your-program"> Asserts that do not abort your program</a>
-                            <a class="link subtopic" href="testing.html#test-files"> Test files</a>
-                            <a class="link subtopic" href="testing.html#running-tests"> Running tests</a>
-                            <a class="link" href="memory-management.html">Memory management</a>
-                            <a class="link subtopic" href="memory-management.html#control"> Control</a>
-                            <a class="link subtopic" href="memory-management.html#stack-and-heap"> Stack and Heap</a>
-                            <a class="link" href="orm.html">ORM</a>
-                            <a class="link" href="writing-documentation.html">Writing Documentation</a>
-                            <a class="link subtopic" href="writing-documentation.html#newlines-in-documentation-comments"> Newlines in Documentation Comments</a>
-                            <a class="link" href="tools.html">Tools</a>
-                            <a class="link subtopic" href="tools.html#v-fmt"> v fmt</a>
-                            <a class="link subtopic" href="tools.html#v-shader"> v shader</a>
-                            <a class="link subtopic" href="tools.html#profiling"> Profiling</a>
-                            <a class="link" href="package-management.html">Package management</a>
-                            <a class="link subtopic" href="package-management.html#package-commands"> Package commands</a>
-                            <a class="link subtopic" href="package-management.html#publish-package"> Publish package</a>
-                            <a class="link" href="attributes.html">Attributes</a>
-                            <a class="link" href="conditional-compilation.html">Conditional compilation</a>
-                            <a class="link subtopic" href="conditional-compilation.html#compile-time-pseudo-variables"> Compile time pseudo variables</a>
-                            <a class="link subtopic" href="conditional-compilation.html#compile-time-reflection"> Compile time reflection</a>
-                            <a class="link subtopic" href="conditional-compilation.html#compile-time-code"> Compile time code</a>
-                            <a class="link subtopic" href="conditional-compilation.html#compile-time-types"> Compile time types</a>
-                            <a class="link subtopic" href="conditional-compilation.html#environment-specific-files"> Environment specific files</a>
-                            <a class="link" href="debugger.html">Debugger</a>
-                            <a class="link" href="call-stack.html">Call stack</a>
-                            <a class="link" href="trace.html">Trace</a>
-                            <a class="link" href="memory-unsafe-code.html">Memory-unsafe code</a>
-                            <a class="link" href="structs-with-reference-fields.html">Structs with reference fields</a>
-                            <a class="link" href="sizeof-and-__offsetof.html">sizeof and __offsetof</a>
-                            <a class="link" href="limited-operator-overloading.html">Limited operator overloading</a>
-                            <a class="link subtopic" href="limited-operator-overloading.html#implicitly-generated-overloads"> Implicitly generated overloads</a>
-                            <a class="link subtopic" href="limited-operator-overloading.html#restriction"> Restriction</a>
-                            <a class="link" href="performance-tuning.html">Performance tuning</a>
-                            <a class="link subtopic" href="performance-tuning.html#tuning-operations-details"> Tuning operations details</a>
-                            <a class="link" href="atomics.html">Atomics</a>
-                            <a class="link" href="global-variables.html">Global Variables</a>
-                            <a class="link" href="cross-compilation.html">Cross compilation</a>
-                            <a class="link" href="debugging.html">Debugging</a>
-                            <a class="link subtopic" href="debugging.html#c-backend-binaries-(default)"> C Backend binaries (Default)</a>
-                            <a class="link subtopic" href="debugging.html#native-backend-binaries"> Native Backend binaries</a>
-                            <a class="link subtopic" href="debugging.html#javascript-backend"> Javascript Backend</a>
-                            <a class="link" href="v-and-c.html">V and C</a>
-                            <a class="link subtopic" href="v-and-c.html#calling-c-from-v"> Calling C from V</a>
-                            <a class="link subtopic" href="v-and-c.html#calling-v-from-c"> Calling V from C</a>
-                            <a class="link subtopic" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
-                            <a class="link subtopic" href="v-and-c.html#pkgconfig"> pkgconfig</a>
-                            <a class="link subtopic" href="v-and-c.html#including-c-code"> Including C code</a>
-                            <a class="link subtopic" href="v-and-c.html#c-types"> C types</a>
-                            <a class="link subtopic" href="v-and-c.html#c-declarations"> C Declarations</a>
-                            <a class="link subtopic" href="v-and-c.html#export-to-shared-library"> Export to shared library</a>
-                            <a class="link subtopic" href="v-and-c.html#translating-c-to-v"> Translating C to V</a>
-                            <a class="link subtopic" href="v-and-c.html#working-around-c-issues"> Working around C issues</a>
-                            <a class="link" href="other-v-features.html">Other V Features</a>
-                            <a class="link subtopic" href="other-v-features.html#inline-assembly"> Inline assembly</a>
-                            <a class="link subtopic" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
-                            <a class="link subtopic" href="other-v-features.html#cross-platform-shell-scripts-in-v"> Cross-platform shell scripts in V</a>
-                            <a class="link subtopic" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
-                            <a class="link" href="appendix-i-keywords.html">Appendix I: Keywords</a>
-                            <a class="link" href="appendix-ii-operators.html">Appendix II: Operators</a>
-                            <a class="link active" href="other-online-resources.html">Other online resources</a>
-                            <a class="link subtopic" href="other-online-resources.html#v-contributing-guide"> V contributing guide</a>
-                            <a class="link subtopic" href="other-online-resources.html#v-language-documentation"> V language documentation</a>
-                            <a class="link subtopic" href="other-online-resources.html#v-standard-module-documentation"> V standard module documentation</a>
-                            <a class="link subtopic" href="other-online-resources.html#v-online-playground"> V online playground</a>
-                            <a class="link subtopic" href="other-online-resources.html#awesome-v"> Awesome V</a>
-                            <a class="link subtopic" href="other-online-resources.html#the-v-language-discord"> The V language Discord</a>
-                        </div>
-                    </section>
+            <div id="search-widget" class="sidebar-tool">
+                <!-- Search Input and Button -->
+                <input type="text" id="search-input" placeholder="Search">
+                <button id="search-button" role="button" aria-label="Perform search...">
+                     <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                         <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                     </svg>
+                </button>
+                <kbd id="search-kb-shortcut" class="kb-shortcut"></kbd>
+            </div>
+            <nav id="search-results" class="nav-list">
+                <div id="search-results-header">
+                    <span>Search results...</span>
+                    <div id="search-results-close" role="button" aria-label="Close search results..." title="Press ESC to close search results....">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
+                            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" fill="white"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="nav-contents">
+                    <div class="nav-group" id="search-result-container">
+                    </div>
+                </div>
+            </nav>
+            <nav id="topics" class="nav-list">
+                <div class="nav-contents">
+
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="introduction.html">Introduction</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="packaging-v-for-distribution.html">Packaging V for distribution</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="getting-started.html">Getting started</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="hello-world.html">Hello World</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="running-a-project-folder-with-several-files.html">Running a project folder with several files</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="comments.html">Comments</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="functions.html">Functions</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions.html#hoisting"> Hoisting</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions.html#returning-multiple-values"> Returning multiple values</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="symbol-visibility.html">Symbol visibility</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="variables.html">Variables</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="variables.html#mutable-variables"> Mutable variables</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="variables.html#initialization-vs-assignment"> Initialization vs assignment</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="variables.html#warnings-and-declaration-errors"> Warnings and declaration errors</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="v-types.html">V Types</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#runes"> Runes</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#numbers"> Numbers</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#arrays"> Arrays</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#fixed-size-arrays"> Fixed size arrays</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#maps"> Maps</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#map-update-syntax"> Map update syntax</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="module-imports.html">Module imports</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="module-imports.html#selective-imports"> Selective imports</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="module-imports.html#module-hierarchy"> Module hierarchy</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="module-imports.html#module-import-aliasing"> Module import aliasing</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="statements-&-expressions.html">Statements & expressions</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="statements-&-expressions.html#if"> If</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="statements-&-expressions.html#match"> Match</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="statements-&-expressions.html#in-operator"> In operator</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="statements-&-expressions.html#for-loop"> For loop</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="statements-&-expressions.html#defer"> Defer</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="statements-&-expressions.html#goto"> Goto</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="structs.html">Structs</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#heap-structs"> Heap structs</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#default-field-values"> Default field values</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#required-fields"> Required fields</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#short-struct-literal-syntax"> Short struct literal syntax</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#struct-update-syntax"> Struct update syntax</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#trailing-struct-literal-arguments"> Trailing struct literal arguments</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#access-modifiers"> Access modifiers</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#anonymous-structs"> Anonymous structs</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#static-type-methods"> Static type methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#noinit-structs"> [noinit] structs</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#methods"> Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="structs.html#embedded-structs"> Embedded structs</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="unions.html">Unions</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="functions-2.html">Functions 2</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#immutable-function-args-by-default"> Immutable function args by default</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#mutable-arguments"> Mutable arguments</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#variable-number-of-arguments"> Variable number of arguments</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#parameter-evaluation-order"> Parameter evaluation order</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="references.html">References</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="constants.html">Constants</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="constants.html#required-module-prefix"> Required module prefix</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="builtin-functions.html">Builtin functions</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="builtin-functions.html#println"> println</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="builtin-functions.html#printing-custom-types"> Printing custom types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="builtin-functions.html#dumping-expressions-at-runtime"> Dumping expressions at runtime</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="modules.html">Modules</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="modules.html#create-modules"> Create modules</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="modules.html#special-considerations-for-project-folders"> Special considerations for project folders</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="modules.html#init-functions"> init functions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="modules.html#cleanup-functions"> cleanup functions</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="type-declarations.html">Type Declarations</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#type-aliases"> Type aliases</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#enums"> Enums</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#function-types"> Function Types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#interfaces"> Interfaces</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#sum-types"> Sum types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#optionresult-types-and-error-handling"> Option/Result types and error handling</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#custom-error-types"> Custom error types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="type-declarations.html#generics"> Generics</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="concurrency.html">Concurrency</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#spawning-concurrent-tasks"> Spawning Concurrent Tasks</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#channels"> Channels</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="json.html">JSON</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="json.html#decoding-json"> Decoding JSON</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="testing.html">Testing</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#asserts"> Asserts</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#asserts-with-an-extra-message"> Asserts with an extra message</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#asserts-that-do-not-abort-your-program"> Asserts that do not abort your program</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#test-files"> Test files</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#running-tests"> Running tests</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="memory-management.html">Memory management</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="memory-management.html#control"> Control</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="memory-management.html#stack-and-heap"> Stack and Heap</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="orm.html">ORM</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="writing-documentation.html">Writing Documentation</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="writing-documentation.html#newlines-in-documentation-comments"> Newlines in Documentation Comments</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="tools.html">Tools</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="package-management.html">Package management</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="attributes.html">Attributes</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="conditional-compilation.html">Conditional compilation</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="conditional-compilation.html#compile-time-pseudo-variables"> Compile time pseudo variables</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="conditional-compilation.html#compile-time-reflection"> Compile time reflection</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="conditional-compilation.html#compile-time-code"> Compile time code</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="conditional-compilation.html#compile-time-types"> Compile time types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="conditional-compilation.html#environment-specific-files"> Environment specific files</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="debugger.html">Debugger</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="call-stack.html">Call stack</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="trace.html">Trace</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="memory-unsafe-code.html">Memory-unsafe code</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="structs-with-reference-fields.html">Structs with reference fields</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="sizeof-and-__offsetof.html">sizeof and __offsetof</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="limited-operator-overloading.html">Limited operator overloading</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="limited-operator-overloading.html#implicitly-generated-overloads"> Implicitly generated overloads</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="limited-operator-overloading.html#restriction"> Restriction</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="performance-tuning.html">Performance tuning</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="performance-tuning.html#tuning-operations-details"> Tuning operations details</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="atomics.html">Atomics</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="global-variables.html">Global Variables</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="cross-compilation.html">Cross compilation</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="debugging.html">Debugging</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="debugging.html#c-backend-binaries-(default)"> C Backend binaries (Default)</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="debugging.html#native-backend-binaries"> Native Backend binaries</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="debugging.html#javascript-backend"> Javascript Backend</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="v-and-c.html">V and C</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#calling-c-from-v"> Calling C from V</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#calling-v-from-c"> Calling V from C</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#c-types"> C types</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#c-declarations"> C Declarations</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#export-to-shared-library"> Export to shared library</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#translating-c-to-v"> Translating C to V</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-and-c.html#working-around-c-issues"> Working around C issues</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="other-v-features.html">Other V Features</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#cross-platform-shell-scripts-in-v"> Cross-platform shell scripts in V</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="appendix-i-keywords.html">Appendix I: Keywords</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="appendix-ii-operators.html">Appendix II: Operators</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header is-selected">
+                    <a class="nav-entry-link" href="other-online-resources.html">Other online resources</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-online-resources.html#v-contributing-guide"> V contributing guide</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-online-resources.html#v-language-documentation"> V language documentation</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-online-resources.html#v-standard-module-documentation"> V standard module documentation</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-online-resources.html#v-online-playground"> V online playground</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-online-resources.html#awesome-v"> Awesome V</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-online-resources.html#the-v-language-discord"> The V language Discord</a>
+                    </div>
+                    </div>
+                    </div>
                 </div>
             </nav>
         </aside>
@@ -257,7 +816,7 @@
             <div class="container">
                 <div class="content">
                     <div class="content-container">
-                        <main>
+                        <main class="v-doc">
                             <h1 class="main">Other online resources</h1>
 <h2 id="v-contributing-guide"><a href="https://github.com/vlang/v/blob/master/CONTRIBUTING.md">V contributing guide</a> <a href="#v-contributing-guide" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V would be much less, than what it is today, without the help of all
@@ -307,9 +866,9 @@ Conway's law and the universe.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-12-13T20:04:00.840Z">Last updated:
-                                        2024-12-13 22:04:00, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c941c3d4443895b98e35008e7a8365539f418495">c941c3d</a></time>
+                                    <time datetime="2024-12-14T07:10:18.499Z">Last updated:
+                                        2024-12-14 09:10:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d7850111a129ead23e2b19885803c0d98c648363">d785011</a></time>
                                 </div>
                             </div>
 
@@ -368,22 +927,16 @@ Conway's law and the universe.</p>
             }
         })
     </script>
-    <script src="assets/scripts/vlang-playground.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const playgroundElements = [...document.querySelectorAll(".language-v"), ...document.querySelectorAll(".language-c")];
-            playgroundElements.forEach(playgroundElement => {
-                const playground = Playground.create(playgroundElement, {
-                    fontSize: "14px",
-                    highlightOnly: true,
-                    showFooter: false,
-                    showLineNumbers: false,
-                });
-                playgrounds.push(playground);
-            });
-        })
-    </script>
-    <script src="assets/scripts/theme.js"></script>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.js"></script>
+
+    <script src="assets/scripts/v-docs.js"></script>
+    <script src="assets/scripts/cm-lang-v.js"></script>
+
     <script>
         document.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
@@ -397,17 +950,8 @@ Conway's law and the universe.</p>
             //html.style.opacity = '1'
         //}
     </script>
-    <script>
-        document.getElementsByClassName("aside-topics-open")[0].addEventListener("click", (event) => {
-            document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'block')
-        })
 
-        document.getElementsByClassName("aside-topics-close")[0].addEventListener("click", (event) => {
-            document.getElementsByClassName("aside-topics")[0].style.setProperty('display', 'none')
-        })
-    </script>
-	<script src="assets/scripts/titles_to_fnames.js"></script>
-	<script src="assets/scripts/search.js"></script>
+
 </body>
 
 </html>
