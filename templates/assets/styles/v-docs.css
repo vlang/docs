@@ -470,7 +470,7 @@ header .header-container .logo img {
 }
 @media (max-width: 1000px) {
   #sidebar-main {
-    display: none;
+  display: none;
   }
 }
 
@@ -523,7 +523,7 @@ article {
 }
 @media (max-width: 1000px) {
   article {
-	padding: 0;
+  padding: 0;
   }
 }
 
@@ -544,12 +544,12 @@ article .container {
 }
 @media (max-width: 1200px) {
   article .container {
-	grid-template-columns: 100%;
-	padding-left: 0px;
-	padding-right: 0px;
+  grid-template-columns: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
   }
   article .container .aside {
-	display: none;
+  display: none;
   }
 }
 article .container .content {
@@ -557,7 +557,7 @@ article .container .content {
 }
 @media (max-width: 1000px) {
   article .container .content {
-	padding: 72px 0 0;
+  padding: 72px 0 0;
   }
 }
 article .container .content .content-container {
@@ -576,8 +576,8 @@ article .container .content footer .edit-info {
 }
 @media (max-width: 700px) {
   article .container .content footer .edit-info {
-	grid-template-columns: 1fr;
-	grid-template-rows: auto auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
   }
 }
 article .container .content footer .edit-info .edit-link:hover {
@@ -707,7 +707,7 @@ article .footer .footer-content {
 }
 @media (max-width: 1000px) {
   article .footer .footer-content {
-	padding: 0 20px;
+  padding: 0 20px;
   }
 }
 article .footer .footer-content .footer-container {
@@ -717,8 +717,8 @@ article .footer .footer-content .footer-container {
 }
 @media (max-width: 1000px) {
   article .footer .footer-content .footer-container {
-	flex-direction: column;
-	padding: 30px 0;
+  flex-direction: column;
+  padding: 30px 0;
   }
 }
 article .vdocs-code-header {
@@ -737,7 +737,7 @@ article .vdocs-code-header {
 }
 @media (max-width: 1200px) {
   .v-doc h1 {
-	margin-bottom: 0px;
+  margin-bottom: 0px;
   }
 }
 
