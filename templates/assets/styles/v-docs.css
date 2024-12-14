@@ -30,7 +30,10 @@ html[data-theme=dark] {
   --blockquote-info-color: #00bfa5;
   --tag-unsafe-color: #ff6b00;
   --tag-deprecated-color: #9d9d9d;
+
   --scrollbar-thumb-color: #404042;
+  --scrollbar-track-color: #1a1a1a;
+
 }
 
 html {
@@ -59,7 +62,9 @@ html {
   --blockquote-info-color: #00bfa5;
   --tag-unsafe-color: #ff6b00;
   --tag-deprecated-color: #808080;
+
   --scrollbar-thumb-color: #d2d2d2;
+  --scrollbar-track-color: #f9f9f9;
 }
 
 
@@ -81,6 +86,9 @@ body {
   font: 400 14px/1.5 "FiraSans", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   font-feature-settings: "kern" 1;
+
+
+
 }
 
 
@@ -270,8 +278,36 @@ header .header-container .logo img {
 
 .nav-list .nav-contents {
   overflow: scroll;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: auto !important;
+
+  scrollbar-color: var(--scrollbar-thumb-color) var(--aside-background);
+  scrollbar-width: thin;
+
 }
+.nav-list .nav-contents::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+
+  background: var(--scrollbar-track-color);
+}
+.nav-list .nav-contents::-webkit-scrollbar-button{
+  height: 0;
+  width: 0
+}
+
+.nav-list .nav-contents::-webkit-scrollbar-thumb {
+  width: 10px;
+  background: var(--scrollbar-thumb-color);
+  border-radius: 5px;
+}
+.nav-list .nav-contents::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: var(--scrollbar-track-color);
+}
+.nav-list .nav-contents::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track-color);
+}
+
 .nav-list .nav-group {
   padding-bottom: 6px;
 }
