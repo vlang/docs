@@ -564,7 +564,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header is-selected">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="attributes.html">Attributes</a>
 
                     </div>
@@ -684,7 +684,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header">
+                    <div class="nav-entry is-group-header is-selected">
                     <a class="nav-entry-link" href="static-variables.html">Static Variables</a>
 
                     </div>
@@ -825,252 +825,34 @@
                 <div class="content">
                     <div class="content-container">
                         <main class="v-doc">
-                            <h1 class="main">Attributes</h1>
-<p>V has several attributes that modify the behavior of functions and structs.</p>
-<p>An attribute is a compiler instruction specified inside <code>[]</code> right before a
-function/struct/enum declaration and applies only to the following declaration.</p>
-<div class="language-v">// @[flag] enables Enum types to be used as bitfields
-
-@[flag]
-enum BitField {
-    read
-    write
-    other
+                            <h1 class="main">Static Variables</h1>
+<p>V also supports <em>static variables</em>, which are like <em>global variables</em>, but
+available only <em>inside</em> a single unsafe function (you can look at them as
+namespaced globals).</p>
+<p>Note: their use is discouraged too, for reasons similar to why globals
+are discouraged. The feature is supported to enable translating existing
+low level C code into V code, using <code>v translate</code>.</p>
+<p>Note: the function in which you use a static variable, has to be marked
+with @[unsafe]. Also unlike using globals, using static variables, do not
+require you to pass the flag <code>-enable-globals</code>, because they can only be
+read/changed inside a single function, which has full control over the
+state stored in them.</p>
+<p>Here is a small example of how static variables can be used:</p>
+<div class="language-v">@[unsafe]
+fn counter() int {
+    mut static x := 42
+    // Note: x is initialised to 42, just _once_.
+    x++
+    return x
 }
 
-fn main() {
-    assert 1 == int(BitField.read)
-    assert 2 == int(BitField.write)
-    mut bf := BitField.read
-    assert bf.has(.read | .other) // test if *at least one* of the flags is set
-    assert !bf.all(.read | .other) // test if *all* of the flags are set
-    bf.set(.write | .other)
-    assert bf.has(.read | .write | .other)
-    assert bf.all(.read | .write | .other)
-    bf.toggle(.other)
-    assert bf == BitField.read | .write
-    assert bf.all(.read | .write)
-    assert !bf.has(.other)
-    empty := BitField.zero()
-    assert empty.is_empty()
-    assert !empty.has(.read)
-    assert !empty.has(.write)
-    assert !empty.has(.other)
-    mut full := empty
-    full.set_all()
-    assert int(full) == 7 // 0x01 + 0x02 + 0x04
-    assert full == .read | .write | .other
-    mut v := full
-    v.clear(.read | .other)
-    assert v == .write
-    v.clear_all()
-    assert v == empty
-    assert BitField.read == BitField.from('read')!
-    assert BitField.other == BitField.from('other')!
-    assert BitField.write == BitField.from(2)!
-    assert BitField.zero() == BitField.from('')!
-}
-</div>
-<div class="language-v">// @[_allow_multiple_values] allows an enum to have multiple duplicate values.
-// Use it carefully, only when you really need it.
-
-@[_allow_multiple_values]
-enum ButtonStyle {
-    primary   = 1
-    secondary = 2
-    success   = 3
-
-    blurple = 1
-    grey    = 2
-    gray    = 2
-    green   = 3
-}
-
-fn main() {
-    assert int(ButtonStyle.primary) == 1
-    assert int(ButtonStyle.blurple) == 1
-
-    assert int(ButtonStyle.secondary) == 2
-    assert int(ButtonStyle.gray) == 2
-    assert int(ButtonStyle.grey) == 2
-
-    assert int(ButtonStyle.success) == 3
-    assert int(ButtonStyle.green) == 3
-
-    assert ButtonStyle.primary == ButtonStyle.blurple
-    assert ButtonStyle.secondary == ButtonStyle.grey
-    assert ButtonStyle.secondary == ButtonStyle.gray
-    assert ButtonStyle.success == ButtonStyle.green
-}
-</div>
-<p>Struct field deprecations:</p>
-<div class="language-v">module abc
-
-// Note that only *direct* accesses to Xyz.d in *other modules*, will produce deprecation notices/warnings:
-pub struct Xyz {
-pub mut:
-    a int
-    d int @[deprecated: 'use Xyz.a instead'; deprecated_after: '2999-03-01']
-    // the tags above, will produce a notice, since the deprecation date is in the far future
-}
-</div>
-<p>Function/method deprecations:</p>
-<p>Functions are deprecated before they are finally removed to give users time to migrate their code.
-Adding a date is preferable in most cases. An immediate change, without a deprecation date, may be
-used for functions that are found to be conceptually broken and obsoleted by much better
-functionality. Other than that setting a date is advisable to grant users a grace period.</p>
-<p>Deprecated functions cause warnings, which cause errors if built with <code>-prod</code>. To avoid immediate
-CI breakage, it is advisable to set a future date, ahead of the date when the code is merged. This
-gives people who actively developed V projects, the chance to see the deprecation notice at least
-once and fix the uses. Setting a date in the next 30 days, assumes they would have compiled their
-projects manually at least once, within that time. For small changes, this should be plenty time.
-For complex changes, this time may need to be longer.</p>
-<p>Different V projects and maintainers may reasonably choose different deprecation policies.
-Depending on the type and impact of the change, you may want to consult with them first, before
-deprecating a function.</p>
-<div class="language-v">// Calling this function will result in a deprecation warning
-
-@[deprecated]
-fn old_function() {
-}
-
-// It can also display a custom deprecation message
-
-@[deprecated: 'use new_function() instead']
-fn legacy_function() {}
-
-// You can also specify a date, after which the function will be
-// considered deprecated. Before that date, calls to the function
-// will be compiler notices - you will see them, but the compilation
-// is not affected. After that date, calls will become warnings,
-// so ordinary compiling will still work, but compiling with -prod
-// will not (all warnings are treated like errors with -prod).
-// 6 months after the deprecation date, calls will be hard
-// compiler errors.
-
-@[deprecated: 'use new_function2() instead']
-@[deprecated_after: '2021-05-27']
-fn legacy_function2() {}
-</div>
-<div class="language-v">// This function's calls will be inlined.
-@[inline]
-fn inlined_function() {
-}
-
-// This function's calls will NOT be inlined.
-@[noinline]
-fn function() {
-}
-
-// This function will NOT return to its callers.
-// Such functions can be used at the end of or blocks,
-// just like exit/1 or panic/1. Such functions can not
-// have return types, and should end either in for{}, or
-// by calling other `[noreturn]` functions.
-@[noreturn]
-fn forever() {
-    for {}
-}
-
-// The following struct must be allocated on the heap. Therefore, it can only be used as a
-// reference (`&amp;Window`) or inside another reference (`&amp;OuterStruct{ Window{...} }`).
-// See section &quot;Stack and Heap&quot;
-@[heap]
-struct Window {
-}
-
-// Calls to following function must be in unsafe{} blocks.
-// Note that the code in the body of `risky_business()` will still be
-// checked, unless you also wrap it in `unsafe {}` blocks.
-// This is useful, when you want to have an `[unsafe]` function that
-// has checks before/after a certain unsafe operation, that will still
-// benefit from V's safety features.
-@[unsafe]
-fn risky_business() {
-    // code that will be checked, perhaps checking pre conditions
-    unsafe {
-        // code that *will not be* checked, like pointer arithmetic,
-        // accessing union fields, calling other `[unsafe]` fns, etc...
-        // Usually, it is a good idea to try minimizing code wrapped
-        // in unsafe{} as much as possible.
-        // See also [Memory-unsafe code](#memory-unsafe-code)
-    }
-    // code that will be checked, perhaps checking post conditions and/or
-    // keeping invariants
-}
-
-// V's autofree engine will not take care of memory management in this function.
-// You will have the responsibility to free memory manually yourself in it.
-// Note: it is NOT related to the garbage collector. It will only make the
-// -autofree mechanism, ignore the body of that function.
-@[manualfree]
-fn custom_allocations() {
-}
-
-// The memory pointed to by the pointer arguments of this function will not be
-// freed by the garbage collector (if in use) before the function returns
-// For C interop only.
-@[keep_args_alive]
-fn C.my_external_function(voidptr, int, voidptr) int
-
-// A @[weak] tag tells the C compiler, that the next declaration will be weak, i.e. when linking,
-// if there is another declaration of a symbol with the same name (a 'strong' one), it should be
-// used instead, *without linker errors about duplicate symbols*.
-// For C interop only.
-
-@[weak]
-__global abc = u64(1)
-
-// Tell V, that the following global was defined on the C side,
-// thus V will not initialise it, but will just give you access to it.
-// For C interop only.
-
-@[c_extern]
-__global my_instance C.my_struct
-struct C.my_struct {
-    a int
-    b f64
-}
-
-// Tell V that the following struct is defined with `typedef struct` in C.
-// For C interop only.
-@[typedef]
-pub struct C.Foo {}
-
-// Used to add a custom calling convention to a function, available calling convention: stdcall, fastcall and cdecl.
-// This list also applies for type aliases (see below).
-// For C interop only.
-@[callconv: 'stdcall']
-fn C.DefWindowProc(hwnd int, msg int, lparam int, wparam int)
-
-// Used to add a custom calling convention to a function type aliases.
-// For C interop only.
-
-@[callconv: 'fastcall']
-type FastFn = fn (int) bool
-
-// Calls to the following function, will have to use its return value somehow.
-// Ignoring it, will emit warnings.
-@[must_use]
 fn f() int {
-    return 42
+    return unsafe { counter() }
 }
 
-fn g() {
-    // just calling `f()` here, will produce a warning
-    println(f()) // this is fine, because the return value was used as an argument
-}
-
-// Windows only (and obsolete; instead of it, use `-subsystem windows` when compiling)
-// Without this attribute all graphical apps will have the following behavior on Windows:
-// If run from a console or terminal; keep the terminal open so all (e)println statements can be viewed.
-// If run from e.g. Explorer, by double-click; app is opened, but no terminal is opened, and no
-// (e)println output can be seen.
-// Use it to force-open a terminal to view output in, even if the app is started from Explorer.
-// Valid before main() only.
-@[console]
-fn main() {
-}
+println(f()) // prints 43
+println(f()) // prints 44
+println(f()) // prints 45
 </div>
 
                         </main>
@@ -1078,7 +860,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5658"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7332"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1093,7 +875,7 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-12-16T17:53:07.070Z">Last updated:
+                                    <time datetime="2024-12-16T17:53:07.198Z">Last updated:
                                         2024-12-16 19:53:07, V Commit: <a
                                             href="https://github.com/vlang/v/commit/1fae506900c79e3aafc00e08e1f861fc7cbf8012">1fae506</a></time>
                                 </div>
@@ -1102,16 +884,16 @@ fn main() {
                             <!-- only-prev or only-next -->
                             <div class="prev-next">
                                 <div class="page prev-page">
-                                    <a class="page-link" href="package-management.html">
+                                    <a class="page-link" href="global-variables.html">
                                         <span class="desc">Previous page</span>
-                                        <span class="title">Package management</span>
+                                        <span class="title">Global Variables</span>
                                     </a>
                                 </div>
 
                                 <div class="page next-page">
-                                    <a class="page-link" href="conditional-compilation.html">
+                                    <a class="page-link" href="cross-compilation.html">
                                         <span class="desc">Next page</span>
-                                        <span class="title">Conditional compilation</span>
+                                        <span class="title">Cross compilation</span>
                                     </a>
                                 </div>
                             </div>
@@ -1150,11 +932,11 @@ fn main() {
     <script>
         document.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
-                window.open("package-management.html", "_self")
+                window.open("global-variables.html", "_self")
             }
 
             if (event.key === "ArrowRight") {
-                window.open("conditional-compilation.html", "_self")
+                window.open("cross-compilation.html", "_self")
             }
         })
 
