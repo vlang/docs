@@ -1145,8 +1145,6 @@ var y;
 	"_likely__unlikely_":	"performance-tuning.html#_likely__unlikely_",
 	"likely/unlikely":	"performance-tuning.html#_likely__unlikely_",
 	"likelyunlikely":	"performance-tuning.html#_likely__unlikely_",
-	"-skip-unused":	"performance-tuning.html#-skip-unused",
-	"-SKIP-UNUSED":	"performance-tuning.html#-skip-unused",
 	"-fast-math":	"performance-tuning.html#-fast-math",
 	"-FAST-MATH":	"performance-tuning.html#-fast-math",
 	"-d no_segfault_handler":	"performance-tuning.html#-d-no_segfault_handler",

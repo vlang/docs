@@ -871,11 +871,6 @@ how their programs actually perform&quot;.</p>
 <td>Risk of negative performance impact</td>
 </tr>
 <tr>
-<td><code>-skip-unused</code></td>
-<td>Performance, Compile time, Size</td>
-<td>Potential instability</td>
-</tr>
-<tr>
 <td><code>-fast-math</code></td>
 <td>Performance</td>
 <td>Risk of incorrect mathematical operations results</td>
@@ -1006,12 +1001,6 @@ expression is highly improbable. In the JS backend, that does nothing.</p>
 <li>When the prediction can be wrong, as it might cause a performance penalty due to branch
 misprediction.</li>
 </ul>
-<h3 id="-skip-unused"><code>-skip-unused</code> <a href="performance-tuning.html#-skip-unused" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>This flag tells the V compiler to omit code that is not needed in the final executable to run your
-program correctly. This will remove unneeded <code>const</code> arrays allocations and unused functions
-from the code in the generated executable.</p>
-<p>This flag will be on by default in the future when its implementation will be stabilized and all
-severe bugs will be found.</p>
 <p><strong>When to Use</strong></p>
 <ul>
 <li>For production builds where you want to reduce the executable size and improve runtime
@@ -1107,7 +1096,7 @@ rm -f *.profraw
 rm -f default.profdata
 
 # Initial build with PGO instrumentation
-v -cc clang -skip-unused -prod -cflags -fprofile-generate -o pgo_gen .
+v -cc clang -prod -cflags -fprofile-generate -o pgo_gen .
 
 # Run the instrumented executable 10 times
 for i in {1..10}; do
@@ -1118,7 +1107,7 @@ done
 llvm-profdata merge -o default.profdata *.profraw
 
 # Compile the optimized version using the PGO data
-v -cc clang -skip-unused -prod -cflags &quot;-fprofile-use=${CUR_DIR}/default.profdata&quot; -o optimized_program .
+v -cc clang -prod -cflags &quot;-fprofile-use=${CUR_DIR}/default.profdata&quot; -o optimized_program .
 
 # Remove PGO data and instrumented executable
 rm *.profraw
@@ -1145,9 +1134,9 @@ rm pgo_gen
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2024-12-28T20:45:03.206Z">Last updated:
-                                        2024-12-28 22:45:03, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/035133276117bd69946ff5b0cbb61d7e16333643">0351332</a></time>
+                                    <time datetime="2024-12-29T13:34:33.805Z">Last updated:
+                                        2024-12-29 15:34:33, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/f198e69c21f2fff957acb912ef5b6d72746a69b6">f198e69</a></time>
                                 </div>
                             </div>
 
