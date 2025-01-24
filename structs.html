@@ -840,6 +840,18 @@ println(p.x) // Struct fields are accessed using a dot
 p = Point{10, 20}
 assert p.x == 10
 </div>
+<p>Struct fields can re-use reserved keywords:</p>
+<div class="language-v">struct Employee {
+    type string
+    name string
+}
+
+employee := Employee{
+    type: 'FTE'
+    name: 'John Doe'
+}
+println(employee.type)
+</div>
 <h2 id="heap-structs">Heap structs <a href="structs.html#heap-structs" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Structs are allocated on the stack. To allocate a struct on the heap
 and get a <a href="references.html">reference</a> to it, use the <code>&amp;</code> prefix:</p>
@@ -1193,9 +1205,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-01-24T09:39:00.968Z">Last updated:
-                                        2025-01-24 11:39:00, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a44ff7813affb946c0a45a7d0b4b1755d352da89">a44ff78</a></time>
+                                    <time datetime="2025-01-24T10:16:28.673Z">Last updated:
+                                        2025-01-24 12:16:28, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/b0d2eeea5dfb78d5784875b5f45b6998a9c4de6b">b0d2eee</a></time>
                                 </div>
                             </div>
 
