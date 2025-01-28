@@ -904,7 +904,7 @@ star_str := '\u2605' // ★
 assert star_str == '★'
 assert star_str == '\xe2\x98\x85' // UTF-8 can be specified this way too.
 </div>
-<p>In V, a string is a read-only array of bytes. All Unicode characters are encoded using UTF-8:</p>
+<p>In V, strings are read-only, and Unicode characters are encoded in UTF-8:</p>
 <div class="language-v">s := 'hello 🌎' // emoji takes 4 bytes
 assert s.len == 10
 
@@ -921,12 +921,19 @@ s[0] = `H` // not allowed
 <blockquote class="tip">
 <p>error: cannot assign to <code>s[i]</code> since V strings are immutable</p>
 </blockquote>
-<p>Note that indexing a string will produce a <code>u8</code> (byte), not a <code>rune</code> nor another <code>string</code>. Indexes
-correspond to <em>bytes</em> in the string, not Unicode code points. If you want to convert the <code>u8</code> to a
-<code>string</code>, use the <code>.ascii_str()</code> method on the <code>u8</code>:</p>
+<p>Note that indexing a string normally will produce a <code>u8</code> (byte), not a <code>rune</code> nor another <code>string</code>.
+Indexes correspond to <em>bytes</em> in the string, not Unicode code points.
+If you want to convert the <code>u8</code> to a <code>string</code>, use the <code>.ascii_str()</code> method on the <code>u8</code>:</p>
 <div class="language-v">country := 'Netherlands'
 println(country[0]) // Output: 78
 println(country[0].ascii_str()) // Output: N
+</div>
+<p>However, you can easily get the runes for a string with the <code>runes()</code> method, which will return an
+array of the UTF-8 characters from the string.  You can then index this array.  Just be aware that
+there may be fewer indexes available on the <code>rune</code> array than on the bytes in the string, if there
+<em>are</em> any non-ASCII characters.</p>
+<div class="language-v">mut s := 'hello 🌎'
+println(s.runes()[6])
 </div>
 <p>If you want the code point from a specific <code>string</code> index or other more advanced
 utf8 processing and conversions, refer to the
@@ -1698,9 +1705,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-01-28T22:04:53.464Z">Last updated:
-                                        2025-01-29 00:04:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/85f388958e8fe4abace522cc299ac217804b71e1">85f3889</a></time>
+                                    <time datetime="2025-01-28T23:39:44.807Z">Last updated:
+                                        2025-01-29 01:39:44, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/1197615b1c454d52670603a1d103bda81632f5ae">1197615</a></time>
                                 </div>
                             </div>
 
