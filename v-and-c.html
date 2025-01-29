@@ -1079,7 +1079,7 @@ so you should NOT free it after calling the method <code>.vstring()</code>.
 If you need to make a copy of the C string (some libc APIs like <code>getenv</code> pretty much require that,
 since they return pointers to internal libc memory), you can use <code>cstring_to_vstring(cstring)</code>.</p>
 </blockquote>
-<p>On Windows, C APIs often return so called <code>wide</code> strings (utf16 encoding).
+<p>On Windows, C APIs often return so called <code>wide</code> strings (UTF-16 encoding).
 These can be converted to V strings with <code>string_from_wide(&amp;u16(cwidestring))</code> .</p>
 <p>V has these types for easier interoperability with C:</p>
 <ul>
@@ -1203,7 +1203,7 @@ meaning it could cause more issues than it solves.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7498"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7503"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1218,9 +1218,9 @@ meaning it could cause more issues than it solves.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-01-29T14:04:44.569Z">Last updated:
-                                        2025-01-29 16:04:44, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d0ce8a221021b35e13efaa7b3225427881edad58">d0ce8a2</a></time>
+                                    <time datetime="2025-01-29T17:58:36.657Z">Last updated:
+                                        2025-01-29 19:58:36, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/1d700bef9957685882e8552687be5faabfcb46f9">1d700be</a></time>
                                 </div>
                             </div>
 
