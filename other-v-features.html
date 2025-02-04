@@ -958,6 +958,9 @@ the built executable. This will run in crun mode so it will only rebuild if chan
 were made and keep the binary as <code>tmp.&lt;scriptfilename&gt;</code>. <strong>Caution</strong>: if this filename already
 exists the file will be overridden. If you want to rebuild each time and not keep this binary
 instead use <code>#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run</code>.</p>
+<p>Note: there is a small shell script <code>cmd/tools/vrun</code>, that can be useful for systems, that have an
+env program (<code>/usr/bin/env</code>), that still does not support an <code>-S</code> option (like BusyBox).
+See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://github.com/vlang/v/blob/master/cmd/tools/vrun</a> for more details.</p>
 <h1>Appendices</h1>
 
                         </main>
@@ -980,9 +983,9 @@ instead use <code>#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run</code>.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-02-04T09:23:12.692Z">Last updated:
-                                        2025-02-04 11:23:12, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d30598bbca5d9a65b431560f94caa7ded36132e5">d30598b</a></time>
+                                    <time datetime="2025-02-04T13:01:57.222Z">Last updated:
+                                        2025-02-04 15:01:57, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7ea5b4a020b13d278442f9178f8a03208cf0a4b6">7ea5b4a</a></time>
                                 </div>
                             </div>
 
