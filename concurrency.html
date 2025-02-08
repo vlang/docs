@@ -827,8 +827,9 @@
                         <main class="v-doc">
                             <h1 class="main">Concurrency</h1>
 <h2 id="spawning-concurrent-tasks">Spawning Concurrent Tasks <a href="concurrency.html#spawning-concurrent-tasks" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>V's model of concurrency is going to be very similar to Go's.
-For now, <code>spawn foo()</code> runs <code>foo()</code> concurrently in a different thread:</p>
+<p>V's model of concurrency is similar to Go's.</p>
+<p><code>go foo()</code> runs <code>foo()</code> concurrently in a lightweight thread managed by the V runtime.</p>
+<p><code>spawn foo()</code> runs <code>foo()</code> concurrently in a different thread:</p>
 <div class="language-v">import math
 
 fn p(a f64, b f64) { // ordinary function without return value
@@ -854,9 +855,6 @@ have limitations in regard to concurrency,
 including resource overhead and scalability issues,
 and might affect performance in cases of high thread count.</p>
 </blockquote>
-<p>There's also a <code>go</code> keyword. Right now <code>go foo()</code> will be automatically renamed via vfmt
-to <code>spawn foo()</code>, and there will be a way to launch a coroutine with <code>go</code> (a lightweight
-thread managed by the runtime).</p>
 <p>Sometimes it is necessary to wait until a parallel thread has finished. This can
 be done by assigning a <em>handle</em> to the started thread and calling the <code>wait()</code> method
 to this handle later:</p>
@@ -1128,9 +1126,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-02-08T10:25:09.376Z">Last updated:
-                                        2025-02-08 12:25:09, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6e3f6acffc28f70056c1770231d692d177c1515d">6e3f6ac</a></time>
+                                    <time datetime="2025-02-08T15:48:34.200Z">Last updated:
+                                        2025-02-08 17:48:34, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/8bbaab396f63a9252432d8a93e52669ceb7915e4">8bbaab3</a></time>
                                 </div>
                             </div>
 
