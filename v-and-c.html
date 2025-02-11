@@ -1185,20 +1185,29 @@ For example, V needs to include the Windows header libraries in order for your V
 seamlessly across all platforms.</p>
 <p>However, since the Windows header libraries use extremely generic names such as <code>Rectangle</code>,
 this will cause a conflict if you wish to use C code that also has a name defined as <code>Rectangle</code>.</p>
-<p>For very specific cases like this, we have <code>#preinclude</code>.</p>
-<p>This will allow things to be configured before V adds in its built in libraries.</p>
+<p>For very specific cases like this, V has <code>#preinclude</code> and <code>#postinclude</code> directives.</p>
+<p>These directives allow things to be configured <em>before</em> V adds in its built in libraries,
+and <em>after</em> all of the V code generation has completed (and thus all of the prototypes,
+declarations and definitions are already present).</p>
 <p>Example usage:</p>
 <div class="language-v">// This will include before built in libraries are used.
 #preinclude &quot;pre_include.h&quot;
+
 // This will include after built in libraries are used.
 #include &quot;include.h&quot;
+
+// This will include after all of the V code generation is complete,
+// including the one for the main function of the project
+#postinclude &quot;post_include.h&quot;
 </div>
 <p>An example of what might be included in <code>pre_include.h</code>
 can be <a href="https://github.com/irishgreencitrus/raylib.v/blob/main/include/pre.h">found here</a></p>
-<p>This is an advanced feature, and will not be necessary
-outside of very specific cases with C interop,
-meaning it could cause more issues than it solves.</p>
-<p>Consider it last resort!</p>
+<p>The <code>#postinclude</code> directive on the other hand is useful for allowing the integration
+of frameworks like SDL3 or Sokol, that insist on having callbacks in your code, instead
+of behaving like ordinary libraries, and allowing you to decide when to call them.</p>
+<p>NOTE: these are advanced features, and will not be necessary outside of very specific cases
+with C interop. Other than those, using them could cause more issues than it solves.</p>
+<p>Consider using them as a last resort!</p>
 
                         </main>
                         <footer>
@@ -1220,9 +1229,9 @@ meaning it could cause more issues than it solves.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-02-11T22:55:06.185Z">Last updated:
-                                        2025-02-12 00:55:06, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a4101f4ed8a52dc48c4bc20600331382fd3172cb">a4101f4</a></time>
+                                    <time datetime="2025-02-11T23:23:31.001Z">Last updated:
+                                        2025-02-12 01:23:31, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d82757abd9762cbe75c882f18ee00d9ebf1e3d56">d82757a</a></time>
                                 </div>
                             </div>
 
