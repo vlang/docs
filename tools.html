@@ -849,12 +849,12 @@ A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 </code></pre>
 <h2 id="v-shader">v shader <a href="tools.html#v-shader" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can use GPU shaders with V graphical apps. You write your shaders in an
-<a href="https://github.com/vlang/v/blob/1d8ece7/examples/sokol/02_cubes_glsl/cube_glsl.glsl">annotated GLSL dialect</a>
+<a href="https://github.com/vlang/v/blob/master/examples/sokol/02_cubes_glsl/cube_glsl.glsl">annotated GLSL dialect</a>
 and use <code>v shader</code> to compile them for all supported target platforms.</p>
 <pre><code class="language-shell">v shader /path/to/project/dir/or/file.v
 </code></pre>
 <p>Currently you need to
-<a href="https://github.com/vlang/v/blob/c14c324/examples/sokol/02_cubes_glsl/cube_glsl.v#L43-L46">include a header and declare a glue function</a>
+<a href="https://github.com/vlang/v/blob/master/examples/sokol/02_cubes_glsl/cube_glsl.v#L25-L28">include a header and declare a glue function</a>
 before using the shader in your code.</p>
 <h2 id="profiling">Profiling <a href="tools.html#profiling" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V has good support for profiling your programs: <code>v -profile profile.txt run file.v</code>
@@ -898,9 +898,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-07T15:37:50.547Z">Last updated:
-                                        2025-03-07 17:37:50, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/bc3fc1218b9dcf7427e2ef4e10ae7e39f2171c21">bc3fc12</a></time>
+                                    <time datetime="2025-03-07T19:55:44.416Z">Last updated:
+                                        2025-03-07 21:55:44, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/4236baf56a9e19bd71d731a7e092ffa56a70e022">4236baf</a></time>
                                 </div>
                             </div>
 
