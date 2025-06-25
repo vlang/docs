@@ -31,7 +31,7 @@ fn split_source_by_topics(source string, topic_level int) []Section {
 	for line_idx, line in source.split_into_lines() {
 		if line.starts_with('${'#'.repeat(topic_level)} ') {
 			sections << Section{
-				text: current_section
+				text:       current_section
 				start_line: section_start_line
 			}
 			current_section = '${line}\n'
@@ -42,7 +42,7 @@ fn split_source_by_topics(source string, topic_level int) []Section {
 	}
 	if current_section != '' {
 		sections << Section{
-			text: current_section
+			text:       current_section
 			start_line: section_start_line
 		}
 	}
@@ -76,14 +76,14 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic 
 		subsubtopics << get_subtopics_for_level(part.text, topic_title.level + 5)
 
 		topics << Topic{
-			id: title_to_filename(plain_title)
-			title: plain_title
-			markdown_content: part.text
+			id:                 title_to_filename(plain_title)
+			title:              plain_title
+			markdown_content:   part.text
 			section_start_line: part.start_line
-			url: '${filename}.html'
-			level: topic_title.level
-			subtopics: subtopics
-			subsubtopics: subsubtopics
+			url:                '${filename}.html'
+			level:              topic_title.level
+			subtopics:          subtopics
+			subsubtopics:       subsubtopics
 		}
 	}
 	return topics

@@ -102,23 +102,11 @@ fn (mut t HTMLTransformer) adjust_links() {
 		mut search_start_index := 0
 
 		for {
-			pattern_start_index := new_line.index_after(pattern, search_start_index)
-
-			if pattern_start_index < 0 {
-				break
-			}
-
+			pattern_start_index := new_line.index_after(pattern, search_start_index) or { break }
 			link_start_index := pattern_start_index + pattern.len
-			link_end_index := new_line.index_after('"', link_start_index)
-
-			if link_end_index < 0 {
-				break
-			}
-
+			link_end_index := new_line.index_after('"', link_start_index) or { break }
 			link_content := new_line.substr(link_start_index, link_end_index)
-
 			mut new_link_content := link_content
-
 			if link_content.starts_with('#') {
 				adjusted_link_content := link_content.replace('--', '-&-')
 				target_filename := adjusted_link_content.all_after_first('#') + '.html'

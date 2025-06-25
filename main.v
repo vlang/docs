@@ -20,8 +20,8 @@ fn main() {
 	commit_res := os.execute_or_exit('git ls-remote -h https://github.com/vlang/v.git refs/heads/master')
 	latest_v_commit_hash := commit_res.output.all_before('\t')
 
-	//Removed need for sass, using css variables
-	//update_sass()
+	// Removed need for sass, using css variables
+	// update_sass()
 
 	mut ctx := Context{
 		full_text: response.body
@@ -46,7 +46,7 @@ fn (mut ctx Context) write_mapping() ! {
 	vdocs.fnames = ${json.encode_pretty(ctx.pages)};'
 
 	js_src := os.read_file('templates/assets/scripts/v-docs.js') or {
-		eprintln('Failed to read file: $err')
+		eprintln('Failed to read file: ${err}')
 		return
 	}
 
@@ -115,7 +115,7 @@ fn (mut ctx Context) generate_page_from_template(topics []Topic, main_topic Topi
 	update_commit_short := vcommit#[..7]
 	mut transformer := HTMLTransformer{
 		content: markdown.to_html(markdown_content)
-		topics: topics
+		topics:  topics
 	}
 	content := transformer.process()
 	for topic in topics {
