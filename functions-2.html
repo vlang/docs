@@ -350,6 +350,9 @@
                         <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#lambda-expressions"> Lambda expressions</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
                     </div>
                     <div class="nav-entry">
@@ -459,6 +462,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
                     </div>
                     </div>
@@ -935,6 +941,22 @@ fn main() {
     println(fns_map['cube'](2)) // &quot;8&quot;
 }
 </div>
+<h2 id="lambda-expressions">Lambda expressions <a href="functions-2.html#lambda-expressions" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Lambda expressions in V are small anonymous functions, defined using
+the <code>|variables| expression</code> syntax. Note: this syntax is valid only inside calls to higher
+order functions.</p>
+<p>Here are some examples:</p>
+<div class="language-v">mut a := [1, 2, 3]
+a.sort(|x, y| x &gt; y) // sorts the array, defining the comparator with a lambda expression
+println(a.map(|x| x * 10)) // prints [30, 20, 10]
+</div>
+<div class="language-v">// Lambda function can be used as callback
+fn f(cb fn (a int) int) int {
+    return cb(10)
+}
+
+println(f(|x| x + 4)) // prints 14
+</div>
 <h2 id="closures">Closures <a href="functions-2.html#closures" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports closures too.
 This means that anonymous functions can inherit variables from the scope they were created in.
@@ -1002,7 +1024,7 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2895"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2894"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1017,9 +1039,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-12T20:05:16.641Z">Last updated:
-                                        2025-03-12 22:05:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/951d30405f894991c8277a4fa13c03dad1b69591">951d304</a></time>
+                                    <time datetime="2025-06-25T21:10:18.745Z">Last updated:
+                                        2025-06-26 00:10:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/80fed7add5ff95e46a4f020b8bade3b1b51f9eab">80fed7a</a></time>
                                 </div>
                             </div>
 
@@ -1059,6 +1081,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </li>
                                     <li class="active">
                                         <a href="#anonymous-&-higher-order-functions">Anonymous & higher order functions</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#lambda-expressions">Lambda expressions</a>
                                     </li>
                                     <li class="active">
                                         <a href="#closures">Closures</a>

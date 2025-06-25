@@ -350,6 +350,9 @@
                         <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#lambda-expressions"> Lambda expressions</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
                     </div>
                     <div class="nav-entry">
@@ -459,6 +462,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
                     </div>
                     </div>
@@ -868,6 +874,7 @@ that are substituted at compile time:</p>
 <li><code>@MOD</code> =&gt; replaced with the name of the current V module.</li>
 <li><code>@STRUCT</code> =&gt; replaced with the name of the current V struct.</li>
 <li><code>@FILE</code> =&gt; replaced with the absolute path of the V source file.</li>
+<li><code>@DIR</code> =&gt; replaced with the absolute path of the <em>folder</em>, where the V source file is.</li>
 <li><code>@LINE</code> =&gt; replaced with the V line number where it appears (as a string).</li>
 <li><code>@FILE_LINE</code> =&gt; like <code>@FILE:@LINE</code>, but the file part is a relative path.</li>
 <li><code>@LOCATION</code> =&gt; file, line and name of the current type + method; suitable for logging.</li>
@@ -888,7 +895,7 @@ where the nearest v.mod file is (as a string).</li>
 <li><code>@BUILD_TIME</code> =&gt; replaced with the build time, for example '12:32:07' .</li>
 <li><code>@BUILD_TIMESTAMP</code> =&gt; replaced with the build timestamp, for example '1726219885' .
 Note: <code>@BUILD_DATE</code>, <code>@BUILD_TIME</code>, <code>@BUILD_TIMESTAMP</code> represent times in the UTC timezone.
-By default, they are based on the current time of the compilation/build. They can be overriden
+By default, they are based on the current time of the compilation/build. They can be overridden
 by setting the environment variable <code>SOURCE_DATE_EPOCH</code>. That is also useful while making
 releases, since you can use the equivalent of this in your build system/script:
 <code>export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) ;</code> , and then use <code>@BUILD_DATE</code> etc.,
@@ -1124,25 +1131,25 @@ Full list of builtin options:</p>
 <tr>
 <td><code>freebsd</code>, <code>openbsd</code>, <code>netbsd</code></td>
 <td><code>msvc</code></td>
-<td><code>rv64</code>, <code>rv32</code></td>
+<td><code>rv64</code>, <code>rv32</code>, <code>s390x</code></td>
 <td><code>no_bounds_checking</code>, <code>freestanding</code></td>
 </tr>
 <tr>
 <td><code>android</code>, <code>mach</code>, <code>dragonfly</code></td>
 <td><code>cplusplus</code></td>
-<td><code>x64</code>, <code>x32</code></td>
+<td><code>ppc64le</code></td>
 <td><code>no_segfault_handler</code>, <code>no_backtrace</code></td>
 </tr>
 <tr>
 <td><code>gnu</code>, <code>hpux</code>, <code>haiku</code>, <code>qnx</code></td>
 <td></td>
-<td><code>little_endian</code>, <code>big_endian</code></td>
+<td><code>x64</code>, <code>x32</code></td>
 <td><code>no_main</code>, <code>fast_math</code>, <code>apk</code>, <code>threads</code></td>
 </tr>
 <tr>
 <td><code>solaris</code>, <code>termux</code></td>
 <td></td>
-<td></td>
+<td><code>little_endian</code>, <code>big_endian</code></td>
 <td><code>js_node</code>, <code>js_browser</code>, <code>js_freestanding</code></td>
 </tr>
 <tr>
@@ -1401,7 +1408,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5960"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6027"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1416,9 +1423,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-12T20:05:16.859Z">Last updated:
-                                        2025-03-12 22:05:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/951d30405f894991c8277a4fa13c03dad1b69591">951d304</a></time>
+                                    <time datetime="2025-06-25T21:10:18.959Z">Last updated:
+                                        2025-06-26 00:10:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/80fed7add5ff95e46a4f020b8bade3b1b51f9eab">80fed7a</a></time>
                                 </div>
                             </div>
 

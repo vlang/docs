@@ -350,6 +350,9 @@
                         <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#lambda-expressions"> Lambda expressions</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
                     </div>
                     <div class="nav-entry">
@@ -459,6 +462,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
                     </div>
                     </div>
@@ -863,6 +869,8 @@ That will produce a profile.txt file, which you can then analyze.</p>
 <ol>
 <li>How many times a function was called.</li>
 <li>How much time in total a function took (in ms).</li>
+<li>How much time a function took (in ms), on its own, without the calls inside it.
+It is reliable for multithreaded programs, when tcc is not used.</li>
 <li>How much time on average, a call to a function took (in ns).</li>
 <li>The name of the v function.</li>
 </ol>
@@ -883,7 +891,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5436"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5501"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -898,9 +906,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-12T20:05:16.806Z">Last updated:
-                                        2025-03-12 22:05:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/951d30405f894991c8277a4fa13c03dad1b69591">951d304</a></time>
+                                    <time datetime="2025-06-25T21:10:18.910Z">Last updated:
+                                        2025-06-26 00:10:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/80fed7add5ff95e46a4f020b8bade3b1b51f9eab">80fed7a</a></time>
                                 </div>
                             </div>
 

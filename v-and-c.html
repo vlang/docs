@@ -350,6 +350,9 @@
                         <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#lambda-expressions"> Lambda expressions</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
                     </div>
                     <div class="nav-entry">
@@ -459,6 +462,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
                     </div>
                     </div>
@@ -893,7 +899,7 @@ Hello world, value: 12345
 [a.v:8] x: 26
 #0 10:42:33 /v/examples&gt;
 </code></pre>
-<p>Note, that the C function redeclarations look very simillar to the V ones, with some differences:</p>
+<p>Note, that the C function redeclarations look very similar to the V ones, with some differences:</p>
 <ol>
 <li>They lack a body (they are defined on the C side) .</li>
 <li>Their names start with <code>C.</code> .</li>
@@ -964,7 +970,7 @@ fn main() {
     C.sqlite3_finalize(stmt)
     println('There are ${nr_users} users in the database.')
 
-    error_msg := &amp;char(0)
+    error_msg := &amp;char(unsafe { nil })
     query_all_users := 'select * from users'
     rc := C.sqlite3_exec(db, &amp;char(query_all_users.str), my_callback, voidptr(7), &amp;error_msg)
     if rc != C.SQLITE_OK {
@@ -1214,7 +1220,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7506"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7574"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1229,9 +1235,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-12T20:05:16.965Z">Last updated:
-                                        2025-03-12 22:05:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/951d30405f894991c8277a4fa13c03dad1b69591">951d304</a></time>
+                                    <time datetime="2025-06-25T21:10:19.064Z">Last updated:
+                                        2025-06-26 00:10:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/80fed7add5ff95e46a4f020b8bade3b1b51f9eab">80fed7a</a></time>
                                 </div>
                             </div>
 

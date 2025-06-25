@@ -350,6 +350,9 @@
                         <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#lambda-expressions"> Lambda expressions</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
                     </div>
                     <div class="nav-entry">
@@ -459,6 +462,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
                     </div>
                     </div>
@@ -841,8 +847,6 @@ f32 f64
 isize, usize // platform-dependent, the size is how many bytes it takes to reference any location in memory
 
 voidptr // this one is mostly used for [C interoperability](#v-and-c)
-
-any // similar to C's void* and Go's interface{}
 </div>
 <blockquote class="tip">
 <p>[!NOTE]
@@ -1665,7 +1669,7 @@ print(m)
 <p>Maps are ordered by insertion, like dictionaries in Python. The order is a
 guaranteed language feature. This may change in the future.</p>
 <p>See all methods of
-<a href="https://modules.vlang.io/index.html#map">map</a>
+<a href="https://modules.vlang.io/builtin.html#map">map</a>
 and
 <a href="https://modules.vlang.io/maps.html">maps</a>.</p>
 <h2 id="map-update-syntax">Map update syntax <a href="v-types.html#map-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -1697,7 +1701,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L515"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L516"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1712,9 +1716,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-12T20:05:16.470Z">Last updated:
-                                        2025-03-12 22:05:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/951d30405f894991c8277a4fa13c03dad1b69591">951d304</a></time>
+                                    <time datetime="2025-06-25T21:10:18.578Z">Last updated:
+                                        2025-06-26 00:10:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/80fed7add5ff95e46a4f020b8bade3b1b51f9eab">80fed7a</a></time>
                                 </div>
                             </div>
 

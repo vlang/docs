@@ -120,6 +120,7 @@ by using any of the following commands in a terminal:
     * [Mutable arguments](#mutable-arguments)
     * [Variable number of arguments](#variable-number-of-arguments)
     * [Anonymous & higher-order functions](#anonymous--higher-order-functions)
+    * [Lambda expressions](#lambda-expressions)
     * [Closures](#closures)
     * [Parameter evaluation order](#parameter-evaluation-order)
 * [References](#references)
@@ -531,8 +532,6 @@ f32 f64
 isize, usize // platform-dependent, the size is how many bytes it takes to reference any location in memory
 
 voidptr // this one is mostly used for [C interoperability](#v-and-c)
-
-any // similar to C's void* and Go's interface{}
 ```
 
 > [!NOTE]
@@ -1506,7 +1505,7 @@ Maps are ordered by insertion, like dictionaries in Python. The order is a
 guaranteed language feature. This may change in the future.
 
 See all methods of
-[map](https://modules.vlang.io/index.html#map)
+[map](https://modules.vlang.io/builtin.html#map)
 and
 [maps](https://modules.vlang.io/maps.html).
 
@@ -1601,11 +1600,11 @@ println('Your OS is ${current_os}.')
 > This section is valid when .v files are not in the project's root directory.
 
 Modules names in .v files, must match the name of their directory.
- 
-A .v file `./abc/source.v` must start with `module abc`. All .v files in this directory 
+
+A .v file `./abc/source.v` must start with `module abc`. All .v files in this directory
 belong to the same module `abc`. They should also start with `module abc`.
 
-If you have `abc/def/`, and .v files in both folders, you can `import abc`, but you will have 
+If you have `abc/def/`, and .v files in both folders, you can `import abc`, but you will have
 to `import abc.def` too, to get to the symbols in the subfolder. It is independent.
 
 In `module name` statement, name never repeats directory's hierarchy, but only its directory.
@@ -1614,7 +1613,7 @@ So in `abc/def/source.v` the first line will be `module def`, and not `module ab
 `import module_name` statements must respect file hierarchy, you cannot `import def`, only
 `abc.def`
 
-Refering to a module symbol such as a function or const, only needs module name as prefix:
+Referring to a module symbol such as a function or const, only needs module name as prefix:
 
 ```v ignore
 module def
@@ -1639,7 +1638,7 @@ fn main() {
 
 A function, located in `abc/def/source.v`, is called with `def.func()`, not `abc.def.func()`
 
-This always implies a *single prefix*, whatever sub-module depth. This behavior flattens 
+This always implies a *single prefix*, whatever sub-module depth. This behavior flattens
 modules/sub-modules hierarchy. Should you have two modules with the same name in different
 directories, then you should use Module import aliasing (see below).
 
@@ -1965,7 +1964,7 @@ println(typ)
 ```
 
 A match statement also can match the variant types of a `sumtype`. Note that
-in that case, the match is exhaustive, since all variant types are mentioned 
+in that case, the match is exhaustive, since all variant types are mentioned
 explicitly, so there is no need for an `else{}` branch.
 
 ```v nofmt
@@ -3021,6 +3020,28 @@ fn main() {
 	}
 	println(fns_map['cube'](2)) // "8"
 }
+```
+
+### Lambda expressions
+
+Lambda expressions in V are small anonymous functions, defined using
+the `|variables| expression` syntax. Note: this syntax is valid only inside calls to higher
+order functions.
+
+Here are some examples:
+```v
+mut a := [1, 2, 3]
+a.sort(|x, y| x > y) // sorts the array, defining the comparator with a lambda expression
+println(a.map(|x| x * 10)) // prints [30, 20, 10]
+```
+
+```v
+// Lambda function can be used as callback
+fn f(cb fn (a int) int) int {
+	return cb(10)
+}
+
+println(f(|x| x + 4)) // prints 14
 ```
 
 ### Closures
@@ -4495,18 +4516,20 @@ fn main() {
 
 ### Channels
 
-Channels are the preferred way to communicate between threads. V's channels work basically like
-those in Go. You can push objects into a channel on one end and pop objects from the other end.
-Channels can be buffered or unbuffered and it is possible to `select` from multiple channels.
+Channels are the preferred way to communicate between threads. They allow threads to exchange data
+safely without requiring explicit locking. V's channels are similar to those in Go, enabling you
+to push objects into a channel on one end and pop objects from the other.
+Channels can be buffered or unbuffered, and you can use the `select` statement to monitor multiple
+channels simultaneously.
 
 #### Syntax and Usage
 
-Channels have the type `chan objtype`. An optional buffer length can be specified as the `cap` field
-in the declaration:
+Channels are declared with the type `chan objtype`.
+You can optionally specify a buffer length using the `cap` field:
 
 ```v
 ch := chan int{} // unbuffered - "synchronous"
-ch2 := chan f64{cap: 100} // buffer length 100
+ch2 := chan f64{cap: 100} // buffered with a capacity of 100
 ```
 
 Channels do not have to be declared as `mut`. The buffer length is not part of the type but
@@ -4514,32 +4537,53 @@ a field of the individual channel object. Channels can be passed to threads like
 variables:
 
 ```v
-fn f(ch chan int) {
-	// ...
+import time
+
+fn worker(ch chan int) {
+	for i in 0 .. 5 {
+		ch <- i // push values into the channel
+	}
+}
+
+fn clock(ch chan int) {
+	for i in 0 .. 5 {
+		time.sleep(1 * time.second)
+		println('Clock tick')
+		ch <- (i + 1000) // push a value into the channel
+	}
+	ch.close() // close the channel when done
 }
 
 fn main() {
-	ch := chan int{}
-	spawn f(ch)
-	// ...
+	ch := chan int{cap: 5}
+	spawn worker(ch)
+	spawn clock(ch)
+	for {
+		value := <-ch or { // receive/pop values from the channel
+			println('Channel closed')
+			break
+		}
+		println('Received: ${value}')
+	}
 }
 ```
 
-Objects can be pushed to channels using the arrow operator. The same operator can be used to
-pop objects from the other end:
+#### Buffered Channels
+
+Buffered channels allow you to push multiple items without blocking,
+as long as the buffer is not full:
 
 ```v
-// make buffered channels so pushing does not block (if there is room in the buffer)
-ch := chan int{cap: 1}
-ch2 := chan f64{cap: 1}
-n := 5
-// push
-ch <- n
-ch2 <- 7.3
-mut y := f64(0.0)
-m := <-ch // pop creating new variable
-y = <-ch2 // pop into existing variable
+ch := chan string{cap: 2}
+ch <- 'hello'
+ch <- 'world'
+// ch <- '!' // This would block because the buffer is full
+
+println(<-ch) // "hello"
+println(<-ch) // "world"
 ```
+
+#### Closing Channels
 
 A channel can be closed to indicate that no further objects can be pushed. Any attempt
 to do so will then result in a runtime panic (with the exception of `select` and
@@ -4636,6 +4680,14 @@ if select {
 For special purposes there are some builtin fields and methods:
 
 ```v
+ch := chan int{cap: 2}
+println(ch.try_push(42)) // `.success` if pushed, `.not_ready` if full, `.closed` if closed
+println(ch.len) // Number of items in the buffer
+println(ch.cap) // Buffer capacity
+println(ch.closed) // Whether the channel is closed
+```
+
+```v
 struct Abc {
 	x int
 }
@@ -4670,31 +4722,44 @@ Such variables should be created as `shared` and passed to the thread as such, t
 The underlying `struct` contains a hidden *mutex* that allows locking concurrent access
 using `rlock` for read-only and `lock` for read/write access.
 
+Note: Shared variables must be structs, arrays or maps.
+
+#### Example of Shared Objects
+
 ```v
-struct St {
+struct Counter {
 mut:
-	x int // data to be shared
+	value int
 }
 
-fn (shared b St) g() {
-	lock b {
-		// read/modify/write b.x
+fn (shared counter Counter) increment() {
+	lock counter {
+		counter.value += 1
+		println('Incremented to: ${counter.value}')
 	}
 }
 
 fn main() {
-	shared a := St{
-		x: 10
-	}
-	spawn a.g()
-	// ...
-	rlock a {
-		// read a.x
+	shared counter := Counter{}
+
+	spawn counter.increment()
+	spawn counter.increment()
+
+	rlock counter {
+		println('Final value: ${counter.value}')
 	}
 }
 ```
 
-Shared variables must be structs, arrays or maps.
+### Difference Between Channels and Shared Objects
+
+**Purpose**:
+- Channels: Used for message passing between threads, ensuring safe communication.
+- Shared objects: Used for direct data sharing and modification between threads.
+
+**Synchronization**:
+- Channels: Implicit (via channel operations)
+- Shared objects:  Explicit (via `rlock`/`lock` blocks)
 
 ## JSON
 
@@ -5489,8 +5554,10 @@ The generated profile.txt file will have lines with 4 columns:
 
 1. How many times a function was called.
 2. How much time in total a function took (in ms).
-3. How much time on average, a call to a function took (in ns).
-4. The name of the v function.
+3. How much time a function took (in ms), on its own, without the calls inside it.
+   It is reliable for multithreaded programs, when tcc is not used.
+4. How much time on average, a call to a function took (in ns).
+5. The name of the v function.
 
 You can sort on column 3 (average time per function) using:
 `sort -n -k3 profile.txt|tail`
@@ -5792,20 +5859,20 @@ pub mut:
 
 Function/method deprecations:
 
-Functions are deprecated before they are finally removed to give users time to migrate their code. 
-Adding a date is preferable in most cases. An immediate change, without a deprecation date, may be 
-used for functions that are found to be conceptually broken and obsoleted by much better 
-functionality. Other than that setting a date is advisable to grant users a grace period. 
+Functions are deprecated before they are finally removed to give users time to migrate their code.
+Adding a date is preferable in most cases. An immediate change, without a deprecation date, may be
+used for functions that are found to be conceptually broken and obsoleted by much better
+functionality. Other than that setting a date is advisable to grant users a grace period.
 
-Deprecated functions cause warnings, which cause errors if built with `-prod`. To avoid immediate 
-CI breakage, it is advisable to set a future date, ahead of the date when the code is merged. This 
-gives people who actively developed V projects, the chance to see the deprecation notice at least 
-once and fix the uses. Setting a date in the next 30 days, assumes they would have compiled their 
+Deprecated functions cause warnings, which cause errors if built with `-prod`. To avoid immediate
+CI breakage, it is advisable to set a future date, ahead of the date when the code is merged. This
+gives people who actively developed V projects, the chance to see the deprecation notice at least
+once and fix the uses. Setting a date in the next 30 days, assumes they would have compiled their
 projects manually at least once, within that time. For small changes, this should be plenty
-of time. For complex changes, this time may need to be longer. 
+of time. For complex changes, this time may need to be longer.
 
-Different V projects and maintainers may reasonably choose different deprecation policies. 
-Depending on the type and impact of the change, you may want to consult with them first, before 
+Different V projects and maintainers may reasonably choose different deprecation policies.
+Depending on the type and impact of the change, you may want to consult with them first, before
 deprecating a function.
 
 
@@ -6008,6 +6075,7 @@ that are substituted at compile time:
 - `@MOD` => replaced with the name of the current V module.
 - `@STRUCT` => replaced with the name of the current V struct.
 - `@FILE` => replaced with the absolute path of the V source file.
+- `@DIR` => replaced with the absolute path of the *folder*, where the V source file is.
 - `@LINE` => replaced with the V line number where it appears (as a string).
 - `@FILE_LINE` => like `@FILE:@LINE`, but the file part is a relative path.
 - `@LOCATION` => file, line and name of the current type + method; suitable for logging.
@@ -6028,7 +6096,7 @@ that are substituted at compile time:
 - `@BUILD_TIME` => replaced with the build time, for example '12:32:07' .
 - `@BUILD_TIMESTAMP` => replaced with the build timestamp, for example '1726219885' .
 Note: `@BUILD_DATE`, `@BUILD_TIME`, `@BUILD_TIMESTAMP` represent times in the UTC timezone.
-By default, they are based on the current time of the compilation/build. They can be overriden
+By default, they are based on the current time of the compilation/build. They can be overridden
 by setting the environment variable `SOURCE_DATE_EPOCH`. That is also useful while making
 releases, since you can use the equivalent of this in your build system/script:
 `export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) ;` , and then use `@BUILD_DATE` etc.,
@@ -6286,10 +6354,10 @@ Full list of builtin options:
 |--------------------------------|------------------|-------------------------------|-----------------------------------------------|
 | `windows`, `linux`, `macos`    | `gcc`, `tinyc`   | `amd64`, `arm64`, `aarch64`   | `debug`, `prod`, `test`                       |
 | `darwin`, `ios`, `bsd`         | `clang`, `mingw` | `i386`, `arm32`               | `js`, `glibc`, `prealloc`                     |
-| `freebsd`, `openbsd`, `netbsd` | `msvc`           | `rv64`, `rv32`                | `no_bounds_checking`, `freestanding`          |
-| `android`, `mach`, `dragonfly` | `cplusplus`      | `x64`, `x32`                  | `no_segfault_handler`, `no_backtrace`         |
-| `gnu`, `hpux`, `haiku`, `qnx`  |                  | `little_endian`, `big_endian` | `no_main`, `fast_math`, `apk`, `threads`      |
-| `solaris`, `termux`            |                  |                               | `js_node`, `js_browser`, `js_freestanding`    |
+| `freebsd`, `openbsd`, `netbsd` | `msvc`           | `rv64`, `rv32`, `s390x`       | `no_bounds_checking`, `freestanding`          |
+| `android`, `mach`, `dragonfly` | `cplusplus`      | `ppc64le`                     | `no_segfault_handler`, `no_backtrace`         |
+| `gnu`, `hpux`, `haiku`, `qnx`  |                  | `x64`, `x32`                  | `no_main`, `fast_math`, `apk`, `threads`      |
+| `solaris`, `termux`            |                  | `little_endian`, `big_endian` | `js_node`, `js_browser`, `js_freestanding`    |
 | `serenity`, `vinix`, `plan9`   |                  |                               | `interpreter`, `es5`, `profile`, `wasm32`     |
 |                                |                  |                               | `wasm32_emscripten`, `wasm32_wasi`            |
 |                                |                  |                               | `native`, `autofree`                          |
@@ -7329,7 +7397,7 @@ import sync
 __global (
 	sem   sync.Semaphore // needs initialization in `init()`
 	mtx   sync.RwMutex // needs initialization in `init()`
-	f1    = f64(34.0625) // explicily initialized
+	f1    = f64(34.0625) // explicitly initialized
 	shmap shared map[string]f64 // initialized as empty `shared` map
 	f2    f64 // initialized to `0.0`
 )
@@ -7592,7 +7660,7 @@ Hello world, value: 12345
 #0 10:42:33 /v/examples>
 ```
 
-Note, that the C function redeclarations look very simillar to the V ones, with some differences:
+Note, that the C function redeclarations look very similar to the V ones, with some differences:
 1) They lack a body (they are defined on the C side) .
 2) Their names start with `C.` .
 3) Their names can have capital letters (unlike V ones, that are required to use snake_case) .
@@ -7666,7 +7734,7 @@ fn main() {
 	C.sqlite3_finalize(stmt)
 	println('There are ${nr_users} users in the database.')
 
-	error_msg := &char(0)
+	error_msg := &char(unsafe { nil })
 	query_all_users := 'select * from users'
 	rc := C.sqlite3_exec(db, &char(query_all_users.str), my_callback, voidptr(7), &error_msg)
 	if rc != C.SQLITE_OK {
@@ -8149,7 +8217,7 @@ exists the file will be overridden. If you want to rebuild each time and not kee
 instead use `#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run`.
 
 Note: there is a small shell script `cmd/tools/vrun`, that can be useful for systems, that have an
-env program (`/usr/bin/env`), that still does not support an `-S` option (like BusyBox). 
+env program (`/usr/bin/env`), that still does not support an `-S` option (like BusyBox).
 See https://github.com/vlang/v/blob/master/cmd/tools/vrun for more details.
 
 # Appendices
@@ -8248,6 +8316,9 @@ Assignment Operators
 >>=  <<=  >>>=
 &&= ||=
 ```
+
+Note: in V, `assert -10 % 7 == -3` passes. In programming, the sign of the remainder
+depends upon the signs of divisor and dividend.
 
 ## Other online resources
 

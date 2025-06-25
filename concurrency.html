@@ -350,6 +350,9 @@
                         <a class="nav-entry-link" href="functions-2.html#anonymous-&-higher-order-functions"> Anonymous & higher order functions</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="functions-2.html#lambda-expressions"> Lambda expressions</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="functions-2.html#closures"> Closures</a>
                     </div>
                     <div class="nav-entry">
@@ -459,6 +462,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#shared-objects"> Shared Objects</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
                     </div>
                     </div>
@@ -936,41 +942,62 @@ fn main() {
 // Output: All jobs finished: [1, 4, 9, 16, 25, 36, 49, 64, 81]
 </div>
 <h2 id="channels">Channels <a href="concurrency.html#channels" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>Channels are the preferred way to communicate between threads. V's channels work basically like
-those in Go. You can push objects into a channel on one end and pop objects from the other end.
-Channels can be buffered or unbuffered and it is possible to <code>select</code> from multiple channels.</p>
+<p>Channels are the preferred way to communicate between threads. They allow threads to exchange data
+safely without requiring explicit locking. V's channels are similar to those in Go, enabling you
+to push objects into a channel on one end and pop objects from the other.
+Channels can be buffered or unbuffered, and you can use the <code>select</code> statement to monitor multiple
+channels simultaneously.</p>
 <h3 id="syntax-and-usage">Syntax and Usage <a href="concurrency.html#syntax-and-usage" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>Channels have the type <code>chan objtype</code>. An optional buffer length can be specified as the <code>cap</code> field
-in the declaration:</p>
+<p>Channels are declared with the type <code>chan objtype</code>.
+You can optionally specify a buffer length using the <code>cap</code> field:</p>
 <div class="language-v">ch := chan int{} // unbuffered - &quot;synchronous&quot;
-ch2 := chan f64{cap: 100} // buffer length 100
+ch2 := chan f64{cap: 100} // buffered with a capacity of 100
 </div>
 <p>Channels do not have to be declared as <code>mut</code>. The buffer length is not part of the type but
 a field of the individual channel object. Channels can be passed to threads like normal
 variables:</p>
-<div class="language-v">fn f(ch chan int) {
-    // ...
+<div class="language-v">import time
+
+fn worker(ch chan int) {
+    for i in 0 .. 5 {
+        ch &lt;- i // push values into the channel
+    }
+}
+
+fn clock(ch chan int) {
+    for i in 0 .. 5 {
+        time.sleep(1 * time.second)
+        println('Clock tick')
+        ch &lt;- (i + 1000) // push a value into the channel
+    }
+    ch.close() // close the channel when done
 }
 
 fn main() {
-    ch := chan int{}
-    spawn f(ch)
-    // ...
+    ch := chan int{cap: 5}
+    spawn worker(ch)
+    spawn clock(ch)
+    for {
+        value := &lt;-ch or { // receive/pop values from the channel
+            println('Channel closed')
+            break
+        }
+        println('Received: ${value}')
+    }
 }
 </div>
-<p>Objects can be pushed to channels using the arrow operator. The same operator can be used to
-pop objects from the other end:</p>
-<div class="language-v">// make buffered channels so pushing does not block (if there is room in the buffer)
-ch := chan int{cap: 1}
-ch2 := chan f64{cap: 1}
-n := 5
-// push
-ch &lt;- n
-ch2 &lt;- 7.3
-mut y := f64(0.0)
-m := &lt;-ch // pop creating new variable
-y = &lt;-ch2 // pop into existing variable
+<h3 id="buffered-channels">Buffered Channels <a href="concurrency.html#buffered-channels" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Buffered channels allow you to push multiple items without blocking,
+as long as the buffer is not full:</p>
+<div class="language-v">ch := chan string{cap: 2}
+ch &lt;- 'hello'
+ch &lt;- 'world'
+// ch &lt;- '!' // This would block because the buffer is full
+
+println(&lt;-ch) // &quot;hello&quot;
+println(&lt;-ch) // &quot;world&quot;
 </div>
+<h3 id="closing-channels">Closing Channels <a href="concurrency.html#closing-channels" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>A channel can be closed to indicate that no further objects can be pushed. Any attempt
 to do so will then result in a runtime panic (with the exception of <code>select</code> and
 <code>try_push()</code> - see below). Attempts to pop will return immediately if the
@@ -1052,6 +1079,12 @@ that becomes <code>false</code> if all channels are closed:</p>
 </div>
 <h3 id="special-channel-features">Special Channel Features <a href="concurrency.html#special-channel-features" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>For special purposes there are some builtin fields and methods:</p>
+<div class="language-v">ch := chan int{cap: 2}
+println(ch.try_push(42)) // `.success` if pushed, `.not_ready` if full, `.closed` if closed
+println(ch.len) // Number of items in the buffer
+println(ch.cap) // Buffer capacity
+println(ch.closed) // Whether the channel is closed
+</div>
 <div class="language-v">struct Abc {
     x int
 }
@@ -1082,36 +1115,49 @@ and <a href="concurrency.html#channel-select">Channel Select</a> above).</p>
 Such variables should be created as <code>shared</code> and passed to the thread as such, too.
 The underlying <code>struct</code> contains a hidden <em>mutex</em> that allows locking concurrent access
 using <code>rlock</code> for read-only and <code>lock</code> for read/write access.</p>
-<div class="language-v">struct St {
+<p>Note: Shared variables must be structs, arrays or maps.</p>
+<h3 id="example-of-shared-objects">Example of Shared Objects <a href="concurrency.html#example-of-shared-objects" class="header-anchor" aria-hidden="true">#</a></h3>
+<div class="language-v">struct Counter {
 mut:
-    x int // data to be shared
+    value int
 }
 
-fn (shared b St) g() {
-    lock b {
-        // read/modify/write b.x
+fn (shared counter Counter) increment() {
+    lock counter {
+        counter.value += 1
+        println('Incremented to: ${counter.value}')
     }
 }
 
 fn main() {
-    shared a := St{
-        x: 10
-    }
-    spawn a.g()
-    // ...
-    rlock a {
-        // read a.x
+    shared counter := Counter{}
+
+    spawn counter.increment()
+    spawn counter.increment()
+
+    rlock counter {
+        println('Final value: ${counter.value}')
     }
 }
 </div>
-<p>Shared variables must be structs, arrays or maps.</p>
+<h2 id="difference-between-channels-and-shared-objects">Difference Between Channels and Shared Objects <a href="concurrency.html#difference-between-channels-and-shared-objects" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><strong>Purpose</strong>:</p>
+<ul>
+<li>Channels: Used for message passing between threads, ensuring safe communication.</li>
+<li>Shared objects: Used for direct data sharing and modification between threads.</li>
+</ul>
+<p><strong>Synchronization</strong>:</p>
+<ul>
+<li>Channels: Implicit (via channel operations)</li>
+<li>Shared objects:  Explicit (via <code>rlock</code>/<code>lock</code> blocks)</li>
+</ul>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4368"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4389"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1126,9 +1172,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-03-12T20:05:16.752Z">Last updated:
-                                        2025-03-12 22:05:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/951d30405f894991c8277a4fa13c03dad1b69591">951d304</a></time>
+                                    <time datetime="2025-06-25T21:10:18.855Z">Last updated:
+                                        2025-06-26 00:10:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/80fed7add5ff95e46a4f020b8bade3b1b51f9eab">80fed7a</a></time>
                                 </div>
                             </div>
 
@@ -1165,6 +1211,9 @@ fn main() {
                                     </li>
                                     <li class="active">
                                         <a href="#shared-objects">Shared Objects</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#difference-between-channels-and-shared-objects">Difference Between Channels and Shared Objects</a>
                                     </li>
                                 </ul>
                             </nav>
