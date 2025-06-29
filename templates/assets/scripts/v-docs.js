@@ -337,8 +337,9 @@ vdocs.examples = {
 
 		el.querySelector('.v-code-btn-run').addEventListener('click', (evt)=>{
 
-			let code = editor.getValue();
-			let url = "https://play.vlang.io/?base64=" + btoa(code);
+			const code = editor.getValue();
+			const b64 = btoa(code);
+			const url = "https://play.vlang.io/?base64=" + encodeURIComponent(b64);
 
 			window.open(url, "_blank");
 
