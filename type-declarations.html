@@ -1430,6 +1430,16 @@ to the <code>error()</code> function.</p>
     return
 }
 </div>
+<p>Use <code>err is ...</code> to compare errors:</p>
+<div class="language-v">import io
+
+x := read() or {
+    if err is io.Eof {
+        println('end of file')
+    }
+    return
+}
+</div>
 <h3 id="optionsresults-when-returning-multiple-values">Options/results when returning multiple values <a href="type-declarations.html#optionsresults-when-returning-multiple-values" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Only one <code>Option</code> or <code>Result</code> is allowed to be returned from a function. It is
 possible to return multiple values and still signal an error.</p>
@@ -1612,9 +1622,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-07-08T07:30:54.306Z">Last updated:
-                                        2025-07-08 10:30:54, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/47145ea6441e9a2fc6553b1a510fa2fd9df7bdf3">47145ea</a></time>
+                                    <time datetime="2025-07-08T10:23:53.160Z">Last updated:
+                                        2025-07-08 13:23:53, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ed82bbd2f338e0b068038853c5b81f6d0e0d53cb">ed82bbd</a></time>
                                 </div>
                             </div>
 
