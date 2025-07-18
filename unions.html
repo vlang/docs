@@ -329,6 +329,12 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="unions.html#why-use-unions?"> Why use unions?</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="unions.html#embedding"> Embedding</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -832,7 +838,29 @@
                     <div class="content-container">
                         <main class="v-doc">
                             <h1 class="main">Unions</h1>
-<p>Just like structs, unions support embedding.</p>
+<p>A union is a special type of struct that allows storing different data types in the same memory
+location. You can define a union with many members, but only one member may contain a valid value
+at any time, depending on the data types of the members. Unions provide an efficient way of using
+the same memory location for multiple purposes.</p>
+<p>All the members of a union share the same memory location. This means that modifying one member
+automatically modifies all the rest. The largest union member defines the size of the union.</p>
+<h2 id="why-use-unions?">Why use unions? <a href="unions.html#why-use-unions?" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>One reason, as stated above, is to use less memory for storing things.  Since the size of a union
+is the size of the largest field in it, and the size of a struct is the size of all the fields in
+struct added together, a union is definitely better for lower memory usage.  As long as you only
+need one of the fields to be valid at any time, the union wins.</p>
+<p>Another reason is to allow easier access to parts of a field.  For example, without using a union,
+if you want to look at each of the bytes of a 32-bit integer separately, you'll need bitwise
+RIGHT-SHIFTs and AND operations.  With a union, you can access the individual bytes directly.</p>
+<div class="language-v">union ThirtyTwo {
+    a u32
+    b [4]u8
+}
+</div>
+<p>Since <code>ThirtyTwo.a</code> and <code>ThirtyTwo.b</code> share the same memory locations, you can directly access
+each byte of <code>a</code> by referencing <code>b[byte_offset]</code>.</p>
+<h2 id="embedding">Embedding <a href="unions.html#embedding" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Unions also support embedding, the same as structs.</p>
 <div class="language-v">struct Rgba32_Component {
     r u8
     g u8
@@ -872,7 +900,7 @@ Embedded struct arguments are not necessarily stored in the order listed.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2854"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2856"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -887,9 +915,9 @@ Embedded struct arguments are not necessarily stored in the order listed.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-07-18T08:12:44.322Z">Last updated:
-                                        2025-07-18 11:12:44, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/747af8c360ac57d95f8c556b0f11e1b2fb1544ff">747af8c</a></time>
+                                    <time datetime="2025-07-18T19:47:01.477Z">Last updated:
+                                        2025-07-18 22:47:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6dad361eb741c0f66e686baeb6ccd0352f3b6fc0">6dad361</a></time>
                                 </div>
                             </div>
 
@@ -915,6 +943,17 @@ Embedded struct arguments are not necessarily stored in the order listed.</p>
                 <div class="aside">
                     <div class="aside-content">
                         <div class="aside-container">
+                            <div class="title">On this page</div>
+                            <nav>
+                                <ul>
+                                    <li class="active">
+                                        <a href="#why-use-unions?">Why use unions?</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#embedding">Embedding</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                         <div class="aside-footer"></div>
                     </div>
