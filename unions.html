@@ -847,11 +847,11 @@ automatically modifies all the rest. The largest union member defines the size o
 <h2 id="why-use-unions?">Why use unions? <a href="unions.html#why-use-unions?" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>One reason, as stated above, is to use less memory for storing things.  Since the size of a union
 is the size of the largest field in it, and the size of a struct is the size of all the fields in
-struct added together, a union is definitely better for lower memory usage.  As long as you only
-need one of the fields to be valid at any time, the union wins.</p>
+the struct added together, a union is definitely better for lower memory usage.  As long as you
+only need one of the fields to be valid at any time, the union wins.</p>
 <p>Another reason is to allow easier access to parts of a field.  For example, without using a union,
 if you want to look at each of the bytes of a 32-bit integer separately, you'll need bitwise
-RIGHT-SHIFTs and AND operations.  With a union, you can access the individual bytes directly.</p>
+<code>RIGHT-SHIFT</code>s and <code>AND</code> operations.  With a union, you can access the individual bytes directly.</p>
 <div class="language-v">union ThirtyTwo {
     a u32
     b [4]u8
@@ -915,9 +915,9 @@ Embedded struct arguments are not necessarily stored in the order listed.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-07-18T19:47:01.477Z">Last updated:
-                                        2025-07-18 22:47:01, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6dad361eb741c0f66e686baeb6ccd0352f3b6fc0">6dad361</a></time>
+                                    <time datetime="2025-07-19T06:23:01.540Z">Last updated:
+                                        2025-07-19 09:23:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ae9a69bdf712ca54d46c59be3faa5079db740481">ae9a69b</a></time>
                                 </div>
                             </div>
 
