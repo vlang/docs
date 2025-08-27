@@ -899,7 +899,11 @@ next to the nearest v.mod file (as a string).</li>
 where the nearest v.mod file is (as a string).</li>
 <li><code>@BUILD_DATE</code> =&gt; replaced with the build date, for example '2024-09-13' .</li>
 <li><code>@BUILD_TIME</code> =&gt; replaced with the build time, for example '12:32:07' .</li>
-<li><code>@BUILD_TIMESTAMP</code> =&gt; replaced with the build timestamp, for example '1726219885' .
+<li><code>@BUILD_TIMESTAMP</code> =&gt; replaced with the build timestamp, for example '1726219885' .</li>
+<li><code>@OS</code> =&gt; replaced with the OS type, for example 'linux' .</li>
+<li><code>@CCOMPILER</code> =&gt; replaced with the C compiler type, for example 'gcc' .</li>
+<li><code>@BACKEND</code> =&gt; replaced with current language backend, for example 'c' or 'golang' .</li>
+<li><code>@PLATFORM</code> =&gt; replaced with the platform type, for example 'amd64' .
 Note: <code>@BUILD_DATE</code>, <code>@BUILD_TIME</code>, <code>@BUILD_TIMESTAMP</code> represent times in the UTC timezone.
 By default, they are based on the current time of the compilation/build. They can be overridden
 by setting the environment variable <code>SOURCE_DATE_EPOCH</code>. That is also useful while making
@@ -1429,9 +1433,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-08-26T15:44:45.197Z">Last updated:
-                                        2025-08-26 18:44:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/efe611ed9937f8553b037710c86614fcd9b44f83">efe611e</a></time>
+                                    <time datetime="2025-08-27T21:46:24.125Z">Last updated:
+                                        2025-08-28 00:46:24, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9e1273ae713331889407246bfe53320943a85af9">9e1273a</a></time>
                                 </div>
                             </div>
 
