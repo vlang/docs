@@ -840,7 +840,6 @@ article .vdocs-code-header {
   border-left: 3px solid var(--blockquote-tip-color);
   padding: 0 0 0 15px;
   margin: 20px 0;
-  font-weight: bold;
 }
 .v-doc blockquote.tip .title {
   font-size: 18px;
