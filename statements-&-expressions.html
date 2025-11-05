@@ -1331,23 +1331,25 @@ The above code prints:</p>
 7
 </code></pre>
 <h2 id="defer">Defer <a href="statements-&-expressions.html#defer" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>A defer statement defers the execution of a block of statements
-until the surrounding function returns.</p>
+<p>A <code>defer {}</code> statement, defers the execution of the block of statements
+until the surrounding scope of the defer ends. It is a convenient feature
+that allows you to group related actions (getting access to a resource
+and cleaning/freeing it after you are done) closely together, instead
+of spreading them across multiple potentially very remote lines of code.</p>
 <div class="language-v">import os
 
-fn read_log() {
+fn read_log() ! {
     mut ok := false
-    mut f := os.open('log.txt') or { panic(err) }
-    defer {
-        f.close()
-    }
+    mut f := os.open('log.txt')!
+    defer { f.close() }
     // ...
     if !ok {
+        // ...
         // defer statement will be called here, the file will be closed
         return
     }
     // ...
-    // defer statement will be called here, the file will be closed
+    // defer statement will be called here too, the file will be closed
 }
 </div>
 <p>If the function returns a value the <code>defer</code> block is executed <em>after</em> the return
@@ -1423,6 +1425,45 @@ fn (mut app App) auth_with_user_middleware() (bool, string) {
     return true, 'TestUser'
 }
 </div>
+<h3 id="defer-in-loop-scopes">defer in loop scopes: <a href="statements-&-expressions.html#defer-in-loop-scopes" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Defer can be used inside loops too, and the deferred statement will be executed once for each
+iteration. You can also have multiple defer statements in the same scope, in which case, they
+will be executed in reverse order of their appearance in the source code:</p>
+<div class="language-v">fn main() {
+    defer { println('Program finish.') }
+    println('Loop start.')
+    for i in 1 .. 4 {
+        defer { println('Deferred execution for ${i}. Defer 1.') }
+        defer { println('Deferred execution for ${i}. Defer 2.') }
+        defer { println('Deferred execution for ${i}. Defer 3.') }
+        println('Loop iteration: ${i}')
+    }
+    println('Loop done.')
+}
+</div>
+<p>The example will print this:</p>
+<pre><code class="language-txt">Loop start.
+Loop iteration: 1
+Deferred execution for 1. Defer 3.
+Deferred execution for 1. Defer 2.
+Deferred execution for 1. Defer 1.
+Loop iteration: 2
+Deferred execution for 2. Defer 3.
+Deferred execution for 2. Defer 2.
+Deferred execution for 2. Defer 1.
+Loop iteration: 3
+Deferred execution for 3. Defer 3.
+Deferred execution for 3. Defer 2.
+Deferred execution for 3. Defer 1.
+Loop done.
+Program finish.
+</code></pre>
+<h3 id="defer(fn)-{}">defer(fn) {} <a href="statements-&-expressions.html#defer(fn)-{}" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Note, that in most of the examples above, the <code>defer{}</code> statement was directly inside
+a function scope, so it was executed when the function itself returned. Sometimes, you
+need to defer a statement to execute right at the function end (like the above), even
+if you are inside an inner scope (deep inside an <code>if</code> or <code>for</code>).</p>
+<p>For these more rare cases, you can use: <code>defer(fn) {}</code> instead of just <code>defer {}</code>.</p>
 <h2 id="goto">Goto <a href="statements-&-expressions.html#goto" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V allows unconditionally jumping to a label with <code>goto</code>. The label name must be contained
 within the same function as the <code>goto</code> statement. A program may <code>goto</code> a label outside
@@ -1464,9 +1505,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-11-05T08:29:22.805Z">Last updated:
-                                        2025-11-05 10:29:22, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/be82b0395efa8d7cfc63e81550873fe0fafe5790">be82b03</a></time>
+                                    <time datetime="2025-11-05T12:39:21.058Z">Last updated:
+                                        2025-11-05 14:39:21, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ff3f12eece69feb34186d67f1e00e615220a1a12">ff3f12e</a></time>
                                 </div>
                             </div>
 
