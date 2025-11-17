@@ -847,9 +847,10 @@ string buffers, promoting a simple abstraction-free code style.</p>
 Remaining small percentage of objects is freed via GC. The developer doesn't need to change
 anything in their code. &quot;It just works&quot;, like in Python, Go, or Java, except there's no
 heavy GC tracing everything or expensive RC for each object.</p>
-<p>For developers willing to have more low level control, memory can be managed manually with
+<p>For developers willing to have more low-level control, memory can be managed manually with
 <code>-gc none</code>.</p>
-<p>Arena allocation is available via v <code>-prealloc</code>.</p>
+<p>Arena allocation is available via a <code>-prealloc</code> flag. Note: currently this mode is only
+suitable to speed up short lived, single-threaded, batch-like programs (like compilers).</p>
 <h2 id="control">Control <a href="memory-management.html#control" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can take advantage of V's autofree engine and define a <code>free()</code> method on custom
 data types:</p>
@@ -863,7 +864,7 @@ fn (data &amp;MyType) free() {
 <p>Just as the compiler frees C data types with C's <code>free()</code>, it will statically insert
 <code>free()</code> calls for your data type at the end of each variable's lifetime.</p>
 <p>Autofree can be enabled with an <code>-autofree</code> flag.</p>
-<p>For developers willing to have more low level control, autofree can be disabled with
+<p>For developers willing to have more low-level control, autofree can be disabled with
 <code>-manualfree</code>, or by adding a <code>[manualfree]</code> on each function that wants to manage its
 memory manually. (See <a href="attributes.html">attributes</a>).</p>
 <blockquote class="tip">
@@ -926,7 +927,7 @@ remain valid across several function calls, however, the administration is
 expensive.</li>
 </ul>
 <h3 id="v's-default-approach">V's default approach <a href="memory-management.html#v's-default-approach" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>Due to performance considerations V tries to put objects on the stack if possible
+<p>Due to performance considerations V tries to put objects on the stack if possible,
 but allocates them on the heap when obviously necessary. Example:</p>
 <div class="language-v">struct MyStruct {
     n int
@@ -1148,9 +1149,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-11-17T16:24:52.964Z">Last updated:
-                                        2025-11-17 18:24:52, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/2f2efb73397af9d7cd757c09bac2de8c1e591699">2f2efb7</a></time>
+                                    <time datetime="2025-11-17T16:32:12.461Z">Last updated:
+                                        2025-11-17 18:32:12, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/334f48a75f3e86f33ff3e0d4f5b6145b45d5e4c2">334f48a</a></time>
                                 </div>
                             </div>
 

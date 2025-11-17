@@ -1152,14 +1152,14 @@ f2 := 456e+2 // 45600
 <h2 id="arrays">Arrays <a href="v-types.html#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>An array is a collection of data elements of the same type. An array literal is a
 list of expressions surrounded by square brackets. An individual element can be
-accessed using an <em>index</em> expression. Indexes start from <code>0</code>:</p>
-<div class="language-v">mut nums := [1, 2, 3]
-println(nums) // `[1, 2, 3]`
-println(nums[0]) // `1`
-println(nums[1]) // `2`
+accessed using an <em>index</em> expression. Indexing starts from <code>0</code>.</p>
+<div class="language-v">mut nums := [10, 20, 30]
+println(nums) // `[10, 20, 30]`
+println(nums[0]) // `10`
+println(nums[1]) // `20`
 
 nums[1] = 5
-println(nums) // `[1, 5, 3]`
+println(nums) // `[10, 5, 30]`
 </div>
 <p><a id='array-operations'></a></p>
 <p>An element can be appended to the end of an array using the push operator <code>&lt;&lt;</code>.
@@ -1722,9 +1722,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-11-17T16:24:52.617Z">Last updated:
-                                        2025-11-17 18:24:52, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/2f2efb73397af9d7cd757c09bac2de8c1e591699">2f2efb7</a></time>
+                                    <time datetime="2025-11-17T16:32:12.120Z">Last updated:
+                                        2025-11-17 18:32:12, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/334f48a75f3e86f33ff3e0d4f5b6145b45d5e4c2">334f48a</a></time>
                                 </div>
                             </div>
 

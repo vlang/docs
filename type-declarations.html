@@ -1370,8 +1370,8 @@ fn pass_time(w World) {
 }
 </div>
 <h2 id="optionresult-types-and-error-handling">Option/Result types and error handling <a href="type-declarations.html#optionresult-types-and-error-handling" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>Option types are for types which may represent <code>none</code>. Result types may
-represent an error returned from a function.</p>
+<p>Option types can represent a value or <code>none</code>. Result types may
+represent a value, or an error returned from a function.</p>
 <p><code>Option</code> types are declared by prepending <code>?</code> to the type name: <code>?Type</code>.
 <code>Result</code> types use <code>!</code>: <code>!Type</code>.</p>
 <div class="language-v">struct User {
@@ -1580,9 +1580,9 @@ user := users_repo.find_by_id(1)? // find_by_id[User]
 post := posts_repo.find_by_id(1)? // find_by_id[Post]
 </div>
 <p>Currently generic function definitions must declare their type parameters, but in
-future V will infer generic type parameters from single-letter type names in
-runtime parameter types. This is why <code>find_by_id</code> can omit <code>[T]</code>, because the
-receiver argument <code>r</code> uses a generic type <code>T</code>.</p>
+future versions, V will infer generic type parameters from single-letter type names in
+runtime parameter types. This is why the <code>find_by_id(1)</code> calls above can omit <code>[T]</code>,
+because the receiver argument <code>r</code> in the method declaration, uses a generic type <code>T</code>.</p>
 <p>Another example:</p>
 <div class="language-v">fn compare[T](a T, b T) int {
     if a &lt; b {
@@ -1628,9 +1628,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-11-17T16:24:52.861Z">Last updated:
-                                        2025-11-17 18:24:52, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/2f2efb73397af9d7cd757c09bac2de8c1e591699">2f2efb7</a></time>
+                                    <time datetime="2025-11-17T16:32:12.361Z">Last updated:
+                                        2025-11-17 18:32:12, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/334f48a75f3e86f33ff3e0d4f5b6145b45d5e4c2">334f48a</a></time>
                                 </div>
                             </div>
 
