@@ -531,6 +531,12 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -936,6 +942,25 @@ sql db {
 }!
 </div>
 <p>For more examples and the docs, see <a href="https://github.com/vlang/v/tree/master/vlib/orm">vlib/orm</a>.</p>
+<h2 id="troubleshooting-compilation-problems-with-sqlite-on-windows">Troubleshooting compilation problems with SQLite on Windows <a href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>On Windows, if you get a compilation error, about a missing sqlite3.h file, you have to run:
+<code>v vlib/db/sqlite/install_thirdparty_sqlite.vsh</code> once, then retry your compilation.</p>
+<h2 id="using-the-self-contained-sqlite-module">Using the self contained SQLite module <a href="orm.html#using-the-self-contained-sqlite-module" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V also maintains a separate <code>sqlite</code> module, that wraps an SQLite amalgamation, but otherwise
+has the same API as the <code>db.sqlite</code> module. Its benefit, is that with it, you do not need to
+install a separate system level sqlite package/library on your system (which can be hard on
+some systems like windows, or systems with musl for example).
+Its negative is that it can make your compilations a bit slower (since it compiles SQLite
+from C, in addition to your own code).</p>
+<p>To use it, do:</p>
+<pre><code class="language-sh">v install sqlite
+</code></pre>
+<p>and later, in your code, use this:</p>
+<div class="language-v">import sqlite
+</div>
+<p>instead of:</p>
+<div class="language-v">import db.sqlite
+</div>
 
                         </main>
                         <footer>
@@ -957,9 +982,9 @@ sql db {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-11-27T03:31:54.139Z">Last updated:
-                                        2025-11-27 05:31:54, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/b052af81c3969f173facffd5174177c4628ac187">b052af8</a></time>
+                                    <time datetime="2025-11-28T04:26:45.088Z">Last updated:
+                                        2025-11-28 06:26:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/1a911935cf2db0e28112812e8728f4600f91bf35">1a91193</a></time>
                                 </div>
                             </div>
 
@@ -985,6 +1010,17 @@ sql db {
                 <div class="aside">
                     <div class="aside-content">
                         <div class="aside-container">
+                            <div class="title">On this page</div>
+                            <nav>
+                                <ul>
+                                    <li class="active">
+                                        <a href="#troubleshooting-compilation-problems-with-sqlite-on-windows">Troubleshooting compilation problems with SQLite on Windows</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#using-the-self-contained-sqlite-module">Using the self contained SQLite module</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                         <div class="aside-footer"></div>
                     </div>
