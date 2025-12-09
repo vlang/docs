@@ -1027,6 +1027,38 @@ m := &lt;-ch or {
 // propagate error
 y := &lt;-ch2 ?
 </div>
+<p>Note: buffered channels can be closed while they have unread values in them.
+The buffered values can be retrieved, even after the closing:</p>
+<div class="language-v">ich := chan int{cap: 5}
+for i in 0 .. 5 {
+    ich &lt;- i
+}
+
+for _ in 0 .. 2 {
+    x := &lt;-ich or { break }
+    eprintln('&gt;&gt;  loop 0..2 | x: ${x} | ich.closed: ${ich.closed}')
+}
+
+ich.close()
+
+for {
+    x := &lt;-ich or { break }
+    eprintln('&gt;&gt; final loop | x: ${x} | ich.closed: ${ich.closed}')
+}
+</div>
+<p>... will produce:</p>
+<pre><code>&gt;&gt;  loop 0..2 | x: 0 | ich.closed: false
+&gt;&gt;  loop 0..2 | x: 1 | ich.closed: false
+&gt;&gt; final loop | x: 2 | ich.closed: true
+&gt;&gt; final loop | x: 3 | ich.closed: true
+&gt;&gt; final loop | x: 4 | ich.closed: true
+</code></pre>
+<p>Note: reading from the .closed field of the channel in the example,
+is done just for clarity of illustration. The recommended way to pop values
+from the channel is with: <code>x := &lt;-ich or { break }</code> in a <code>for</code> loop,
+which will cleanly break out of the loop, when the channel is closed and empty.
+Avoid manually checking, whether the channel was closed or not, because that
+can introduce data races, if you are not careful.</p>
 <h3 id="channel-select">Channel Select <a href="concurrency.html#channel-select" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>The <code>select</code> command allows monitoring several channels at the same time
 without noticeable CPU load. It consists of a list of possible transfers and associated branches
@@ -1184,9 +1216,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-12-09T09:14:03.993Z">Last updated:
-                                        2025-12-09 11:14:03, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/4fc74e00fcd55ec0c5ae8e67c1ebf28b624eb0c7">4fc74e0</a></time>
+                                    <time datetime="2025-12-09T14:16:21.391Z">Last updated:
+                                        2025-12-09 16:16:21, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d5895b3d253f053fc0d9d83beb8f81b3f0b02d36">d5895b3</a></time>
                                 </div>
                             </div>
 
