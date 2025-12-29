@@ -909,15 +909,15 @@ where the nearest v.mod file is (as a string).</li>
 <li><code>@OS</code> =&gt; replaced with the OS type, for example 'linux' .</li>
 <li><code>@CCOMPILER</code> =&gt; replaced with the C compiler type, for example 'gcc' .</li>
 <li><code>@BACKEND</code> =&gt; replaced with current language backend, for example 'c' or 'golang' .</li>
-<li><code>@PLATFORM</code> =&gt; replaced with the platform type, for example 'amd64' .
-Note: <code>@BUILD_DATE</code>, <code>@BUILD_TIME</code>, <code>@BUILD_TIMESTAMP</code> represent times in the UTC timezone.
+<li><code>@PLATFORM</code> =&gt; replaced with the platform type, for example 'amd64' .</li>
+</ul>
+<p>Note: <code>@BUILD_DATE</code>, <code>@BUILD_TIME</code>, <code>@BUILD_TIMESTAMP</code> represent times in the UTC timezone.
 By default, they are based on the current time of the compilation/build. They can be overridden
 by setting the environment variable <code>SOURCE_DATE_EPOCH</code>. That is also useful while making
 releases, since you can use the equivalent of this in your build system/script:
 <code>export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) ;</code> , and then use <code>@BUILD_DATE</code> etc.,
 inside your program, when you for example print your version information to users.
-See also <a href="https://reproducible-builds.org/docs/source-date-epoch/">https://reproducible-builds.org/docs/source-date-epoch/</a> .</li>
-</ul>
+See also <a href="https://reproducible-builds.org/docs/source-date-epoch/">https://reproducible-builds.org/docs/source-date-epoch/</a> .</p>
 <p>The compile time pseudo variables allow you to do the following
 example, which is useful while debugging/logging/tracing your code:</p>
 <div class="language-v">eprintln(@LOCATION)
@@ -1443,9 +1443,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2025-12-29T14:21:24.781Z">Last updated:
-                                        2025-12-29 16:21:24, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/7486b1a73f025b0335a6d1a140e5a9e85d1fb34c">7486b1a</a></time>
+                                    <time datetime="2025-12-29T14:43:59.722Z">Last updated:
+                                        2025-12-29 16:43:59, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/3de222849cd7ff4f4ccaff7b7adb5c6a920eef6e">3de2228</a></time>
                                 </div>
                             </div>
 
