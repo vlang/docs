@@ -1198,6 +1198,10 @@ fn main() {
 </div>
 <p>V can embed arbitrary files into the executable with the <code>$embed_file(&lt;path&gt;)</code>
 compile time call. Paths can be absolute or relative to the source file.</p>
+<p>Paths could also use the compile time pseudo variables <code>@VEXEROOT</code>,
+<code>@VMODROOT</code>, <code>@DIR</code>, <code>$d</code> and <code>$env</code>.</p>
+<div class="language-v">logo := $embed_file('@VEXEROOT/examples/assets/logo.png')
+</div>
 <p>Note that by default, using <code>$embed_file(file)</code>, will always embed the whole content
 of the file, but you can modify that behaviour by passing: <code>-d embed_only_metadata</code>
 when compiling your program. In that case, the file will not be embedded. Instead,
@@ -1443,9 +1447,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-01-11T09:22:26.286Z">Last updated:
-                                        2026-01-11 11:22:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/2ce4090944d2856771088589ea83a47150c5bbaa">2ce4090</a></time>
+                                    <time datetime="2026-01-11T14:42:54.769Z">Last updated:
+                                        2026-01-11 16:42:54, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/cf06f83c65a7f0d92038907758ca21ad14c2474a">cf06f83</a></time>
                                 </div>
                             </div>
 
