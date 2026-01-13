@@ -1004,6 +1004,14 @@ fn main() {
 <li><code>-L</code> for adding C library files search paths</li>
 <li><code>-D</code> for setting compile time variables</li>
 </ul>
+<p>You can also use <code>#flag</code> directives, to link to static C libraries, which
+will be added last (note the .a suffix):</p>
+<div class="language-v">#flag /path/to/ffi.a
+</div>
+<p>If you need to reverse the order (prepend the static library in the libs section of the
+C compilation line, before other libs), use:</p>
+<div class="language-v">#flag /path/to/ffi.a@START_LIBS
+</div>
 <p>You can (optionally) use different flags for different targets.
 Currently the <code>linux</code>, <code>darwin</code> , <code>freebsd</code>, and <code>windows</code> flags are supported.</p>
 <blockquote class="tip">
@@ -1247,9 +1255,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-01-13T11:29:53.014Z">Last updated:
-                                        2026-01-13 13:29:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/241dfe3d28938fc650cbe1407d88bc33c3f98815">241dfe3</a></time>
+                                    <time datetime="2026-01-13T12:36:45.448Z">Last updated:
+                                        2026-01-13 14:36:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/eef91cea8b914001c47d87f3583f3ddfe74dde61">eef91ce</a></time>
                                 </div>
                             </div>
 
