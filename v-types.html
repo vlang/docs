@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -1001,12 +1031,14 @@ there is no <code>hd</code> or <code>llu</code>.</p>
 doesn't need <code>+</code> to right-align since that's the default.</p>
 </blockquote>
 </li>
-<li><p>width: may be an integer value describing the minimum width of total field to output.</p>
+<li><p>width: may be an integer value describing the minimum width of total field to output. For
+runtime widths, wrap an <code>int</code> expression in parentheses, for example <code>${name:(width)}</code>.</p>
 </li>
 <li><p>precision: an integer value preceded by a <code>.</code> will guarantee that many digits after the decimal
 point without any insignificant trailing zeros. If displaying insignificant zero's is desired,
 append a <code>f</code> specifier to the precision value (see examples below). Applies only to float
-variables and is ignored for integer variables.</p>
+variables and is ignored for integer variables. Runtime precisions use the same parenthesized
+form, for example <code>${value:(width).(precision)f}</code>.</p>
 </li>
 <li><p>type: <code>f</code> and <code>F</code> specify the input is a float and should be rendered as such, <code>e</code> and <code>E</code> specify
 the input is a float and should be rendered as an exponent (partially broken), <code>g</code> and <code>G</code> specify
@@ -1253,6 +1285,22 @@ assert count == [0, 1, 2, 3]
 mut square := []int{len: 6, init: index * index}
 // square == [0, 1, 4, 9, 16, 25]
 </div>
+<h3 id="array-update-syntax">Array update syntax <a href="v-types.html#array-update-syntax" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>V lets you initialise an array by spreading an existing array, optionally
+followed by additional elements:</p>
+<div class="language-v">base := [1, 2]
+a := [...base, 3, 4]
+assert a == [1, 2, 3, 4]
+
+// Append to a copy of `base`, leaving `base` itself unchanged:
+mut b := [...base]
+b &lt;&lt; 99
+assert base == [1, 2]
+assert b == [1, 2, 99]
+</div>
+<p>This is functionally equivalent to cloning the array and appending to it,
+except that you don't have to declare a mutable variable for the intermediate
+value, and the additional elements may be inlined at the call site.</p>
 <h3 id="array-types">Array Types <a href="v-types.html#array-types" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>An array can be of these types:</p>
 <table>
@@ -1432,10 +1480,11 @@ shifts all following elements to the right</li>
 <li><code>a.prepend(arr)</code> inserts elements of array <code>arr</code> at the beginning</li>
 <li><code>a.trim(new_len)</code> truncates the length (if <code>new_length &lt; a.len</code>, otherwise does nothing)</li>
 <li><code>a.clear()</code> empties the array without changing <code>cap</code> (equivalent to <code>a.trim(0)</code>)</li>
-<li><code>a.delete_many(start, size)</code> removes <code>size</code> consecutive elements from index <code>start</code>
-– triggers reallocation</li>
+<li><code>a.delete_many(start, size)</code> removes <code>size</code> consecutive elements from index <code>start</code>,
+preserving order. On the C backend, it reuses the backing buffer and keeps capacity when
+no slices share it</li>
 <li><code>a.delete(index)</code> equivalent to <code>a.delete_many(index, 1)</code></li>
-<li><code>a.delete_last()</code> removes the last element</li>
+<li><code>a.delete_last()</code> removes the last element; on the C backend it does not change <code>cap</code></li>
 <li><code>a.first()</code> equivalent to <code>a[0]</code></li>
 <li><code>a.last()</code> equivalent to <code>a[a.len - 1]</code></li>
 <li><code>a.pop()</code> removes the last element and returns it</li>
@@ -1520,6 +1569,9 @@ of the parent array is. As a result it is immediately reallocated and copied to 
 memory location when the size increases thus becoming independent from the
 parent array (<em>copy on grow</em>). In particular pushing elements to a slice
 does not alter the parent:</p>
+<p>When a slice expression like <code>a[2..4]</code> is assigned to another array outside
+<code>unsafe</code>, V inserts an implicit <code>.clone()</code> and shows a notice. The
+shared-memory examples below therefore use <code>unsafe {}</code> intentionally.</p>
 <div class="language-v">mut a := [0, 1, 2, 3, 4, 5]
 
 // Create a slice, that reuses the *same memory* as the parent array
@@ -1562,8 +1614,9 @@ println(a) // [0, 1, 2, 3, 4, 5]
 println(b) // [7, 3]
 </div>
 <p>Note that, by default, V makes an implicit clone of the slice and displays a notice about this.
-So without the <code>.clone()</code> call the result of the code above will be the same. Make the slice in an
-<code>unsafe {}</code> block if you want to reuse memory, otherwise use explicit cloning.</p>
+So without the <code>.clone()</code> call the result of the code above will be the same.
+Make the slice in an <code>unsafe {}</code> block if you want to reuse memory,
+otherwise use explicit cloning.</p>
 <h4 id="slices-with-negative-indexes">Slices with negative indexes <a href="v-types.html#slices-with-negative-indexes" class="header-anchor" aria-hidden="true">#</a></h4>
 <p>V supports array and string slices with negative indexes.
 Negative indexing starts from the end of the array towards the start,
@@ -1609,7 +1662,8 @@ fnums[2] = 100
 println(fnums) // =&gt; [1, 10, 100]
 println(typeof(fnums).name) // =&gt; [3]int
 
-fnums2 := [1, 10, 100]! // short init syntax that does the same (the syntax will probably change)
+fnums2 := [1, 10, 100].to_fixed_size() // explicit conversion syntax
+fnums3 := [1, 10, 100]! // short init syntax, equivalent to `.to_fixed_size()`
 
 anums := fnums[..] // same as `anums := fnums[0..fnums.len]`
 println(anums) // =&gt; [1, 10, 100]
@@ -1627,7 +1681,8 @@ println('bad_key' in m) // Use `in` to detect whether such key exists
 println(m.keys()) // ['one', 'two']
 m.delete('two')
 </div>
-<p>Maps can have keys of type string, rune, integer, float or voidptr.</p>
+<p>Maps can have keys of type string, rune, integer, float, voidptr,
+enum, or fixed arrays of those supported key types.</p>
 <p>The whole map can be initialized using this short syntax:</p>
 <div class="language-v">numbers := {
     'one': 1
@@ -1653,12 +1708,42 @@ println(s) // 0
 <div class="language-v">mm := map[string]int{}
 val := mm['bad_key'] or { panic('key not found') }
 </div>
+<p>Modules can opt into stricter map indexing:</p>
+<div class="language-v">@[strict_map_index]
+module main
+
+fn main() {
+    m := {
+        'abc': 'xyz'
+    }
+    value := m['abc'] or { panic('missing map key') }
+    if other := m['abc'] {
+        println(other)
+    }
+    // m['bad_key'] // compile error in `@[strict_map_index]` modules
+    println(value)
+}
+</div>
 <p>You can also check, if a key is present, and get its value, if it was present, in one go:</p>
 <div class="language-v">m := {
     'abc': 'def'
 }
 if v := m['abc'] {
     println('the map value for that key is: ${v}')
+}
+</div>
+<p>Note: map indexing returns a copy of the stored value, including with <code>or {}</code>
+and <code>if v := m[key] {}</code>. Mutating that local value does not update the value
+stored in the map.</p>
+<p>To update a stored value, mutate <code>m[key]</code> directly or assign the modified value
+back to the map:</p>
+<div class="language-v">mut data := map[string][]int{}
+key := 'odd'
+value := 1
+if _ := data[key] {
+    data[key] &lt;&lt; value
+} else {
+    data[key] = [value]
 }
 </div>
 <p>The same option check applies to arrays:</p>
@@ -1716,7 +1801,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L518"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L576"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1731,9 +1816,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:25.746Z">Last updated:
-                                        2026-02-09 17:20:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.347Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

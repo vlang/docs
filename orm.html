@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -928,6 +958,13 @@ for c in uk_customers {
     println('customer: ${c.id}, ${c.name}, ${c.country}, ${c.nr_orders}')
 }
 
+// You can select just the fields you need. The result still has type `[]Customer`,
+// and non-selected fields keep their zero values.
+partial_customers := sql db {
+    select id, name from Customer where nr_orders &gt; 0
+}!
+println(partial_customers)
+
 none_country_customers := sql db {
     select from Customer where country is none
 }!
@@ -942,20 +979,46 @@ sql db {
 }!
 </div>
 <p>For more examples and the docs, see <a href="https://github.com/vlang/v/tree/master/vlib/orm">vlib/orm</a>.</p>
-<h2 id="troubleshooting-compilation-problems-with-sqlite-on-windows">Troubleshooting compilation problems with SQLite on Windows <a href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>On Windows, if you get a compilation error, about a missing sqlite3.h file, you have to run:
-<code>v vlib/db/sqlite/install_thirdparty_sqlite.vsh</code> once, then retry your compilation.</p>
-<h2 id="using-the-self-contained-sqlite-module">Using the self contained SQLite module <a href="orm.html#using-the-self-contained-sqlite-module" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>V also maintains a separate <code>sqlite</code> module, that wraps an SQLite amalgamation, but otherwise
-has the same API as the <code>db.sqlite</code> module. Its benefit, is that with it, you do not need to
-install a separate system level sqlite package/library on your system (which can be hard on
-some systems like windows, or systems with musl for example).
-Its negative is that it can make your compilations a bit slower (since it compiles SQLite
-from C, in addition to your own code).</p>
-<p>To use it, do:</p>
+<h2 id="troubleshooting-compilation-problems-with-sqlite">Troubleshooting compilation problems with SQLite <a href="orm.html#troubleshooting-compilation-problems-with-sqlite" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>On <strong>any platform</strong> (Windows, Linux, macOS), you can run:</p>
+<p><code>v vlib/db/sqlite/install_thirdparty_sqlite.vsh</code></p>
+<p>This downloads the SQLite amalgamation source and places it in
+<code>v/thirdparty/sqlite</code>. V will then compile it automatically
+during your build.</p>
+<p>On <strong>Linux</strong>, you can also install the system development package
+instead:</p>
+<ul>
+<li>Debian/Ubuntu: <code>sudo apt install -y libsqlite3-dev</code></li>
+<li>Fedora/RHEL: <code>sudo dnf -y install sqlite-devel</code></li>
+<li>Arch: <code>sudo pacman -S sqlite</code></li>
+</ul>
+<h2 id="interactive-sqlite-cli">Interactive SQLite CLI <a href="orm.html#interactive-sqlite-cli" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V includes a built-in SQLite CLI (<code>v sqlite</code>) as a V-native
+replacement for <code>sqlite3</code>:</p>
+<pre><code class="language-sh">v sqlite mydb.db
+</code></pre>
+<p>It provides a full readline REPL with history and tab completion,
+9 output modes, <code>.dump</code>, <code>.import</code>/<code>.export</code>, <code>.backup</code>, session
+control, and schema tools. Run <code>.help</code> inside the REPL for the
+full command list.</p>
+<h2 id="convenience-methods">Convenience Methods <a href="orm.html#convenience-methods" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The <code>db.sqlite</code> module includes helper methods for common queries:</p>
+<div class="language-v">db.tables()!         // list all user table names
+db.columns('users')! // column names for a table
+db.schema('users')!  // CREATE statement(s)
+db.db_size()!        // file size in bytes
+</div>
+<h2 id="using-the-sqlite-vpm-package">Using the <code>sqlite</code> VPM package <a href="orm.html#using-the-sqlite-vpm-package" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V also maintains the <a href="https://vpm.vlang.io/packages/sqlite"><code>sqlite</code></a> VPM package.
+It wraps an SQLite amalgamation, but otherwise has the same API as <code>db.sqlite</code>.</p>
+<p>Its benefit is that you do not need to install a separate system-level SQLite package or
+library on your system, which can be harder on Windows or musl-based systems.
+Its downside is that it can make compilation a bit slower, since it compiles SQLite from C
+in addition to your own code.</p>
+<p>To install it, run:</p>
 <pre><code class="language-sh">v install sqlite
 </code></pre>
-<p>and later, in your code, use this:</p>
+<p>Then, in your code, use this:</p>
 <div class="language-v">import sqlite
 </div>
 <p>instead of:</p>
@@ -967,7 +1030,7 @@ from C, in addition to your own code).</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5506"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5864"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -982,9 +1045,9 @@ from C, in addition to your own code).</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:26.117Z">Last updated:
-                                        2026-02-09 17:20:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.434Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 
@@ -1014,10 +1077,16 @@ from C, in addition to your own code).</p>
                             <nav>
                                 <ul>
                                     <li class="active">
-                                        <a href="#troubleshooting-compilation-problems-with-sqlite-on-windows">Troubleshooting compilation problems with SQLite on Windows</a>
+                                        <a href="#troubleshooting-compilation-problems-with-sqlite">Troubleshooting compilation problems with SQLite</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#using-the-self-contained-sqlite-module">Using the self contained SQLite module</a>
+                                        <a href="#interactive-sqlite-cli">Interactive SQLite CLI</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#convenience-methods">Convenience Methods</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#using-the-sqlite-vpm-package">Using the sqlite VPM package</a>
                                     </li>
                                 </ul>
                             </nav>

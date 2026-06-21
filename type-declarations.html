@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -848,6 +878,11 @@
 <p>To define a new type <code>NewType</code> as an alias for <code>ExistingType</code>,
 do <code>type NewType = ExistingType</code>.<br/>
 This is a special case of a <a href="type-declarations.html#sum-types">sum type</a> declaration.</p>
+<p>Numeric aliases use ordinary conversions for initialization:</p>
+<div class="language-v">type Decimal = f64
+
+amount := Decimal(0.0)
+</div>
 <h2 id="enums">Enums <a href="type-declarations.html#enums" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>An enum is a group of constant integer values, each having its own name,
 whose values start at 0 and increase by 1 for each name listed.
@@ -867,6 +902,7 @@ match color {
     .green { println('the color was green') }
     .blue { println('the color was blue') }
 }
+
 println(int(color)) // prints 1
 </div>
 <p>The enum type can be any integer type, but can be omitted, if it is <code>int</code>: <code>enum Color {</code>.</p>
@@ -896,6 +932,14 @@ g3 := int(Grocery.pear)
 println('Grocery IDs: ${g1}, ${g2}, ${g3}')
 </div>
 <p>Output: <code>Grocery IDs: 0, 5, 6</code>.</p>
+<p>Compile-time <code>$if</code> blocks can also be used inside enum bodies to include fields conditionally.</p>
+<div class="language-v">enum Feature {
+    base
+    $if beta ? {
+        beta_extension
+    }
+}
+</div>
 <p>Operations are not allowed on enum variables; they must be explicitly cast to <code>int</code>.</p>
 <p>Enums can have methods, just like structs.</p>
 <div class="language-v">enum Cycle {
@@ -1124,6 +1168,18 @@ fn main() {
     announce(cat)
 }
 </div>
+<p>Smart casting an interface value to <code>T</code> also means the smart-casted variable has type <code>&amp;T</code>
+inside that branch. This matters when returning the value from a generic function:</p>
+<div class="language-v">fn get_component[T](entity Entity) !T {
+    for component in entity.components {
+        if component is T {
+            return *component
+        }
+    }
+    return error('Entity does not have component')
+}
+</div>
+<p>If you want to return the smart-casted pointer itself, use <code>!&amp;T</code> as the return type instead.</p>
 <div class="language-v">// interface-example.4
 interface IFoo {
     foo()
@@ -1325,8 +1381,24 @@ That's why you have to declare a <code>mut</code> before the <code>is</code> exp
 </div>
 <p>Otherwise <code>w</code> would keep its original type.</p>
 <blockquote class="tip">
-<p>This works for both simple variables and complex expressions like <code>user.name</code></p>
+<p>This works for both simple variables and complex expressions like <code>user.name</code>
+and <code>values[i]</code>.
+The same rule applies to mutable method receivers, for example
+<code>fn (mut w World) fn_name() { for mut w is Mars { ... } }</code>.</p>
 </blockquote>
+<p>Smart casts also work on indexed expressions in <code>match</code> branches:</p>
+<div class="language-v">type Entry = int | string
+
+values := [Entry('v')]
+match values[0] {
+    string {
+        assert values[0] == 'v'
+    }
+    else {
+        assert false
+    }
+}
+</div>
 <h3 id="matching-sum-types">Matching sum types <a href="type-declarations.html#matching-sum-types" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can also use <code>match</code> to determine the variant:</p>
 <div class="language-v">struct Moon {}
@@ -1426,6 +1498,18 @@ fn main() {
     my_optional_int := ?int(none)
     my_optional_string := ?string(none)
     my_optional_user := ?User(none)
+}
+</div>
+<p>Trailing option-typed parameters can also be omitted in function calls.
+When they are not passed, V supplies <code>none</code>:</p>
+<div class="language-v">fn connect(url string, timeout ?int) {
+    actual_timeout := timeout or { 1000 }
+    println('${url} -&gt; ${actual_timeout}')
+}
+
+fn main() {
+    connect('https://vlang.io')
+    connect('https://vlang.io', 5000)
 }
 </div>
 <p>V used to combine <code>Option</code> and <code>Result</code> into one type, now they are separate.</p>
@@ -1613,13 +1697,81 @@ println(compare(1.1, 1.0)) // Outputs: 1
 println(compare(1.1, 1.1)) //          0
 println(compare(1.1, 1.2)) //         -1
 </div>
+<h3 id="structured-generic-receiver-patterns">Structured generic receiver patterns <a href="type-declarations.html#structured-generic-receiver-patterns" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Generic methods can constrain their receiver to a <em>structured</em> shape of the
+wrapped type, and the checker will bind the inner type parameters from the
+concrete receiver.</p>
+<p>The most common case is requiring the wrapped type to be a dynamic array:</p>
+<div class="language-v">struct Expect[T] {
+    value T
+}
+
+fn (e Expect[[]T]) first_or(value T) T {
+    if e.value.len == 0 {
+        return value
+    }
+    return e.value[0]
+}
+
+fn main() {
+    a := Expect[[]int]{
+        value: [1, 2, 3]
+    }
+    println(a.first_or(0)) // 1, T is bound to int
+
+    b := Expect[[]string]{
+        value: []string{}
+    }
+    println(b.first_or('none')) // none, T is bound to string
+}
+</div>
+<p>Nested array patterns are matched recursively, so <code>Expect[[][]int]</code> binds
+<code>T = []int</code>, and <code>Expect[[]map[string]int]</code> binds <code>T = map[string]int</code>.</p>
+<p>Maps work the same way and can bind two parameters at once:</p>
+<div class="language-v">struct Expect[T] {
+    value T
+}
+
+fn (e Expect[map[K]V]) get_or(key K, value V) V {
+    if key in e.value {
+        return e.value[key]
+    }
+    return value
+}
+
+fn main() {
+    m := Expect[map[string]int]{
+        value: {
+            'a': 1
+        }
+    }
+    println(m.get_or('a', 0)) // 1   (K = string, V = int)
+    println(m.get_or('b', -1)) // -1
+}
+</div>
+<p><code>Expect[map[string]map[string]int]</code> binds <code>K = string</code> and
+<code>V = map[string]int</code>.</p>
+<p>Rules:</p>
+<ul>
+<li><code>Expect[[]T]</code> matches dynamic arrays; fixed-size arrays are not matched.</li>
+<li><code>Expect[map[K]V]</code> matches maps.</li>
+<li>Nested patterns are matched recursively.</li>
+<li>Plain generic receivers like <code>Expect[T]</code> continue to work, and an exact
+concrete receiver method (for example <code>fn (e Expect[[]int]) ...</code>) keeps
+precedence over a structured pattern.</li>
+<li>A repeated placeholder must bind consistently: <code>Expect[map[K]K]</code> on
+<code>Expect[map[string]int]</code> is rejected because <code>K</code> cannot be both <code>string</code>
+and <code>int</code>.</li>
+<li>Raw <code>voidptr</code> is not allowed to bind into these patterns; cast through an
+explicit V type instead.</li>
+</ul>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3584"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3759"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1634,9 +1786,9 @@ println(compare(1.1, 1.2)) //         -1
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:25.993Z">Last updated:
-                                        2026-02-09 17:20:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.405Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

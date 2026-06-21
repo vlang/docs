@@ -740,7 +740,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header">
+                    <div class="nav-entry is-group-header is-selected">
                     <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
 
                     </div>
@@ -839,7 +839,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header is-selected">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="other-online-resources.html">Other online resources</a>
 
                     </div>
@@ -873,41 +873,72 @@
                 <div class="content">
                     <div class="content-container">
                         <main class="v-doc">
-                            <h1 class="main">Other online resources</h1>
-<h2 id="v-contributing-guide"><a href="https://github.com/vlang/v/blob/master/CONTRIBUTING.md">V contributing guide</a> <a href="#v-contributing-guide" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>V would be much less, than what it is today, without the help of all
-its contributors. If you like and want to help the V project succeed,
-please read that document, choose a task, and dive in!</p>
-<h2 id="v-language-documentation"><a href="https://docs.vlang.io/introduction.html">V language documentation</a> <a href="#v-language-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site has the same information as this document, but split to pages,
-for easier reading on mobile devices. Updated automatically on each
-commit to the main repository.</p>
-<h2 id="v-standard-module-documentation"><a href="https://modules.vlang.io/">V standard module documentation</a> <a href="#v-standard-module-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site has the documentation of all the modules in V's standard
-library (vlib). Updated automatically on each commit to the main
-repository.</p>
-<h2 id="v-online-playground"><a href="https://play.vlang.io/">V online playground</a> <a href="#v-online-playground" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site allows you to enter and edit small V programs, then compile
-and run them. Updated automatically on each commit to the main
-repository. Use it, to test your ideas, when you do not have access
-to a computer or an Android phone, where V has been already installed.</p>
-<h2 id="awesome-v"><a href="https://github.com/vlang/awesome-v">Awesome V</a> <a href="#awesome-v" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>When you make a cool new project or a library, you can submit it to that
-list too. You can also use the list, for ideas about new projects to do
-with V.</p>
-<h2 id="the-v-language-discord"><a href="https://discord.gg/vlang">The V language Discord</a> <a href="#the-v-language-discord" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>This is the place to be, to discuss the V language, learn about latest
-developments, quickly get help with issues, witness/participate in
-<del>epic flame wars</del> constructive criticism exchanges and design decisions.
-Join it, and learn more about languages, games, editors, people, Klingons,
-Conway's law and the universe.</p>
+                            <h1 class="main">Compiling for iOS</h1>
+<p>V can target iOS when run on macOS. The Xcode command line tools must be
+installed (<code>xcode-select --install</code>); V uses <code>xcrun</code> to locate the iOS SDK
+and configures the C compiler automatically.</p>
+<p>To build for a real device (arm64):</p>
+<pre><code class="language-shell">v -os ios hello.v
+</code></pre>
+<p>To build for the iOS Simulator (x86_64 / arm64):</p>
+<pre><code class="language-shell">v -os ios -simulator hello.v
+</code></pre>
+<p>Under the hood, V invokes <code>xcrun --sdk iphoneos --show-sdk-path</code> (or
+<code>iphonesimulator</code> with <code>-simulator</code>), passes <code>-isysroot</code> and the appropriate
+<code>-arch</code> flags to clang, and adds <code>-miphoneos-version-min</code> /
+<code>-miphonesimulator-version-min</code> plus <code>-fobjc-arc</code> so that the generated C is
+compiled as Objective-C.</p>
+<p>The output is a Mach-O executable — enough to run from a jailbroken device or
+via a debugger, but to deploy to a stock iPhone you also need to bundle the
+binary into an <code>.app</code>, code-sign it, and install it through Apple's tooling.
+A typical workflow:</p>
+<pre><code class="language-shell"># 1. Generate iOS-targeted C from V. The `-os ios` flag is required so
+#    `$if ios { ... }` branches and iOS-specific files are included.
+v -os ios -gc none -o build/main.c .
+
+# 2. Compile for the device with Xcode's clang and link the frameworks
+#    your app uses (UIKit, Foundation, AVFoundation, ...)
+sdk=&quot;$(xcrun --sdk iphoneos --show-sdk-path)&quot;
+xcrun --sdk iphoneos clang \
+    -x objective-c \
+    -fobjc-arc \
+    -arch arm64 \
+    -isysroot &quot;$sdk&quot; \
+    -miphoneos-version-min=15.0 \
+    -framework Foundation \
+    -framework UIKit \
+    -lobjc \
+    build/main.c \
+    -o build/MyApp.app/MyApp
+
+# 3. Drop an Info.plist next to the binary, then code-sign with your
+#    development identity (see `security find-identity -v -p codesigning`)
+codesign --force --sign &quot;Apple Development: you@example.com (TEAMID)&quot; \
+    --entitlements entitlements.plist \
+    build/MyApp.app
+
+# 4. Install and launch on a connected device
+udid=&quot;$(xcrun devicectl list devices | awk '/connected/ {print $NF; exit}')&quot;
+xcrun devicectl device install app    --device &quot;$udid&quot; build/MyApp.app
+xcrun devicectl device process launch --device &quot;$udid&quot; com.example.myapp
+</code></pre>
+<p>The device must be unlocked, trusted, and have Developer Mode enabled
+(<code>Settings → Privacy &amp; Security → Developer Mode</code> on iOS 16+). A free
+Apple ID added in Xcode → Settings → Accounts is sufficient for signing
+development builds.</p>
+<p>Inside V code you can guard iOS-specific paths with <code>$if ios { ... }</code>, and
+add framework dependencies the same way you would with any Objective-C
+library, e.g.:</p>
+<div class="language-v">#flag -framework UIKit
+#flag -framework Foundation
+</div>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9151"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8209"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -922,7 +953,7 @@ Conway's law and the universe.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-06-21T23:19:50.483Z">Last updated:
+                                    <time datetime="2026-06-21T23:19:50.469Z">Last updated:
                                         2026-06-21 23:19:50, V Commit: <a
                                             href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
@@ -931,12 +962,18 @@ Conway's law and the universe.</p>
                             <!-- only-prev or only-next -->
                             <div class="prev-next">
                                 <div class="page prev-page">
-                                    <a class="page-link" href="appendix-ii-operators.html">
+                                    <a class="page-link" href="cross-compilation.html">
                                         <span class="desc">Previous page</span>
-                                        <span class="title">Appendix II: Operators</span>
+                                        <span class="title">Cross compilation</span>
                                     </a>
                                 </div>
 
+                                <div class="page next-page">
+                                    <a class="page-link" href="debugging.html">
+                                        <span class="desc">Next page</span>
+                                        <span class="title">Debugging</span>
+                                    </a>
+                                </div>
                             </div>
                         </footer>
                     </div>
@@ -944,29 +981,6 @@ Conway's law and the universe.</p>
                 <div class="aside">
                     <div class="aside-content">
                         <div class="aside-container">
-                            <div class="title">On this page</div>
-                            <nav>
-                                <ul>
-                                    <li class="active">
-                                        <a href="#v-contributing-guide">V contributing guide</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-language-documentation">V language documentation</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-standard-module-documentation">V standard module documentation</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-online-playground">V online playground</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#awesome-v">Awesome V</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#the-v-language-discord">The V language Discord</a>
-                                    </li>
-                                </ul>
-                            </nav>
                         </div>
                         <div class="aside-footer"></div>
                     </div>
@@ -996,9 +1010,12 @@ Conway's law and the universe.</p>
     <script>
         document.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
-                window.open("appendix-ii-operators.html", "_self")
+                window.open("cross-compilation.html", "_self")
             }
 
+            if (event.key === "ArrowRight") {
+                window.open("debugging.html", "_self")
+            }
         })
 
         //window.onload = () => {

@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -953,6 +983,25 @@ fn main() {
 
 // Output: All jobs finished: [1, 4, 9, 16, 25, 36, 49, 64, 81]
 </div>
+<p>When the spawned function returns <code>?T</code> or <code>!T</code>, waiting on the thread array returns
+<code>?[]T</code> or <code>![]T</code>. That means the batch can be handled with <code>or</code>, <code>?</code>, or <code>!</code> the same
+way as a single thread handle.</p>
+<div class="language-v">fn maybe_square(i int) !int {
+    if i &lt; 0 {
+        return error('negative input')
+    }
+    return i * i
+}
+
+fn main() {
+    mut threads := []thread !int{}
+    for i in 1 .. 4 {
+        threads &lt;&lt; spawn maybe_square(i)
+    }
+    values := threads.wait() or { panic(err) }
+    println(values)
+}
+</div>
 <h2 id="channels">Channels <a href="concurrency.html#channels" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Channels are the preferred way to communicate between threads. They allow threads to exchange data
 safely without requiring explicit locking. V's channels are similar to those in Go, enabling you
@@ -1014,7 +1063,9 @@ println(&lt;-ch) // &quot;world&quot;
 to do so will then result in a runtime panic (with the exception of <code>select</code> and
 <code>try_push()</code> - see below). Attempts to pop will return immediately if the
 associated channel has been closed and the buffer is empty. This situation can be
-handled using an <code>or {}</code> block (see <a href="type-declarations.html#handling-optionsresults">Handling options/results</a>).</p>
+handled using an <code>or {}</code> block (see <a href="type-declarations.html#handling-optionsresults">Handling options/results</a>).
+An optional <code>IError</code> can be passed to <code>close(err)</code> so receive operations that use
+<code>or {}</code> or <code>?</code> can distinguish an error termination from a normal close.</p>
 <div class="language-v">ch := chan int{}
 ch2 := chan f64{}
 // ...
@@ -1026,6 +1077,12 @@ m := &lt;-ch or {
 
 // propagate error
 y := &lt;-ch2 ?
+
+ch2.close(error('worker failed'))
+z := &lt;-ch2 or {
+    println(err.msg())
+    0.0
+}
 </div>
 <p>Note: buffered channels can be closed while they have unread values in them.
 The buffered values can be retrieved, even after the closing:</p>
@@ -1108,7 +1165,10 @@ fn main() {
 </div>
 <p>The timeout branch is optional. If it is absent <code>select</code> waits for an unlimited amount of time.
 It is also possible to proceed immediately if no channel is ready in the moment <code>select</code> is called
-by adding an <code>else { ... }</code> branch. <code>else</code> and <code>&lt;timeout&gt;</code> are mutually exclusive.</p>
+by adding an <code>else { ... }</code> branch. <code>else</code> and <code>&lt;timeout&gt;</code> are mutually exclusive.
+In statement form, <code>else</code> also runs when every channel operation is unavailable because the
+channels are already closed. To drain buffered values from a closed channel, use a plain
+receive with <code>or {}</code> instead of <code>select ... else</code>.</p>
 <p>The <code>select</code> command can be used as an <em>expression</em> of type <code>bool</code>
 that becomes <code>false</code> if all channels are closed:</p>
 <div class="language-v">if select {
@@ -1134,7 +1194,7 @@ println(ch.closed) // Whether the channel is closed
 }
 
 a := 2.13
-ch := chan f64{}
+ch := chan f64{cap: 1} // buffered so `try_push()` can succeed without a waiting receiver
 res := ch.try_push(a) // try to perform `ch &lt;- a`
 println(res)
 l := ch.len // number of elements in queue
@@ -1149,6 +1209,8 @@ res2 := ch2.try_pop(mut b) // try to perform `b = &lt;-ch2`
 <p>The <code>try_push/pop()</code> methods will return immediately with one of the results
 <code>.success</code>, <code>.not_ready</code> or <code>.closed</code> - dependent on whether the object has been transferred or
 the reason why not.
+On an unbuffered channel, <code>try_push()</code> will return <code>.not_ready</code> unless a receiver is ready at
+the same time.
 Usage of these methods and fields in production is not recommended -
 algorithms based on them are often subject to race conditions. Especially <code>.len</code> and
 <code>.closed</code> should not be used to make decisions.
@@ -1201,7 +1263,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4505"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4828"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1216,9 +1278,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:26.058Z">Last updated:
-                                        2026-02-09 17:20:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.422Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

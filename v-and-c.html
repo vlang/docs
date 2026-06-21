@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -894,6 +924,11 @@ function, for example:</p>
 <div class="language-v">f := C.name_of_the_C_function(123, c'here is some C style string', 1.23)
 dump(f)
 </div>
+<p>C globals can be exposed on the V side too. Use <code>@[c_extern] __global name C.Type</code>
+when you want to redeclare an external symbol explicitly, or
+<code>@[c_extern] __global const name C.Type</code> for an external <code>extern const</code> symbol.
+When the type already comes from the V context, direct references like
+<code>buffer = C.buffer</code> and <code>[4]u8(C.buffer)</code> can be used as well.</p>
 <p><strong>Example of using a C function from stdio, by redeclaring it on the V side</strong></p>
 <div class="language-v">#include &lt;stdio.h&gt;
 
@@ -1033,7 +1068,7 @@ Each flag must go on its own line (for now)</p>
 </ul>
 <p>You can define a <code>VFLAGS</code> environment variable in your terminal to store your <code>-cc</code>
 and <code>-cflags</code> settings, rather than including them in the build command each time.</p>
-<h2 id="#pkgconfig">#pkgconfig <a href="##pkgconfig" class="header-anchor" aria-hidden="true">#</a></h2>
+<h2 id="#pkgconfig">#pkgconfig <a href="v-and-c.html##pkgconfig" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Add <code>#pkgconfig</code> directives to tell the compiler which modules should be used for compiling
 and linking using the pkg-config files provided by the respective dependencies.</p>
 <p>As long as backticks can't be used in <code>#flag</code> and spawning processes is not desirable for security
@@ -1165,6 +1200,32 @@ a parallel code structure.</p>
 fn foo() {
 }
 </code></pre>
+<p>When compiling a Windows DLL with <code>-shared</code>, V generates a default <code>DllMain</code>
+that calls <code>_vinit_caller()</code> on <code>DLL_PROCESS_ATTACH</code> and <code>_vcleanup_caller()</code>
+on <code>DLL_PROCESS_DETACH</code>.</p>
+<p>If you export your own <code>DllMain</code>, V will not generate the default one. Call
+<code>C._vinit_caller()</code> and <code>C._vcleanup_caller()</code> from your entry point to keep
+the standard V runtime setup and teardown:</p>
+<div class="language-v">pub type C.DWORD = u32
+pub type C.LPVOID = voidptr
+
+fn C._vinit_caller()
+fn C._vcleanup_caller()
+
+@[export: 'DllMain']
+pub fn dll_main(hinst C.HINSTANCE, reason C.DWORD, reserved C.LPVOID) C.BOOL {
+    _ = hinst
+    _ = reserved
+    if reason == C.DWORD(1) {
+        C._vinit_caller()
+    } else if reason == C.DWORD(0) {
+        C._vcleanup_caller()
+    }
+    return C.BOOL(1)
+}
+</div>
+<p>In the example above, <code>C.DWORD(1)</code> is <code>DLL_PROCESS_ATTACH</code> and <code>C.DWORD(0)</code>
+is <code>DLL_PROCESS_DETACH</code>.</p>
 <h2 id="translating-c-to-v">Translating C to V <a href="v-and-c.html#translating-c-to-v" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V can translate your C code to human readable V code, and generating V wrappers
 on top of C libraries.</p>
@@ -1240,7 +1301,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7767"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8352"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1255,9 +1316,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:26.289Z">Last updated:
-                                        2026-02-09 17:20:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.474Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 
@@ -1296,7 +1357,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                                         <a href="#passing-c-compilation-flags">Passing C compilation flags</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#pkgconfig">pkgconfig</a>
+                                        <a href="##pkgconfig">#pkgconfig</a>
                                     </li>
                                     <li class="active">
                                         <a href="#including-c-code">Including C code</a>

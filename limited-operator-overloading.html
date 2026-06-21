@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -880,7 +910,36 @@ But since scientific and graphical applications are among V's domains,
 operator overloading is an important feature to have in order to improve readability:</p>
 <p><code>a.add(b).add(c.mul(d))</code> is a lot less readable than <code>a + b + c * d</code>.</p>
 </blockquote>
-<p>Operator overloading is possible for the following binary operators: <code>+, -, *, /, %, &lt;, ==</code>.</p>
+<p>Operator overloading is possible for the following binary operators:
+<code>+, -, *, **, /, %, &lt;, ==</code>.</p>
+<p>Indexing can be overloaded too:</p>
+<div class="language-v">struct Buffer {
+mut:
+    data []int
+}
+
+fn (b Buffer) [] (index int) int {
+    return b.data[index]
+}
+
+fn (mut b Buffer) []= (index int, value int) {
+    b.data[index] = value
+}
+</div>
+<p>Custom types can also opt into multidimensional and slice syntax by taking
+<code>SliceIndex</code> or <code>[]SliceIndex</code>:</p>
+<div class="language-v">struct Tensor {}
+
+fn (t Tensor) [] (parts []SliceIndex) Tensor {
+    return t
+}
+
+fn main() {
+    t := Tensor{}
+    _ = t[1..3, ..]
+    _ = t[2, 4..8]
+}
+</div>
 <h2 id="implicitly-generated-overloads">Implicitly generated overloads <a href="limited-operator-overloading.html#implicitly-generated-overloads" class="header-anchor" aria-hidden="true">#</a></h2>
 <ul>
 <li><p><code>==</code> is automatically generated by the compiler, but can be overridden.</p>
@@ -888,8 +947,8 @@ operator overloading is an important feature to have in order to improve readabi
 <li><p><code>!=</code>, <code>&gt;</code>, <code>&lt;=</code> and <code>&gt;=</code> are automatically generated when <code>==</code> and <code>&lt;</code> are defined.
 They cannot be explicitly overridden.</p>
 </li>
-<li><p>Assignment operators (<code>*=</code>, <code>+=</code>, <code>/=</code>, etc) are automatically generated when the corresponding
-operators are defined and the operands are of the same type.
+<li><p>Assignment operators (<code>*=</code>, <code>**=</code>, <code>+=</code>, <code>/=</code>, etc) are automatically generated when the
+corresponding operators are defined and the operands are of the same type.
 They cannot be explicitly overridden.</p>
 </li>
 </ul>
@@ -901,6 +960,11 @@ They cannot be explicitly overridden.</p>
 <li>Both arguments must have the same type (just like with all operators in V).</li>
 <li>Overloaded operators have to return the same type as the argument
 (the exceptions are <code>&lt;</code> and <code>==</code>).</li>
+<li><code>[]</code> and <code>[]=</code> overloads are only allowed on structs and type aliases.</li>
+<li><code>[]</code> must take exactly one parameter and return a value.</li>
+<li><code>[]=</code> must take exactly a parameter and a value, use a <code>mut</code> receiver, and return nothing.</li>
+<li>Use <code>SliceIndex</code> or <code>[]SliceIndex</code> for slice syntax like <code>tensor[1..3]</code>
+or multidimensional syntax like <code>tensor[1, ..]</code>.</li>
 </ul>
 <h3 id="other-restrictions">Other restrictions <a href="limited-operator-overloading.html#other-restrictions" class="header-anchor" aria-hidden="true">#</a></h3>
 <ul>
@@ -913,7 +977,7 @@ They cannot be explicitly overridden.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7145"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7603"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -928,9 +992,9 @@ They cannot be explicitly overridden.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:26.229Z">Last updated:
-                                        2026-02-09 17:20:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.460Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

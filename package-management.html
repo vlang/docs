@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -847,6 +877,9 @@
 <p>A V <em>module</em> is a single folder with .v files inside. A V <em>package</em> can
 contain one or more V modules. A V <em>package</em> should have a <code>v.mod</code> file
 at its top folder, describing the contents of the package.</p>
+<p>That <code>v.mod</code> file is also the package's relative module anchor. When V
+compiles a file beside or below it, imports are resolved relative to the
+folder containing <code>v.mod</code>.</p>
 <p>V packages are installed normally in your <code>~/.vmodules</code> folder. That
 location can be overridden by setting the env variable <code>VMODULES</code>.</p>
 <h2 id="package-commands">Package commands <a href="package-management.html#package-commands" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -924,16 +957,23 @@ Complete!
 <p>Example <code>v.mod</code>:</p>
 <div class="language-v">Module {
     name: 'mypackage'
+    base_url: 'src'
     description: 'My nice package.'
     version: '0.0.1'
     license: 'MIT'
     dependencies: []
 }
 </div>
+<p><code>base_url</code> is optional. When set, V resolves the package sources relative to
+that folder, next to the <code>v.mod</code> file.</p>
 <p>Minimal file structure:</p>
 <pre><code>v.mod
 mypackage.v
 </code></pre>
+<p>You can also add <code>subdirs: ['internal']</code> to <code>v.mod</code> to compile files from
+selected subdirectories as part of the same module. These paths are relative
+to the module source root, and files there should declare the same
+<code>module mypackage</code>.</p>
 <p>The name of your package should be used with the <code>module</code> directive
 at the top of all files in your package. For <code>mypackage.v</code>:</p>
 <div class="language-v">module mypackage
@@ -973,7 +1013,7 @@ to allow for a better search experience.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5755"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6159"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -988,9 +1028,9 @@ to allow for a better search experience.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:26.128Z">Last updated:
-                                        2026-02-09 17:20:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.438Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

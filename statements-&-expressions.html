@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -920,6 +950,12 @@ println(u_name) // John
 </div>
 <h3 id="type-checks-and-casts">Type checks and casts <a href="statements-&-expressions.html#type-checks-and-casts" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can check the current type of a sum type using <code>is</code> and its negated form <code>!is</code>.</p>
+<p>Note that the variable's declared type stays the sum type itself. In the example
+below, <code>x</code> has the static type <code>Alphabet</code>, even though the value it holds is an
+<code>Abc</code>. Inside an <code>is</code> check (or a <code>match</code> branch) the compiler automatically
+<em>smart casts</em> <code>x</code> to the matched variant, so within that block <code>x</code> has the static
+type <code>Abc</code> and you can access its fields directly and safely, without writing an
+explicit <code>as</code> cast.</p>
 <p>You can do it either in an <code>if</code>:</p>
 <div class="language-v">struct Abc {
     val string
@@ -1032,6 +1068,7 @@ s := match number {
     2 == 2 { println('else if2') }
     else { println('else') }
 }
+
 // 'else if2' should be printed
 </div>
 <p>or as an <code>unless</code> alternative: <a href="https://www.tutorialspoint.com/ruby/ruby_if_else.htm">unless Ruby</a></p>
@@ -1041,6 +1078,7 @@ s := match number {
     2 == 2 { println('else if2') }
     else { println('else') }
 }
+
 // 'if' should be printed
 </div>
 <p>A match expression returns the value of the final expression from the matching branch.</p>
@@ -1067,6 +1105,7 @@ typ := match c {
     `a`...`z` { 'lowercase' }
     else { 'other' }
 }
+
 println(typ)
 // 'lowercase'
 </div>
@@ -1102,6 +1141,7 @@ num := match c {
         0
     }
 }
+
 println(num)
 // 1000
 </div>
@@ -1496,7 +1536,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1695"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1821"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1511,9 +1551,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:25.872Z">Last updated:
-                                        2026-02-09 17:20:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.374Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

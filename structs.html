@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -854,7 +884,7 @@ mut p := Point{
     y: 20
 }
 println(p.x) // Struct fields are accessed using a dot
-// Alternative literal syntax
+// Alternative positional syntax; values follow the field declaration order.
 p = Point{10, 20}
 assert p.x == 10
 </div>
@@ -932,27 +962,28 @@ that field must be initialized when creating an instance of that struct.</p>
 </div>
 <p><a id='short-struct-initialization-syntax'></a></p>
 <h2 id="short-struct-literal-syntax">Short struct literal syntax <a href="structs.html#short-struct-literal-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Here &quot;short&quot; means omitting the field names and relying on the struct field
+order, so <code>Point{10, 20}</code> is a shorter form of <code>Point{x: 10, y: 20}</code>.</p>
 <div class="language-v">struct Point {
     x int
     y int
 }
 
-mut p := Point{
-    x: 10
-    y: 20
-}
-p = Point{
+long_form := Point{
     x: 30
     y: 4
 }
-assert p.y == 4
-//
-// array: first element defines type of array
+short_form := Point{30, 4}
+assert short_form == long_form
+
+// Arrays still use `Point{...}` for each element.
+// The short part is omitting field names, not the struct type name.
 points := [Point{10, 20}, Point{20, 30}, Point{40, 50}]
 println(points) // [Point{x: 10, y: 20}, Point{x: 20, y: 30}, Point{x: 40,y: 50}]
 </div>
-<p>Omitting the struct name also works for returning a struct literal or passing one
-as a function argument.</p>
+<p>When the expected type is already known, V can also omit the struct name entirely
+when returning a struct literal or passing one as a function argument. That is a
+separate shorthand from the positional <code>Point{10, 20}</code> syntax above.</p>
 <h2 id="struct-update-syntax">Struct update syntax <a href="structs.html#struct-update-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V makes it easy to return a modified version of an object:</p>
 <div class="language-v">struct User {
@@ -1208,7 +1239,7 @@ targeted.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2482"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2619"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1223,9 +1254,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:25.915Z">Last updated:
-                                        2026-02-09 17:20:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.384Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 

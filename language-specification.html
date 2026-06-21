@@ -110,7 +110,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header">
+                    <div class="nav-entry is-group-header is-selected">
                     <a class="nav-entry-link" href="language-specification.html">Language specification</a>
 
                     </div>
@@ -839,7 +839,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header is-selected">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="other-online-resources.html">Other online resources</a>
 
                     </div>
@@ -873,41 +873,23 @@
                 <div class="content">
                     <div class="content-container">
                         <main class="v-doc">
-                            <h1 class="main">Other online resources</h1>
-<h2 id="v-contributing-guide"><a href="https://github.com/vlang/v/blob/master/CONTRIBUTING.md">V contributing guide</a> <a href="#v-contributing-guide" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>V would be much less, than what it is today, without the help of all
-its contributors. If you like and want to help the V project succeed,
-please read that document, choose a task, and dive in!</p>
-<h2 id="v-language-documentation"><a href="https://docs.vlang.io/introduction.html">V language documentation</a> <a href="#v-language-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site has the same information as this document, but split to pages,
-for easier reading on mobile devices. Updated automatically on each
-commit to the main repository.</p>
-<h2 id="v-standard-module-documentation"><a href="https://modules.vlang.io/">V standard module documentation</a> <a href="#v-standard-module-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site has the documentation of all the modules in V's standard
-library (vlib). Updated automatically on each commit to the main
-repository.</p>
-<h2 id="v-online-playground"><a href="https://play.vlang.io/">V online playground</a> <a href="#v-online-playground" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site allows you to enter and edit small V programs, then compile
-and run them. Updated automatically on each commit to the main
-repository. Use it, to test your ideas, when you do not have access
-to a computer or an Android phone, where V has been already installed.</p>
-<h2 id="awesome-v"><a href="https://github.com/vlang/awesome-v">Awesome V</a> <a href="#awesome-v" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>When you make a cool new project or a library, you can submit it to that
-list too. You can also use the list, for ideas about new projects to do
-with V.</p>
-<h2 id="the-v-language-discord"><a href="https://discord.gg/vlang">The V language Discord</a> <a href="#the-v-language-discord" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>This is the place to be, to discuss the V language, learn about latest
-developments, quickly get help with issues, witness/participate in
-<del>epic flame wars</del> constructive criticism exchanges and design decisions.
-Join it, and learn more about languages, games, editors, people, Klingons,
-Conway's law and the universe.</p>
+                            <h1 class="main">Language specification</h1>
+<p>V does not yet have a separate formal language specification document like the Go spec.</p>
+<p>Until V 1.0, the language reference is defined by:</p>
+<ul>
+<li>This document (<code>doc/docs.md</code>) for syntax and semantics.</li>
+<li>The compiler implementation in <code>vlib/v/</code>.</li>
+<li>The executable language tests in <code>vlib/v/tests/</code>, <code>vlib/v/parser/</code>,
+<code>vlib/v/checker/</code>, and <code>vlib/v/slow_tests/inout/</code>.</li>
+</ul>
+<p>When documentation and implementation diverge, compiler behavior and tests are the source of truth.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9151"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L22"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -922,7 +904,7 @@ Conway's law and the universe.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-06-21T23:19:50.483Z">Last updated:
+                                    <time datetime="2026-06-21T23:19:50.325Z">Last updated:
                                         2026-06-21 23:19:50, V Commit: <a
                                             href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
@@ -931,12 +913,18 @@ Conway's law and the universe.</p>
                             <!-- only-prev or only-next -->
                             <div class="prev-next">
                                 <div class="page prev-page">
-                                    <a class="page-link" href="appendix-ii-operators.html">
+                                    <a class="page-link" href="introduction.html">
                                         <span class="desc">Previous page</span>
-                                        <span class="title">Appendix II: Operators</span>
+                                        <span class="title">Introduction</span>
                                     </a>
                                 </div>
 
+                                <div class="page next-page">
+                                    <a class="page-link" href="installing-v-from-source.html">
+                                        <span class="desc">Next page</span>
+                                        <span class="title">Installing V from source</span>
+                                    </a>
+                                </div>
                             </div>
                         </footer>
                     </div>
@@ -944,29 +932,6 @@ Conway's law and the universe.</p>
                 <div class="aside">
                     <div class="aside-content">
                         <div class="aside-container">
-                            <div class="title">On this page</div>
-                            <nav>
-                                <ul>
-                                    <li class="active">
-                                        <a href="#v-contributing-guide">V contributing guide</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-language-documentation">V language documentation</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-standard-module-documentation">V standard module documentation</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-online-playground">V online playground</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#awesome-v">Awesome V</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#the-v-language-discord">The V language Discord</a>
-                                    </li>
-                                </ul>
-                            </nav>
                         </div>
                         <div class="aside-footer"></div>
                     </div>
@@ -996,9 +961,12 @@ Conway's law and the universe.</p>
     <script>
         document.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
-                window.open("appendix-ii-operators.html", "_self")
+                window.open("introduction.html", "_self")
             }
 
+            if (event.key === "ArrowRight") {
+                window.open("installing-v-from-source.html", "_self")
+            }
         })
 
         //window.onload = () => {

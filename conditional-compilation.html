@@ -111,6 +111,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="language-specification.html">Language specification</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="installing-v-from-source.html">Installing V from source</a>
 
                     </div>
@@ -120,6 +128,14 @@
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="upgrading-v-to-latest-version.html">Upgrading V to latest version</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="project-local-compiler-versions-with-.vvmrc.html">Project-local compiler versions with .vvmrc</a>
 
                     </div>
                     <div class="nav-group-body">
@@ -532,10 +548,16 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite-on-windows"> Troubleshooting compilation problems with SQLite on Windows</a>
+                        <a class="nav-entry-link" href="orm.html#troubleshooting-compilation-problems-with-sqlite"> Troubleshooting compilation problems with SQLite</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="orm.html#using-the-self-contained-sqlite-module"> Using the self contained SQLite module</a>
+                        <a class="nav-entry-link" href="orm.html#interactive-sqlite-cli"> Interactive SQLite CLI</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#convenience-methods"> Convenience Methods</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="orm.html#using-the-sqlite-vpm-package"> Using the sqlite VPM package</a>
                     </div>
                     </div>
                     </div>
@@ -719,6 +741,14 @@
                     </div>
                     <div class="nav-group">
                     <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="compiling-for-ios.html">Compiling for iOS</a>
+
+                    </div>
+                    <div class="nav-group-body">
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="debugging.html">Debugging</a>
 
                     </div>
@@ -750,7 +780,7 @@
                         <a class="nav-entry-link" href="v-and-c.html#passing-c-compilation-flags"> Passing C compilation flags</a>
                     </div>
                     <div class="nav-entry">
-                        <a class="nav-entry-link" href="v-and-c.html#pkgconfig"> pkgconfig</a>
+                        <a class="nav-entry-link" href="v-and-c.html##pkgconfig"> #pkgconfig</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="v-and-c.html#including-c-code"> Including C code</a>
@@ -947,6 +977,23 @@ println('This program, was compiled at ${time.unix(@BUILD_TIMESTAMP.i64()).forma
 <p><code>$</code> is used as a prefix for compile time (also referred to as 'comptime') operations.</p>
 <p>Having built-in JSON support is nice, but V also allows you to create efficient
 serializers for any data format. V has compile time <code>if</code> and <code>for</code> constructs:</p>
+<h3 id="type-metadata"><h4 id="comptime-type-metadata">Type metadata</h4> <a href="#type-metadata" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Comptime type expressions expose metadata through fields like <code>.idx</code>, <code>.typ</code>,
+<code>.unaliased_typ</code>, <code>.indirections</code>, <code>.key_type</code>, <code>.value_type</code>, <code>.element_type</code>,
+<code>.pointee_type</code>, <code>.payload_type</code>, and <code>.variant_types</code>.</p>
+<div class="language-v">fn zero_payload[T](x ?T) T {
+    return $zero(typeof(x).payload_type)
+}
+
+fn main() {
+    value := ?int(123)
+    assert zero_payload(value) == 0
+    assert typeof[map[string]int]().key_type == typeof[string]().idx
+    assert typeof[?&amp;int]().payload_type == typeof[&amp;int]().idx
+}
+</div>
+<p><code>$zero(Type)</code> returns the zero value for a comptime type expression.
+<code>$new(Type)</code> returns a pointer to a new zero value.</p>
 <h3 id=".fields"><h4 id="comptime-fields">.fields</h4> <a href="#.fields" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can iterate over struct fields using <code>.fields</code>, it also works with generic types
 (e.g. <code>T.fields</code>) and generic arguments (e.g. <code>param.fields</code> where <code>fn gen[T](param T) {</code>).</p>
@@ -1228,7 +1275,9 @@ already compressed.</p>
 which could be used to obtain the file contents as <code>string</code> or <code>[]u8</code>.</p>
 <h3 id="$tmpl-for-embedding-and-parsing-v-template-files"><code>$tmpl</code> for embedding and parsing V template files <a href="conditional-compilation.html#$tmpl-for-embedding-and-parsing-v-template-files" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>V has a simple template language for text and html templates, and they can easily
-be embedded via <code>$tmpl('path/to/template.txt')</code>:</p>
+be embedded via <code>$tmpl('path/to/template.txt')</code>:
+the path can also come from a compile-time string expression like concatenation,
+<code>os.path_separator</code>, or <code>os.join_path(...)</code>.</p>
 <div class="language-v">fn build() string {
     name := 'Peter'
     age := 25
@@ -1376,12 +1425,15 @@ and integer literals.</li>
 <li><code>.c.v</code> =&gt; will be used only by the C backend. These files can contain C. code.</li>
 <li><code>.native.v</code> =&gt; will be used only by V's native backend.</li>
 <li><code>_nix.c.v</code> =&gt; will be used only on Unix systems (non Windows).</li>
+<li><code>_bsd.c.v</code> =&gt; will be used only on macOS, FreeBSD, OpenBSD, NetBSD, and DragonFly.</li>
 <li><code>_${os}.c.v</code> =&gt; will be used only on the specific <code>os</code> system.
 For example, <code>_windows.c.v</code> will be used only when compiling on Windows, or with <code>-os windows</code>.</li>
 <li><code>_default.c.v</code> =&gt; will be used only if there is NOT a more specific platform file.
 For example, if you have both <code>file_linux.c.v</code> and <code>file_default.c.v</code>,
 and you are compiling for linux, then only <code>file_linux.c.v</code> will be used,
-and <code>file_default.c.v</code> will be ignored.</li>
+and <code>file_default.c.v</code> will be ignored.
+BSD-specific files are ordered from most to least specific as
+<code>_${os}.c.v</code>, <code>_bsd.c.v</code>, <code>_nix.c.v</code>, then <code>_default.c.v</code>.</li>
 </ul>
 <p>Here is a more complete example:</p>
 <p><code>main.v</code>:</p>
@@ -1432,7 +1484,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6205"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6636"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1447,9 +1499,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-02-09T15:20:26.179Z">Last updated:
-                                        2026-02-09 17:20:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c34ea2be9dba47a93aa206326aac3aa2b7365a77">c34ea2b</a></time>
+                                    <time datetime="2026-06-21T23:19:50.449Z">Last updated:
+                                        2026-06-21 23:19:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
                                 </div>
                             </div>
 
