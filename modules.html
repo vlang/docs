@@ -428,6 +428,9 @@
                         <a class="nav-entry-link" href="modules.html#create-modules"> Create modules</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="modules.html#module-aliases"> Module aliases</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="modules.html#special-considerations-for-project-folders"> Special considerations for project folders</a>
                     </div>
                     <div class="nav-entry">
@@ -932,6 +935,16 @@ files beside or below it can import sibling modules under the same tree.</p>
 </code></pre>
 <p><code>main.v</code> can use <code>import myapp.common</code>, and <code>structs.v</code> should still
 declare <code>module common</code>.</p>
+<h2 id="module-aliases">Module aliases <a href="modules.html#module-aliases" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>When a module moves, an <code>alias.v</code> file can keep its old import path working without copying its
+implementation. The alias module contains only a module declaration with an <code>alias</code> attribute:</p>
+<div class="language-v">@[alias: '@VMODROOT/modules/new_name']
+module old_name
+</div>
+<p>The attribute value is the path to the canonical module. Relative paths are resolved from the
+alias directory. <code>@VMODROOT</code> is resolved from the <code>v.mod</code> that contains <code>alias.v</code>. An alias also
+applies to submodules: if <code>old_name</code> aliases <code>new_name</code>, importing <code>old_name.sub</code> resolves to
+<code>new_name.sub</code>. The old and new import paths refer to the same module and use the same types.</p>
 <h2 id="special-considerations-for-project-folders">Special considerations for project folders <a href="modules.html#special-considerations-for-project-folders" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>For the top level project folder (the one, compiled with <code>v .</code>), and <em>only</em>
 that folder, you can have several .v files, that may be mentioning different modules
@@ -969,7 +982,7 @@ transitively by other modules several times, in the reverse order of the init ca
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3640"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3645"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -984,9 +997,9 @@ transitively by other modules several times, in the reverse order of the init ca
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-06-21T23:19:50.393Z">Last updated:
-                                        2026-06-21 23:19:50, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/852072407cc1df0f201482f40145ca5478877319">8520724</a></time>
+                                    <time datetime="2026-07-13T16:13:50.248Z">Last updated:
+                                        2026-07-13 16:13:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ee3ef57ffded3cf182930a8d64fe6fa7b7b2ce1e">ee3ef57</a></time>
                                 </div>
                             </div>
 
@@ -1017,6 +1030,9 @@ transitively by other modules several times, in the reverse order of the init ca
                                 <ul>
                                     <li class="active">
                                         <a href="#create-modules">Create modules</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#module-aliases">Module aliases</a>
                                     </li>
                                     <li class="active">
                                         <a href="#special-considerations-for-project-folders">Special considerations for project folders</a>
