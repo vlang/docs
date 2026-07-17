@@ -931,16 +931,13 @@ fn calc() {
 </div>
 <p>The <code>pub</code> keyword is only allowed before the <code>const</code> keyword and cannot be used inside
 a <code>const ( )</code> block.</p>
-<p>Outside from module main all constants need to be prefixed with the module name.</p>
+<p>Constants can be referenced without a module prefix from within the module where they are
+defined. To access a public constant from another module, prefix it with the module name.</p>
 <h2 id="required-module-prefix">Required module prefix <a href="constants.html#required-module-prefix" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>When naming constants, <code>snake_case</code> must be used. In order to distinguish consts
-from local variables, the full path to consts must be specified. For example,
-to access the PI const, full <code>math.pi</code> name must be used both outside the <code>math</code>
-module, and inside it. That restriction is relaxed only for the <code>main</code> module
-(the one containing your <code>fn main()</code>), where you can use the unqualified name of
-constants defined there, i.e. <code>numbers</code>, rather than <code>main.numbers</code>.</p>
-<p>vfmt takes care of this rule, so you can type <code>println(pi)</code> inside the <code>math</code> module,
-and vfmt will automatically update it to <code>println(math.pi)</code>.</p>
+<p>When naming constants, <code>snake_case</code> must be used. Outside the module where a constant is
+defined, its full path must be specified. For example, use <code>math.pi</code> to access the public
+<code>pi</code> constant from another module. Inside the <code>math</code> module, the unqualified name <code>pi</code> can
+be used.</p>
 <!--
 Many people prefer all caps consts: `TOP_CITIES`. This wouldn't work
 well in V, because consts are a lot more powerful than in other languages.
@@ -972,9 +969,9 @@ println('Top cities: ${top_cities.filter(.usa)}')
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-07-13T16:13:50.245Z">Last updated:
-                                        2026-07-13 16:13:50, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ee3ef57ffded3cf182930a8d64fe6fa7b7b2ce1e">ee3ef57</a></time>
+                                    <time datetime="2026-07-17T04:04:02.393Z">Last updated:
+                                        2026-07-17 04:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/08f157a95d0f217816471cca988884c0322cf9f0">08f157a</a></time>
                                 </div>
                             </div>
 
