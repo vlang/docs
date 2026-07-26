@@ -929,6 +929,20 @@ red := Color{
 }
 println(red)
 </div>
+<p><strong>Note:</strong> Calling <code>.str()</code> on an unchanged receiver, or an unchanged alias of it,
+inside a custom <code>str()</code> method is not allowed because it causes infinite recursion.
+Use string interpolation of the individual fields instead, or for type aliases,
+cast to the underlying type first:</p>
+<div class="language-v">struct Color {
+    r int
+    g int
+    b int
+}
+
+fn (c Color) str() string {
+    return c.str() // error: cannot call `str()` method recursively
+}
+</div>
 <h2 id="dumping-expressions-at-runtime">Dumping expressions at runtime <a href="builtin-functions.html#dumping-expressions-at-runtime" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can dump/trace the value of any V expression using <code>dump(expr)</code>.
 For example, save this code sample as <code>factorial.v</code>, then run it with
@@ -980,9 +994,9 @@ the expression itself, and the expression value.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-07-18T03:34:57.744Z">Last updated:
-                                        2026-07-18 03:34:57, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/0aefc2d00ca7383905f32bf8508c6587b7550429">0aefc2d</a></time>
+                                    <time datetime="2026-07-26T10:58:38.071Z">Last updated:
+                                        2026-07-26 10:58:38, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/88c5db796bb8693b972226786e62186e129c6171">88c5db7</a></time>
                                 </div>
                             </div>
 
