@@ -885,6 +885,11 @@ by using any of the following commands in a terminal:</p>
 <li><code>v new --web abcd</code> → creates a new project in the new folder <code>abcd</code>, using the veb template.</li>
 </ul>
 <p>The <code>v new --web</code> template uses <code>veb</code>, V's web framework.</p>
+<p>When run in a terminal, <code>v new</code> and <code>v init</code> interactively prompt for the project's
+description, version and license. When stdin is <em>not</em> a terminal (for example when the
+input is piped or redirected, as in CI), the prompts are skipped and the defaults are
+used instead of blocking on input; in that case the project name must be passed as an
+argument, e.g. <code>v new abc</code>.</p>
 
                         </main>
                         <footer>
@@ -906,9 +911,9 @@ by using any of the following commands in a terminal:</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-08-07T15:56:01.238Z">Last updated:
-                                        2026-08-07 15:56:01, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/8c076f13f5caac10ac89b31bab692d36cf497da2">8c076f1</a></time>
+                                    <time datetime="2026-08-15T00:40:31.708Z">Last updated:
+                                        2026-08-15 00:40:31, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/1d0d86dd855d639539602f604e3d8f534a057707">1d0d86d</a></time>
                                 </div>
                             </div>
 
