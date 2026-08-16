@@ -908,9 +908,21 @@ and use <code>v shader</code> to compile them for all supported target platforms
 <a href="https://github.com/vlang/v/blob/master/examples/sokol/02_cubes_glsl/cube_glsl.v#L25-L28">include a header and declare a glue function</a>
 before using the shader in your code.</p>
 <h2 id="profiling">Profiling <a href="tools.html#profiling" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>V has good support for profiling your programs: <code>v -profile profile.txt run file.v</code>
-That will produce a profile.txt file, which you can then analyze.</p>
-<p>The generated profile.txt file will have lines with 4 columns:</p>
+<p>V has good support for profiling your programs: <code>v -profile profile.txt run file.v</code>.
+That will produce a <code>profile.txt</code> file when the program exits, which you can then
+analyze. If the output file is omitted, as in <code>v -profile run file.v</code>, the report
+is written to standard output. <code>-prof</code> is an alias for <code>-profile</code>.</p>
+<p>The V3 compiler supports profiling with its C backend. Other V3 backends reject
+<code>-profile</code>. V3 also supports these V1-compatible selection options:</p>
+<ul>
+<li><code>-profile-fns name1,name2</code> profiles only the named functions and functions
+called from them. Use the function names shown in profile output, such as
+<code>main__work</code>.</li>
+<li><code>-profile-no-inline</code> omits functions marked <code>@[inline]</code> from the report.</li>
+<li><code>-d no_profile_startup</code> excludes calls made during module initialization.</li>
+</ul>
+<p>Use the selection options together with <code>-profile</code>. The generated profile file
+has lines with 5 columns:</p>
 <ol>
 <li>How many times a function was called.</li>
 <li>How much time in total a function took (in ms).</li>
@@ -919,8 +931,8 @@ It is reliable for multithreaded programs, when tcc is not used.</li>
 <li>How much time on average, a call to a function took (in ns).</li>
 <li>The name of the v function.</li>
 </ol>
-<p>You can sort on column 3 (average time per function) using:
-<code>sort -n -k3 profile.txt|tail</code></p>
+<p>You can sort on column 3 (exclusive time per function) using:
+<code>sort -n -k3 profile.txt | tail</code></p>
 <p>You can also use stopwatches to measure just portions of your code explicitly:</p>
 <div class="language-v">import time
 
@@ -936,7 +948,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6119"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6120"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -951,9 +963,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-08-15T00:40:31.849Z">Last updated:
-                                        2026-08-15 00:40:31, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/1d0d86dd855d639539602f604e3d8f534a057707">1d0d86d</a></time>
+                                    <time datetime="2026-08-16T15:44:42.925Z">Last updated:
+                                        2026-08-16 15:44:42, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/fcfd4246e8b8197568502aab2179e9183021c0ad">fcfd424</a></time>
                                 </div>
                             </div>
 
