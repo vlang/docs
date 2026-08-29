@@ -142,7 +142,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header">
+                    <div class="nav-entry is-group-header is-selected">
                     <a class="nav-entry-link" href="the-default-compiler.html">The default compiler</a>
 
                     </div>
@@ -856,7 +856,7 @@
                     </div>
                     </div>
                     <div class="nav-group">
-                    <div class="nav-entry is-group-header is-selected">
+                    <div class="nav-entry is-group-header">
                     <a class="nav-entry-link" href="other-online-resources.html">Other online resources</a>
 
                     </div>
@@ -890,41 +890,70 @@
                 <div class="content">
                     <div class="content-container">
                         <main class="v-doc">
-                            <h1 class="main">Other online resources</h1>
-<h2 id="v-contributing-guide"><a href="https://github.com/vlang/v/blob/master/CONTRIBUTING.md">V contributing guide</a> <a href="#v-contributing-guide" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>V would be much less, than what it is today, without the help of all
-its contributors. If you like and want to help the V project succeed,
-please read that document, choose a task, and dive in!</p>
-<h2 id="v-language-documentation"><a href="https://docs.vlang.io/introduction.html">V language documentation</a> <a href="#v-language-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site has the same information as this document, but split to pages,
-for easier reading on mobile devices. Updated automatically on each
-commit to the main repository.</p>
-<h2 id="v-standard-module-documentation"><a href="https://modules.vlang.io/">V standard module documentation</a> <a href="#v-standard-module-documentation" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site has the documentation of all the modules in V's standard
-library (vlib). Updated automatically on each commit to the main
-repository.</p>
-<h2 id="v-online-playground"><a href="https://play.vlang.io/">V online playground</a> <a href="#v-online-playground" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>The site allows you to enter and edit small V programs, then compile
-and run them. Updated automatically on each commit to the main
-repository. Use it, to test your ideas, when you do not have access
-to a computer or an Android phone, where V has been already installed.</p>
-<h2 id="awesome-v"><a href="https://github.com/vlang/awesome-v">Awesome V</a> <a href="#awesome-v" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>When you make a cool new project or a library, you can submit it to that
-list too. You can also use the list, for ideas about new projects to do
-with V.</p>
-<h2 id="the-v-language-discord"><a href="https://discord.gg/vlang">The V language Discord</a> <a href="#the-v-language-discord" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>This is the place to be, to discuss the V language, learn about latest
-developments, quickly get help with issues, witness/participate in
-<del>epic flame wars</del> constructive criticism exchanges and design decisions.
-Join it, and learn more about languages, games, editors, people, Klingons,
-Conway's law and the universe.</p>
+                            <h1 class="main">The default compiler</h1>
+<p>On macOS and Linux, <code>v</code> compiles your program with the experimental <strong>V3</strong>
+compiler (a newer implementation of the V compiler, whose source lives in
+<code>vlib/v3</code>) by default. On other platforms, and for C builds that select a
+target OS different from the host, the established compiler in <code>vlib/v</code> is
+used. V scripts (<code>.vsh</code>, including <code>v run script.vsh</code>), the <code>crun</code> and
+<code>build-module</code> commands, and debug builds selected with <code>-g</code>/<code>-debug</code> also
+remain on the established compiler. Same-OS cross-architecture builds can still
+use V3 when the target is supported. Copies or symlinks whose resolved compiler
+executable is not named <code>v</code> or <code>vnew</code> also remain on the established compiler by
+default; pass <code>-new-compiler</code> to select V3 explicitly in those installations.</p>
+<p>You normally do not need to do anything: when V3 cannot yet build an eligible
+program, <code>v</code> automatically falls back to the established compiler, so your build
+keeps working. A fallback also prints a short notice, for example:</p>
+<pre><code class="language-text">note: V3 could not build this program, so V used the stable compiler instead.
+</code></pre>
+<h2 id="opting-out-with--old-compiler">Opting out with <code>-old-compiler</code> <a href="#opting-out-with--old-compiler" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Pass <code>-old-compiler</code> to skip V3 entirely and compile with the established
+compiler:</p>
+<pre><code class="language-shell">v -old-compiler run main.v
+</code></pre>
+<p>This is a temporary compatibility workaround for when a build behaves differently
+under V3. On platforms where the established compiler is the default,
+<code>-new-compiler</code> opts into V3 for a single build (only where the V3 compiler is
+embedded in your <code>v</code>).</p>
+<h2 id="automatic-bug-reports">Automatic bug reports <a href="the-default-compiler.html#automatic-bug-reports" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>To help close the remaining gaps, a successful fallback (V3 fails to build a
+program that the established compiler then builds) normally submits the V
+version, target OS/arch, and build options to <code>https://bugs.vlang.io</code>. When a
+generated-C diagnostic maps to a verified V source, the <strong>full mapped source
+file</strong> is included so the report is reproducible; a failure without such a
+mapping submits metadata only. The source is bounded to a window around the
+failure only when the file is larger than the upload byte budget.
+This full-file selection applies only to verified V3 fallback reports. When the
+established compiler is used directly, its automatic C-error reports retain a
+bounded strict subset of mapped source and omit source when no strict subset is
+possible.
+A single-file build that hits an <strong>internal V3 compiler error</strong> uploads the
+complete captured input when it fits the 64 KiB source and process-environment
+transport budgets. Larger snapshots are truncated to a bounded head-and-tail
+window, and source is omitted when the transport cannot safely carry an excerpt.
+A directory build (such as <code>v .</code>) submits metadata only for this failure type
+because it has no single input snapshot. A <strong>generated-C compilation error</strong> is
+instead mapped back to the specific failing file through the staged C's <code>#line</code>
+directives, so even a directory build can upload that one failing file (still
+only when its current bytes match what V3 parsed). If the input selected for the
+source changes after V3 parses it, that report submits metadata only rather than
+source V3 did not parse. Before submitting any report, the stable
+compiler also verifies that it parsed the same bytes for every captured project
+input; if it did not, no fallback report is submitted. Inline-assembly fallbacks
+and reports that cannot fit safely through the retry's process environment are
+notice-only and do not submit a report. Reporting is also skipped for test
+compilations and to the default endpoint in GitHub CI. A custom fallback endpoint
+set with <code>V_C_ERROR_BUG_REPORT_URL</code> remains active in CI. The
+<code>-bug-report-url</code> option selects the established compiler and configures only its
+reports. You can turn reporting off entirely by setting
+<code>V_C_ERROR_BUG_REPORT_DISABLED=1</code>.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9276"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L76"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -939,7 +968,7 @@ Conway's law and the universe.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-08-29T13:19:52.861Z">Last updated:
+                                    <time datetime="2026-08-29T13:19:52.657Z">Last updated:
                                         2026-08-29 13:19:52, V Commit: <a
                                             href="https://github.com/vlang/v/commit/07d8b8a50c41af3243ddc83de6225250d63b4e4b">07d8b8a</a></time>
                                 </div>
@@ -948,12 +977,18 @@ Conway's law and the universe.</p>
                             <!-- only-prev or only-next -->
                             <div class="prev-next">
                                 <div class="page prev-page">
-                                    <a class="page-link" href="appendix-ii-operators.html">
+                                    <a class="page-link" href="project-local-compiler-versions-with-.vvmrc.html">
                                         <span class="desc">Previous page</span>
-                                        <span class="title">Appendix II: Operators</span>
+                                        <span class="title">Project-local compiler versions with .vvmrc</span>
                                     </a>
                                 </div>
 
+                                <div class="page next-page">
+                                    <a class="page-link" href="packaging-v-for-distribution.html">
+                                        <span class="desc">Next page</span>
+                                        <span class="title">Packaging V for distribution</span>
+                                    </a>
+                                </div>
                             </div>
                         </footer>
                     </div>
@@ -965,22 +1000,10 @@ Conway's law and the universe.</p>
                             <nav>
                                 <ul>
                                     <li class="active">
-                                        <a href="#v-contributing-guide">V contributing guide</a>
+                                        <a href="#opting-out-with--old-compiler">Opting out with -old-compiler</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#v-language-documentation">V language documentation</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-standard-module-documentation">V standard module documentation</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#v-online-playground">V online playground</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#awesome-v">Awesome V</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#the-v-language-discord">The V language Discord</a>
+                                        <a href="#automatic-bug-reports">Automatic bug reports</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -1013,9 +1036,12 @@ Conway's law and the universe.</p>
     <script>
         document.addEventListener("keydown", (event) => {
             if (event.key === "ArrowLeft") {
-                window.open("appendix-ii-operators.html", "_self")
+                window.open("project-local-compiler-versions-with-.vvmrc.html", "_self")
             }
 
+            if (event.key === "ArrowRight") {
+                window.open("packaging-v-for-distribution.html", "_self")
+            }
         })
 
         //window.onload = () => {
