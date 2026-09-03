@@ -899,6 +899,9 @@
 <p>It's recommended to set up your editor, so that <code>v fmt -w</code> runs on every save.
 A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 <p>Always run <code>v fmt -w file.v</code> before pushing your code.</p>
+<p>During the transition to the V3 formatter, <code>v fmt -verify</code> and <code>v fmt -c</code> accept
+files matching either V3 or legacy vfmt output. <code>v fmt -w</code> uses V3 formatting,
+so it may rewrite a file accepted by either check mode.</p>
 <h3 id="disabling-the-formatting-locally">Disabling the formatting locally <a href="tools.html#disabling-the-formatting-locally" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>To disable formatting for a block of code, wrap it with <code>// vfmt off</code> and
 <code>// vfmt on</code> comments.</p>
@@ -977,9 +980,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-08-29T13:19:52.806Z">Last updated:
-                                        2026-08-29 13:19:52, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/07d8b8a50c41af3243ddc83de6225250d63b4e4b">07d8b8a</a></time>
+                                    <time datetime="2026-09-03T12:46:51.277Z">Last updated:
+                                        2026-09-03 12:46:51, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/202689f5b67422f42abc9c1938c8958f4aa4a6f2">202689f</a></time>
                                 </div>
                             </div>
 
