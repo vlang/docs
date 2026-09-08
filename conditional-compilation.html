@@ -147,12 +147,6 @@
 
                     </div>
                     <div class="nav-group-body">
-                    <div class="nav-entry">
-                        <a class="nav-entry-link" href="the-default-compiler.html#opting-out-with--old-compiler"> Opting out with -old-compiler</a>
-                    </div>
-                    <div class="nav-entry">
-                        <a class="nav-entry-link" href="the-default-compiler.html#automatic-bug-reports"> Automatic bug reports</a>
-                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -612,6 +606,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
+                    </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
                     </div>
@@ -1330,6 +1327,58 @@ numbers: [1, 2, 3]
 3
 </code></pre>
 <p>See more <a href="https://github.com/vlang/v/blob/master/vlib/v/TEMPLATES.md">details</a></p>
+<h3 id="$qml-for-compiling-ui2-interfaces"><code>$qml</code> for compiling UI2 interfaces <a href="conditional-compilation.html#$qml-for-compiling-ui2-interfaces" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>The V3 compiler can compile a QML file directly into an <code>ui2.Element</code> expression with
+<code>$qml(path)</code>. The QML is parsed while the application is compiled; the resulting program
+constructs UI2 elements directly and does not parse the QML file at runtime.</p>
+<div class="language-v">import ui2
+
+struct App {
+pub mut:
+    name string
+}
+
+pub fn (mut app App) save() {}
+
+fn view(app &amp;App) ui2.Element {
+    return $qml('views/profile.qml')
+}
+</div>
+<p><code>views/profile.qml</code>:</p>
+<pre><code class="language-qml">Screen {
+    id: root
+    background: &quot;#f8fafc&quot;
+    Column {
+        Label { text: &quot;Hello ${app.name}&quot; }
+        Button { text: &quot;Save&quot; on_tap: app.save() }
+    }
+}
+</code></pre>
+<p>The path must be a compile-time string. String literals, constants, compile-time local
+bindings, and <code>+</code> concatenations of those forms are supported. Absolute paths are used as
+given. A relative path is searched for in this order:</p>
+<ol>
+<li>relative to the V source file;</li>
+<li>in a <code>templates</code> directory next to the V source file;</li>
+<li>relative to the nearest parent directory containing <code>v.mod</code>;</li>
+<li>in that module root's <code>templates</code> directory.</li>
+</ol>
+<p>The compiled QML subset supports these UI2 elements:</p>
+<ul>
+<li><code>Screen</code>, <code>View</code>, <code>Rectangle</code>, <code>Column</code>, <code>Row</code>, and <code>Scroll</code> containers;</li>
+<li><code>Label</code>, <code>Image</code>, <code>Button</code>, <code>Checkbox</code>, <code>Dropdown</code>, <code>TextField</code>, and <code>TextArea</code>;</li>
+<li><code>ProgressBar</code>, <code>Slider</code>, <code>Switch</code>, <code>Spinner</code>, and <code>MessageBox</code>;</li>
+<li><code>Repeater</code> delegates, <code>MenuItem</code> entries, and <code>Option</code> entries.</li>
+</ul>
+<p>Properties can use literals, arithmetic and boolean expressions, conditional expressions,
+string interpolation, an enclosing <code>app</code> value, and geometry or custom properties exposed
+by an <code>id</code>. An ID on an earlier node is available to following nodes in the same component.
+Both quoted and unquoted <code>#RRGGBB</code> color values are accepted. A <code>Repeater</code> requires <code>model</code>
+and stable <code>key</code> properties and exposes <code>item</code> and <code>index</code> inside its delegate.</p>
+<p>The <code>bind.text</code>, <code>bind.checked</code>, <code>bind.active</code>, and <code>bind.value</code> properties create two-way
+bindings to mutable top-level fields on <code>app</code>. Event properties <code>on_tap</code>, <code>on_change</code>,
+<code>on_active</code>, <code>on_text</code>, and <code>on_submit</code> call an <code>app</code> method with zero or one argument. These
+methods and their argument types are checked while the generated V code is compiled.</p>
 <h3 id="$env"><code>$env</code> <a href="conditional-compilation.html#$env" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">module main
 
@@ -1504,7 +1553,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6761"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6726"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1519,9 +1568,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-03T12:46:51.320Z">Last updated:
-                                        2026-09-03 12:46:51, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/202689f5b67422f42abc9c1938c8958f4aa4a6f2">202689f</a></time>
+                                    <time datetime="2026-09-08T15:30:12.939Z">Last updated:
+                                        2026-09-08 15:30:12, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/1f128c94619fb6e4863c5f81883e1b860405c8fa">1f128c9</a></time>
                                 </div>
                             </div>
 

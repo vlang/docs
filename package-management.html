@@ -147,12 +147,6 @@
 
                     </div>
                     <div class="nav-group-body">
-                    <div class="nav-entry">
-                        <a class="nav-entry-link" href="the-default-compiler.html#opting-out-with--old-compiler"> Opting out with -old-compiler</a>
-                    </div>
-                    <div class="nav-entry">
-                        <a class="nav-entry-link" href="the-default-compiler.html#automatic-bug-reports"> Automatic bug reports</a>
-                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -613,6 +607,9 @@
                     </div>
                     <div class="nav-group-body">
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
                     </div>
                     <div class="nav-entry">
@@ -899,6 +896,20 @@ compiles a file beside or below it, imports are resolved relative to the
 folder containing <code>v.mod</code>.</p>
 <p>V packages are installed normally in your <code>~/.vmodules</code> folder. That
 location can be overridden by setting the env variable <code>VMODULES</code>.</p>
+<h2 id="package-names-and-import-paths">Package names and import paths <a href="package-management.html#package-names-and-import-paths" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A package name can contain characters that are not valid in a V import
+path, for example <code>-</code> or uppercase letters. Such names are normalized
+when the package is installed: <code>-</code> becomes <code>_</code> and the name is
+lowercased. A package named <code>my-mod</code> is therefore installed as
+<code>~/.vmodules/my_mod</code> and imported with <code>import my_mod</code>. The same applies
+to the publisher part of a VPM package name, so <code>Some-Publisher.repo</code> is
+installed as <code>~/.vmodules/some_publisher/repo</code> and imported with
+<code>import some_publisher.repo</code>.</p>
+<p><code>v install</code> prints a warning with the resulting import prefix whenever it
+has to normalize a name. A package may contain only nested modules, so append
+the nested module path when needed (for example, <code>import my_mod.json</code>). If you
+publish a package, prefer a <code>name</code> in <code>v.mod</code> that is already a valid import
+path.</p>
 <h2 id="package-commands">Package commands <a href="package-management.html#package-commands" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can use the V frontend to do package operations, just like you can
 use it for compiling code, formatting code, vetting code etc.</p>
@@ -1032,7 +1043,7 @@ to allow for a better search experience.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6281"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6229"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1047,9 +1058,9 @@ to allow for a better search experience.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-03T12:46:51.286Z">Last updated:
-                                        2026-09-03 12:46:51, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/202689f5b67422f42abc9c1938c8958f4aa4a6f2">202689f</a></time>
+                                    <time datetime="2026-09-08T15:30:12.921Z">Last updated:
+                                        2026-09-08 15:30:12, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/1f128c94619fb6e4863c5f81883e1b860405c8fa">1f128c9</a></time>
                                 </div>
                             </div>
 
@@ -1078,6 +1089,9 @@ to allow for a better search experience.</p>
                             <div class="title">On this page</div>
                             <nav>
                                 <ul>
+                                    <li class="active">
+                                        <a href="#package-names-and-import-paths">Package names and import paths</a>
+                                    </li>
                                     <li class="active">
                                         <a href="#package-commands">Package commands</a>
                                     </li>
