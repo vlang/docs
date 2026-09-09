@@ -905,6 +905,13 @@ println('a: ${a}') // 100
 println('b: ${b}') // 20
 println('c: ${c}') // 120
 </div>
+<p>Structured <code>amd64</code> and <code>x86</code> blocks validate the <code>lock</code> prefix. The prefix and its instruction
+must be on the same source line. It may precede <code>add</code>, <code>adc</code>, <code>and</code>, <code>btc</code>, <code>btr</code>, <code>bts</code>,
+<code>cmpxchg</code>, <code>cmpxchg8b</code>, <code>cmpxchg16b</code>, <code>dec</code>, <code>inc</code>, <code>neg</code>, <code>not</code>, <code>or</code>, <code>sbb</code>, <code>sub</code>, <code>xor</code>,
+<code>xadd</code>, or <code>xchg</code>. The <code>b</code>, <code>w</code>, <code>l</code>, and <code>q</code> size suffixes are also recognized, for example
+<code>addq</code> and <code>cmpxchgq</code>. Without a permitted same-line instruction, the parser reports
+<code>The lock prefix cannot be used on this instruction</code>. A same-line <code>lock:</code> remains valid as a
+label; a newline inside a comment also separates the prefix, instruction, or label colon.</p>
 <p>The C backend also supports raw GNU assembly templates. In a <code>raw</code> block, V passes each
 double-quoted template string through unchanged and still checks the output, input, and clobber
 lists. Operands can use GNU's named form or V's <code>constraint (expression) as alias</code> form:</p>
@@ -1079,7 +1086,7 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9036"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9044"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1094,9 +1101,9 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-08T15:30:12.985Z">Last updated:
-                                        2026-09-08 15:30:12, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/1f128c94619fb6e4863c5f81883e1b860405c8fa">1f128c9</a></time>
+                                    <time datetime="2026-09-09T00:54:03.951Z">Last updated:
+                                        2026-09-09 00:54:03, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/f388d198348edaeb69f6f357693422ed61e674d9">f388d19</a></time>
                                 </div>
                             </div>
 

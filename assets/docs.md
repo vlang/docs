@@ -5919,6 +5919,14 @@ final output). That's why this approach is *unsafe* and should be avoided!
 
 (This is still in an alpha state)
 
+> **Deprecation notice:** the Function Call API (`orm_fn`;
+> `orm.new_query[T]` / `QueryBuilder`) is deprecated and will be removed
+> from the standard library after **2027-08-17**, to be maintained in a
+> separate repository. Prefer the built-in `sql` ORM syntax shown below
+> for new code. Compiler deprecation warnings begin on **2027-02-18**;
+> until then the compiler emits a migration notice. See
+> https://github.com/vlang/v/issues/27001 for details.
+
 V has a built-in ORM (object-relational mapping) which supports SQLite, MySQL and Postgres,
 but soon it will support MS SQL and Oracle.
 
@@ -7190,11 +7198,11 @@ numbers: [1, 2, 3]
 
 See more [details](https://github.com/vlang/v/blob/master/vlib/v/TEMPLATES.md)
 
-#### `$qml` for compiling UI2 interfaces
+#### `$vml` for compiling UI2 interfaces
 
-The V3 compiler can compile a QML file directly into an `ui2.Element` expression with
-`$qml(path)`. The QML is parsed while the application is compiled; the resulting program
-constructs UI2 elements directly and does not parse the QML file at runtime.
+The V3 compiler can compile a VML file directly into an `ui2.Element` expression with
+`$vml(path)`. The VML is parsed while the application is compiled; the resulting program
+constructs UI2 elements directly and does not parse the VML file at runtime.
 
 ```v ignore
 import ui2
@@ -7207,13 +7215,13 @@ pub mut:
 pub fn (mut app App) save() {}
 
 fn view(app &App) ui2.Element {
-	return $qml('views/profile.qml')
+	return $vml('views/profile.vml')
 }
 ```
 
-`views/profile.qml`:
+`views/profile.vml`:
 
-```qml
+```vml
 Screen {
     id: root
     background: "#f8fafc"
@@ -7233,7 +7241,7 @@ given. A relative path is searched for in this order:
 3. relative to the nearest parent directory containing `v.mod`;
 4. in that module root's `templates` directory.
 
-The compiled QML subset supports these UI2 elements:
+The compiled VML subset supports these UI2 elements:
 
 - `Screen`, `View`, `Rectangle`, `Column`, `Row`, and `Scroll` containers;
 - `Label`, `Image`, `Button`, `Checkbox`, `Dropdown`, `TextField`, and `TextArea`;
@@ -9055,6 +9063,14 @@ println('a: ${a}') // 100
 println('b: ${b}') // 20
 println('c: ${c}') // 120
 ```
+
+Structured `amd64` and `x86` blocks validate the `lock` prefix. The prefix and its instruction
+must be on the same source line. It may precede `add`, `adc`, `and`, `btc`, `btr`, `bts`,
+`cmpxchg`, `cmpxchg8b`, `cmpxchg16b`, `dec`, `inc`, `neg`, `not`, `or`, `sbb`, `sub`, `xor`,
+`xadd`, or `xchg`. The `b`, `w`, `l`, and `q` size suffixes are also recognized, for example
+`addq` and `cmpxchgq`. Without a permitted same-line instruction, the parser reports
+`The lock prefix cannot be used on this instruction`. A same-line `lock:` remains valid as a
+label; a newline inside a comment also separates the prefix, instruction, or label colon.
 
 The C backend also supports raw GNU assembly templates. In a `raw` block, V passes each
 double-quoted template string through unchanged and still checks the output, input, and clobber

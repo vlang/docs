@@ -889,6 +889,15 @@
                         <main class="v-doc">
                             <h1 class="main">ORM</h1>
 <p>(This is still in an alpha state)</p>
+<blockquote class="tip">
+<p><strong>Deprecation notice:</strong> the Function Call API (<code>orm_fn</code>;
+<code>orm.new_query[T]</code> / <code>QueryBuilder</code>) is deprecated and will be removed
+from the standard library after <strong>2027-08-17</strong>, to be maintained in a
+separate repository. Prefer the built-in <code>sql</code> ORM syntax shown below
+for new code. Compiler deprecation warnings begin on <strong>2027-02-18</strong>;
+until then the compiler emits a migration notice. See
+<a href="https://github.com/vlang/v/issues/27001">https://github.com/vlang/v/issues/27001</a> for details.</p>
+</blockquote>
 <p>V has a built-in ORM (object-relational mapping) which supports SQLite, MySQL and Postgres,
 but soon it will support MS SQL and Oracle.</p>
 <p>V's ORM provides a number of benefits:</p>
@@ -1059,9 +1068,9 @@ in addition to your own code.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-08T15:30:12.916Z">Last updated:
-                                        2026-09-08 15:30:12, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/1f128c94619fb6e4863c5f81883e1b860405c8fa">1f128c9</a></time>
+                                    <time datetime="2026-09-09T00:54:03.882Z">Last updated:
+                                        2026-09-09 00:54:03, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/f388d198348edaeb69f6f357693422ed61e674d9">f388d19</a></time>
                                 </div>
                             </div>
 
