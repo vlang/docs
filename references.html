@@ -915,6 +915,34 @@ fn (foo &amp;Foo) bar() {
 </div>
 <p><code>foo</code> is still immutable and can't be changed. For that,
 <code>(mut foo Foo)</code> must be used.</p>
+<p>When immutable reference parameters to structs are compared with <code>==</code> or <code>!=</code>,
+V compares their addresses, not their fields. Dereference the parameters explicitly
+to compare their values instead:</p>
+<div class="language-v">struct Point {
+    x int
+}
+
+fn same_reference(a &amp;Point, b &amp;Point) bool {
+    return a == b
+}
+
+fn same_value(a &amp;Point, b &amp;Point) bool {
+    return *a == *b
+}
+
+a := Point{
+    x: 1
+}
+b := Point{
+    x: 1
+}
+assert !same_reference(a, b)
+assert same_reference(a, a)
+assert same_value(a, b)
+</div>
+<p>This address-comparison rule also applies when reference parameters are captured by
+a closure or their reference types are written through aliases. A user-defined <code>==</code>
+operator takes precedence over the default address or value comparison.</p>
 <p>In general, V's references are similar to Go pointers and C++ references.
 For example, a generic tree structure definition would look like this:</p>
 <div class="language-v">struct Node[T] {
@@ -945,9 +973,9 @@ For example, a generic tree structure definition would look like this:</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-09T00:54:03.822Z">Last updated:
-                                        2026-09-09 00:54:03, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/f388d198348edaeb69f6f357693422ed61e674d9">f388d19</a></time>
+                                    <time datetime="2026-09-09T13:55:08.228Z">Last updated:
+                                        2026-09-09 13:55:08, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/bef30297561949dfa306487da459d6b93fb37ac3">bef3029</a></time>
                                 </div>
                             </div>
 
