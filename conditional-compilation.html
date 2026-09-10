@@ -1375,6 +1375,8 @@ string interpolation, an enclosing <code>app</code> value, and geometry or custo
 by an <code>id</code>. An ID on an earlier node is available to following nodes in the same component.
 Both quoted and unquoted <code>#RRGGBB</code> color values are accepted. A <code>Repeater</code> requires <code>model</code>
 and stable <code>key</code> properties and exposes <code>item</code> and <code>index</code> inside its delegate.</p>
+<p>String literals may use either double (<code>&quot;</code>) or single (<code>'</code>) quote delimiters. Escape a matching
+quote or a backslash with <code>\</code>; <code>\n</code> and <code>\t</code> are also supported.</p>
 <p>The <code>bind.text</code>, <code>bind.checked</code>, <code>bind.active</code>, and <code>bind.value</code> properties create two-way
 bindings to mutable top-level fields on <code>app</code>. Event properties <code>on_tap</code>, <code>on_change</code>,
 <code>on_active</code>, <code>on_text</code>, and <code>on_submit</code> call an <code>app</code> method with zero or one argument. These
@@ -1568,9 +1570,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-09T13:55:08.314Z">Last updated:
-                                        2026-09-09 13:55:08, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/bef30297561949dfa306487da459d6b93fb37ac3">bef3029</a></time>
+                                    <time datetime="2026-09-10T12:40:00.027Z">Last updated:
+                                        2026-09-10 12:40:00, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64604901c85377322d9d65455355986f30056513">6460490</a></time>
                                 </div>
                             </div>
 
