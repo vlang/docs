@@ -888,18 +888,22 @@
                     <div class="content-container">
                         <main class="v-doc">
                             <h1 class="main">The default compiler</h1>
-<p>On macOS and Linux, the top-level <code>v</code> executable contains only the experimental
-<strong>V3</strong> C compiler (whose source lives in <code>vlib/v3</code>). Every direct C build,
-including compiler self-builds, is compiled by V3 in-process. The CLI and tool
-commands remain in <code>cmd/v</code>; commands such as <code>test</code> and <code>fmt</code> are external tools,
-and non-C backends remain separate builder tools.</p>
-<p>V3 compilation errors are returned directly. These builds do not silently retry
-with the established compiler, and <code>-old-compiler</code> reports that the executable
-contains only V3. <code>-new-compiler</code> remains accepted for command-line compatibility
-and selects the same embedded driver.</p>
-<p>On platforms that do not embed V3, <code>cmd/v</code> still contains the established
-compiler from <code>vlib/v</code>. There, <code>-new-compiler</code> reports that the current build does
-not include V3.</p>
+<p>On every native platform, the top-level <code>v</code> executable contains only the
+experimental <strong>V3</strong> C compiler (whose source lives in <code>vlib/v3</code>). Every direct C
+build, including compiler self-builds, is compiled by V3 in-process. The CLI and
+tool commands remain in <code>cmd/v</code>; commands such as <code>test</code> and <code>fmt</code> are external
+tools, and non-C backends remain separate builder tools.</p>
+<p>The standard bootstrap builds a sibling <code>v1_fallback</code> executable
+(<code>v1_fallback.exe</code> on Windows). <code>-old-compiler</code> launches it explicitly, and
+ordinary user builds retry through it after a V3 compiler or C compilation
+failure. Explicit <code>-new-compiler</code> builds and native compiler self-builds remain
+strict V3 operations, except for <code>-new-compiler -cc msvc</code> on Windows. V3 does
+not yet generate MSVC command lines, so that combination intentionally launches
+<code>v1_fallback.exe</code>. A separately built V3-only executable without the sibling
+cannot use the fallback. <code>-new-compiler</code> remains accepted for command-line
+compatibility and otherwise selects the same embedded driver.</p>
+<p>Portable cross-VC snapshots do not embed V3 and retain the established compiler
+from <code>vlib/v</code>.</p>
 
                         </main>
                         <footer>
@@ -921,9 +925,9 @@ not include V3.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-10T12:39:59.894Z">Last updated:
-                                        2026-09-10 12:39:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/64604901c85377322d9d65455355986f30056513">6460490</a></time>
+                                    <time datetime="2026-09-11T06:03:36.255Z">Last updated:
+                                        2026-09-11 06:03:36, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6eb1613ba21f4580cf39e577644e107367e4c75f">6eb1613</a></time>
                                 </div>
                             </div>
 
