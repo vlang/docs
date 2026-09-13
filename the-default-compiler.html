@@ -893,14 +893,16 @@ experimental <strong>V3</strong> C compiler (whose source lives in <code>vlib/v3
 build, including compiler self-builds, is compiled by V3 in-process. The CLI and
 tool commands remain in <code>cmd/v</code>; commands such as <code>test</code> and <code>fmt</code> are external
 tools, and non-C backends remain separate builder tools.</p>
-<p>The standard bootstrap builds a sibling <code>v1_fallback</code> executable
-(<code>v1_fallback.exe</code> on Windows). <code>-old-compiler</code> launches it explicitly, and
+<p>The standard bootstrap does not build the sibling <code>v1_fallback</code> executable
+(<code>v1_fallback.exe</code> on Windows). When V needs the compatibility compiler and the
+sibling is missing, it reports that it is running <code>make v1</code> and builds the
+fallback from the current <code>vc</code> snapshot. You can run <code>make v1</code> explicitly to
+prepare it ahead of time. <code>-old-compiler</code> launches the fallback explicitly, and
 ordinary user builds retry through it after a V3 compiler or C compilation
 failure. Explicit <code>-new-compiler</code> builds and native compiler self-builds remain
 strict V3 operations, except for <code>-new-compiler -cc msvc</code> on Windows. V3 does
 not yet generate MSVC command lines, so that combination intentionally launches
-<code>v1_fallback.exe</code>. A separately built V3-only executable without the sibling
-cannot use the fallback. <code>-new-compiler</code> remains accepted for command-line
+<code>v1_fallback.exe</code>. <code>-new-compiler</code> remains accepted for command-line
 compatibility and otherwise selects the same embedded driver.</p>
 <p>Portable cross-VC snapshots do not embed V3 and retain the established compiler
 from <code>vlib/v</code>.</p>
@@ -925,9 +927,9 @@ from <code>vlib/v</code>.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-11T10:37:46.383Z">Last updated:
-                                        2026-09-11 10:37:46, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/316db75a07afe50a17c5e273a18d10af8e8068d1">316db75</a></time>
+                                    <time datetime="2026-09-13T01:58:52.947Z">Last updated:
+                                        2026-09-13 01:58:52, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5db92f0d36347ab55499f6a20875596d73091f9b">5db92f0</a></time>
                                 </div>
                             </div>
 
