@@ -735,6 +735,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="global-variables.html#shadowing-a-global"> Shadowing a global</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -751,6 +754,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="cross-compilation.html#portable-c-output-(-os-cross)"> Portable C output (-os cross)</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -946,10 +952,21 @@ files beside or below it can import sibling modules under the same tree.</p>
 </code></pre>
 <p><code>main.v</code> can use <code>import myapp.common</code>, and <code>structs.v</code> should still
 declare <code>module common</code>.</p>
+<p>A module's import path is its path under that lookup root, so the directory
+holding a module has to sit at the root itself. There is no virtual <code>modules/</code>
+directory anymore: <code>modules/mymod</code> is not searched, the same way the virtual
+<code>src/</code> source root is no longer searched. Move such a directory up beside the
+<code>v.mod</code> it belongs to, which leaves every <code>import</code> unchanged:</p>
+<pre><code class="language-text">myapp/
+├── v.mod
+├── main.v
+└── mymod/            # was myapp/modules/mymod
+</code></pre>
+<p>V reports the move for you when an import would otherwise have resolved there.</p>
 <h2 id="module-aliases">Module aliases <a href="modules.html#module-aliases" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>When a module moves, an <code>alias.v</code> file can keep its old import path working without copying its
 implementation. The alias module contains only a module declaration with an <code>alias</code> attribute:</p>
-<div class="language-v">@[alias: '@VMODROOT/modules/new_name']
+<div class="language-v">@[alias: '@VMODROOT/new_name']
 module old_name
 </div>
 <p>The attribute value is the path to the canonical module. Relative paths are resolved from the
@@ -993,7 +1010,7 @@ transitively by other modules several times, in the reverse order of the init ca
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3720"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3726"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1008,9 +1025,9 @@ transitively by other modules several times, in the reverse order of the init ca
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-13T01:58:53.116Z">Last updated:
-                                        2026-09-13 01:58:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5db92f0d36347ab55499f6a20875596d73091f9b">5db92f0</a></time>
+                                    <time datetime="2026-09-15T03:37:17.633Z">Last updated:
+                                        2026-09-15 03:37:17, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/461d065273eb2adfa7ae208e94b320734d2c9565">461d065</a></time>
                                 </div>
                             </div>
 

@@ -735,6 +735,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="global-variables.html#shadowing-a-global"> Shadowing a global</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -751,6 +754,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="cross-compilation.html#portable-c-output-(-os-cross)"> Portable C output (-os cross)</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -888,24 +894,30 @@
                     <div class="content-container">
                         <main class="v-doc">
                             <h1 class="main">The default compiler</h1>
-<p>On every native platform, the top-level <code>v</code> executable contains only the
-experimental <strong>V3</strong> C compiler (whose source lives in <code>vlib/v3</code>). Every direct C
-build, including compiler self-builds, is compiled by V3 in-process. The CLI and
-tool commands remain in <code>cmd/v</code>; commands such as <code>test</code> and <code>fmt</code> are external
-tools, and non-C backends remain separate builder tools.</p>
+<p>On every native platform, the top-level <code>v</code> executable contains the default
+compiler whose source lives in <code>vlib/v</code>. Every direct C build, including compiler
+self-builds, is compiled in-process. The CLI remains in <code>cmd/v</code>; <code>test</code> is
+handled by the default compiler, and external tools are compiled with it first.</p>
 <p>The standard bootstrap does not build the sibling <code>v1_fallback</code> executable
 (<code>v1_fallback.exe</code> on Windows). When V needs the compatibility compiler and the
-sibling is missing, it reports that it is running <code>make v1</code> and builds the
-fallback from the current <code>vc</code> snapshot. You can run <code>make v1</code> explicitly to
-prepare it ahead of time. <code>-old-compiler</code> launches the fallback explicitly, and
-ordinary user builds retry through it after a V3 compiler or C compilation
-failure. Explicit <code>-new-compiler</code> builds and native compiler self-builds remain
-strict V3 operations, except for <code>-new-compiler -cc msvc</code> on Windows. V3 does
-not yet generate MSVC command lines, so that combination intentionally launches
-<code>v1_fallback.exe</code>. <code>-new-compiler</code> remains accepted for command-line
-compatibility and otherwise selects the same embedded driver.</p>
-<p>Portable cross-VC snapshots do not embed V3 and retain the established compiler
-from <code>vlib/v</code>.</p>
+sibling is missing, it reports that it is running <code>make v1</code>. That target reuses
+or downloads the complete 0.5.2 release under the user cache. If no release
+binary can run, <code>oldv</code> clones the 0.5.2 V sources and matching <code>vc</code> snapshot and
+builds the fallback there. You can run <code>make v1</code> explicitly to prepare it ahead
+of time. Automatic provisioning keeps its launcher metadata in the user cache,
+so an older read-only sibling installation can remain untouched. <code>-old-compiler</code>
+launches the fallback explicitly, and ordinary user builds and external tools
+retry through it after a compiler or C compilation failure. Explicit
+<code>-new-compiler</code> builds remain strict default-compiler operations.
+<code>-new-compiler</code> remains accepted for command-line compatibility and otherwise
+selects the same embedded driver.</p>
+<p>The installer supplements the cached fallback vlib with modules whose public
+paths moved after 0.5.2. Fallback roots missing these compatibility modules are
+not used. If the fallback compilation fails too, V reports its diagnostics and
+notes where the default compiler stopped. Re-run the command with
+<code>-new-compiler</code> to see the suppressed default-compiler diagnostics without a
+fallback retry. A program or test that compiles and then exits unsuccessfully
+keeps its own status and is not reported as a compiler failure.</p>
 
                         </main>
                         <footer>
@@ -927,9 +939,9 @@ from <code>vlib/v</code>.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-13T01:58:52.947Z">Last updated:
-                                        2026-09-13 01:58:52, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5db92f0d36347ab55499f6a20875596d73091f9b">5db92f0</a></time>
+                                    <time datetime="2026-09-15T03:37:17.445Z">Last updated:
+                                        2026-09-15 03:37:17, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/461d065273eb2adfa7ae208e94b320734d2c9565">461d065</a></time>
                                 </div>
                             </div>
 

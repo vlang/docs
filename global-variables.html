@@ -735,6 +735,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="global-variables.html#shadowing-a-global"> Shadowing a global</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -751,6 +754,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="cross-compilation.html#portable-c-output-(-os-cross)"> Portable C output (-os cross)</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -930,13 +936,45 @@ In this case data races lead to random numbers in different threads becoming som
 correlated, which is acceptable considering the performance penalty that using
 synchronization primitives would represent.</li>
 </ul>
+<h2 id="shadowing-a-global">Shadowing a global <a href="global-variables.html#shadowing-a-global" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A local variable may not reuse the name of a global. A global's bare name is visible
+everywhere, including in modules that never import the one declaring it, so the two
+names are not as far apart as they look.</p>
+<p>Where the global belongs to another module, the local does not merely shadow it, it
+loses: the declaration is ignored and every use of that name, including the ones that
+look like reads of the local, means the global. The code then does something other
+than it reads, with nothing to point at.</p>
+<p>V rejects it:</p>
+<pre><code>error: variable `devices` shadows a global variable
+</code></pre>
+<p>The fix is to rename the local, giving it a name that says what it holds:</p>
+<div class="language-v">__global (
+    devices []&amp;Device
+)
+
+fn mount_dev(root &amp;Node) bool {
+    // Was `devices`, which silently meant the global above.
+    dev_dir := get_node(root, '/dev') or { return false }
+    dev_dir.parent = root
+    return true
+}
+</div>
+<p>The check covers every source-level local binding: declaration targets, function and
+lambda parameters, <code>for</code> variables, <code>if</code> guards, <code>select</code> receive declarations, and
+compile-time <code>\$for</code> variables. Each name is checked, so both targets of
+<code>value, devices := make_pair()</code> are covered. A name that shadows nothing, and <code>_</code>, are
+left alone.</p>
+<p>Only code the project owns is checked, which for a directory build means the whole
+project, not just the file named on the command line. An installed dependency is left
+alone: its author cannot see the globals your program declares, so a local of theirs
+that happens to collide will not stop your build.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8276"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8305"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -951,9 +989,9 @@ synchronization primitives would represent.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-13T01:58:53.309Z">Last updated:
-                                        2026-09-13 01:58:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5db92f0d36347ab55499f6a20875596d73091f9b">5db92f0</a></time>
+                                    <time datetime="2026-09-15T03:37:17.849Z">Last updated:
+                                        2026-09-15 03:37:17, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/461d065273eb2adfa7ae208e94b320734d2c9565">461d065</a></time>
                                 </div>
                             </div>
 
@@ -979,6 +1017,14 @@ synchronization primitives would represent.</li>
                 <div class="aside">
                     <div class="aside-content">
                         <div class="aside-container">
+                            <div class="title">On this page</div>
+                            <nav>
+                                <ul>
+                                    <li class="active">
+                                        <a href="#shadowing-a-global">Shadowing a global</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                         <div class="aside-footer"></div>
                     </div>

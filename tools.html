@@ -735,6 +735,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="global-variables.html#shadowing-a-global"> Shadowing a global</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -751,6 +754,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="cross-compilation.html#portable-c-output-(-os-cross)"> Portable C output (-os cross)</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -896,8 +902,8 @@
 <p>It's recommended to set up your editor, so that <code>v fmt -w</code> runs on every save.
 A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 <p>Always run <code>v fmt -w file.v</code> before pushing your code.</p>
-<p>During the transition to the V3 formatter, <code>v fmt -verify</code> and <code>v fmt -c</code> accept
-files matching either V3 or legacy vfmt output. <code>v fmt -w</code> uses V3 formatting,
+<p>During the formatter transition, <code>v fmt -verify</code> and <code>v fmt -c</code> accept
+files matching either current or legacy vfmt output. <code>v fmt -w</code> uses current formatting,
 so it may rewrite a file accepted by either check mode.</p>
 <h3 id="disabling-the-formatting-locally">Disabling the formatting locally <a href="tools.html#disabling-the-formatting-locally" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>To disable formatting for a block of code, wrap it with <code>// vfmt off</code> and
@@ -926,8 +932,8 @@ before using the shader in your code.</p>
 That will produce a <code>profile.txt</code> file when the program exits, which you can then
 analyze. If the output file is omitted, as in <code>v -profile run file.v</code>, the report
 is written to standard output. <code>-prof</code> is an alias for <code>-profile</code>.</p>
-<p>The V3 compiler supports profiling with its C backend. Other V3 backends reject
-<code>-profile</code>. V3 also supports these V1-compatible selection options:</p>
+<p>The compiler supports profiling with its C backend. Other backends reject
+<code>-profile</code>. It also supports these compatibility selection options:</p>
 <ul>
 <li><code>-profile-fns name1,name2</code> profiles only the named functions and functions
 called from them. Use the function names shown in profile output, such as
@@ -962,7 +968,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6183"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6204"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -977,9 +983,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-13T01:58:53.207Z">Last updated:
-                                        2026-09-13 01:58:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5db92f0d36347ab55499f6a20875596d73091f9b">5db92f0</a></time>
+                                    <time datetime="2026-09-15T03:37:17.734Z">Last updated:
+                                        2026-09-15 03:37:17, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/461d065273eb2adfa7ae208e94b320734d2c9565">461d065</a></time>
                                 </div>
                             </div>
 

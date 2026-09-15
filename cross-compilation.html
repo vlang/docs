@@ -735,6 +735,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="global-variables.html#shadowing-a-global"> Shadowing a global</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -751,6 +754,9 @@
 
                     </div>
                     <div class="nav-group-body">
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="cross-compilation.html#portable-c-output-(-os-cross)"> Portable C output (-os cross)</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -919,13 +925,69 @@ Example:</p>
 </code></pre>
 <p>You will need to install Clang, LLD linker, and download a zip file with
 libraries and include files for Windows and Linux. V will provide you with a link.</p>
+<h2 id="portable-c-output-(-os-cross)">Portable C output (<code>-os cross</code>) <a href="cross-compilation.html#portable-c-output-(-os-cross)" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><code>-os cross</code> is not a platform. It asks for <em>portable</em> C,
+i.e. C that is not tied to one OS, architecture or C compiler, so that a single
+generated file can be compiled on any of them. It is how V's own bootstrap
+snapshot <code>vc/v.c</code> is produced, and it only makes sense with <code>-o file.c</code>:</p>
+<pre><code class="language-shell">v -os cross -o /tmp/v.c cmd/v
+cc -o v_from_c /tmp/v.c -lm -lpthread
+</code></pre>
+<p>The <code>-cross</code> flag asks for the same output, but as a modifier that combines with
+an explicit target, which is how the Windows bootstrap snapshot is produced:</p>
+<pre><code class="language-shell">v -cross -os windows -cc msvc -o /tmp/v_win.c cmd/v
+</code></pre>
+<p>Either spelling also turns on the <code>cross</code> and <code>no_backtrace</code> custom defines, so
+that the <code>$if cross ?</code> guards in the standard library select their portable path
+instead of a platform syscall.</p>
+<p>In this mode V does not decide a target-dependent <code>$if</code> while generating. It
+keeps every branch and emits the condition as a C preprocessor guard, leaving
+the choice to whichever C compiler builds the file:</p>
+<div class="language-v">$if linux {
+    linux_only()
+} $else {
+    everywhere_else()
+}
+</div>
+<p>becomes</p>
+<div class="language-c">#if (defined(__linux__) &amp;&amp; !defined(__ANDROID__))
+linux_only();
+#else
+everywhere_else();
+#endif
+</div>
+<p>Conditions that do not depend on the target - <code>$if prealloc</code>, <code>$if debug</code>, <code>-d</code>
+values - are still resolved while generating, exactly as in an ordinary build.
+<code>#include</code>s written inside a <code>$if</code>, or carrying a target prefix such as
+<code>#include linux &lt;sys/timerfd.h&gt;</code>, are guarded the same way, and headers or C
+sources shipped alongside your code are embedded into the output instead of
+being referenced by a path that will not exist on the machine that compiles it.</p>
+<p>What is <em>not</em> portable, and is therefore decided while generating, for the host
+V runs on:</p>
+<ul>
+<li>A <code>$if</code> used as an <em>expression</em>. Its branches may have different types - for
+example <code>closure_thunk</code> in <code>vlib/builtin/closure</code> is a differently sized fixed
+array per architecture - which no guard around an expression can express.</li>
+<li>A <code>$if</code> at file scope holding <em>declarations</em>. A function, type, constant or
+global cannot be wrapped in <code>#if</code> by the backend, so only the host's branch is
+emitted. Directives (<code>#include</code>, <code>#flag</code>) written at file scope <em>are</em> kept
+from every branch and guarded, which is what makes the headers portable.</li>
+<li><a href="conditional-compilation.html#environment-specific-files">Environment specific files</a>. A module split into
+<code>x_linux.c.v</code> and <code>x_darwin.c.v</code> contributes only the generating host's
+variant, so generate the portable C on the platform whose variants are the
+portable ones.</li>
+<li>The pointer width. V's <code>int</code>, the type layouts and the literal ranges are
+baked for the generating target, so the output carries a check that fails the
+build with a clear <code>#error</code> when it is compiled for a different width. The
+output stays portable across targets of the same width.</li>
+</ul>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8359"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8431"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -940,9 +1002,9 @@ libraries and include files for Windows and Linux. V will provide you with a lin
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-13T01:58:53.318Z">Last updated:
-                                        2026-09-13 01:58:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5db92f0d36347ab55499f6a20875596d73091f9b">5db92f0</a></time>
+                                    <time datetime="2026-09-15T03:37:17.860Z">Last updated:
+                                        2026-09-15 03:37:17, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/461d065273eb2adfa7ae208e94b320734d2c9565">461d065</a></time>
                                 </div>
                             </div>
 
@@ -968,6 +1030,14 @@ libraries and include files for Windows and Linux. V will provide you with a lin
                 <div class="aside">
                     <div class="aside-content">
                         <div class="aside-container">
+                            <div class="title">On this page</div>
+                            <nav>
+                                <ul>
+                                    <li class="active">
+                                        <a href="#portable-c-output-(-os-cross)">Portable C output (-os cross)</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                         <div class="aside-footer"></div>
                     </div>
