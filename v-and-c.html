@@ -1194,7 +1194,9 @@ order to access type members.</p>
 };
 </div>
 <p>members of sub-data-structures may be directly declared in the containing struct as below:</p>
-<div class="language-v">pub struct C.SomeCStruct {
+<div class="language-v">pub struct C.DataView {}
+
+pub struct C.SomeCStruct {
     implTraits  u8
     memPoolData u16
     // These members are part of sub data structures that can't currently be represented in V.
@@ -1226,7 +1228,9 @@ on <code>DLL_PROCESS_DETACH</code>.</p>
 <p>If you export your own <code>DllMain</code>, V will not generate the default one. Call
 <code>C._vinit_caller()</code> and <code>C._vcleanup_caller()</code> from your entry point to keep
 the standard V runtime setup and teardown:</p>
-<div class="language-v">pub type C.DWORD = u32
+<div class="language-v">pub type C.BOOL = int
+pub type C.DWORD = u32
+pub type C.HINSTANCE = voidptr
 pub type C.LPVOID = voidptr
 
 fn C._vinit_caller()
@@ -1336,9 +1340,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-15T06:48:01.226Z">Last updated:
-                                        2026-09-15 06:48:01, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/2bd00ffcf8ff759f2256ff9cb77362e955a69cee">2bd00ff</a></time>
+                                    <time datetime="2026-09-16T05:56:59.141Z">Last updated:
+                                        2026-09-16 05:56:59, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5aa6d1d03423544205f6da9668a26ccd22dcf7a3">5aa6d1d</a></time>
                                 </div>
                             </div>
 
