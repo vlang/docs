@@ -1202,6 +1202,15 @@ f2 := f32(3.14)
 </div>
 <p>If you do not specify the type explicitly, by default float literals
 will have the type of <code>f64</code>.</p>
+<p>Integer literals can be assigned to <code>f32</code> and <code>f64</code> variables without a cast.
+Unary <code>+</code>, unary <code>-</code>, and parentheses around a literal preserve this behavior:</p>
+<div class="language-v">mut a := f32(0)
+a = 1
+a = -1
+assert a == f32(-1)
+</div>
+<p>This does not make typed integer variables implicitly assignable to <code>f32</code>;
+use an explicit conversion such as <code>a = f32(value)</code> for those variables.</p>
 <p>Float literals can also be declared as a power of ten:</p>
 <div class="language-v">f0 := 42e1 // 420
 f1 := 123e-2 // 1.23
@@ -1841,9 +1850,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-16T05:56:58.722Z">Last updated:
-                                        2026-09-16 05:56:58, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5aa6d1d03423544205f6da9668a26ccd22dcf7a3">5aa6d1d</a></time>
+                                    <time datetime="2026-09-23T11:06:52.955Z">Last updated:
+                                        2026-09-23 11:06:52, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/582de6895efdcbaccbb54f0c154231ab48b89272">582de68</a></time>
                                 </div>
                             </div>
 

@@ -1091,16 +1091,20 @@ and <code>-cflags</code> settings, rather than including them in the build comma
 <h2 id="#pkgconfig">#pkgconfig <a href="v-and-c.html##pkgconfig" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Add <code>#pkgconfig</code> directives to tell the compiler which modules should be used for compiling
 and linking using the pkg-config files provided by the respective dependencies.</p>
-<p>As long as backticks can't be used in <code>#flag</code> and spawning processes is not desirable for security
-and portability reasons, V uses its own pkgconfig library that is compatible with the standard
-freedesktop one.</p>
+<p>Resolving the directive runs the <code>pkg-config</code> command, so that command has to be installed and has
+to succeed. When it fails — it is not installed, the package is unknown, a dependency does not
+resolve — the default C generator contributes no flag at all for that directive, and reports
+nothing. If the flags it would have supplied are needed and come from nowhere else, the build then
+fails further along, on a header the compiler cannot find or on a symbol the linker cannot resolve.</p>
+<p>A <code>#pkgconfig</code> directive is therefore best guarded, so that the program still names its flags when
+resolution fails. This is what the standard library modules that bind an external library do.</p>
 <p>If no flags are passed it will add <code>--cflags</code> and <code>--libs</code> to pkgconfig (not to V).
 In other words, both lines below do the same:</p>
 <div class="language-v">#pkgconfig r_core
 #pkgconfig --cflags --libs r_core
 </div>
-<p>The <code>.pc</code> files are looked up into a hardcoded list of default pkg-config paths, the user can add
-extra paths by using the <code>PKG_CONFIG_PATH</code> environment variable. Multiple modules can be passed.</p>
+<p>The <code>.pc</code> files are looked up in pkg-config's own default paths, the user can add extra paths by
+using the <code>PKG_CONFIG_PATH</code> environment variable. Multiple modules can be passed.</p>
 <p>To check the existence of a pkg-config use <code>$pkgconfig('pkg')</code> as a compile time &quot;if&quot; condition to
 check if a pkg-config exists. If it exists the branch will be created. Use <code>$else</code> or <code>$else $if</code>
 to handle other cases.</p>
@@ -1110,6 +1114,25 @@ to handle other cases.</p>
     #pkgconfig mariadb
 }
 </div>
+<p>The condition runs the same command, so it reports every package as absent when <code>pkg-config</code> is
+missing. That is what makes it a usable guard: when the command cannot run, or the probe for a
+package fails, the <code>$else</code> branch is taken and can supply fallback flags.</p>
+<p><code>vlib/db/sqlite/sqlite.c.v</code> guards its directive that way, naming the flags itself when <code>sqlite3</code>
+does not resolve (abridged here, it has a <code>windows</code> branch too):</p>
+<div class="language-v">$if $pkgconfig('sqlite3') {
+    #pkgconfig sqlite3
+    #include &quot;sqlite3.h&quot;
+} $else $if darwin {
+    // macOS ships libsqlite3, so do not require a separately downloaded amalgamation.
+    #flag darwin -lsqlite3
+} $else {
+    #flag -I@VEXEROOT/thirdparty/sqlite
+    #include &quot;sqlite3.h&quot;
+    #flag @VEXEROOT/thirdparty/sqlite/sqlite3.c
+}
+</div>
+<p>When a directive names several packages, probe them all. A guard on one of them still enters the
+directive when another is the one missing, and loses the flags there.</p>
 <h2 id="including-c-code">Including C code <a href="v-and-c.html#including-c-code" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can also include C code directly in your V module.
 For example, let's say that your C code is located in a folder named 'c' inside your module folder.
@@ -1325,7 +1348,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8699"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8720"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1340,9 +1363,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-16T05:56:59.141Z">Last updated:
-                                        2026-09-16 05:56:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5aa6d1d03423544205f6da9668a26ccd22dcf7a3">5aa6d1d</a></time>
+                                    <time datetime="2026-09-23T11:06:53.203Z">Last updated:
+                                        2026-09-23 11:06:53, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/582de6895efdcbaccbb54f0c154231ab48b89272">582de68</a></time>
                                 </div>
                             </div>
 

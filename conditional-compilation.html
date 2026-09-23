@@ -1257,6 +1257,11 @@ Full list of builtin options:</p>
 </tr>
 </tbody>
 </table>
+<p><code>glibc</code> and <code>musl</code> describe the C library the generated program is linked against.
+On a native Linux build that V compiles and links itself, V infers the host libc.
+That host inference is deliberately not carried into C-only or object output, generated C
+projects, portable <code>-os cross</code> output, or a foreign target, because another toolchain may
+link those artifacts. Pass <code>-glibc</code> or <code>-musl</code> when that target libc is known; <code>-cc musl-gcc</code> also implies <code>-musl</code>. The latter enables optional checks such as <code>$if musl ? {</code>.</p>
 <h3 id="$embed_file"><code>$embed_file</code> <a href="conditional-compilation.html#$embed_file" class="header-anchor" aria-hidden="true">#</a></h3>
 <div class="language-v">import os
 fn main() {
@@ -1561,7 +1566,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6801"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6815"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1576,9 +1581,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-16T05:56:59.011Z">Last updated:
-                                        2026-09-16 05:56:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5aa6d1d03423544205f6da9668a26ccd22dcf7a3">5aa6d1d</a></time>
+                                    <time datetime="2026-09-23T11:06:53.128Z">Last updated:
+                                        2026-09-23 11:06:53, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/582de6895efdcbaccbb54f0c154231ab48b89272">582de68</a></time>
                                 </div>
                             </div>
 
