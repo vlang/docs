@@ -921,8 +921,8 @@ label; a newline inside a comment also separates the prefix, instruction, or lab
 <p>The C backend also supports raw GNU assembly templates. In a <code>raw</code> block, V passes each
 double-quoted template string through unchanged and still checks the output, input, and clobber
 lists. Operands can use GNU's named form or V's <code>constraint (expression) as alias</code> form:</p>
-<div class="language-v">mut value := 40
-increment := 2
+<div class="language-v">mut value := i32(40)
+increment := i32(2)
 asm amd64 raw {
     &quot;addl %[increment], %[value]\n\t&quot;
     ; [value] &quot;+r&quot; (value)
@@ -931,6 +931,9 @@ asm amd64 raw {
 }
 assert value == 42
 </div>
+<p>The operands are <code>i32</code> because <code>addl</code> is a 32-bit instruction: a plain <code>int</code> is 64 bits wide on a
+64-bit target, so the C compiler would substitute a 64-bit register, which the GNU assembler
+rejects for an <code>l</code>-suffixed instruction.</p>
 <p>Raw templates are the right level for hand-written kernels that need GNU assembler features such
 as local labels or explicit operand modifiers. A label made with <code>%=</code> gets a unique numeric suffix
 for each inline-assembly statement, so prefer names such as <code>.Lloop%=</code> for loops in reusable
@@ -1134,7 +1137,7 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9282"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9283"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1149,9 +1152,9 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-23T11:06:53.215Z">Last updated:
-                                        2026-09-23 11:06:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/582de6895efdcbaccbb54f0c154231ab48b89272">582de68</a></time>
+                                    <time datetime="2026-09-26T01:11:57.461Z">Last updated:
+                                        2026-09-26 01:11:57, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5135496c408c2d2fee82d163cabf9b5907c1d6fe">5135496</a></time>
                                 </div>
                             </div>
 
