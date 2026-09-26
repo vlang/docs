@@ -931,6 +931,10 @@ x := if n &gt; 2 {
 }
 dump(x)
 </div>
+<p>When comparing an enum value with an <code>if</code> or <code>match</code> expression using <code>==</code> or <code>!=</code>,
+the enum operand supplies the type for shorthand values such as <code>.red</code> in the branches.
+This works with the enum operand on either side of the comparison.
+Branch-local values keep their declared types; unrelated enum types cannot be compared this way.</p>
 <h3 id="if-unwrapping"><code>If</code> unwrapping <a href="statements-&-expressions.html#if-unwrapping" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Anywhere you can use <code>or {}</code>, you can also use &quot;if unwrapping&quot;. This binds the unwrapped value
 of an expression to a variable when that expression is not none nor an error.
@@ -1102,7 +1106,10 @@ s := match number {
 
 // 'if' should be printed
 </div>
-<p>A match expression returns the value of the final expression from the matching branch.</p>
+<p>A match expression returns the value of the final expression from the matching branch.
+When inferring an enum result, a qualified value in the first branch, such as <code>Color.red</code>,
+provides the type for shorthand values such as <code>.blue</code> in subsequent branches.
+This also applies to parenthesized shorthand values and bitwise expressions with flag enums.</p>
 <div class="language-v">enum Color {
     red
     blue
@@ -1572,9 +1579,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-26T01:11:57.162Z">Last updated:
-                                        2026-09-26 01:11:57, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5135496c408c2d2fee82d163cabf9b5907c1d6fe">5135496</a></time>
+                                    <time datetime="2026-09-26T19:22:06.263Z">Last updated:
+                                        2026-09-26 19:22:06, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ebc566cda668321678b12aaebd9ac261bbf64e21">ebc566c</a></time>
                                 </div>
                             </div>
 

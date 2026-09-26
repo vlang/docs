@@ -902,6 +902,20 @@
 <p>It's recommended to set up your editor, so that <code>v fmt -w</code> runs on every save.
 A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 <p>Always run <code>v fmt -w file.v</code> before pushing your code.</p>
+<p>A function, loop, <code>if</code> branch or <code>match</code> branch whose body is a single statement
+stays on one line when you write it that way and it fits in 100 columns:</p>
+<div class="language-v">struct Point {
+    x int
+    y int
+}
+
+fn (p Point) sum() int { return p.x + p.y }
+
+fn first_positive(a []int) int {
+    for x in a { if x &gt; 0 { return x } }
+    return 0
+}
+</div>
 <p>During the formatter transition, <code>v fmt -verify</code> and <code>v fmt -c</code> accept
 files matching either current or legacy vfmt output. <code>v fmt -w</code> uses current formatting,
 so it may rewrite a file accepted by either check mode.</p>
@@ -968,7 +982,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6219"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6230"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -983,9 +997,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-26T01:11:57.314Z">Last updated:
-                                        2026-09-26 01:11:57, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5135496c408c2d2fee82d163cabf9b5907c1d6fe">5135496</a></time>
+                                    <time datetime="2026-09-26T19:22:06.413Z">Last updated:
+                                        2026-09-26 19:22:06, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ebc566cda668321678b12aaebd9ac261bbf64e21">ebc566c</a></time>
                                 </div>
                             </div>
 

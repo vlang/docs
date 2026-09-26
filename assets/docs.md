@@ -1921,6 +1921,11 @@ x := if n > 2 {
 dump(x)
 ```
 
+When comparing an enum value with an `if` or `match` expression using `==` or `!=`,
+the enum operand supplies the type for shorthand values such as `.red` in the branches.
+This works with the enum operand on either side of the comparison.
+Branch-local values keep their declared types; unrelated enum types cannot be compared this way.
+
 #### `If` unwrapping
 Anywhere you can use `or {}`, you can also use "if unwrapping". This binds the unwrapped value
 of an expression to a variable when that expression is not none nor an error.
@@ -2128,6 +2133,9 @@ match false {
 ```
 
 A match expression returns the value of the final expression from the matching branch.
+When inferring an enum result, a qualified value in the first branch, such as `Color.red`,
+provides the type for shorthand values such as `.blue` in subsequent branches.
+This also applies to parenthesized shorthand values and bitwise expressions with flag enums.
 
 ```v
 enum Color {
@@ -5888,6 +5896,9 @@ The compiler takes into consideration that `MyStruct` objects are always heap
 allocated when checking `f()` and allows assigning the reference to `s` to the
 `r.r` field.
 
+Type aliases of a heap struct retain its allocation behavior. Returning such a value as
+`Alias`, `?Alias`, or `!Alias` preserves the struct value, including when a `defer` runs.
+
 There is a pattern often seen in other programming languages:
 
 ```v failcompile
@@ -6231,6 +6242,23 @@ It's recommended to set up your editor, so that `v fmt -w` runs on every save.
 A vfmt run is usually pretty cheap (takes <30ms).
 
 Always run `v fmt -w file.v` before pushing your code.
+
+A function, loop, `if` branch or `match` branch whose body is a single statement
+stays on one line when you write it that way and it fits in 100 columns:
+
+```v
+struct Point {
+	x int
+	y int
+}
+
+fn (p Point) sum() int { return p.x + p.y }
+
+fn first_positive(a []int) int {
+	for x in a { if x > 0 { return x } }
+	return 0
+}
+```
 
 During the formatter transition, `v fmt -verify` and `v fmt -c` accept
 files matching either current or legacy vfmt output. `v fmt -w` uses current formatting,
