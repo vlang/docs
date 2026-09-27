@@ -5504,6 +5504,7 @@ assert fails it is reported to *stderr*, and the values on each side of a compar
 (such as `<`, `==`) will be printed when possible. This is useful to easily find an
 unexpected value. Assert statements can be used in any function, not just test ones,
 which is handy when developing new functionality, to keep your invariants in check.
+Failure reports keep type names and string literals as written in the assertion.
 
 > [!NOTE]
 > All `assert` statements are *removed*, when you compile your program with the `-prod` flag.
@@ -6259,6 +6260,9 @@ fn first_positive(a []int) int {
 	return 0
 }
 ```
+
+A comment after a compact `match` branch's closing brace stays with that branch,
+including the final `else` branch.
 
 During the formatter transition, `v fmt -verify` and `v fmt -c` accept
 files matching either current or legacy vfmt output. `v fmt -w` uses current formatting,
