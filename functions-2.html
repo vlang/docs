@@ -900,7 +900,10 @@ marked on call.</p>
 <p>Since there are also no globals, that means that the return values of the functions,
 are a function of their arguments only, and their evaluation has no side effects
 (unless the function uses I/O).</p>
-<p>Function arguments are immutable by default, even when <a href="references.html">references</a> are passed.</p>
+<p>Function arguments are immutable by default, even when <a href="references.html">references</a> are passed.
+An array returned from an immutable argument remains immutable, including when returned through
+a local function value, a narrowed <code>if</code> or <code>match</code> branch, or after an exiting <code>if</code> guard.
+Use <code>.clone()</code> for a mutable copy.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 However, V is not a purely functional language.</p>
@@ -950,6 +953,9 @@ Only more complex types such as arrays and maps may be modified.</p>
 <code>...</code> prefix.
 Below, <code>a ...int</code> refers to an arbitrary amount of parameters that will be collected
 into an array named <code>a</code>.</p>
+<p>Methods on generic structs can also accept these arguments. The receiver type determines
+the specialization, and the arguments are collected into the parameter array.
+The element type keeps its declaring module when the method is called from another module.</p>
 <div class="language-v">fn sum(a ...int) int {
     mut total := 0
     for x in a {
@@ -1019,7 +1025,11 @@ fn f(cb fn (a int) int) int {
 
 println(f(|x| x + 4)) // prints 14
 </div>
+<p>Function values passed to generic methods are checked by their parameter and return types.
+Parameter names and whitespace do not affect function type compatibility.</p>
 <h2 id="closures">Closures <a href="functions-2.html#closures" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Callbacks in specialized generic functions retain the functions they call, including imported
+functions referenced only from the callback body.</p>
 <p>V supports closures too.
 This means that anonymous functions can inherit variables from the scope they were created in.
 They must do so explicitly by listing all variables that are inherited.</p>
@@ -1060,7 +1070,9 @@ println(c()) // 1
 println(c()) // 2
 println(c()) // 3
 </div>
-<p>If you need the value to be modified outside the function, use a reference.</p>
+<p>If you need the value to be modified outside the function, use a reference.
+Capturing a <code>mut</code> parameter preserves its reference to the caller's value, including when the
+closure passes it to a spawned function.</p>
 <div class="language-v">mut i := 0
 mut ref := &amp;i
 print_counter := fn [ref] () {
@@ -1101,7 +1113,7 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3201"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3254"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1116,9 +1128,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.229Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.675Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

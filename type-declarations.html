@@ -904,6 +904,8 @@ This is a special case of a <a href="type-declarations.html#sum-types">sum type<
 amount := Decimal(0.0)
 </div>
 <h2 id="enums">Enums <a href="type-declarations.html#enums" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Methods on an ordinary enum keep their definitions even when another module declares a
+flag enum with the same type name.</p>
 <p>An enum is a group of constant integer values, each having its own name,
 whose values start at 0 and increase by 1 for each name listed.
 For example:</p>
@@ -925,7 +927,9 @@ match color {
 
 println(int(color)) // prints 1
 </div>
-<p>The enum type can be any integer type, but can be omitted, if it is <code>int</code>: <code>enum Color {</code>.</p>
+<p>The enum type can be any integer type, but can be omitted, if it is <code>int</code>: <code>enum Color {</code>.
+When a struct field expects an enum, its value can use the short <code>.field</code> form, including
+inside parentheses in a collapsed struct call argument.</p>
 <p>Enum match must be exhaustive or have an <code>else</code> branch.
 This ensures that if a new enum field is added, it's handled everywhere in the code.</p>
 <p>Enum fields can re-use reserved keywords:</p>
@@ -1062,6 +1066,13 @@ local variable:</p>
 <p>You can see the complete
 <a href="https://github.com/vlang/v/tree/master/examples/function_types.v">example here</a>.</p>
 <h2 id="interfaces">Interfaces <a href="type-declarations.html#interfaces" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A mutable interface alias can use <code>mut value as OtherInterface</code> when its source is mutable.
+A narrowed interface value can be cast for an immediate scalar getter that only reads fields.
+Type tests joined by <code>||</code> do not narrow the value in the true branch; they do not require <code>mut</code>
+unless a nested condition itself narrows the value.
+A negative type guard whose body exits also narrows the value after the guard and requires <code>mut</code>.</p>
+<p>Casting a pointer to an interface can be used directly as the receiver of a method returning
+multiple values. Interface data fields retain their individual types during the conversion.</p>
 <div class="language-v">// interface-example.1
 struct Dog {
     breed string
@@ -1098,7 +1109,10 @@ fn main() {
 }
 </div>
 <h3 id="implement-an-interface">Implement an interface <a href="type-declarations.html#implement-an-interface" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>A type implements an interface by implementing its methods and fields.</p>
+<p>A type implements an interface by implementing its methods and fields.
+Equivalent fixed array lengths in method signatures may use different constant expressions.
+Callback userdata parameters may use <code>voidptr</code> or a concrete pointer type.
+An interface field's default value may be a pointer to a type that implements the interface.</p>
 <p>An interface can have a <code>mut:</code> section. Implementing types will need
 to have a <code>mut</code> receiver, for methods declared in the <code>mut:</code> section
 of an interface.</p>
@@ -1245,6 +1259,8 @@ to be implemented, by structs which implement that interface.
 They are just a convenient way to write <code>i.some_function()</code> instead of
 <code>some_function(i)</code>, similar to how struct methods can be looked at, as
 a convenience for writing <code>s.xyz()</code> instead of <code>xyz(s)</code>.</p>
+<p>An immediate read-only interface method call on a smart-casted value can return
+a scalar, including <code>char</code>, <code>rune</code>, <code>isize</code>, <code>usize</code>, or an enum.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 This feature is NOT a &quot;default implementation&quot; like in C#.</p>
@@ -1307,7 +1323,16 @@ pub interface ReaderWriter {
     Writer
 }
 </div>
+<p>An interface value smart cast to a struct refers to the concrete object stored in the interface.
+It can be dereferenced to copy the struct or returned through a struct reference.
+This applies to single-type <code>match</code> branches as well as <code>if</code> and <code>assert</code> smart casts.
+For a value pattern such as <code>item is T</code>, a function returning that struct by value can copy the
+smart-casted value directly, including through <code>?T</code> and <code>!T</code> returns and <code>if</code>/<code>match</code> expressions.
+An explicit pointer pattern such as <code>item is &amp;T</code> requires <code>*item</code> to copy the struct by value.</p>
 <h2 id="sum-types">Sum types <a href="type-declarations.html#sum-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Mapping an array variant inside a <code>match</code> branch infers the result element type from the mapper.</p>
+<p>Assignments to common struct fields also work through sum type array elements, including
+compound assignments after filtering or smart casting other elements.</p>
 <p>A sum type instance can hold a value of several different types. Use the <code>type</code>
 keyword to declare a sum type:</p>
 <div class="language-v">struct Moon {}
@@ -1556,6 +1581,8 @@ x := read() or {
     return
 }
 </div>
+<p>A local <code>err</code> declared in a nested block shadows the implicit <code>or</code> error variable, including in
+result values.</p>
 <h3 id="optionsresults-when-returning-multiple-values">Options/results when returning multiple values <a href="type-declarations.html#optionsresults-when-returning-multiple-values" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Only one <code>Option</code> or <code>Result</code> is allowed to be returned from a function. It is
 possible to return multiple values and still signal an error.</p>
@@ -1656,6 +1683,12 @@ fn main() {
 }
 </div>
 <h2 id="generics">Generics <a href="type-declarations.html#generics" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Omitted fields of a generic struct use their declared defaults, including in nested structs.
+This also applies through concrete generic aliases and imported structs; defaults use the
+imports visible in the declaring file.
+Fixed array fields initialize each element with its specialized generic defaults.</p>
+<p>Generic types brought into scope by a selective import retain their declaring module when
+passed to generic functions and methods in other modules.</p>
 <div class="language-v">
 struct Repo[T] {
     db DB
@@ -1689,10 +1722,20 @@ posts_repo := new_repo[Post](db) // returns Repo[Post]
 user := users_repo.find_by_id(1)? // find_by_id[User]
 post := posts_repo.find_by_id(1)? // find_by_id[Post]
 </div>
+<p>A generic method retains its receiver type when called inside a function returning multiple
+values, including a Result tuple. The enclosing return type does not replace receiver arguments.
+This also applies when a value from a Result tuple is returned as an interface.</p>
+<p>Generic calls keep the identity of caller types even when an imported module declares a type
+with the same short name.</p>
 <p>Currently generic function definitions must declare their type parameters, but in
 future versions, V will infer generic type parameters from single-letter type names in
 runtime parameter types. This is why the <code>find_by_id(1)</code> calls above can omit <code>[T]</code>,
 because the receiver argument <code>r</code> in the method declaration, uses a generic type <code>T</code>.</p>
+<p>Receiver inference also works across module imports and aliases. Declared receiver types
+are resolved in the module that defines the method, so a caller type with the same name
+does not change the inferred type arguments. <code>typeof(call()).name</code> reports the concrete
+return type of an inferred generic method call.
+Inference also follows receivers obtained by unwrapping an option or propagating a result.</p>
 <p>Another example:</p>
 <div class="language-v">fn compare[T](a T, b T) int {
     if a &lt; b {
@@ -1717,6 +1760,9 @@ println(compare(1.1, 1.0)) // Outputs: 1
 println(compare(1.1, 1.1)) //          0
 println(compare(1.1, 1.2)) //         -1
 </div>
+<p>V can also infer a generic callback's return type from an unbound instance
+method passed as an argument, such as <code>item.call(Item.value)</code> when <code>call[T]</code>
+accepts a <code>fn (mut Item) T</code> callback.</p>
 <h3 id="structured-generic-receiver-patterns">Structured generic receiver patterns <a href="type-declarations.html#structured-generic-receiver-patterns" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Generic methods can constrain their receiver to a <em>structured</em> shape of the
 wrapped type, and the checker will bind the inner type parameters from the
@@ -1791,7 +1837,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3898"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4000"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1806,9 +1852,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.262Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.711Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

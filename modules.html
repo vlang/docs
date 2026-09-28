@@ -895,7 +895,8 @@
                         <main class="v-doc">
                             <h1 class="main">Modules</h1>
 <p>Every file in the root of a folder is part of the same module.
-Simple programs don't need to specify module name, in which case it defaults to 'main'.</p>
+Simple programs don't need to specify module name, in which case it defaults to 'main'.
+This also applies to scripts with top-level statements that import other modules.</p>
 <p>See <a href="symbol-visibility.html">symbol visibility</a>, <a href="structs.html#access-modifiers">Access modifiers</a>.</p>
 <h2 id="create-modules">Create modules <a href="modules.html#create-modules" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V is a very modular language. Creating reusable modules is encouraged and is
@@ -940,10 +941,23 @@ fn main() {
 <li>You can create modules anywhere under a valid V module lookup root.</li>
 <li>All modules are compiled statically into a single executable.</li>
 </ul>
+<p>Reserved keywords can be module names without escaping. For example, <code>type/type.v</code> can declare
+<code>module type</code>; another file can use <code>import type</code> and call <code>type.value()</code>. Keywords also work in
+longer import paths, such as <code>import type.bar</code>. If a keyword cannot be used as an expression
+qualifier, give the import an alias with <code>as</code>.
+Module path segments must not start with <code>@</code>.</p>
 <p>In normal projects, the nearest <code>v.mod</code> file is that lookup root.
 Besides package metadata, <code>v.mod</code> also acts as a relative module anchor:
 V prepends the folder containing <code>v.mod</code> to the module lookup path, so
 files beside or below it can import sibling modules under the same tree.</p>
+<p>To keep module lookup inside a project, place an empty <code>.v.mod.stop</code> file in
+its root. When V walks upward from a source file, it searches that directory
+but not its parents. The marker also prevents V from selecting a <code>v.mod</code> above
+it as the project's root. An explicit <code>-path</code> can still name modules outside
+the boundary. <code>v doc</code> follows the same boundary when resolving a module name.</p>
+<p>A <code>.git</code>, <code>.hg</code>, or <code>.svn</code> entry also prevents V from selecting a parent
+directory's <code>v.mod</code>. These repository markers do not stop the upward module
+search, so projects can still import a module checked out beside them.</p>
 <p>For example, this layout works:</p>
 <pre><code class="language-text">myapp/
 ├── v.mod
@@ -1010,7 +1024,7 @@ transitively by other modules several times, in the reverse order of the init ca
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3749"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3834"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1025,9 +1039,9 @@ transitively by other modules several times, in the reverse order of the init ca
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.246Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.694Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

@@ -894,6 +894,12 @@
                     <div class="content-container">
                         <main class="v-doc">
                             <h1 class="main">References</h1>
+<p>Pointers to concrete values can be passed to optional interface parameters when their types
+implement the interface. The option contains an interface value referring to the original object.
+Additional pointer layers, such as <code>&amp;&amp;Record</code>, must be dereferenced before passing the object.
+Pointers to interface values, such as <code>&amp;Named</code>, must also be dereferenced first.</p>
+<p>Returning a stored pointer field returns that pointer value. It does not borrow the storage of
+the containing struct, unlike taking the address of one of its fields.</p>
 <div class="language-v">struct Foo {}
 
 fn (foo Foo) bar_method() {
@@ -964,7 +970,7 @@ For example, a generic tree structure definition would look like this:</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3453"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3521"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -979,9 +985,9 @@ For example, a generic tree structure definition would look like this:</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.234Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.680Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

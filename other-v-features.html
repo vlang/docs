@@ -900,9 +900,9 @@
 b := 20
 mut c := 0
 asm amd64 {
-    mov eax, a
-    add eax, b
-    mov c, eax
+    mov rax, a
+    add rax, b
+    mov c, rax
     ; =r (c) as c // output
     ; r (a) as a // input
       r (b) as b
@@ -1059,7 +1059,9 @@ you will have to restart the running app manually.</p>
 cross-platform support. &quot;V scripts&quot; run on Unix-like systems, as well as on Windows.</p>
 <p>To use V's script mode, save your source file with the <code>.vsh</code> file extension.
 It will make all functions in the <code>os</code> module global (so that you can use <code>mkdir()</code> instead
-of <code>os.mkdir()</code>, for example).</p>
+of <code>os.mkdir()</code>, for example).
+Array methods work on unwrapped results of these calls, for example
+<code>ls(path)!.filter(it.ends_with('.v'))</code>.</p>
 <p>V also knows to compile &amp; run <code>.vsh</code> files immediately, so you do not need a separate
 step to compile them. V will also recompile an executable, produced by a <code>.vsh</code> file,
 <em>only when it is older than the .vsh source file</em>, i.e. runs after the first one, will
@@ -1137,7 +1139,7 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9315"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9521"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1152,9 +1154,9 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.426Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.879Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

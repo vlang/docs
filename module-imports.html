@@ -986,6 +986,9 @@ fn main() {
     assert my_hash == v_hash
 }
 </div>
+<p>A nested module such as <code>app.html</code> can import a distinct module named <code>net.html</code>, with or without
+an alias. Their full module paths determine their identities.
+A module cannot import its own full path, even when the project has no <code>v.mod</code> file.</p>
 <p>You cannot alias an imported function or type.
 However, you <em>can</em> redeclare a type.</p>
 <div class="language-v">import time
@@ -1013,7 +1016,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1729"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1741"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1028,9 +1031,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.192Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.635Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

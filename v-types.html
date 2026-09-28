@@ -1218,6 +1218,7 @@ f1 := 123e-2 // 1.23
 f2 := 456e+2 // 45600
 </div>
 <h2 id="arrays">Arrays <a href="v-types.html#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Returning a new array through helper calls preserves each helper's parameter scope.</p>
 <p>An array is a collection of data elements of the same type. An array literal is a
 list of expressions surrounded by square brackets. An individual element can be
 accessed using an <em>index</em> expression. Indexing starts from <code>0</code>.</p>
@@ -1466,6 +1467,8 @@ a[0][1][1] = 2
 println(a) // [[[0, 0], [0, 2], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
 </div>
 <h3 id="array-methods">Array methods <a href="v-types.html#array-methods" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>A function literal passed to <code>map</code> uses its return type for the output elements. Its parameters
+and nested array expressions have their own scope, including parameters named <code>it</code>.</p>
 <p>All arrays can be easily printed with <code>println(arr)</code> and converted to a string
 with <code>s := arr.str()</code>.</p>
 <p>Copying the data from the array is done with <code>.clone()</code>:</p>
@@ -1681,6 +1684,8 @@ filtered := files.filter(it#[-4..].to_lower() == '.jpg').map(it.to_upper())
 // ['PIPPO.JPG', 'IMG_02.JPG', 'IMG_01.JPG']
 </div>
 <h2 id="fixed-size-arrays">Fixed size arrays <a href="v-types.html#fixed-size-arrays" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Mapping a fixed size array preserves its length and uses the mapping expression or function
+return type as its element type. Filtering still produces a dynamic array.</p>
 <p>V also supports arrays with fixed size. Unlike ordinary arrays, their
 length is constant. You cannot append elements to them, nor shrink them.
 You can only modify their elements in place.</p>
@@ -1707,6 +1712,7 @@ println(typeof(anums).name) // =&gt; []int
 <p>Note that slicing will cause the data of the fixed size array to be copied to
 the newly created ordinary array.</p>
 <h2 id="maps">Maps <a href="v-types.html#maps" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Methods and references on map iteration values address the stored element, including nested maps.</p>
 <div class="language-v">mut m := map[string]int{} // a map with `string` keys and `int` values
 m['one'] = 1
 m['two'] = 2
@@ -1836,7 +1842,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L612"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L613"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1851,9 +1857,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.169Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.612Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

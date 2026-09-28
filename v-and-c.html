@@ -913,9 +913,13 @@ have a proper C compiler setup, since <code>&lt;stdio.h&gt;</code> is part of th
 standard C library).</p>
 <p>To overcome that limitation (that V does not have a C parser), V needs you to
 redeclare the C functions and structs, on the V side, in your <code>.c.v</code> files.
+V functions can share names such as <code>mktemp</code> and <code>truncate</code> with C library functions.
+Use the <code>C.</code> prefix to refer to the C function.
 Note that such redeclarations only need to have enough details about the
 functions/structs that you want to use.
 Note also that they <em>do not have</em> to be complete, unlike the ones in the .h files.</p>
+<p>Parameter names in <code>C.</code> function declarations may start with uppercase letters, as in C headers.
+The lowercase naming rule still applies to parameters of ordinary V functions.</p>
 <p><strong>C. struct redeclarations</strong>
 For example, if a struct has 3 fields on the C side, but you want to only
 refer to 1 of them, you can declare it like this:</p>
@@ -983,8 +987,27 @@ i.e for <code>printf</code>, <code>fprintf</code>, <code>scanf</code>, <code>ssc
 functions.</p>
 <p><strong>Example</strong></p>
 <div class="language-v">#flag freebsd -I/usr/local/include -L/usr/local/lib
-#flag -lsqlite3
-#include &quot;sqlite3.h&quot;
+
+// Use the system SQLite when there is one; otherwise build the amalgamation that
+// `v vlib/db/sqlite/install_thirdparty_sqlite.vsh` downloads, like `db.sqlite` does.
+$if $pkgconfig ( 'sqlite3' ) {
+    #pkgconfig sqlite3
+} $else $if darwin {
+    #flag -lsqlite3
+} $else {
+    #flag -I @VEXEROOT/thirdparty/sqlite
+    $if tinyc {
+        #flag -DSQLITE_DISABLE_INTRINSIC
+    }
+    $if windows {
+        #flag @VEXEROOT/thirdparty/sqlite/sqlite3.o
+    } $else {
+        #flag @VEXEROOT/thirdparty/sqlite/sqlite3.c
+        #flag -lm
+    }
+}
+
+#include &quot;sqlite3.h&quot; # Run: v vlib/db/sqlite/install_thirdparty_sqlite.vsh
 // See also the example from https://www.sqlite.org/quickstart.html
 pub struct C.sqlite3 {
 }
@@ -1274,6 +1297,9 @@ pub fn dll_main(hinst C.HINSTANCE, reason C.DWORD, reserved C.LPVOID) C.BOOL {
 <p>In the example above, <code>C.DWORD(1)</code> is <code>DLL_PROCESS_ATTACH</code> and <code>C.DWORD(0)</code>
 is <code>DLL_PROCESS_DETACH</code>.</p>
 <h2 id="translating-c-to-v">Translating C to V <a href="v-and-c.html#translating-c-to-v" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Files marked <code>@[translated]</code> retain C storage rules: global declarations and writes through
+pointers do not require additional flags or <code>unsafe</code> blocks. These rules apply only to those files.
+Pointer-returning calls can also receive field assignments.</p>
 <p>V can translate your C code to human readable V code, and generating V wrappers
 on top of C libraries.</p>
 <p>C2V currently uses Clang's AST to generate V, so to translate a C file to V
@@ -1348,7 +1374,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8753"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8931"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1363,9 +1389,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.414Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.867Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

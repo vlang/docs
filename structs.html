@@ -984,6 +984,8 @@ that field must be initialized when creating an instance of that struct.</p>
 <h2 id="short-struct-literal-syntax">Short struct literal syntax <a href="structs.html#short-struct-literal-syntax" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Here &quot;short&quot; means omitting the field names and relying on the struct field
 order, so <code>Point{10, 20}</code> is a shorter form of <code>Point{x: 10, y: 20}</code>.</p>
+<p>For imported struct types, both forms report an unknown type using its qualified name
+and the same suggestions. Dots in field values do not affect which type name is highlighted.</p>
 <div class="language-v">struct Point {
     x int
     y int
@@ -1088,7 +1090,9 @@ __global:
 </div>
 <p>Private fields are available only inside the same <a href="modules.html">module</a>, any attempt
 to directly access them from another module will cause an error during compilation.
-Public immutable fields are readonly everywhere.</p>
+Public immutable fields are readonly everywhere.
+A public function can return a value of a private struct type. The caller can read its public
+fields without naming the private type; its private fields remain inaccessible.</p>
 <h2 id="anonymous-structs">Anonymous structs <a href="structs.html#anonymous-structs" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V supports anonymous structs: structs that don't have to be declared separately
 with a struct name.</p>
@@ -1192,6 +1196,8 @@ Methods must be in the same module as the receiver type.</p>
 The convention is not to use receiver names like <code>self</code> or <code>this</code>,
 but a short, preferably one letter long, name.</p>
 <h2 id="embedded-structs">Embedded structs <a href="structs.html#embedded-structs" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Promoted fields from different nested embeds can be initialized together. Their shared parent
+is initialized once, retaining the explicitly supplied fields and defaults for omitted fields.</p>
 <p>V supports embedded structs.</p>
 <div class="language-v">struct Size {
 mut:
@@ -1232,6 +1238,8 @@ print(button)
 <p>Unlike inheritance, you cannot type cast between structs and embedded structs
 (the embedding struct can also have its own fields, and it can also embed multiple structs).</p>
 <p>If you need to access embedded structs directly, use an explicit reference like <code>button.Size</code>.</p>
+<p>Optional fields keep their optional type when accessed through multiple embedded structs.
+You can unwrap them with an <code>if</code> guard, including after an earlier check against <code>none</code>.</p>
 <p>Conceptually, embedded structs are similar to <a href="https://en.wikipedia.org/wiki/Mixin">mixin</a>s
 in OOP, <em>NOT</em> base classes.</p>
 <p>You can also initialize an embedded struct:</p>
@@ -1259,7 +1267,7 @@ targeted.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2683"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2725"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1274,9 +1282,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.219Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.663Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 

@@ -935,6 +935,8 @@ dump(x)
 the enum operand supplies the type for shorthand values such as <code>.red</code> in the branches.
 This works with the enum operand on either side of the comparison.
 Branch-local values keep their declared types; unrelated enum types cannot be compared this way.</p>
+<p>Appending an <code>if</code> or <code>match</code> expression to an enum array also supplies the element type
+for shorthand values in its branches. Every branch must produce a compatible enum value.</p>
 <h3 id="if-unwrapping"><code>If</code> unwrapping <a href="statements-&-expressions.html#if-unwrapping" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Anywhere you can use <code>or {}</code>, you can also use &quot;if unwrapping&quot;. This binds the unwrapped value
 of an expression to a variable when that expression is not none nor an error.
@@ -1068,6 +1070,10 @@ match mut x {
 }
 </div>
 <h2 id="match">Match <a href="statements-&-expressions.html#match" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A match expression can return multiple values. A branch ending with comma-separated values can
+be combined with a branch ending in a call that returns the same types.</p>
+<p>Conditions that compare different nested fields remain distinct match cases, even when
+their final field names and comparison operators are the same.</p>
 <div class="language-v">os := 'windows'
 print('V is running on ')
 match os {
@@ -1309,6 +1315,20 @@ for key, value in m {
     //         two -&gt; 2
 }
 </div>
+<p>A mutable map iteration value still has the map's element type. Assigning it to a map entry copies
+that element, including when its struct type comes from another module.
+When iterating a reference to a map (<code>for key, value in &amp;m</code>), values with ordinary element types
+are pointers to their entries. Assigning one to another variable preserves its reference to the
+same entry. If the map element is already a pointer or an optional, the loop value keeps that
+element type instead.
+A pointer to a nested array or map remains a reference container when iterated again,
+including through parentheses or a closure capture.
+Fixed-array map values also refer to their entry storage, so changes through the reference update
+the map value.
+Parentheses around a mutable map container do not change whether assigning the loop value updates
+its entry.
+Mutable map parameters, including explicit pointer parameters (<code>mut m &amp;map[K]V</code>),
+keep ordinary value iteration. A mutable loop value writes through to the map entry.</p>
 <p>Either key or value can be ignored by using a single underscore as the identifier.</p>
 <div class="language-v">m := {
     'one': 1
@@ -1398,6 +1418,8 @@ loop:</p>
 }
 </div>
 <p>The label must immediately precede the outer loop.
+A labelled loop can iterate over a <code>filter</code> or <code>map</code> result; <code>break</code> and <code>continue</code>
+refer to that loop after its iterable has been evaluated.
 The above code prints:</p>
 <pre><code>4
 5
@@ -1564,7 +1586,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1876"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1892"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1579,9 +1601,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-27T05:57:17.205Z">Last updated:
-                                        2026-09-27 05:57:17, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/5b885e3ce11d32072a32082308fe970a48242d80">5b885e3</a></time>
+                                    <time datetime="2026-09-28T15:22:45.649Z">Last updated:
+                                        2026-09-28 15:22:45, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
                                 </div>
                             </div>
 
