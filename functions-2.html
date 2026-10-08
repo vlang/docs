@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -904,6 +948,21 @@ are a function of their arguments only, and their evaluation has no side effects
 An array returned from an immutable argument remains immutable, including when returned through
 a local function value, a narrowed <code>if</code> or <code>match</code> branch, or after an exiting <code>if</code> guard.
 Use <code>.clone()</code> for a mutable copy.</p>
+<p>A pointer returned through a callback can still refer to an immutable argument, even if the
+callback returns <code>voidptr</code>. Converting that result to a typed reference does not make the
+underlying object mutable. Different pointee types do not prove separate storage: a <code>voidptr</code>
+can erase the type of an existing reference. For an opaque container lookup that guarantees
+separate mutable component storage, place the conversion in <code>unsafe { ... }</code>. The caller must
+ensure the returned pointer does not provide mutable access to an immutable argument.</p>
+<p>When a readable function returns a stored pointer to separate storage, or newly allocated storage
+that contains no references or other shared storage from its arguments, the returned reference does
+not borrow the containing object or the function's other arguments. A new outer object can still
+borrow an argument through a reference-bearing field, such as <code>&amp;Box{item: item}</code>.</p>
+<p>A scalar passed by value to a callback is independent of the caller's storage. If a callback
+parameter is a reference, an implicitly referenced scalar remains borrowed from its immutable
+argument; the scalar's expression type alone does not establish a by-value copy.
+Scalar fields supplied with collapsed struct argument syntax and scalar elements decomposed
+into by-value parameters are copied too. Pointer fields and elements can still share storage.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 However, V is not a purely functional language.</p>
@@ -912,6 +971,14 @@ However, V is not a purely functional language.</p>
 intended for low-level applications like kernels and drivers.</p>
 <h2 id="mutable-arguments">Mutable arguments <a href="functions-2.html#mutable-arguments" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>It is possible to modify function arguments by declaring them with the keyword <code>mut</code>:</p>
+<p>A method with a <code>mut</code> receiver requires a mutable value receiver even when it only
+changes private fields in another module. An immutable value parameter cannot call
+such a method: mutations would affect its copy and be lost when the function returns.
+Declare the parameter or receiver with <code>mut</code> when its changes must reach the caller.</p>
+<p>An explicit <code>mut param &amp;T</code> takes mutable pointer storage. Passing <code>mut &amp;value</code>
+creates temporary pointer storage for that call, including when <code>value</code> is a
+<code>mut value T</code> parameter. Changes to fields reach <code>value</code>; rebinding the temporary
+pointer does not rebind the caller's value.</p>
 <div class="language-v">struct User {
     name string
 mut:
@@ -942,6 +1009,8 @@ println(nums)
 </div>
 <p>Note that you have to add <code>mut</code> before <code>nums</code> when calling this function. This makes
 it clear that the function being called will modify the value.</p>
+<p>A comptime <code>app.$method(...)</code> call also requires <code>mut</code> when passing a pointer variable
+to an explicit <code>mut param &amp;T</code> parameter.</p>
 <p>It is preferable to return values instead of modifying arguments,
 e.g. <code>user = register(user)</code> (or <code>user.register()</code>) instead of <code>register(mut user)</code>.
 Modifying arguments should only be done in performance-critical parts of your application
@@ -974,6 +1043,8 @@ b := [5, 6, 7]
 println(sum(...b)) // output: 18
 </div>
 <h2 id="anonymous-&amp;-higher-order-functions">Anonymous &amp; higher order functions <a href="#anonymous-&amp;-higher-order-functions" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Calling a function parameter or local function variable uses that binding, even when
+another module defines a function constant with the same name.</p>
 <div class="language-v">fn sqr(n int) int {
     return n * n
 }
@@ -1028,6 +1099,10 @@ println(f(|x| x + 4)) // prints 14
 <p>Function values passed to generic methods are checked by their parameter and return types.
 Parameter names and whitespace do not affect function type compatibility.</p>
 <h2 id="closures">Closures <a href="functions-2.html#closures" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>An instance method can be used as an unbound function value through its type, such as
+<code>App.method</code>. Its first parameter is the receiver, including the receiver's <code>&amp;</code> or <code>mut</code>
+modifier. This form captures no receiver and creates no closure. The same applies to
+<code>T.$method</code> inside a compile-time loop over <code>T.methods</code>.</p>
 <p>Callbacks in specialized generic functions retain the functions they call, including imported
 functions referenced only from the callback body.</p>
 <p>V supports closures too.
@@ -1070,6 +1145,8 @@ println(c()) // 1
 println(c()) // 2
 println(c()) // 3
 </div>
+<p>A callback's captured values remain available while the callback is stored in a
+struct field, including when that field is assigned through a pointer to the struct.</p>
 <p>If you need the value to be modified outside the function, use a reference.
 Capturing a <code>mut</code> parameter preserves its reference to the caller's value, including when the
 closure passes it to a spawned function.</p>
@@ -1113,7 +1190,7 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3254"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3581"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1128,9 +1205,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.675Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

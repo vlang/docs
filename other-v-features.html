@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -966,7 +1010,15 @@ when it changes or observes condition flags. Raw templates leave the compiler-sp
 <code>r</code>, <code>m</code>, and explicit memory addressing to the selected C compiler. Use <code>r</code> for pointers when the
 template performs address arithmetic; use <code>m</code> when the template needs the compiler to format a
 memory operand. Keep the pointer and length constraints read-write when the template modifies them.</p>
-<p><code>asm goto</code> emits GNU <code>asm goto</code> and is available only with the C backend. Its fifth semicolon
+<p>SIMD kernels use the same named operands. A pointer to a fixed array, such as <code>&amp;[16]u8</code> or
+<code>&amp;[4]u32</code>, can use an <code>r</code> constraint and an explicit byte offset; an <code>m</code> constraint is useful when
+the compiler should choose the memory form. Keep alignment requirements in the kernel contract.
+List every vector register that the template overwrites, including <code>xmm6</code> through <code>xmm15</code> on
+Win64: GCC and Clang use those registers as nonvolatile and can preserve them when they are listed
+as clobbers. MSVC x64 does not support GNU inline assembly, so GNU raw fixtures use <code>!msvc</code> guards.
+Instructions such as <code>pclmulqdq</code> and ARM64 <code>pmull</code> are optional CPU features; tests that execute
+them must check the host feature before entering the raw block.
+<code>asm goto</code> emits GNU <code>asm goto</code> and is available only with the C backend. Its fifth semicolon
 section lists the V labels that the assembly may branch to. Use the label name in a structured
 branch instruction; a <code>raw</code> template uses GNU's <code>%l[label]</code> form. Targets cannot enter or leave a
 V <code>lock</code> scope.</p>
@@ -1012,6 +1064,26 @@ explicitly with <code>%k</code>, <code>%w</code> and related modifiers.</p>
 <p>The <code>raw</code> and <code>intel</code> modifiers affect GNU-style inline assembly emitted by the C backend. MSVC
 does not support this form of inline assembly on 64-bit targets, and individual instructions or
 constraints can still depend on the selected C compiler and target architecture.</p>
+<p>When V builds a binary with <code>-cc msvc</code>, it stops with an error at the first inline assembly block
+that the program uses. Guard such a block with <code>$if !msvc</code>.</p>
+<h2 id="whole-function-assembly">Whole-function assembly <a href="other-v-features.html#whole-function-assembly" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Use an external assembly source when a kernel needs its own prologue, epilogue, stack frame, or
+<code>call</code> instructions. Keep the source and the object path together, then expose the ABI entry point
+to V with a C declaration:</p>
+<div class="language-v">#flag @VMODROOT/vlib/v/slow_tests/assembly/util/v_sha256_block.o
+
+@[c_extern]
+fn C.v_sha256_block(&amp;u32, &amp;u8)
+</div>
+<p>When the object is missing or stale, the C backend can compile a matching <code>.S</code> source beside it;
+an existing <code>.o</code> can be distributed instead. The assembly function must follow the target C ABI,
+including argument registers, callee-saved registers, stack alignment, and symbol naming. Keep
+separate source files or prebuilt objects for targets with different ABIs. GNU <code>.S</code> fixtures need
+a GNU-compatible compiler; MSVC users should provide a MASM-compatible <code>.obj</code> or guard the V
+wrapper for other compilers.</p>
+<p>The worked example
+<a href="https://github.com/vlang/v/tree/master/vlib/v/slow_tests/assembly/asm_external_sha256_test.amd64.v">asm_external_sha256_test.amd64.v</a>
+links a whole-function SHA-256 compression kernel from pure V.</p>
 <p>For more examples, see
 <a href="https://github.com/vlang/v/tree/master/vlib/v/slow_tests/assembly/asm_test.amd64.v">vlib/v/slow_tests/assembly/asm_test.amd64.v</a></p>
 <h2 id="hot-code-reloading">Hot code reloading <a href="other-v-features.html#hot-code-reloading" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -1132,6 +1204,33 @@ instead use <code>#!/usr/bin/env -S v -raw-vsh-tmp-prefix tmp run</code>.</p>
 <p>Note: there is a small shell script <code>cmd/tools/vrun</code>, that can be useful for systems, that have an
 env program (<code>/usr/bin/env</code>), that still does not support an <code>-S</code> option (like BusyBox and OpenBSD).
 See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://github.com/vlang/v/blob/master/cmd/tools/vrun</a> for more details.</p>
+<h2 id="source-locations-in-generated-code">Source locations in generated code <a href="other-v-features.html#source-locations-in-generated-code" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A compiler that translates another language to V can mark the V code that it generates with
+<code>#line</code> directives, like in C, so that V reports locations in the original source.
+The source line after <code>#line N &quot;file&quot;</code> is line <code>N</code> of <code>file</code>, and the lines after it count up
+from there, until the next directive. <code>#line N</code> keeps the current file. A directive must be on
+a line of its own, at the top level of a file or between the statements of a function.</p>
+<div class="language-v">fn main() {
+    #line 42 &quot;src/app.zbr&quot;
+    x := 6 * 7
+    #line 43
+    println(x)
+}
+</div>
+<p>V then uses these locations:</p>
+<ul>
+<li>in compiler errors, warnings and notices. The source excerpt under a message comes from
+the named file, if V can read it; otherwise it is the generated V line, numbered as the
+line in the named file. Columns are always those of the generated V line.</li>
+<li>in the locations that are compiled into the program: failed <code>assert</code>s, <code>dump()</code>,
+<code>@FILE</code>, <code>@LINE</code>, <code>@FILE_LINE</code>, <code>@LOCATION</code>, and panics of <code>-g</code> builds.</li>
+<li>in the <code>#line</code> directives of the C code that <code>-g</code> generates, so debuggers and
+native backtraces show the original source.</li>
+<li>in the line counts of <code>-coverage</code>.</li>
+</ul>
+<p>Unlike in C, a directive in a <code>$if</code> branch that is not compiled still applies to the lines after
+it. A relative file name is relative to the directory that V runs in. <code>@DIR</code>, <code>@VMODROOT</code> and
+<code>$embed_file()</code> still refer to the generated <code>.v</code> file, since they locate files on disk.</p>
 <h1>Appendices</h1>
 
                         </main>
@@ -1139,7 +1238,7 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9521"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10948"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1154,9 +1253,9 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.879Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 
@@ -1189,6 +1288,9 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                                         <a href="#inline-assembly">Inline assembly</a>
                                     </li>
                                     <li class="active">
+                                        <a href="#whole-function-assembly">Whole-function assembly</a>
+                                    </li>
+                                    <li class="active">
                                         <a href="#hot-code-reloading">Hot code reloading</a>
                                     </li>
                                     <li class="active">
@@ -1196,6 +1298,9 @@ See <a href="https://github.com/vlang/v/blob/master/cmd/tools/vrun">https://gith
                                     </li>
                                     <li class="active">
                                         <a href="#vsh-scripts-with-no-extension">Vsh scripts with no extension</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#source-locations-in-generated-code">Source locations in generated code</a>
                                     </li>
                                 </ul>
                             </nav>

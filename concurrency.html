@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -915,6 +959,11 @@ fn main() {
     // }(3, 4)
 }
 </div>
+<p>If a spawned thread's handle is discarded, including inside a discarded array or struct,
+V detaches the thread. Keep its handle and call <code>wait()</code> when the result or completion matters.
+The detached thread releases an owned return value after its function finishes.
+If the return value is a thread handle, it joins that thread; a returned closure releases
+its captured context.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 Threads rely on the machine's CPU (number of cores/threads).
@@ -957,6 +1006,8 @@ fn main() {
     println('Results: ${h1}, ${h2}') //   prints `Results: 16.9, 54.1`
 }
 </div>
+<p>Discarding a spawned thread's handle, including through <code>dump(spawn ...)</code>, detaches the thread.
+Keep the handle when you need to call <code>.wait()</code>.</p>
 <p>If there is a large number of tasks, it might be easier to manage them
 using an array of threads.</p>
 <div class="language-v">import time
@@ -986,7 +1037,10 @@ fn main() {
 // done
 </div>
 <p>Additionally for threads that return the same type, calling <code>wait()</code>
-on the thread array will return all computed values.</p>
+on the thread array will return all computed values.
+Arrays whose elements are aliases of thread handles support <code>wait()</code> as well,
+including aliases of <code>thread</code> and <code>thread T</code>.
+The elements must be handles themselves; arrays of pointers to handles cannot be joined.</p>
 <div class="language-v">fn expensive_computing(i int) int {
     return i * i
 }
@@ -1266,6 +1320,51 @@ fn main() {
     }
 }
 </div>
+<h3 id="thread-safe-maps">Thread-safe maps <a href="concurrency.html#thread-safe-maps" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>A single operation on a <code>shared</code> map does not need a <code>lock</code>/<code>rlock</code> block: it locks
+the map by itself, for the duration of that one operation. So a <code>shared</code> map can be used
+as a thread-safe map:</p>
+<div class="language-v">import sync
+
+fn count(shared words map[string]int, text string, mut wg sync.WaitGroup) {
+    for word in text.split(' ') {
+        words[word]++ // locks `words` while it is updated
+    }
+    wg.done()
+}
+
+fn main() {
+    shared words := map[string]int{}
+    mut wg := sync.new_waitgroup()
+    wg.add(2)
+    spawn count(shared words, 'a b a', mut wg)
+    spawn count(shared words, 'b c', mut wg)
+    wg.wait()
+    println(words['a']) // 2, read with an `rlock`
+    println('c' in words) // true
+    println(words.len) // 3
+}
+</div>
+<p>Statements that change the map (<code>m[k] = v</code>, <code>m[k] += v</code>, <code>m[k]++</code>, <code>m[k] &lt;&lt; v</code>,
+<code>m.delete(k)</code> and <code>m.clear()</code>) take a <code>lock</code>. The whole statement runs with the map
+locked, so <code>m[k] = m[k] * 2</code> is atomic too. Reads (<code>m[k]</code>, <code>m[k] or { ... }</code>, <code>k in m</code>,
+<code>m.len</code>, <code>m.keys()</code>, <code>m.values()</code> and <code>m.clone()</code>) take an <code>rlock</code>. This works for
+<code>shared</code> variables, parameters, globals and struct fields.</p>
+<p>Operations that must happen together still need an explicit block, and so do iterating
+over the map, <code>if v := m[k] {</code> and statements that use two <code>shared</code> maps:</p>
+<div class="language-v">shared m := map[string]int{}
+// check and insert in one step
+lock m {
+    if 'a' !in m {
+        m['a'] = 0
+    }
+}
+rlock m {
+    for k, v in m {
+        println('${k}: ${v}')
+    }
+}
+</div>
 <h2 id="difference-between-channels-and-shared-objects">Difference Between Channels and Shared Objects <a href="concurrency.html#difference-between-channels-and-shared-objects" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><strong>Purpose</strong>:</p>
 <ul>
@@ -1277,13 +1376,104 @@ fn main() {
 <li>Channels: Implicit (via channel operations)</li>
 <li>Shared objects:  Explicit (via <code>rlock</code>/<code>lock</code> blocks)</li>
 </ul>
+<h2 id="race-detector">Race Detector <a href="concurrency.html#race-detector" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A data race happens when two threads access the same memory at the same time, and at least
+one of the accesses is a write, without a channel, a <code>lock</code>/<code>rlock</code> block, a <code>sync</code> primitive
+or an atomic operation ordering them. Data races are hard to find: they depend on timing, and
+the program usually works until it does not.</p>
+<p>Like Go, V has a race detector built in. Build or run a program, or its tests, with <code>-race</code>:</p>
+<pre><code class="language-shell">v -race run main.v
+v -race test .
+</code></pre>
+<p>Consider this program, where two threads increment one counter without synchronization:</p>
+<div class="language-v">struct Counter {
+mut:
+    n int
+}
+
+fn inc(mut c Counter) {
+    for _ in 0 .. 1000 {
+        c.n++
+    }
+}
+
+fn main() {
+    mut c := &amp;Counter{}
+    t1 := spawn inc(mut c)
+    t2 := spawn inc(mut c)
+    t1.wait()
+    t2.wait()
+    println(c.n)
+}
+</div>
+<p><code>v -race run main.v</code> reports the race with the V source positions of both accesses, of the
+allocation, and of the <code>spawn</code> calls that started the threads:</p>
+<pre><code>==================
+WARNING: ThreadSanitizer: data race (pid=55780)
+  Write of size 8 at 0x000109800380 by thread T2:
+    #0 inc main.v:8
+    #1 inc_args_thread_wrapper src.c:2438
+
+  Previous write of size 8 at 0x000109800380 by thread T1:
+    #0 inc main.v:8
+    #1 inc_args_thread_wrapper src.c:2438
+
+  Location is heap block of size 8 at 0x000109800380 allocated by main thread:
+    #0 malloc &lt;null&gt;
+    #1 v_malloc allocation.c.v:96
+    #2 memdup allocation.c.v:503
+    #3 main main.v:13
+
+  Thread T2 (tid=19154470, running) created by main thread at:
+    #0 pthread_create &lt;null&gt;
+    #1 __v_thread_spawn src.c:672
+    #2 main main.v:15
+  ...
+SUMMARY: ThreadSanitizer: data race main.v:8 in inc
+==================
+2000
+ThreadSanitizer: reported 1 warnings
+</code></pre>
+<p>Making <code>n</code> an <code>atomic int</code>, putting it in a <code>shared</code> object, or guarding it with a
+<code>sync.Mutex</code> removes the race.</p>
+<p>The race detector finds the races that happen while the program runs; it cannot find races
+in code that does not run. So it is most useful with tests and realistic workloads. A program
+that reported races exits with status 66, so a test that races fails.</p>
+<p>How it works: <code>-race</code> compiles the program with ThreadSanitizer (<code>-fsanitize=thread</code>), the
+race detection runtime that Go's race detector uses too. Like Go's runtime, V's channels,
+<code>sync</code> types and closure allocator tell it the happens-before relations that the language
+guarantees, instead of those of their implementation. V passes the race detector test suite
+of Go (<code>vlib/v/slow_tests/race</code>). <code>-race</code> needs <code>clang</code> or <code>gcc</code> with the ThreadSanitizer
+runtime (on some Linux distributions, the <code>libtsan</code> package for gcc), and uses clang when it
+is installed: gcc does not instrument copies of whole struct values, like strings and arrays
+passed to functions, so it misses races on them. It is supported on linux (amd64, arm64,
+ppc64le, s390x, loongarch64, riscv64), macos (amd64, arm64), freebsd/amd64 and netbsd/amd64.
+Race builds:</p>
+<ul>
+<li>do not use a garbage collector, like <code>-gc none</code>, and cannot use <code>-prealloc</code>:
+ThreadSanitizer has to see every allocation and free of heap memory, which a garbage
+collector or an arena allocator hides from it;</li>
+<li>typically run 2-20x slower and use 5-10x more memory, like in Go (with <code>-prod</code>, a function
+that was inlined into its caller is reported as the caller);</li>
+<li>define <code>race</code>, so code can check for them with <code>$if race ? {}</code>, and <code>_d_race.v</code> files are
+compiled in them. That define is reserved: <code>-d race</code> without <code>-race</code> is an error.</li>
+</ul>
+<p>The <code>VRACE</code> environment variable passes options to the race detector, in the same format as
+Go's <code>GORACE</code>. For example, <code>VRACE=&quot;halt_on_error=1&quot;</code> stops the program at the first race,
+<code>VRACE=&quot;log_path=/tmp/race&quot;</code> writes the reports to <code>/tmp/race.&lt;pid&gt;</code> instead of stderr, and
+<code>VRACE=&quot;exitcode=1&quot;</code> changes the exit status. <code>TSAN_OPTIONS</code> takes the same options, and
+overrides <code>VRACE</code>.</p>
+<p>On some Linux kernels, older ThreadSanitizer runtimes stop with
+<code>FATAL: ThreadSanitizer: unexpected memory mapping</code>. Run the program with address space
+randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
+<code>sudo sysctl vm.mmap_rnd_bits=28</code>), or use a newer compiler.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5129"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5694"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1298,9 +1488,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.733Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 
@@ -1340,6 +1530,9 @@ fn main() {
                                     </li>
                                     <li class="active">
                                         <a href="#difference-between-channels-and-shared-objects">Difference Between Channels and Shared Objects</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#race-detector">Race Detector</a>
                                     </li>
                                 </ul>
                             </nav>

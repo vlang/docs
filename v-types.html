@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -899,8 +943,8 @@
 
 string
 
-i8    i16  int  i64      i128 (soon)
-u8    u16  u32  u64      u128 (soon)
+i8    i16  int  i64  i128
+u8    u16  u32  u64  u128
 
 rune // represents a Unicode code point
 
@@ -913,8 +957,78 @@ voidptr // this one is mostly used for [C interoperability](#v-and-c)
 <blockquote class="tip">
 <p>[!NOTE]
 <code>int</code> is a platform-width signed integer: 64 bits on 64-bit targets and 32 bits on 32-bit
-targets. Use <code>i32</code> or <code>i64</code> when you need a fixed width.</p>
+targets. Use <code>i32</code> or <code>i64</code> when you need a fixed width.
+Integer literal casts to <code>int</code> are checked against the target platform's width.</p>
 </blockquote>
+<h2 id="128-bit-integers">128-bit integers <a href="v-types.html#128-bit-integers" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><code>i128</code> and <code>u128</code> hold 128 bits. The usual operators work on them: arithmetic,
+bitwise, shifts, comparisons, and casts to and from the other numeric types.</p>
+<div class="language-v">fn main() {
+    total := u128(1) &lt;&lt; 100 // 2^100
+    assert total / u128(4) == u128(1) &lt;&lt; 98
+    assert (u128(1) &lt;&lt; 127) * u128(2) == u128(0) // wraps at 128 bits
+    assert i128(-8) &gt;&gt; 1 == i128(-4) // keeps the sign
+    assert i128(-8) &gt;&gt;&gt; 1 == (u128(1) &lt;&lt; 127) - u128(4)
+}
+</div>
+<p>A shift by 128 or more gives <code>0</code>. The count is read at its own width, so a count
+that does not fit in 64 bits shifts everything out rather than being taken for a
+small one. <code>&gt;&gt;</code> on a negative signed value is an arithmetic shift, so it gives
+<code>-1</code> once the value is all ones, while <code>&gt;&gt;&gt;</code> reads the same bits as unsigned and
+its result is a <code>u128</code>, whatever the sign of the operand.
+Division or modulo by zero panics, as it does for the other integer types, and
+overflow wraps.</p>
+<p>The compiler does not require a 128-bit C type. Every operation becomes a call
+to a small helper, and the helper has two implementations: the C compiler's own
+<code>__int128</code> where it exists (gcc, clang), and one built from 64-bit limbs
+everywhere else (tcc, MSVC, every 32-bit target), where a 128-bit value is a
+struct. Both answer identically, down to the rounding of a cast to <code>f64</code>: the
+whole 128-bit magnitude is rounded once, rather than each limb on its own. Pass
+<code>-d v3_no_native_int128</code> to force the portable implementation on a compiler that
+has the native type.</p>
+<p>Managed arrays of wide integers and structs containing them retain 16-byte
+element alignment on both 32-bit and 64-bit targets, including after growth or cloning.</p>
+<p>Printing works through <code>str()</code>, so println and string interpolation show the
+decimal value, including the minimum <code>i128</code> that has no positive counterpart.</p>
+<p>A literal that needs more than 64 bits can be written directly and keeps its
+exact value:</p>
+<div class="language-v">fn main() {
+    assert u128(31732946804115296442105984367).str() == '31732946804115296442105984367'
+}
+</div>
+<p>The digits are split into two halves in the compiler, so the C compiler never
+sees a constant it would quietly cut down to its low 64 bits. A value outside
+the range of the target type is an error: <code>u128(2^128)</code> is rejected rather than
+wrapped, and <code>i128(-2^127)</code> is allowed because that is the minimum.</p>
+<p>A bare literal still follows the rule that applies to every other integer in V, so
+it wants an explicit cast.</p>
+<p>The promotion ladder has a row for both new types, so <code>wide + u64(1)</code> is a <code>u128</code>
+and keeps all 128 bits, and asking the expression for its own type answers <code>u128</code>
+too. A narrower operand widens by its own sign, so <code>i128(0) + u64(0xffffffffffffffff)</code>
+is 2^64 - 1 rather than -1.</p>
+<p>The usual conversions are there, so text, hex and binary work on a 128-bit value:</p>
+<div class="language-v">fn main() {
+    wide := u128(1) &lt;&lt; 100
+    assert '12345'.u128() == u128(12345)
+    assert wide.hex() == '10000000000000000000000000'
+    assert wide.bin().len == 101
+}
+</div>
+<p>Format specifiers work on a 128-bit value, and a map of them prints its values:</p>
+<div class="language-v">fn main() {
+    wide := (u128(1) &lt;&lt; 100) + u128(255)
+    assert '${wide:08x}' == '100000000000000000000000ff'
+    m := {
+        'a': wide
+    }
+    assert m.str().contains('100000000000000000000000ff')
+}
+</div>
+<p><code>str_base</code> covers the bases a specifier cannot spell out: <code>wide.str_base(2)</code> writes
+the value in binary, and <code>char_str</code> writes the code point in the low bits.</p>
+<p><code>typeof</code> and a method called on a mixed-width expression name the wider operand:
+<code>typeof(x + u64(1))</code> is <code>u128</code>, and <code>(x + u64(1)).str()</code> keeps all of its digits.
+Only <code>json</code> and <code>json2</code> still have no encoder for either type.</p>
 <p>There is an exception to the rule that all operators
 in V must have values of the same type on both sides. A small primitive type
 on one side can be automatically promoted if it fits
@@ -1045,11 +1159,13 @@ there is no <code>hd</code> or <code>llu</code>.</p>
 <p><code>${varname:[flags][width][.precision][type]}</code></p>
 <ul>
 <li><p>flags: may be zero or more of the following: <code>-</code> to left-align output within the field, <code>0</code> to use
-<code>0</code> as the padding character instead of the default <code>space</code> character.</p>
+<code>0</code> as the padding character instead of the default <code>space</code> character, and <code>+</code> to show
+the sign of decimal integers and floats with a width or precision.
+The <code>+</code> flag may be combined with <code>-</code> and <code>0</code> in any order; left alignment uses trailing
+spaces even when <code>0</code> is also present.</p>
 <blockquote class="tip">
 <p><strong>Note</strong></p>
-<p>V does not currently support the use of <code>'</code> or <code>#</code> as format flags, and V supports but
-doesn't need <code>+</code> to right-align since that's the default.</p>
+<p>V does not currently support the use of <code>'</code> or <code>#</code> as format flags.</p>
 </blockquote>
 </li>
 <li><p>width: may be an integer value describing the minimum width of total field to output. For
@@ -1059,7 +1175,8 @@ runtime widths, wrap an <code>int</code> expression in parentheses, for example 
 point without any insignificant trailing zeros. If displaying insignificant zero's is desired,
 append a <code>f</code> specifier to the precision value (see examples below). Applies only to float
 variables and is ignored for integer variables. Runtime precisions use the same parenthesized
-form, for example <code>${value:(width).(precision)f}</code>.</p>
+form, for example <code>${value:(width).(precision)f}</code>.
+Negative zero keeps its sign when formatted, including when trailing zeros are omitted.</p>
 </li>
 <li><p>type: <code>f</code> and <code>F</code> specify the input is a float and should be rendered as such, <code>e</code> and <code>E</code> specify
 the input is a float and should be rendered as an exponent (partially broken), <code>g</code> and <code>G</code> specify
@@ -1097,6 +1214,9 @@ println('[${x:.2}]') // round to two decimal places =&gt; [123.46]
 println('[${x:10}]') // right-align with spaces on the left =&gt; [   123.457]
 println('[${int(x):-10}]') // left-align with spaces on the right =&gt; [123       ]
 println('[${int(x):010}]') // pad with zeros on the left =&gt; [0000000123]
+println('[${int(x):+05}]') // include the sign in the padded width =&gt; [+0123]
+println('[${x:+08.2f}]') // sign, zero padding, and precision =&gt; [+0123.46]
+println('[${x:-+010.2f}]') // sign and left alignment override zero padding =&gt; [+123.46   ]
 println('[${int(x):b}]') // output as binary =&gt; [1111011]
 println('[${int(x):o}]') // output as octal =&gt; [173]
 println('[${int(x):X}]') // output as uppercase hex =&gt; [7B]
@@ -1204,11 +1324,16 @@ f2 := f32(3.14)
 <p>If you do not specify the type explicitly, by default float literals
 will have the type of <code>f64</code>.</p>
 <p>Integer literals can be assigned to <code>f32</code> and <code>f64</code> variables without a cast.
-Unary <code>+</code>, unary <code>-</code>, and parentheses around a literal preserve this behavior:</p>
-<div class="language-v">mut a := f32(0)
+Unary <code>+</code>, unary <code>-</code>, parentheses, and arithmetic on integer literals and on the
+constants declared with them preserve this behavior:</p>
+<div class="language-v">const tile_size = 32
+
+mut a := f32(0)
 a = 1
 a = -1
 assert a == f32(-1)
+a = 6 * tile_size
+assert a == f32(192)
 </div>
 <p>This does not make typed integer variables implicitly assignable to <code>f32</code>;
 use an explicit conversion such as <code>a = f32(value)</code> for those variables.</p>
@@ -1216,6 +1341,26 @@ use an explicit conversion such as <code>a = f32(value)</code> for those variabl
 <div class="language-v">f0 := 42e1 // 420
 f1 := 123e-2 // 1.23
 f2 := 456e+2 // 45600
+</div>
+<h3 id="checked-integer-arithmetic">Checked integer arithmetic <a href="v-types.html#checked-integer-arithmetic" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Integer arithmetic wraps on overflow, a shift by the bit width or more gives <code>0</code>,
+and a cast to a smaller integer type keeps the low bits.
+Two opt-in flags turn these into runtime panics:</p>
+<ul>
+<li><code>v -check-overflow</code> checks <code>+</code>, <code>-</code>, <code>*</code>, <code>++</code>, <code>--</code>, and <code>min / -1</code> and <code>min % -1</code>
+(with their compound forms like <code>-=</code>, <code>/=</code>). In code outside the standard library, it also
+checks the negation of the minimum value (<code>-x</code> for <code>x == min_i64</code>), and shifts whose count is
+negative or not less than the bit width of the left operand.</li>
+<li><code>v -check-casts</code> checks integer casts that lose information, like <code>i8(i64(300))</code>, <code>u8(-1)</code>
+or <code>u64(i64(-5))</code>. Casts from floats, or to <code>char</code> and enums, are not checked. Only code
+outside the standard library is checked, since vlib uses truncating casts on purpose
+(hashes, byte extraction).</li>
+</ul>
+<p>A function tagged with <code>@[ignore_overflow]</code> is not checked by either flag:</p>
+<div class="language-v">@[ignore_overflow]
+fn hash_step(h u32, b u8) u32 {
+    return (h ^ u32(b)) * 16777619 // wraps on purpose
+}
 </div>
 <h2 id="arrays">Arrays <a href="v-types.html#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Returning a new array through helper calls preserves each helper's parameter scope.</p>
@@ -1233,6 +1378,9 @@ println(nums) // `[10, 5, 30]`
 <p><a id='array-operations'></a></p>
 <p>An element can be appended to the end of an array using the push operator <code>&lt;&lt;</code>.
 It can also append an entire array.</p>
+<p>The C backend uses typed stores for scalar element assignments and single-element appends.
+Assignments retain bounds checking. Appends retain capacity checks and detach slice storage
+when needed. The right-hand side can grow the array before the final element address is resolved.</p>
 <div class="language-v">mut nums := [1, 2, 3]
 nums &lt;&lt; 4
 println(nums) // &quot;[1, 2, 3, 4]&quot;
@@ -1280,6 +1428,9 @@ Fields are read-only and can't be modified by the user.</p>
 <p>The user can explicitly specify the type for the first element: <code>[u8(16), 32, 64, 128]</code>.
 V arrays are homogeneous (all elements must have the same type).
 This means that code like <code>[1, 'a']</code> will not compile.</p>
+<p>Array elements must be written inside square brackets. Braces accept named initializer
+parameters only; <code>[]int{1, 2, 3}</code> and <code>[3]int{1, 2, 3}</code> are syntax errors.
+Use <code>[1, 2, 3]</code> for a dynamic array or <code>[1, 2, 3]!</code> for a fixed array instead.</p>
 <p>The above syntax is fine for a small number of known elements but for very large or empty
 arrays there is a second initialization syntax:</p>
 <div class="language-v">mut a := []int{len: 10000, cap: 30000, init: 3}
@@ -1709,10 +1860,75 @@ anums := fnums[..] // same as `anums := fnums[0..fnums.len]`
 println(anums) // =&gt; [1, 10, 100]
 println(typeof(anums).name) // =&gt; []int
 </div>
+<p>Whole fixed size arrays and their ranges can be passed to mutable array parameters.
+These arguments borrow the original elements, so writes through either the array parameter
+or another alias are immediately visible through both. Returned or stored views keep sharing
+those elements. Local storage is moved to the heap before references to it are formed, so
+retained views remain valid after the local goes out of scope. A callee can also retain a
+reference to the separately allocated array header. Growing or reassigning that header follows
+the usual array slice rules and leaves the original fixed array's size unchanged.
+Immutable array-reference parameters, including each variadic argument, also borrow the
+original elements. These rules also apply to array-reference parameters declared through aliases.
+Fixed array values introduced by guards, multi-declarations, loop bindings, or select receives
+also receive durable storage when passed to a retaining array-reference parameter.
+Indexed fixed elements of dynamic arrays retain their original backing buffer, including through
+managed slice aliases, so retained headers preserve writes and remain valid after owner cleanup.
+The same rule applies to fixed elements obtained through <code>first()</code> or <code>last()</code>.
+Fixed values read from maps, including inline fields, are copied into independent durable storage.
+Mutable iteration over those fixed elements preserves the same backing lifetime.
+Pointer fields and indexed pointers retain the original fixed-array roots recorded by their owners.
+Borrowing does not clone elements or require a <code>clone()</code> method.</p>
+<p>Passing a local struct's fixed-array storage by reference keeps the local on the stack when
+the called function only reads or writes scalar fields and array elements. Calls that may retain
+the storage still move it to the heap; <code>-warn-about-allocs</code> reports these moves.
+Calls through local function values remain conservative, including values that shadow
+function names.
+Explicitly destroying owned source elements invalidates views of those elements, as with other
+borrowed slices.
+With ownership checking enabled, returning or storing a view copies its buffer to independent
+storage. Owned elements are cloned so the retained value has independent owners. Retained array
+references, including those stored inside options, receive a separate header, so other aliases
+in the callee still share the original elements.
+An operation that detaches a borrowed buffer also clones its owned elements. Such elements
+need a compatible <code>clone()</code> method or <code>IClone</code> support. Retaining or detaching a nonempty
+uncloneable borrowed buffer panics; borrowing it or changing its elements in place is allowed.
+An empty view can grow without cloning any source elements.</p>
 <p>Note that slicing will cause the data of the fixed size array to be copied to
-the newly created ordinary array.</p>
+the newly created ordinary array. The exception is a slice that is written to:
+passing it as a <code>mut</code> argument, changing its elements, iterating over it with
+<code>for mut</code>, or calling <code>sort()</code>, <code>sort_with_compare()</code> or <code>reverse_in_place()</code> on it,
+updates the fixed size array itself:</p>
+<div class="language-v">fn fill(mut a []int) {
+    for i in 0 .. a.len {
+        a[i] = 9
+    }
+}
+
+mut fixed := [4, 3, 2, 1]!
+fill(mut fixed[2..])
+println(fixed) // =&gt; [4, 3, 9, 9]
+fixed[..2].sort()
+println(fixed) // =&gt; [3, 4, 9, 9]
+</div>
+<p>To copy elements into an existing array instead, use the builtin <code>copy</code> function.
+Like Go's <code>copy</code>, it copies as many elements as both arguments have, returns that
+number, and handles overlapping arguments. The destination can be an ordinary array,
+a fixed size array, or a slice of either, and is updated in place. The source can
+also be a string, when the destination holds bytes:</p>
+<div class="language-v">items := [1, 2, 3, 4, 5]
+mut fixed := [4]int{}
+println(copy(mut fixed, items)) // =&gt; 4
+println(fixed) // =&gt; [1, 2, 3, 4]
+copy(mut fixed[2..], [9, 9, 9])
+println(fixed) // =&gt; [1, 2, 9, 9]
+mut buf := []u8{len: 3}
+copy(mut buf, 'hello')
+println(buf.bytestr()) // =&gt; hel
+</div>
 <h2 id="maps">Maps <a href="v-types.html#maps" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>Methods and references on map iteration values address the stored element, including nested maps.</p>
+<p>Methods and references on map iteration values address the stored element, including nested maps.
+Postfix updates to a mutable map value field, such as <code>m[key].level++</code>, update the stored
+entry and insert a zero value first when the key is absent. The key is evaluated once.</p>
 <div class="language-v">mut m := map[string]int{} // a map with `string` keys and `int` values
 m['one'] = 1
 m['two'] = 2
@@ -1723,7 +1939,8 @@ println(m.keys()) // ['one', 'two']
 m.delete('two')
 </div>
 <p>Maps can have keys of type string, rune, integer, float, voidptr,
-enum, or fixed arrays of those supported key types.</p>
+enum, or fixed arrays of those supported key types.
+Struct keys are rejected, including when a generic key parameter is instantiated with a struct.</p>
 <p>The whole map can be initialized using this short syntax:</p>
 <div class="language-v">numbers := {
     'one': 1
@@ -1842,7 +2059,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L613"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L654"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1857,9 +2074,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.612Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 
@@ -1890,6 +2107,9 @@ foo['c'] = 99
                                 <ul>
                                     <li class="active">
                                         <a href="#primitive-types">Primitive types</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#128-bit-integers">128-bit integers</a>
                                     </li>
                                     <li class="active">
                                         <a href="#strings">Strings</a>

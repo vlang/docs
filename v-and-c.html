@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -920,10 +964,17 @@ functions/structs that you want to use.
 Note also that they <em>do not have</em> to be complete, unlike the ones in the .h files.</p>
 <p>Parameter names in <code>C.</code> function declarations may start with uppercase letters, as in C headers.
 The lowercase naming rule still applies to parameters of ordinary V functions.</p>
+<p>Fields of a C struct returned by value can be accessed directly on the call, for example
+<code>C.get_point(5).row</code>, without first assigning the result to a variable.</p>
+<p>An escaped C field name such as <code>@type</code> also matches a binding declared with the plain name <code>type</code>.
+An exact escaped V field takes precedence, including fields promoted from embedded structs.
+The C keyword fallback follows the C field's owning embed for both its type and its storage.</p>
 <p><strong>C. struct redeclarations</strong>
 For example, if a struct has 3 fields on the C side, but you want to only
 refer to 1 of them, you can declare it like this:</p>
 <p><strong>Example of C struct redeclaration</strong></p>
+<p>On macOS, an <code>#include</code> or <code>#import</code> of <code>&lt;Cocoa/Cocoa.h&gt;</code>, <code>&lt;AppKit/AppKit.h&gt;</code> or
+<code>&lt;AppKit/NSFont.h&gt;</code> makes an opaque <code>C.NSFont</code> declaration refer to Cocoa's Objective-C class.</p>
 <div class="language-v">struct C.NameOfTheStruct {
     a_field int
 }
@@ -936,7 +987,22 @@ that are defined with <code>typedef struct SomeName { ..... } TypeName;</code> i
 pub struct C.TypeName {
 }
 </div>
-<p>Note that the name of the <code>C.</code> struct in V, is the one <em>after</em> the <code>struct SomeName {...}</code>.</p>
+<p>Note that the name of the <code>C.</code> struct in V, is the one <em>after</em> the <code>struct SomeName {...}</code>.
+This attribute is also required for anonymous C typedefs such as
+<code>typedef struct { int x; } Foo;</code>. V does not infer typedef declarations by scanning
+headers included with <code>#include</code> or <code>#insert</code>. Native header dependency tracking
+and declaration ownership belong to the C compiler. A build whose own code
+includes or inserts a C header or source that is not shipped with V, uses
+<code>#pkgconfig</code>, or whose C flags name native files or include directories outside
+the V installation, bypasses the V module-object and whole-program caches, and
+<code>v crun</code> or a <code>.vsh</code> script rebuilds it on every run. System headers
+(<code>#include &lt;...&gt;</code>) and declaration-only headers shipped with V keep the caches
+enabled. A module shipped with V that compiles a C source, or the implementation
+of a single-header library, into the program (as <code>gg</code>, <code>sokol</code>, <code>compress.szip</code>
+and <code>compress.zstd</code> do) makes the build bypass the caches too, but <code>v crun</code> still
+reuses its executable while none of its inputs change.
+If a header needs Objective-C syntax, select the language with <code>#flag -x objective-c</code>;
+V does not infer the language from header contents.</p>
 <p><strong>C. function redeclarations</strong>
 The situation is similar for <code>C.</code> functions. If you are going to call just 1 function in a
 library, but its .h header declares dozens of them, you will only need to declare that single
@@ -948,6 +1014,14 @@ function, for example:</p>
 <div class="language-v">f := C.name_of_the_C_function(123, c'here is some C style string', 1.23)
 dump(f)
 </div>
+<p>A fixed-array parameter in a <code>C.</code> declaration follows C's pointer adjustment:
+<code>fn C.load_matrix(values [16]f32)</code> accepts a matching <code>&amp;f32</code> or <code>voidptr</code>, including
+a dynamic array's <code>.data</code>. Ordinary V fixed-array parameters still require array values.
+Typed pointers must use the C element representation. For a C <code>int</code> array declared as
+<code>fn C.sum(values [2]int) int</code>, use <code>i32</code> storage such as <code>values := [i32(10), 20]</code> and
+pass <code>&amp;values[0]</code>; V's platform-width <code>int</code> storage is incompatible on 64-bit targets.
+Pointer constants such as <code>C.NULL</code> and <code>C.INVALID_HANDLE_VALUE</code> retain their pointer type
+in assignments and comparisons.</p>
 <p>C globals can be exposed on the V side too. Use <code>@[c_extern] __global name C.Type</code>
 when you want to redeclare an external symbol explicitly, or
 <code>@[c_extern] __global const name C.Type</code> for an external <code>extern const</code> symbol.
@@ -980,6 +1054,10 @@ Hello world, value: 12345
 The <code>const_</code> prefix in that redeclaration may seem arbitrary, but it is important, if you want
 to compile your code with <code>-cstrict</code> or thirdparty C static analysis tools. V currently does not
 have another way to express that this parameter is a const (this will probably change in V 1.0).</p>
+<p>The <code>const_</code> convention also applies to C callback function types and aliases. For example,
+<code>type NativeCallback = fn (const_buf &amp;u8, len int) int</code> retains the const buffer qualifier.
+When you pass a V function by name to a <code>fn C.</code> callback parameter, V adapts its parameter
+and return types to the C ABI.</p>
 <p>For some C functions, that use variadics (<code>...</code>) as parameters, V supports a special syntax for
 the parameters - <code>...voidptr</code>, that is not available for ordinary V functions (V's variadics are
 <em>required</em> to have the same exact type). Usually those are functions of the printf/scanf family
@@ -990,7 +1068,7 @@ functions.</p>
 
 // Use the system SQLite when there is one; otherwise build the amalgamation that
 // `v vlib/db/sqlite/install_thirdparty_sqlite.vsh` downloads, like `db.sqlite` does.
-$if $pkgconfig ( 'sqlite3' ) {
+$if $pkgconfig('sqlite3') {
     #pkgconfig sqlite3
 } $else $if darwin {
     #flag -lsqlite3
@@ -1082,13 +1160,27 @@ fn main() {
 <li><code>-L</code> for adding C library files search paths</li>
 <li><code>-D</code> for setting compile time variables</li>
 </ul>
+<p>You can pass a local source file with <code>#flag &quot;@VMODROOT/my_test_cshim.c&quot;</code>.
+Lowercase <code>.c</code> sources compile as C; uppercase <code>.C</code>, <code>.cc</code>, and <code>.cpp</code> sources compile as C++.
+An explicit <code>#flag -x c</code> or <code>#flag -x c++</code>, including the joined forms <code>-xc</code> and <code>-xc++</code>,
+overrides the filename's language until <code>#flag -x none</code> restores inference from the filename.
+Both spellings also select the matching native compilation standard and runtime libraries,
+including when a <code>.o</code> flag compiles an adjacent source into the object cache.</p>
+<p>Native C sources and object files from <code>#flag</code> are linked before the libraries from
+all modules, including imported modules. Library flags retain their relative order.
+Explicit <code>-x</code> language settings remain attached to native inputs when they are reordered.
+The final language setting also applies to sources passed later through <code>-ldflags</code>.</p>
 <p>You can also use <code>#flag</code> directives, to link to static C libraries, which
 will be added last (note the .a suffix):</p>
 <div class="language-v">#flag /path/to/ffi.a
 </div>
-<p>If you need to reverse the order (prepend the static library in the libs section of the
+<p>When a module links a library by a path ending in <code>.a</code>, <code>.so</code>, <code>.dylib</code>, or <code>.lib</code>,
+V emits prototypes for its <code>fn C.</code> declarations if the module includes no C headers.
+When the module includes a header, the header supplies those declarations instead.</p>
+<p>If you need to reverse the order (prepend the library in the libs section of the
 C compilation line, before other libs), use:</p>
 <div class="language-v">#flag /path/to/ffi.a@START_LIBS
+#flag -lffi@START_LIBS
 </div>
 <p>You can (optionally) use different flags for different targets.
 Every OS listed in <a href="conditional-compilation.html#compile-time-code">Compile time code</a> is supported as flags.</p>
@@ -1107,8 +1199,15 @@ Each flag must go on its own line (for now)</p>
 <li><code>-cc</code> to change the default C backend compiler.</li>
 <li><code>-cflags</code> to pass custom flags to the backend C compiler (passed before other C options).</li>
 <li><code>-ldflags</code> to pass custom flags to the backend C linker (passed after every other C option).</li>
+<li><code>-parallel-cc</code> to compile generated C units concurrently with a compatible C compiler.</li>
 <li>For example: <code>-cc gcc-9 -cflags -fsanitize=thread</code>.</li>
 </ul>
+<p>Parallel C builds keep the signal-handler runtime and its saved signal actions in one unit.
+Module-cache builds keep that runtime in the program prefix; cached objects use its declarations.
+Native headers that cannot safely share state across units use a single compilation unit.</p>
+<p>To select C23 with a compiler that supports it, use
+<code>v -cc gcc -cflags '-std=gnu23' program.v</code>. Generated C uses the standard boolean keywords
+in C23 and supplies compatibility definitions for older C dialects.</p>
 <p>You can define a <code>VFLAGS</code> environment variable in your terminal to store your <code>-cc</code>
 and <code>-cflags</code> settings, rather than including them in the build command each time.</p>
 <h2 id="#pkgconfig">#pkgconfig <a href="v-and-c.html##pkgconfig" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -1198,6 +1297,11 @@ You can see a complete minimal example for using C code in a V wrapper module he
 Another example, demonstrating passing structs from C to V and back again:
 <a href="https://github.com/vlang/v/tree/master/vlib/v/tests/project_with_c_code_2">interoperate between C to V to C</a>.</p>
 <h2 id="c-types">C types <a href="v-and-c.html#c-types" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>V methods declared on a C struct can be called through imported fields and local copies of that
+struct. The method retains the visibility of its declaring V module.
+Calls see methods from directly imported modules by their full module path.
+If a V alias of that C struct declares the same method, calls on the alias use its own method.</p>
+<p>C-backed struct aliases can also initialize constants, including when compiling with MSVC.</p>
 <p>Ordinary zero terminated C strings can be converted to V strings with
 <code>unsafe { &amp;char(cstring).vstring() }</code> or if you know their length already with
 <code>unsafe { &amp;char(cstring).vstring_with_len(len) }</code>.</p>
@@ -1218,6 +1322,12 @@ These can be converted to V strings with <code>string_from_wide(&amp;u16(cwidest
 <li><code>&amp;&amp;char</code> for C's <code>char**</code></li>
 </ul>
 <p>To cast a <code>voidptr</code> to a V reference, use <code>user := &amp;User(user_void_ptr)</code>.</p>
+<p>Passing <code>unsafe { nil }</code> to a pointer parameter passes a null pointer, including pointers to
+handles that alias <code>voidptr</code>.
+Reference results of generic calls also pass the pointer value to <code>voidptr</code> parameters.
+For example, <code>isnil(identity[&amp;User](unsafe { nil }))</code> tests the returned pointer for null.
+A mutable block that yields <code>&amp;T</code> can pass that pointer to a <code>mut T</code> parameter,
+including generic functions and functions from imported modules.</p>
 <p><code>voidptr</code> can also be dereferenced into a V struct through casting: <code>user := User(user_void_ptr)</code>.</p>
 <p><a href="https://github.com/vlang/v/blob/master/vlib/v/tests/project_with_c_code/mod1/wrapper.c.v">an example of a module that calls C code from V</a></p>
 <h2 id="c-declarations">C Declarations <a href="v-and-c.html#c-declarations" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -1268,6 +1378,8 @@ a parallel code structure.</p>
 fn foo() {
 }
 </code></pre>
+<p>The same <code>@[export]</code> attribute exposes a <code>__global</code> variable from a shared library,
+including builds that hide other symbols by default.</p>
 <p>When compiling a Windows DLL with <code>-shared</code>, V generates a default <code>DllMain</code>
 that calls <code>_vinit_caller()</code> on <code>DLL_PROCESS_ATTACH</code> and <code>_vcleanup_caller()</code>
 on <code>DLL_PROCESS_DETACH</code>.</p>
@@ -1299,7 +1411,64 @@ is <code>DLL_PROCESS_DETACH</code>.</p>
 <h2 id="translating-c-to-v">Translating C to V <a href="v-and-c.html#translating-c-to-v" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Files marked <code>@[translated]</code> retain C storage rules: global declarations and writes through
 pointers do not require additional flags or <code>unsafe</code> blocks. These rules apply only to those files.
-Pointer-returning calls can also receive field assignments.</p>
+Pointer-returning calls can also receive field assignments.
+Pointers to <code>char</code>, <code>i8</code>, and <code>u8</code> of the same pointer depth are interchangeable in translated
+assignments, returns, function arguments, and other typed values. Ordinary V files retain their
+pointer type checks; calls to C functions also accept these character pointers.</p>
+<p>Files marked <code>@[translated]</code> retain C scalar conversions between numbers, enums, and booleans.
+These scalars can be mixed in arithmetic expressions and compound assignments. Integral scalars
+can be used in bitwise expressions. Scalar values and pointers, including function pointers,
+can serve as conditions. Ordinary V files retain V's type and condition checks, even when
+compiled together with translated files.
+Conversions to translated <code>int</code> use the target C <code>int</code> width at assignments, calls, and returns.
+Mixed numeric compound assignments use C arithmetic conversions before storing their result.
+This includes <code>rune</code> as an unsigned 32-bit integer and enums with their declared backing types.</p>
+<p>Files marked <code>@[translated] module ...</code> also accept expression conditions generated by C2V,
+including nested <code>if</code> expressions and subtraction of a negative operand. Postfix pointer
+updates followed by a dereference assignment on the next line end the current statement,
+including compound assignments.
+Other arithmetic continues across the newline. A translated <code>sizeof</code> recognizes constant
+operands even when their declarations appear later in the module.
+Only source files selected for the target and compile-time defines contribute declarations.
+Lowercase type aliases declared in the same file remain type operands of <code>sizeof</code>.
+Translated local C variables can be updated without an explicit <code>mut</code> declaration.</p>
+<p>Code generated by other compilers often needs only V's naming rules relaxed, without the C
+semantics above. Mark such a module with <code>@[generated]</code> instead:</p>
+<div class="language-v">@[generated]
+module main
+
+struct _zbr_ty_Point {
+    xPos int
+}
+
+fn _zbr_ty_Point.new(xPos int) _zbr_ty_Point {
+    return _zbr_ty_Point{
+        xPos: xPos
+    }
+}
+
+fn camelCase(p _zbr_ty_Point) int {
+    _value := p.xPos
+    return _value + 1
+}
+
+fn main() {
+    println(camelCase(_zbr_ty_Point.new(41)))
+}
+</div>
+<p>The attribute has to be put on an explicit <code>module</code> line, <code>module main</code> included, and it
+applies only to the file it is in, so mark every generated file of a module. In such a file,
+names of functions, methods, variables, parameters, constants, fields and globals can use
+camelCase and start with <code>_</code>, and type names do not have to start with a capital letter. Only
+type names can start with an uppercase letter, because V relies on that to tell <code>Type{}</code> and
+<code>Type(x)</code> apart from values.</p>
+<p>A few names stay invalid, because the generated C code needs them: no name can contain <code>__</code>,
+type names cannot end with <code>_</code>, and other names cannot start with <code>_</code> and an uppercase letter,
+or consist of <code>_</code>, lowercase letters and digits like <code>_t1</code>. A type cannot share its name with a
+function or constant of its module or with a builtin function, and interfaces cannot have the
+fields <code>_typ</code> and <code>_object</code>. Keywords stay reserved, module names keep the usual rules, and
+everything else, including type checks and mutability, works exactly as in ordinary V files.
+Casts like <code>t(x)</code> to a type whose name starts in lower case work inside its module.</p>
 <p>V can translate your C code to human readable V code, and generating V wrappers
 on top of C libraries.</p>
 <p>C2V currently uses Clang's AST to generate V, so to translate a C file to V
@@ -1345,6 +1514,10 @@ For example, V needs to include the Windows header libraries in order for your V
 seamlessly across all platforms.</p>
 <p>However, since the Windows header libraries use extremely generic names such as <code>Rectangle</code>,
 this will cause a conflict if you wish to use C code that also has a name defined as <code>Rectangle</code>.</p>
+<p>V defaults to <code>WIN32_LEAN_AND_MEAN</code> for its built-in Windows headers, including those loaded
+through the garbage collector. This excludes optional headers such as OLE and multimedia headers.
+Include any required optional Windows headers explicitly, or use <code>#flag windows -DWIN32_FULL</code>
+to request the full Windows header surface. A configuration preinclude can also define <code>WIN32_FULL</code>.</p>
 <p>For very specific cases like this, V has <code>#preinclude</code> and <code>#postinclude</code> directives.</p>
 <p>These directives allow things to be configured <em>before</em> V adds in its built in libraries,
 and <em>after</em> all of the V code generation has completed (and thus all of the prototypes,
@@ -1374,7 +1547,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8931"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10206"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1389,9 +1562,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.867Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

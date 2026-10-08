@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -907,7 +951,11 @@ if a &lt; b {
 </div>
 <p><code>if</code> statements are pretty straightforward and similar to most other languages.
 Unlike other C-like languages,
-there are no parentheses surrounding the condition and the braces are always required.</p>
+there are no parentheses surrounding the condition and the braces are always required.
+The condition cannot start with another <code>if</code>, not even a parenthesized one: store the result of
+the inner <code>if</code> expression in a variable first.
+When the condition starts with a <code>match</code> expression, parentheses are required around the
+condition, for example <code>if (match enabled { true { false } else { true } }) { ... }</code>.</p>
 <h3 id="if-expressions"><code>If</code> expressions <a href="statements-&-expressions.html#if-expressions" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Unlike C, V does not have a ternary operator, that would allow you to do: <code>x = c ? 1 : 2</code> .
 Instead, it has a bit more verbose, but also clearer to read, ability to use <code>if</code> as an
@@ -1325,6 +1373,7 @@ A pointer to a nested array or map remains a reference container when iterated a
 including through parentheses or a closure capture.
 Fixed-array map values also refer to their entry storage, so changes through the reference update
 the map value.
+Aliases of array and map pointers preserve these reference semantics, including pointer rebinding.
 Parentheses around a mutable map container do not change whether assigning the loop value updates
 its entry.
 Mutable map parameters, including explicit pointer parameters (<code>mut m &amp;map[K]V</code>),
@@ -1560,6 +1609,37 @@ a function scope, so it was executed when the function itself returned. Sometime
 need to defer a statement to execute right at the function end (like the above), even
 if you are inside an inner scope (deep inside an <code>if</code> or <code>for</code>).</p>
 <p>For these more rare cases, you can use: <code>defer(fn) {}</code> instead of just <code>defer {}</code>.</p>
+<h3 id="recovering-from-panics">Recovering from panics <a href="statements-&-expressions.html#recovering-from-panics" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>A panic runs the pending <code>defer</code> blocks of every function on the stack, newest
+first. Calling <code>recover()</code> directly in one of these blocks stops the panic, and
+returns its message. The function that deferred the block then runs its other
+deferred blocks, and returns normally, with the zero value of its result type.
+This works like <code>recover</code> in Go.</p>
+<div class="language-v">fn parse_age(s string) int {
+    defer {
+        if msg := recover() {
+            eprintln('invalid age ${s}: ${msg}')
+        }
+    }
+    age := s.int()
+    if age &lt; 0 {
+        panic('negative age')
+    }
+    return age
+}
+
+fn main() {
+    println(parse_age('42')) // 42
+    println(parse_age('-1')) // 0, after printing `invalid age -1: negative age`
+}
+</div>
+<p><code>recover()</code> returns <code>none</code> when there is no panic, and when it is not called
+directly in a deferred block that runs because of the panic (for example, in a
+function that such a block calls). A block can also run cleanup code without
+calling <code>recover()</code>: the panic then goes on to the callers, and if nothing
+recovers it, the program prints the message and exits once all deferred blocks
+ran. Runtime errors that panic, like an array index out of range, can be
+recovered as well. Signals, like a segmentation fault, cannot.</p>
 <h2 id="goto">Goto <a href="statements-&-expressions.html#goto" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V allows unconditionally jumping to a label with <code>goto</code>. The label name must be contained
 within the same function as the <code>goto</code> statement. A program may <code>goto</code> a label outside
@@ -1586,7 +1666,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L1892"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2141"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1601,9 +1681,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.649Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

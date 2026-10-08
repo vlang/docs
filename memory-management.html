@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -907,6 +951,24 @@ heavy GC tracing everything or expensive RC for each object.</p>
 <code>-gc none</code>.</p>
 <p>Arena allocation is available via a <code>-prealloc</code> flag. Note: currently this mode is only
 suitable to speed up short lived, single-threaded, batch-like programs (like compilers).</p>
+<p>For scoped arenas, use the <code>arena</code> module: while an arena is pushed on a thread, all V
+allocations on that thread (strings, arrays, maps, ...) come from it, and they are released
+together by <code>reset()</code> or <code>free()</code>. This keeps memory bounded in long-running, multi-threaded
+programs built with <code>-gc none</code>. It also works with the default GC, but not with <code>-prealloc</code>.</p>
+<div class="language-v">import arena
+
+mut a := arena.new()
+mut results := []string{}
+for i in 0 .. 3 {
+    a.push()
+    s := 'iteration ${i}: ' + 'x'.repeat(i)
+    a.pop()
+    results &lt;&lt; s.clone() // copy the value out of the arena
+    a.reset() // reuse the arena memory in the next iteration
+}
+a.free()
+println(results)
+</div>
 <h2 id="control">Control <a href="memory-management.html#control" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can take advantage of V's autofree engine and define a <code>free()</code> method on custom
 data types:</p>
@@ -1019,6 +1081,11 @@ fn f() (RefStruct, &amp;MyStruct) {
 <p>Here <code>a</code> is stored on the stack since its address never leaves the function <code>f()</code>.
 However a reference to <code>b</code> is part of <code>e</code> which is returned. Also a reference to
 <code>c</code> is returned. For this reason <code>b</code> and <code>c</code> will be heap allocated.</p>
+<p>Heap allocation preserves value reads in declaration initializers. An initializer reads
+the bindings that are visible before the new declaration is installed.
+Leaving a nested scope restores the storage and type metadata of outer heap-backed bindings.</p>
+<p>Moving a local to the heap preserves its source-level type. For example, <code>typeof(c).name</code>
+still reports <code>MyStruct</code>; the pointer used to store the local does not change type reflection.</p>
 <p>Things become less obvious when a reference to an object is passed as a function argument:</p>
 <div class="language-v">struct MyStruct {
 mut:
@@ -1192,7 +1259,7 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5820"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6588"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1207,9 +1274,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.753Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

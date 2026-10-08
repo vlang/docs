@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -898,6 +942,8 @@
 <p>To define a new type <code>NewType</code> as an alias for <code>ExistingType</code>,
 do <code>type NewType = ExistingType</code>.<br/>
 This is a special case of a <a href="type-declarations.html#sum-types">sum type</a> declaration.</p>
+<p>Methods declared on a fixed-array alias keep that alias receiver, including methods whose names
+match builtin array methods.</p>
 <p>Numeric aliases use ordinary conversions for initialization:</p>
 <div class="language-v">type Decimal = f64
 
@@ -930,9 +976,17 @@ println(int(color)) // prints 1
 <p>The enum type can be any integer type, but can be omitted, if it is <code>int</code>: <code>enum Color {</code>.
 When a struct field expects an enum, its value can use the short <code>.field</code> form, including
 inside parentheses in a collapsed struct call argument.</p>
+<p>An unqualified enum name or alias in a struct field's default resolves in the struct's module.
+An importing module's same-named enum does not change that default, including in fixed arrays.</p>
 <p>Enum match must be exhaustive or have an <code>else</code> branch.
 This ensures that if a new enum field is added, it's handled everywhere in the code.</p>
 <p>Enum fields can re-use reserved keywords:</p>
+<p>The <code>@</code> escape is also accepted in qualified and shorthand member references, including
+comparisons, assignments, struct defaults, <code>match</code> branches, and constant integer expressions.
+These references also work with the eval backend, with shorthand on either side of a comparison.
+Enum initializers can refer to earlier keyword members, for example <code>next = int(Kind.@struct) + 1</code>.
+Exact declarations take precedence: if both <code>none</code> and <code>@none</code> are declared, they retain distinct
+values and match coverage.</p>
 <div class="language-v">enum Color {
     none
     red
@@ -1005,6 +1059,8 @@ three
 one
 </code></pre>
 <p>Enums can be created from string or integer value and converted into string</p>
+<p><code>Enum.from(value)</code> returns a Result. It can be forwarded directly from a function returning
+<code>!Enum</code>, preserving the enum value on success and the conversion error on failure.</p>
 <div class="language-v">enum Cycle {
     one
     two = 2
@@ -1028,6 +1084,9 @@ one
 example:</p>
 <div class="language-v">type Filter = fn (string) string
 </div>
+<p>Function signatures can include fixed-size arrays, pointers to fixed-size arrays, and other
+function types. Arrays of explicitly backed enums retain their element type in these signatures.
+This also applies to optional and result callback return types.</p>
 <p>This works like any other type - for example, a function can accept an
 argument of a function type:</p>
 <div class="language-v">type Filter = fn (string) string
@@ -1112,7 +1171,9 @@ fn main() {
 <p>A type implements an interface by implementing its methods and fields.
 Equivalent fixed array lengths in method signatures may use different constant expressions.
 Callback userdata parameters may use <code>voidptr</code> or a concrete pointer type.
-An interface field's default value may be a pointer to a type that implements the interface.</p>
+An interface field's default value may be a pointer to a type that implements the interface.
+Fixed array fields are supported when converting a pointer to an interface with <code>I(value)</code>
+or <code>&amp;I(value)</code>. Mutable fields continue to refer to the concrete object's fields.</p>
 <p>An interface can have a <code>mut:</code> section. Implementing types will need
 to have a <code>mut</code> receiver, for methods declared in the <code>mut:</code> section
 of an interface.</p>
@@ -1214,6 +1275,9 @@ inside that branch. This matters when returning the value from a generic functio
 }
 </div>
 <p>If you want to return the smart-casted pointer itself, use <code>!&amp;T</code> as the return type instead.</p>
+<p>Appending a smart-casted value to an array of its original interface type preserves the
+complete interface value. Both <code>animals &lt;&lt; animal</code> and <code>animals &lt;&lt; Animal(animal)</code> retain
+the underlying type and allow interface method calls on the appended element.</p>
 <div class="language-v">// interface-example.4
 interface IFoo {
     foo()
@@ -1261,6 +1325,9 @@ They are just a convenient way to write <code>i.some_function()</code> instead o
 a convenience for writing <code>s.xyz()</code> instead of <code>xyz(s)</code>.</p>
 <p>An immediate read-only interface method call on a smart-casted value can return
 a scalar, including <code>char</code>, <code>rune</code>, <code>isize</code>, <code>usize</code>, or an enum.</p>
+<p>Receiver methods are also available through embedded interfaces. A mutable receiver method
+updates the underlying concrete object's mutable fields, including when called through an
+interface pointer or multiple levels of interface embedding.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 This feature is NOT a &quot;default implementation&quot; like in C#.</p>
@@ -1492,6 +1559,66 @@ fn pass_time(w World) {
     }
 }
 </div>
+<h3 id="named-variants">Named variants <a href="type-declarations.html#named-variants" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>A sum type can also identify its variants by name instead of by type. Each named variant
+holds at most one payload, so two variants can carry the same payload type, and a variant
+can carry no payload at all:</p>
+<div class="language-v">type Expr = IntLit(int) | Count(int) | Str(string) | Void
+
+fn describe(e Expr) string {
+    return match e {
+        Expr.IntLit(n) { 'literal ${n}' }
+        Expr.Count(n) { 'count ${n}' }
+        Expr.Str(s) { 'string ${s}' }
+        Expr.Void { 'void' }
+    }
+}
+
+fn main() {
+    e := Expr.Count(3)
+    println(describe(e)) // count 3
+    println(e) // Expr.Count(3)
+    println(e is Expr.Count) // true
+    println(e == Expr.IntLit(3)) // false
+    println(describe(Expr.Void)) // void
+}
+</div>
+<p>A declaration is named as soon as one variant is written as <code>Name(Type)</code>. Then every
+variant is either <code>Name(Type)</code> or a bare <code>Name</code> without a payload, and its name must be
+capitalized and unique in the sum type. The names belong to the sum type: <code>Expr.Void</code> does
+not clash with a type called <code>Void</code> or with a <code>Void</code> variant of another sum type.
+Declarations without any <code>Name(Type)</code> variant keep their usual meaning, where each variant
+is a type.</p>
+<p>Values are created with <code>Expr.Count(3)</code> and <code>Expr.Void</code>. A <code>match</code> branch like
+<code>Expr.Count(n)</code> binds the payload to <code>n</code>. The binding is an immutable copy of the payload;
+to change a value in a <code>match mut</code> branch, assign a new variant to the matched variable.
+Payload bindings follow the same redeclaration and global shadowing rules as other local variables.
+A branch can list several variants, like <code>Expr.IntLit, Expr.Count {</code>, when it binds no
+payload. <code>match</code> must cover every variant or have an <code>else</code> branch, and <code>is</code>/<code>!is</code> checks
+work with variants as well: <code>e is Expr.Void</code>. Two values are equal when they hold the same
+variant and equal payloads.</p>
+<p>Payloads can have any type, including structs, arrays, maps, options and other sum types,
+and a payload can refer to its own sum type, like <code>Node([]Tree)</code> in
+<code>type Tree = Leaf(int) | Node([]Tree)</code>. A payload with several values is written as a
+struct: <code>Rect(Size)</code>. Generic sum types are supported too, but their values need explicit
+type arguments:</p>
+<div class="language-v">type Opt[T] = Some(T) | Nothing
+
+fn main() {
+    a := Opt[int].Some(3)
+    b := Opt[int].Nothing
+    println(a) // Opt[int].Some(3)
+    println(b) // Opt[int].Nothing
+    println(a is Opt[int].Some) // true
+    match a {
+        Opt[int].Some(n) { println(n) } // 3
+        Opt[int].Nothing {}
+    }
+}
+</div>
+<p><code>$for v in Expr.variants</code> iterates the named variants; <code>typeof(v.typ).name</code> gives their
+names, like <code>Expr.Count</code>. Types in <code>@[generated]</code> modules can also use named variants
+when their type names start with a lowercase letter or underscore.</p>
 <h2 id="optionresult-types-and-error-handling">Option/Result types and error handling <a href="type-declarations.html#optionresult-types-and-error-handling" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Option types can represent a value or <code>none</code>. Result types may
 represent a value, or an error returned from a function.</p>
@@ -1557,15 +1684,28 @@ fn main() {
     connect('https://vlang.io', 5000)
 }
 </div>
-<p>V used to combine <code>Option</code> and <code>Result</code> into one type, now they are separate.</p>
+<p>An Option stores either a value or <code>none</code>. It has no error field and cannot carry an error as
+its failure state. A Result stores either a value or an <code>IError</code>.
+An <code>IError</code> may still be an ordinary Option payload, for example <code>?IError</code>.</p>
+<p>A function returning only <code>!</code> or <code>?</code> has no success payload. Its return type is a Result or
+Option of <code>void</code>; callers still handle errors or absence with an <code>or</code> block or propagation.</p>
+<p>With the C backend, Options store their payload inline. Wrapping a value or returning <code>none</code>
+does not allocate; the payload itself can require allocation, as with arrays or interface values.
+Results also store their payload inline, sharing storage between the value and error.
+The success flag determines which is valid. An <code>IError</code> references its concrete error object;
+<code>msg()</code> and <code>code()</code> dispatch to that object. Creating an error object may allocate.</p>
 <p>The amount of work required to &quot;upgrade&quot; a function to an option/result function is minimal;
 you have to add a <code>?</code> or <code>!</code> to the return type and return <code>none</code> or an error (respectively)
 when something goes wrong.</p>
 <p>This is the primary mechanism for error handling in V. They are still values, like in Go,
 but the advantage is that errors can't be unhandled, and handling them is a lot less verbose.
 Unlike other languages, V does not handle exceptions with <code>throw/try/catch</code> blocks.</p>
-<p><code>err</code> is defined inside an <code>or</code> block and is set to the string message passed
-to the <code>error()</code> function.</p>
+<p>A Result's <code>or</code> block and failed <code>if</code> guard bind <code>err</code> to its <code>IError</code>.
+Use <code>err.msg()</code> for its message and <code>err.code()</code> for its code.
+An Option's <code>or</code> block or failed <code>if</code> guard does not bind <code>err</code>.
+Any existing outer variable named <code>err</code> keeps its ordinary meaning in those blocks.
+Use <code>or { return none }</code> to propagate absence, or construct an explicit error when converting
+absence to a Result failure.</p>
 <div class="language-v">user := repo.find_user_by_id(7) or {
     println(err) // &quot;User 7 not found&quot;
     return
@@ -1683,12 +1823,19 @@ fn main() {
 }
 </div>
 <h2 id="generics">Generics <a href="type-declarations.html#generics" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Generic method calls retain the declaring modules of their type arguments when selecting
+the concrete method, including methods returning Result or Option values.</p>
 <p>Omitted fields of a generic struct use their declared defaults, including in nested structs.
 This also applies through concrete generic aliases and imported structs; defaults use the
 imports visible in the declaring file.
 Fixed array fields initialize each element with its specialized generic defaults.</p>
 <p>Generic types brought into scope by a selective import retain their declaring module when
 passed to generic functions and methods in other modules.</p>
+<p>Type arguments retain the module where they are declared when used in a generic struct from
+another module, including arguments inside arrays, pointers, and maps.</p>
+<p>Methods called on a generic factory result retain their dependencies in the compiled program.</p>
+<p>Returning a generic struct as a generic interface retains its concrete methods, including when
+an interface type argument is itself a generic interface.</p>
 <div class="language-v">
 struct Repo[T] {
     db DB
@@ -1724,9 +1871,15 @@ post := posts_repo.find_by_id(1)? // find_by_id[Post]
 </div>
 <p>A generic method retains its receiver type when called inside a function returning multiple
 values, including a Result tuple. The enclosing return type does not replace receiver arguments.
-This also applies when a value from a Result tuple is returned as an interface.</p>
+This also applies when a value from a Result tuple is returned as an interface.
+An explicitly specialized generic method can also be stored as a function value when the
+method is promoted from an embedded struct; the value binds that embedded receiver.</p>
+<p>Editor hover and definition queries resolve generic type parameters within their declaration.
+A later declaration using a module type with the same name resolves to that module type.</p>
 <p>Generic calls keep the identity of caller types even when an imported module declares a type
-with the same short name.</p>
+with the same short name.
+Inside a generic declaration, its type parameters take precedence over same-named concrete
+types. A concrete single-letter struct can still be passed as a generic type argument.</p>
 <p>Currently generic function definitions must declare their type parameters, but in
 future versions, V will infer generic type parameters from single-letter type names in
 runtime parameter types. This is why the <code>find_by_id(1)</code> calls above can omit <code>[T]</code>,
@@ -1736,6 +1889,8 @@ are resolved in the module that defines the method, so a caller type with the sa
 does not change the inferred type arguments. <code>typeof(call()).name</code> reports the concrete
 return type of an inferred generic method call.
 Inference also follows receivers obtained by unwrapping an option or propagating a result.</p>
+<p>Nested generic calls preserve reference return types when passed directly to another generic
+call, including references stored as map values.</p>
 <p>Another example:</p>
 <div class="language-v">fn compare[T](a T, b T) int {
     if a &lt; b {
@@ -1763,6 +1918,51 @@ println(compare(1.1, 1.2)) //         -1
 <p>V can also infer a generic callback's return type from an unbound instance
 method passed as an argument, such as <code>item.call(Item.value)</code> when <code>call[T]</code>
 accepts a <code>fn (mut Item) T</code> callback.</p>
+<p>Generic type inference also works with field initialization shorthand in nested calls.
+For <code>struct Box[T] { value T }</code> and <code>fn wrap[U](box Box[U]) Box[U]</code>,
+<code>wrap(value: 42)</code> infers <code>U</code> as <code>int</code>. The struct and function may use different
+parameter names or arrange those parameters in a different order.</p>
+<h3 id="constraints">Constraints <a href="type-declarations.html#constraints" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>A type parameter can name, after it, what its type arguments must be: an interface,
+which a type argument implements; a sum type, or an alias of one, whose variants are
+the types it takes; or a struct, which takes that struct and the structs that embed it.
+A call is checked against the constraint where it is written, and in the body a value
+of the type parameter has what the constraint provides: the members of the interface
+or of the struct, or what every variant of the sum type has, operators included.
+Nested generic sums retain the variants of each concrete instance. For example,
+<code>Part[int] | Part[string]</code> accepts variants from both instances of <code>Part[T]</code>.
+Recursive sum constraints that keep growing their type arguments are rejected instead of
+silently omitting nested variants. Finite recursive instances and aliases remain valid.
+Modules referenced only by a generic constraint still count as used imports.
+Struct constraints accept finite embedding paths without a depth limit.</p>
+<div class="language-v">interface Named {
+    name string
+}
+
+struct User {
+    name string
+    age  int
+}
+
+fn longest[T Named](a T, b T) T {
+    return if a.name.len &gt;= b.name.len { a } else { b }
+}
+
+type Number = int | f64
+
+fn half[T Number](x T) T {
+    return x / 2
+}
+
+fn main() {
+    println(longest(User{ name: 'ana' }, User{ name: 'leonor' }).name) // leonor
+    println(half(7)) // 3
+    println(half(1.5)) // 0.75
+}
+</div>
+<p><code>longest(1, 2)</code> is reported at the call: <code>int</code> does not implement <code>Named</code>. And a body
+that used <code>a.age</code> would be reported too, as <code>Named</code> declares no <code>age</code>. In a branch of
+<code>$if T is f64 {</code>, <code>T</code> is <code>f64</code>, and in its <code>$else</code> the rest of the set.</p>
 <h3 id="structured-generic-receiver-patterns">Structured generic receiver patterns <a href="type-declarations.html#structured-generic-receiver-patterns" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Generic methods can constrain their receiver to a <em>structured</em> shape of the
 wrapped type, and the checker will bind the inner type parameters from the
@@ -1837,7 +2037,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4000"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4378"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1852,9 +2052,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.711Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

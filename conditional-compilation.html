@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -1018,6 +1062,9 @@ fn main() {
 <h3 id=".fields"><h4 id="comptime-fields">.fields</h4> <a href="#.fields" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can iterate over struct fields using <code>.fields</code>, it also works with generic types
 (e.g. <code>T.fields</code>) and generic arguments (e.g. <code>param.fields</code> where <code>fn gen[T](param T) {</code>).</p>
+<p>Each field's <code>.attrs</code> is an array of strings. Inside the reflection loop, you can use
+<code>for attr in field.attrs</code> or <code>for index, attr in field.attrs</code> to process these strings at runtime,
+including calls such as <code>attr.split_any(':')</code>. The index has type <code>int</code>.</p>
 <div class="language-v">struct User {
     name string
     age  int
@@ -1033,6 +1080,50 @@ fn main() {
 
 // Output:
 // name is of type string
+</div>
+<p>A <code>$if</code> in a reflection loop is decided at compile time, separately for each item. Its
+condition can compare the loop variable's metadata with literals (<code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>,
+<code>&gt;=</code>, <code>in</code>), check types with <code>is</code>, test names with <code>.starts_with()</code>, <code>.ends_with()</code>,
+<code>.contains()</code> and <code>.len</code>, and combine those with <code>&amp;&amp;</code>, <code>||</code> and <code>!</code>.
+Pure string method chains on literal or substituted reflection strings also support
+<code>all_before</code>, <code>all_after</code>, <code>all_before_last</code>, <code>all_after_last</code>, <code>trim</code>, <code>trim_left</code>,
+<code>trim_right</code>, <code>trim_space</code>, <code>trim_string_left</code>, <code>trim_string_right</code>, <code>replace</code>,
+<code>to_lower</code>, <code>to_upper</code>, and <code>count</code>, when every argument is a compile-time-known string.
+These scalar operations also fold in ordinary expressions and constant initializers. Operands
+may be literals, reflection strings, constants, or immutable locals initialized from them.
+Static string slices (<code>text[start..end]</code>) and <code>.len</code> also fold. Mutable locals stay runtime;
+using one in a compile-time condition is an error.</p>
+<p><code>$for</code> can iterate <code>split</code>, <code>split_any</code>, or <code>fields</code> of a compile-time-known string. Each
+iteration binds its variable to a string literal in its own scope. The compiler unrolls the
+body without allocating an array or parsing the string at runtime:</p>
+<div class="language-v">fn main() {
+    path := 'GET /users/:id/posts'.all_after(' ').trim_left('/')
+    $for segment in path.split('/') {
+        $if !segment.starts_with(':') {
+            println(segment)
+        }
+    }
+}
+</div>
+<p>A source containing runtime operands or unsupported operations is an error. String arrays
+from these calls are folded only as <code>$for</code> sources. A condition that cannot be decided at
+compile time is reported as an error:</p>
+<div class="language-v">struct User {
+    name string
+    age  int
+}
+
+fn main() {
+    $for field in User.fields {
+        // The string operation is evaluated separately for each reflected field.
+        $if field.name.to_upper() == 'AGE' {
+            println('${field.name} is the age')
+        }
+    }
+}
+
+// Output:
+// age is the age
 </div>
 <h3 id=".values"><h4 id="comptime-values">.values</h4> <a href="#.values" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can read <a href="type-declarations.html#enums">Enum</a> values and their attributes.</p>
@@ -1125,6 +1216,22 @@ fn main() {
 </div>
 <h3 id=".params"><h4 id="comptime-method-params">.params</h4> <a href="#.params" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can retrieve information about struct method params.</p>
+<p>Generic comptime method calls enforce the same mutable pointer parameter requirements
+as calls through a concrete receiver type, including calls forwarded through generic functions
+and methods. An explicit <code>mut param &amp;T</code> requires a mutable <code>&amp;T</code> variable, rather than a
+<code>mut param T</code> value parameter.</p>
+<p>A reflected method call can pass explicit arguments followed by <code>...args</code> to supply the remaining
+parameters. The spread can be empty when the method has no remaining parameters. Explicit arguments
+before the spread still follow the method's <code>mut</code> parameter requirements.</p>
+<p>Trailing parameters declared as <code>?T</code> can be omitted from a reflected method call.
+An alias of an option type still requires an explicit argument.</p>
+<p>Inside a <code>.methods</code> reflection loop, <code>method.args</code> is a runtime array of <code>FunctionParam</code> records.
+Runtime loops over slices such as <code>method.args[1..]</code> retain each parameter's <code>name</code> and <code>typ</code>.</p>
+<p>Runtime dispatch can select calls with different arities using <code>method.args.len</code> or
+<code>method.params.len</code> guards, including guards combined with runtime conditions. In these branches,
+calls incompatible with the current method's arity are omitted. Compatible calls still enforce
+mutable parameter requirements. Methods with an implicit veb context accept an explicit context
+before their declared route arguments; that inserted context is absent from <code>method.args</code> metadata.</p>
 <div class="language-v">struct Test {
 }
 
@@ -1275,26 +1382,31 @@ compile time call. Paths can be absolute or relative to the source file.</p>
 <code>@VMODROOT</code>, <code>@DIR</code>, <code>$d</code> and <code>$env</code>.</p>
 <div class="language-v">logo := $embed_file('@VEXEROOT/examples/assets/logo.png')
 </div>
-<p>Note that by default, using <code>$embed_file(file)</code>, will always embed the whole content
-of the file, but you can modify that behaviour by passing: <code>-d embed_only_metadata</code>
-when compiling your program. In that case, the file will not be embedded. Instead,
-it will be loaded <em>the first time</em> your program calls <code>embedded_file.data()</code> at runtime,
-making it easier to change in external editor programs, without needing to recompile
-your program.</p>
+<p>The whole content of the file is embedded only in <code>-prod</code> builds (and in portable
+<code>-os cross</code> C output). A normal development build stores just the file's path and
+the file is loaded from that path <em>the first time</em> your program calls
+<code>embedded_file.data()</code> at runtime. This keeps rebuilds cheap and lets you change
+the file in an external editor without recompiling your program.</p>
+<p>Because the stored path points to the machine the program was built on, a
+development build panics when it runs where that file does not exist, for example
+on another computer, or after cross compiling for another OS. Use <code>-prod</code> for
+anything you distribute.</p>
 <p>Embedding a file inside your executable, will increase its size, but
 it will make it more self contained and thus easier to distribute.
-When that happens (the default), <code>embedded_file.data()</code> will cause <em>no IO</em>,
+When that happens (with <code>-prod</code>), <code>embedded_file.data()</code> will cause <em>no IO</em>,
 and it will always return the same data.</p>
 <p>With <code>-prod</code>, a large embedded file is stored through the assembler's <code>.incbin</code>
 directive: V writes the bytes to a file, assembles a small <code>.S</code> source that
 includes it, and links the resulting object next to the generated C, so the C
 compiler never has to parse the bytes as an array initializer. That happens when
 the build links natively with GCC, Clang or MinGW, or with TCC targeting the
-host on non-macOS systems when a GCC or Clang compatible compiler is installed.
+host on systems other than macOS and Windows when a GCC or Clang compatible
+compiler is installed.
 On ELF targets, the payload object marks its stack as non-executable.
 Generated C or object output (<code>-o file.c</code>, <code>-o file.o</code>, <code>-generate-c-project</code>),
 MSVC, iOS and WebAssembly targets, and a Windows target built on another OS keep
-the array form. TCC builds targeting another OS or architecture also keep it.
+the array form. TCC builds on macOS and Windows, and TCC builds targeting another
+OS or architecture, also keep it.
 <code>-keepc</code>, an explicit <code>-b c</code>, and <code>-dump-c-flags</code> also keep the array form so
 their retained output does not depend on temporary object files. <code>-d no_incbin</code>
 selects it everywhere.</p>
@@ -1311,7 +1423,11 @@ and in some cases may even take more space in the final executable, since they a
 already compressed.</p>
 <p><code>$embed_file</code> returns
 <a href="https://modules.vlang.io/v.embed_file.html#EmbedFileData">EmbedFileData</a>
-which could be used to obtain the file contents as <code>string</code> or <code>[]u8</code>.</p>
+which could be used to obtain the file contents as <code>string</code> or <code>[]u8</code>.
+Its <code>.data()</code> method also accepts immutable values and constants, returning a byte pointer.</p>
+<p>Use the returned value: discarding <code>$embed_file</code> as a statement is an error, including
+when it is the fallback value of an unused <code>or</code> expression with nested <code>or</code> blocks.
+Passing it as a call argument consumes the value, even when the call has an <code>or</code> block.</p>
 <h3 id="$tmpl-for-embedding-and-parsing-v-template-files"><code>$tmpl</code> for embedding and parsing V template files <a href="conditional-compilation.html#$tmpl-for-embedding-and-parsing-v-template-files" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>V has a simple template language for text and html templates, and they can easily
 be embedded via <code>$tmpl('path/to/template.txt')</code>:
@@ -1469,6 +1585,8 @@ time, without modifying your source code, or keeping different versions of it.</
 <h3 id="$compile_error-and-$compile_warn"><code>$compile_error</code> and <code>$compile_warn</code> <a href="conditional-compilation.html#$compile_error-and-$compile_warn" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>These two comptime functions are very useful for displaying custom errors/warnings during
 compile time.</p>
+<p>Top-level compile errors and warnings in imported modules are evaluated even when none of their
+functions is called.</p>
 <p>Both receive as their only argument a string literal that contains the message to display:</p>
 <div class="language-v">// x.v
 module main
@@ -1580,7 +1698,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7010"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8163"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1595,9 +1713,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.794Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

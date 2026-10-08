@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -894,6 +938,8 @@
                     <div class="content-container">
                         <main class="v-doc">
                             <h1 class="main">Structs</h1>
+<p>Concrete struct names can be a single capital letter, such as <code>M</code>. Functions can return these
+structs directly, as results (<code>!M</code>), or as options (<code>?M</code>).</p>
 <div class="language-v">struct Point {
     x int
     y int
@@ -1088,6 +1134,18 @@ __global:
     f int // public and mutable both inside and outside parent module
 }
 </div>
+<p>Access modifiers can also be written before individual fields to preserve their declaration order:</p>
+<div class="language-v">struct Record {
+    a         int
+    mut     b int
+    pub     c int
+    pub mut d int
+}
+</div>
+<p>An inline <code>pub</code>, <code>mut</code>, or <code>pub mut</code> applies only to that field (or comma-separated field group).
+It overrides the current section for that declaration; following fields still use the section's
+modifiers. Without a section, following fields remain private and immutable.
+<code>v fmt</code> preserves inline modifiers and aligns their field types.</p>
 <p>Private fields are available only inside the same <a href="modules.html">module</a>, any attempt
 to directly access them from another module will cause an error during compilation.
 Public immutable fields are readonly everywhere.
@@ -1127,6 +1185,13 @@ user := User.new()
 </div>
 <p>This is an alternative to factory functions like <code>fn new_user() User {}</code> and should be used
 instead.</p>
+<p>Static type methods can also be used as function values by omitting the call parentheses,
+such as <code>make_user := User.new</code>. A field selector rooted in a local variable, constant, or
+global reads that value's field; it does not name a static type method.</p>
+<p>Instance methods can also be used as unbound function values, such as <code>f := User.register</code>.
+The receiver becomes the first parameter, so a mutable receiver is passed as <code>f(mut user)</code>.
+Inside a method reflection loop, <code>T.$method</code> likewise creates an unbound function value.
+Unbound and reflected method values follow the same method privacy and <code>mut</code> argument rules.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 Note, that these are not constructors, but simple functions. V doesn't have constructors or
@@ -1136,6 +1201,8 @@ classes.</p>
 <p>V supports <code>[noinit]</code> structs, which are structs that cannot be initialised outside the module
 they are defined in. They are either meant to be used internally or they can be used externally
 through <em>factory functions</em>.</p>
+<p>The restriction applies to empty literals and literals with explicit fields, including aliases
+and concrete generic instances of the struct.</p>
 <p>For an example, consider the following source in a directory <code>sample</code>:</p>
 <div class="language-v">module sample
 
@@ -1240,6 +1307,7 @@ print(button)
 <p>If you need to access embedded structs directly, use an explicit reference like <code>button.Size</code>.</p>
 <p>Optional fields keep their optional type when accessed through multiple embedded structs.
 You can unwrap them with an <code>if</code> guard, including after an earlier check against <code>none</code>.</p>
+<p>Omitted embedded structs retain their declared field defaults, including interface values.</p>
 <p>Conceptually, embedded structs are similar to <a href="https://en.wikipedia.org/wiki/Mixin">mixin</a>s
 in OOP, <em>NOT</em> base classes.</p>
 <p>You can also initialize an embedded struct:</p>
@@ -1267,7 +1335,7 @@ targeted.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2725"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3015"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1282,9 +1350,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.663Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 

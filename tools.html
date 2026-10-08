@@ -238,6 +238,9 @@
                         <a class="nav-entry-link" href="v-types.html#primitive-types"> Primitive types</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="v-types.html#128-bit-integers"> 128-bit integers</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="v-types.html#strings"> Strings</a>
                     </div>
                     <div class="nav-entry">
@@ -499,6 +502,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="concurrency.html#difference-between-channels-and-shared-objects"> Difference Between Channels and Shared Objects</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="concurrency.html#race-detector"> Race Detector</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -513,6 +519,14 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="json.html#encoding-json"> Encoding JSON</a>
                     </div>
+                    </div>
+                    </div>
+                    <div class="nav-group">
+                    <div class="nav-entry is-group-header">
+                    <a class="nav-entry-link" href="protocol-buffers.html">Protocol Buffers</a>
+
+                    </div>
+                    <div class="nav-group-body">
                     </div>
                     </div>
                     <div class="nav-group">
@@ -593,7 +607,22 @@
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-skills"> v skills</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-clean"> v clean</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-env"> v env</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-shader"> v shader</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#v-tool"> v tool</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#profiling"> Profiling</a>
@@ -610,7 +639,16 @@
                         <a class="nav-entry-link" href="package-management.html#package-names-and-import-paths"> Package names and import paths</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#v-mod-why"> v mod why</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#package-commands"> Package commands</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#resolving-package-versions"> Resolving package versions</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="package-management.html#locking-dependency-revisions"> Locking dependency revisions</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="package-management.html#publish-package"> Publish package</a>
@@ -832,6 +870,9 @@
                         <a class="nav-entry-link" href="other-v-features.html#inline-assembly"> Inline assembly</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#whole-function-assembly"> Whole-function assembly</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#hot-code-reloading"> Hot code reloading</a>
                     </div>
                     <div class="nav-entry">
@@ -839,6 +880,9 @@
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="other-v-features.html#vsh-scripts-with-no-extension"> Vsh scripts with no extension</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="other-v-features.html#source-locations-in-generated-code"> Source locations in generated code</a>
                     </div>
                     </div>
                     </div>
@@ -902,6 +946,11 @@
 <p>It's recommended to set up your editor, so that <code>v fmt -w</code> runs on every save.
 A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 <p>Always run <code>v fmt -w file.v</code> before pushing your code.</p>
+<p>The formatter checks syntax without requiring the code to pass semantic checks.
+For example, it preserves closure captures and loop binder mutability while you edit
+incomplete code.</p>
+<p>Backend options before <code>fmt</code>, such as <code>v -b arm64 fmt file.v</code>, or in <code>VFLAGS</code> are honored.
+The <code>arm64</code> and <code>eval</code> backends use the same source formatting rules as <code>c</code>.</p>
 <p>A function, loop, <code>if</code> branch or <code>match</code> branch whose body is a single statement
 stays on one line when you write it that way and it fits in 100 columns:</p>
 <div class="language-v">struct Point {
@@ -934,6 +983,151 @@ so it may rewrite a file accepted by either check mode.</p>
 // Affected by fmt
 ... your code here ...
 </code></pre>
+<h2 id="v-mcp">v mcp <a href="tools.html#v-mcp" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><code>v mcp</code> runs a <a href="https://modelcontextprotocol.io">Model Context Protocol</a> server
+that gives a coding agent the V compiler's own view of a project: what the code
+declares, what does not compile, what a symbol refers to, and the bundled skills
+that describe the language.</p>
+<pre><code class="language-shell">v mcp serve                     # over stdio, which is what an MCP client launches
+v mcp serve --http 127.0.0.1:0  # over Streamable HTTP
+v mcp serve --root DIR          # resolve relative paths against DIR
+v mcp serve --read-only         # register no tool that writes a file
+v mcp tools                     # list the tools, with what each one answers
+</code></pre>
+<p>The server is not a separate index. It calls the V parser, checker and formatter
+in process, so it answers correctly about code that does not compile yet. Only the
+tools that genuinely compile or run something start the compiler.</p>
+<p>The tools fall into groups:</p>
+<ul>
+<li>Project: <code>v_project_info</code>, <code>v_modules</code>, <code>v_files</code>.</li>
+<li>Code: <code>v_ast</code>, <code>v_symbols</code>, <code>v_symbol_at</code>, <code>v_references</code>, <code>v_stdlib_doc</code>.</li>
+<li>Checking: <code>v_check</code>, <code>v_test_run</code>, <code>v_doctor</code>, <code>v_veb_routes</code>, <code>v_skills</code>.</li>
+<li>Running: <code>v_run</code>, <code>v_eval</code>.</li>
+<li>Editing: <code>v_edit_replace</code>, <code>v_rename_symbol</code>, <code>v_format</code>.</li>
+</ul>
+<p>The editing tools default to reporting a plan rather than writing:
+<code>v_rename_symbol</code> and <code>v_format</code> are dry runs unless told otherwise, and
+<code>v_edit_replace</code> requires the caller to pass back the text it expects to find, so
+it refuses to write over a concurrent change. <code>--read-only</code> does not register them
+at all.</p>
+<p>Symbol renames include named struct initializer keys and preserve the <code>@</code> prefix
+on escaped method calls. Formatting refuses source with parser errors and preserves
+the original file.</p>
+<p>To use it from an MCP client, point the client at the command:</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;v&quot;: { &quot;command&quot;: &quot;v&quot;, &quot;args&quot;: [&quot;mcp&quot;, &quot;serve&quot;] }
+  }
+}
+</code></pre>
+<p>The server also publishes its model instructions, which describe the order to call
+the tools in. Print them with <code>v mcp serve --instructions</code>.</p>
+<h2 id="v-skills">v skills <a href="tools.html#v-skills" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><code>v skills</code> installs the agent skills that ship with the compiler. A skill is a
+directory with a <code>SKILL.md</code> entry point, the layout coding agents already read.</p>
+<pre><code class="language-shell">v skills list                    # the bundled catalog, and where each one stands
+v skills add v-mcp               # install into .agents/skills/ of this project
+v skills add v-mcp --global      # install into ~/.agents/skills for this user
+v skills remove v-mcp            # uninstall
+v skills path v-mcp              # where a skill is installed
+v skills update                  # refresh unchanged installs from newer bundles
+</code></pre>
+<p>A project install is committed and shared with the team; a <code>--global</code> install
+applies to every project on the machine. Installing a skill that is already there
+is skipped rather than overwritten, so a local edit survives; <code>--force</code> restores
+the bundled copy. <code>v skills list</code> marks unchanged installations from older bundles
+as <code>stale</code>, and locally edited or unrecorded installations as <code>edited or unrecorded</code>.
+Each status names the update command for that scope; global installations need
+<code>v skills update --global</code>. A deleted installed file also counts as a local edit.</p>
+<p><code>v skills update</code> uses the recorded installation digest to refresh unchanged skills
+from newer bundles. Locally edited or unrecorded installations are held back unless
+<code>--force</code> is passed; unreadable files are treated as unknown and held back too.
+Use <code>--dry-run</code> to preview updates. The provenance file <code>origin.json</code> must be a regular
+file: installation refuses symlinks and other file types before replacing skill content.
+<code>v.skills.content_digest</code> returns an error if any requested file cannot be read.</p>
+<p>Installation stages all bundled files in a sibling directory before replacing an
+existing skill. A staging failure preserves the installed copy; a failed replacement
+attempt restores the previous directory. Existing files at the skill destination are
+refused, including with <code>--force</code>.</p>
+<p>The <code>v.skills.refresh_candidates</code> API returns separate lists of safe refreshes
+and installations held back for local changes or missing provenance. The
+<code>out_of_date</code> API only compares content and cannot distinguish these cases.</p>
+<p>Skill names must contain only lowercase letters, digits and single hyphens, and
+must match the bundled name. Installation stays within an immediate child of the
+skills directory, including with <code>--force</code>; bundled file paths cannot escape that
+skill and must refer to regular files. The <code>v-workflow</code> check script exits with a
+nonzero status when any compilation, formatting or vet check fails. The bundled
+<code>v-testing</code> runner uses the normal child reporter while preserving other <code>VFLAGS</code>
+options, and treats an empty test selection as a failure.</p>
+<p>The skills are read from the source tree at run time rather than embedded into the
+binary, so a skill can be reviewed and diffed in the repository and adding one
+needs no rebuild.</p>
+<h2 id="v-clean">v clean <a href="tools.html#v-clean" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A V build writes its executable next to the sources it was built from, named
+after them. That is convenient for <code>v run file.v</code> and awkward for a project you
+have been building in place, because the binaries pile up beside the code and
+nothing else in the toolchain tracks them.</p>
+<p><code>v clean</code> removes the executables a default build would produce for the paths
+you name:</p>
+<pre><code class="language-shell">v clean                 # the current directory
+v clean ./cmd/mytool    # one project folder
+v clean hello.v         # one source file
+</code></pre>
+<p>For a directory the executable is named after the directory, and for a <code>.v</code>
+file after the file, which is exactly what the compiler does, so <code>v clean .</code>
+after a <code>v .</code> build removes the binary that build left:</p>
+<pre><code class="language-shell">$ v clean .
+removed `/home/me/mytool/mytool`
+</code></pre>
+<p>Anything else in the directory is left alone. <code>v clean</code> removes the one name
+the compiler itself would have written and nothing more, so a stray executable
+or a source file survives it.</p>
+<p>Use <code>-n</code> to see what it would do first, and <code>-x</code> to have it print each removal
+as a command:</p>
+<pre><code class="language-shell">$ v clean -n .
+rm /home/me/mytool/mytool
+</code></pre>
+<p>A path whose executable name cannot be worked out with certainty is refused
+instead of guessed, and the command exits 1, which matters because this command
+deletes files.</p>
+<p><code>v clean</code> does not touch the build cache. That is <code>v wipe-cache</code>, kept separate
+because it affects every project on the machine rather than the ones named
+here.</p>
+<h2 id="v-env">v env <a href="tools.html#v-env" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><code>v env</code> prints the environment variables that steer the V compiler and its
+tools. Every setting is reported on its own <code>NAME=&quot;value&quot;</code> line, which makes
+the output easy to read in a script:</p>
+<pre><code class="language-shell">v env
+</code></pre>
+<pre><code>VEXE=&quot;/home/me/v/v&quot;
+VROOT=&quot;/home/me/v&quot;
+VOS=&quot;linux&quot;
+VARCH=&quot;amd64&quot;
+VVERSION=&quot;V 0.5.2 8e2b0f4c1a&quot;
+VMODULES=&quot;/home/me/.vmodules&quot;
+VTMP=&quot;/tmp/v_1000&quot;
+VFLAGS=&quot;&quot;
+CFLAGS=&quot;&quot;
+LDFLAGS=&quot;&quot;
+...
+</code></pre>
+<p>A variable that is not set reports the value V would use anyway, so <code>VMODULES</code>
+and <code>VTMP</code> show their default paths instead of an empty string. That makes
+<code>v env</code> the place to look when a build picks up a setting you did not expect,
+or when you want to know which folder V writes temporary files to.</p>
+<p>Ask for one setting to get just its value, with no quoting and no other lines,
+which is what a shell substitution wants:</p>
+<pre><code class="language-shell"># install a module without hardcoding where that is
+v install --path &quot;$(v env VMODULES)&quot;
+</code></pre>
+<p>Use <code>-json</code> to get the same values as a JSON object:</p>
+<pre><code class="language-shell">v env -json
+</code></pre>
+<p><code>v env NAME</code> fails with an error naming the known settings if the name is not
+one of them. For a bug report, use <code>v doctor</code> instead: it also shows compiler
+versions, git state and C toolchain details.</p>
+<p>Note that <code>VOSARGS</code> replaces the whole command line of every <code>v</code> invocation, so
+exporting it in a shell makes each later <code>v</code> call ignore its own arguments.</p>
 <h2 id="v-shader">v shader <a href="tools.html#v-shader" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can use GPU shaders with V graphical apps. You write your shaders in an
 <a href="https://github.com/vlang/v/blob/master/examples/sokol/02_cubes_glsl/cube_glsl.glsl">annotated GLSL dialect</a>
@@ -943,6 +1137,30 @@ and use <code>v shader</code> to compile them for all supported target platforms
 <p>Currently you need to
 <a href="https://github.com/vlang/v/blob/master/examples/sokol/02_cubes_glsl/cube_glsl.v#L25-L28">include a header and declare a glue function</a>
 before using the shader in your code.</p>
+<h2 id="v-tool">v tool <a href="tools.html#v-tool" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>VPM installs modules rather than binaries, so a CLI tool written in V has to be
+run by path today: <code>v run ~/.vmodules/mytool</code>, or <code>v run ../mytool</code> for a checkout
+beside the project. Both need a path you have to know and keep correct.</p>
+<p><code>v tool NAME</code> resolves <code>NAME</code> the way an import would, then builds and runs that module:</p>
+<pre><code class="language-shell">$ v tool greet
+hello from the tool
+</code></pre>
+<p>Because it reuses the compiler's own module lookup, that finds a tool installed
+with <code>v install</code> and equally a tool you have a checkout of next to the project,
+without either path being written down anywhere.</p>
+<p>With no argument, <code>v tool</code> lists the tool modules of the project and of the
+global module folders, so the names do not have to be remembered:</p>
+<pre><code class="language-shell">$ v tool
+myproject
+mytool
+</code></pre>
+<p>A module is a tool when its root holds a <code>main.v</code>. A library module asked for
+by name is refused rather than attempted, and a name that resolves to nothing is an
+error.</p>
+<p>Running a tool builds and starts the module, which means running code from a
+module in the module search path. That is the same trust that <code>v install</code> already
+places in a module you chose to install, but it is worth knowing before running a
+name you did not install yourself.</p>
 <h2 id="profiling">Profiling <a href="tools.html#profiling" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V has good support for profiling your programs: <code>v -profile profile.txt run file.v</code>.
 That will produce a <code>profile.txt</code> file when the program exits, which you can then
@@ -984,7 +1202,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6393"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7189"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -999,9 +1217,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-09-28T15:22:45.768Z">Last updated:
-                                        2026-09-28 15:22:45, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a696d30c28258527dd702dfe38bfd5471a84a5cb">a696d30</a></time>
+                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
+                                        2026-10-07 11:02:01, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
                                 </div>
                             </div>
 
@@ -1034,7 +1252,22 @@ fn main() {
                                         <a href="#v-fmt">v fmt</a>
                                     </li>
                                     <li class="active">
+                                        <a href="#v-mcp">v mcp</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#v-skills">v skills</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#v-clean">v clean</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#v-env">v env</a>
+                                    </li>
+                                    <li class="active">
                                         <a href="#v-shader">v shader</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#v-tool">v tool</a>
                                     </li>
                                     <li class="active">
                                         <a href="#profiling">Profiling</a>
