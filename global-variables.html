@@ -944,6 +944,9 @@ Declarations of global variables must be surrounded with a <code>__global ( ... 
 specification – as in the example <a href="atomics.html">above</a>.</p>
 <p>An initializer for global variables must be explicitly converted to the
 desired target type. If no initializer is given a default initialization is done.
+Global map references can be initialized with empty or populated map literals, such as
+<code>&amp;map[string]bool{}</code> or <code>&amp;{'enabled': true}</code>. The referenced map is allocated and initialized
+before the declaring module's <code>init()</code> function runs.
 Use <code>const</code> after <code>__global</code> (or inside the <code>__global ( ... )</code> block) when the symbol
 must stay a true C-level constant. Non-extern const globals currently require an explicit
 initializer that can be emitted directly in C global scope.
@@ -1020,7 +1023,7 @@ that happens to collide will not stop your build.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9805"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9813"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1035,9 +1038,9 @@ that happens to collide will not stop your build.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
-                                        2026-10-07 11:02:01, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
+                                    <time datetime="2026-10-08T20:39:57.000Z">Last updated:
+                                        2026-10-08 20:39:57, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/244cee4c6871819ac7a6726268e669e863e90ba4">244cee4</a></time>
                                 </div>
                             </div>
 

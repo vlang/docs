@@ -1188,6 +1188,10 @@ instead.</p>
 <p>Static type methods can also be used as function values by omitting the call parentheses,
 such as <code>make_user := User.new</code>. A field selector rooted in a local variable, constant, or
 global reads that value's field; it does not name a static type method.</p>
+<p>A static type method and an instance method can share a name. <code>User.draw(...)</code> calls the
+static method, while <code>user.draw(...)</code> calls the instance method. Each method has its own
+visibility: a <code>pub fn User.draw(...)</code> is accessible from other modules as
+<code>module_name.User.draw(...)</code>, even when the instance method <code>draw</code> is private.</p>
 <p>Instance methods can also be used as unbound function values, such as <code>f := User.register</code>.
 The receiver becomes the first parameter, so a mutable receiver is passed as <code>f(mut user)</code>.
 Inside a method reflection loop, <code>T.$method</code> likewise creates an unbound function value.
@@ -1350,9 +1354,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-07T11:02:01.000Z">Last updated:
-                                        2026-10-07 11:02:01, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/162bf5d1e0ccf749ee7125e0b6704f9dee1b1334">162bf5d</a></time>
+                                    <time datetime="2026-10-08T20:39:57.000Z">Last updated:
+                                        2026-10-08 20:39:57, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/244cee4c6871819ac7a6726268e669e863e90ba4">244cee4</a></time>
                                 </div>
                             </div>
 
