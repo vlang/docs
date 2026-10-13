@@ -942,6 +942,10 @@
 string buffers, promoting a simple abstraction-free code style.</p>
 <p>There are 4 ways to manage memory in V.</p>
 <p>The default is a minimal and a well performing tracing GC.</p>
+<p>With Boehm GC, <code>-d no_gc_thread_local_alloc</code> builds the bundled collector without thread-local
+allocation, so allocation counters also observe warmed small-object allocations. It uses the
+platform C compiler unless <code>-cc</code> selects one explicitly. This option preserves compiler selection
+when GC is disabled or <code>-d dynamic_boehm</code> is enabled; an empty define value does not enable a flag.</p>
 <p>The second way is autofree, it can be enabled with <code>-autofree</code>. It takes care of most objects
 (~90-100%): the compiler inserts necessary free calls automatically during compilation.
 Remaining small percentage of objects is freed via GC. The developer doesn't need to change
@@ -1259,7 +1263,7 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6594"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6670"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1274,9 +1278,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-10T00:44:35.000Z">Last updated:
-                                        2026-10-10 00:44:35, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c6bb06f5c04d78f9f6d22a57c257d27e835ba40a">c6bb06f</a></time>
+                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
+                                        2026-10-12 23:35:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
                                 </div>
                             </div>
 

@@ -1386,7 +1386,9 @@ compile time call. Paths can be absolute or relative to the source file.</p>
 <code>-os cross</code> C output). A normal development build stores just the file's path and
 the file is loaded from that path <em>the first time</em> your program calls
 <code>embedded_file.data()</code> at runtime. This keeps rebuilds cheap and lets you change
-the file in an external editor without recompiling your program.</p>
+the file in an external editor without recompiling your program.
+<code>embedded_file.len</code> is the size of the file when the program was compiled, until
+the file is loaded. After that it is the size of what was loaded.</p>
 <p>Because the stored path points to the machine the program was built on, a
 development build panics when it runs where that file does not exist, for example
 on another computer, or after cross compiling for another OS. Use <code>-prod</code> for
@@ -1698,7 +1700,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8171"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8299"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1713,9 +1715,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-09T04:15:24.000Z">Last updated:
-                                        2026-10-09 04:15:24, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/e6dace8ca9ce9eed6adc56a82a439a632530a5c3">e6dace8</a></time>
+                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
+                                        2026-10-12 23:35:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
                                 </div>
                             </div>
 

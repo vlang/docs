@@ -1181,7 +1181,8 @@ has lines with 5 columns:</p>
 <li>How many times a function was called.</li>
 <li>How much time in total a function took (in ms).</li>
 <li>How much time a function took (in ms), on its own, without the calls inside it.
-It is reliable for multithreaded programs, when tcc is not used.</li>
+Its nesting measurements use thread-local state when tcc is not used, but the aggregate
+counters remain unsynchronized, so multithreaded results are approximate.</li>
 <li>How much time on average, a call to a function took (in ns).</li>
 <li>The name of the v function.</li>
 </ol>
@@ -1196,13 +1197,46 @@ fn main() {
     println('Greeting the world took: ${sw.elapsed().nanoseconds()}ns')
 }
 </div>
+<h3 id="profiling-the-compiler">Profiling the compiler <a href="tools.html#profiling-the-compiler" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>The compiler is a V program too, so <code>-profile</code> works on it. <code>-profile</code> instruments the program that
+is being <em>built</em>, and the report is written when that program exits. To profile the compiler, build
+an instrumented copy of it under another name, and then use that copy to compile something:</p>
+<pre><code class="language-shell">v -cc gcc -profile compiler_profile.txt -o vprof cmd/v
+./vprof -o v2 cmd/v
+</code></pre>
+<p><code>compiler_profile.txt</code> is written when <code>./vprof</code> exits. Compiling the compiler itself, as above, is
+a good workload, but any program works.</p>
+<p>Do not use <code>v -profile compiler_profile.txt self</code> for this. <code>v self</code> replaces your <code>v</code> with the
+instrumented build, and from then on every <code>v</code> command, even <code>v version</code>, rewrites the profile
+file.</p>
+<p>The compiler runs several of its stages on multiple threads, so build the instrumented copy with a
+C compiler other than tcc, such as <code>-cc gcc</code> (used above) or <code>-cc clang</code>. With those, the profiler
+measures the time a function took on its own (the third column) separately for each thread. With
+tcc that measurement is shared by all threads, and the column then contains wrong values, including
+negative ones. Whatever the C compiler is, the counters themselves are plain variables that are not
+synchronized between threads, so the numbers for functions that several threads call at the same
+time are approximate.</p>
+<p>Some tips for reading the report of the compiler:</p>
+<ul>
+<li>Run <code>v -show-timings</code> on the same input first. It prints the time of each compiler stage, such as
+parse, check, transform, cgen and the C compiler, and the total, which tells you where to look.</li>
+<li>Functions where worker threads wait while they have nothing to do, such as
+<code>sync__Semaphore__wait</code> and <code>sync__Semaphore__timed_wait</code>, can rank high when you sort on the
+third column. That is idle time, not work.</li>
+<li>Every profiled call reads the clock twice, so for very short functions the numbers are mostly the
+cost of profiling.</li>
+<li>Compare profiles with the same input, compiler flags and C compiler. Read total time, call count
+and average time per call together: reducing the number of calls can itself be an optimization,
+which an average alone would miss. Unsynchronized counters limit comparisons of multithreaded
+code; use a matched benchmark to verify performance changes.</li>
+</ul>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7198"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7279"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1217,9 +1251,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-10T00:44:35.000Z">Last updated:
-                                        2026-10-10 00:44:35, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c6bb06f5c04d78f9f6d22a57c257d27e835ba40a">c6bb06f</a></time>
+                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
+                                        2026-10-12 23:35:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
                                 </div>
                             </div>
 

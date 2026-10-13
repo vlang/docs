@@ -942,6 +942,44 @@
 by using the V's built-in self-updater.
 To do so, run the command <code>v up</code>.
 This also refreshes the bundled TCC binaries used for fast C compilation.</p>
+<p>After updating, <code>v up</code> refreshes previously cached vlib modules with the compiler
+and flags used to cache them, including normal and <code>-prod</code> builds. Unchanged
+modules are reused. Each module being cached is printed to standard output as
+<code>Caching module &lt;name&gt;...</code>. A failed cache refresh makes <code>v up</code> fail.
+Cached module headers preserve struct field attribute groups, so valid deprecation
+attributes do not introduce warnings during refresh.
+Ordinary builds report cache progress on standard error. Refreshes retain absolute
+module search paths, resolved C compiler commands, and build modes. They omit
+linker-only flags, including operands embedded in <code>-cflags</code>. Relative <code>V3CACHE</code>
+and <code>VTMP</code> paths are resolved against the directory where <code>v up</code> was invoked.
+Refreshes retain each build's working directory for relative C compilation inputs
+and its effective <code>-run-only</code> test selectors and assertion display mode.
+Object flags include source <code>#flag</code> directives. Records with vanished project
+directories or required compile inputs are skipped. Builds without relative inputs
+or project interface scopes share refresh records across projects.
+Project directives are merged with flags from the updated modules, so changes to
+vlib <code>#flag</code> directives take effect during refresh. Cached TCC production builds
+apply the production optimization flags to both module objects and the program.
+Refreshes use the original entry when needed to preserve project interface
+implementers, stopping before linking or running the program. Refreshes
+retain absolute <code>-file-list</code> operands for live entries, re-expanding directories
+to include their current sources. Records whose listed files or directories vanished
+are skipped. Historical records sharing the same live command, working directory,
+entry and assertion display mode refresh once. Synthetic refreshes
+also replay source C driver options such as sanitizers at link time. Records for
+unavailable C compilers are skipped.
+Unreadable, truncated, and unsupported inventory files are skipped. Live entries
+retain their project source identity; after the project input changes, obsolete
+configurations are skipped until a successful build records the current inputs.
+Older live records without source identities require rebuilding the project once.
+Isolated test caches use the primary V compiler executable, including when
+<code>v up</code> runs through the fallback compiler or as a separate tool, or a build uses
+the delegated ownership compiler. Ownership dispatch preserves the primary path
+through <code>V3_PRIMARY_VEXE</code>, independently of the helper's <code>VEXE</code>.</p>
+<p>For caches created before V recorded their build settings, <code>v up</code> identifies the
+cached vlib modules and refreshes them in both modes for the available C compilers,
+for programs and tests. Successful migrations mark the old headers so subsequent
+updates use the new inventory without repeating the fallback matrix.</p>
 <p><code>v up</code> reports the agent skills that the new revision left behind, since a new
 revision may ship updated copies of them. It writes nothing: the skills belong to
 the user, and updating the compiler is not consent to overwrite them. Pass
@@ -973,9 +1011,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-10T00:44:35.000Z">Last updated:
-                                        2026-10-10 00:44:35, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c6bb06f5c04d78f9f6d22a57c257d27e835ba40a">c6bb06f</a></time>
+                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
+                                        2026-10-12 23:35:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
                                 </div>
                             </div>
 

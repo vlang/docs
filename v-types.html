@@ -1367,6 +1367,12 @@ fn hash_step(h u32, b u8) u32 {
 <p>An array is a collection of data elements of the same type. An array literal is a
 list of expressions surrounded by square brackets. An individual element can be
 accessed using an <em>index</em> expression. Indexing starts from <code>0</code>.</p>
+<p>A string literal keeps its string type even when its text names a type alias.
+For example, <code>['Speed']</code> contains strings, while <code>[Speed(7)]</code> contains <code>Speed</code> values.</p>
+<p>After an array literal, separate <code>&amp;&amp;</code> from either adjacent token with whitespace or a comment
+to use logical AND, as in <code>a == [] &amp;&amp; flag</code>. An attached <code>[]&amp;&amp;Type{}</code> declares an array of
+references to references. Separate <code>&amp;</code> on both sides to use the binary AND operator;
+<code>[]&amp;Type{}</code> and <code>[] &amp;Type{}</code> remain array initializers with reference elements.</p>
 <div class="language-v">mut nums := [10, 20, 30]
 println(nums) // `[10, 20, 30]`
 println(nums[0]) // `10`
@@ -1389,6 +1395,13 @@ println(nums) // &quot;[1, 2, 3, 4]&quot;
 nums &lt;&lt; [5, 6, 7]
 println(nums) // &quot;[1, 2, 3, 4, 5, 6, 7]&quot;
 </div>
+<p>Use <code>&lt;&lt; ...array</code> to explicitly append the array's elements. When appending an array of
+concrete values to an empty interface array, <code>&lt;&lt; array</code> appends the whole array as one
+interface value, while <code>&lt;&lt; ...array</code> converts and appends each element separately.
+For example, with <code>interface Value {}</code>, appending <code>['IT']</code> to <code>[]Value{}</code> produces
+<code>[Value(['IT'])]</code> with <code>&lt;&lt;</code> and <code>[Value('IT')]</code> with <code>&lt;&lt; ...</code>.
+<code>insert(index, ...array)</code> and <code>prepend(...array)</code> also convert each source element to the
+destination element type before inserting it.</p>
 <div class="language-v">mut names := ['John']
 names &lt;&lt; 'Peter'
 names &lt;&lt; 'Sam'
@@ -1398,6 +1411,10 @@ names &lt;&lt; 'Sam'
 <div class="language-v">names := ['John', 'Peter', 'Sam']
 println('Alex' in names) // &quot;false&quot;
 </div>
+<p>Use <code>&lt;&lt; ...array</code> to explicitly append the array's elements. For an interface array,
+<code>&lt;&lt; array</code> can append the whole array as one interface value, while <code>&lt;&lt; ...array</code>
+converts each element separately. <code>array.insert(index, ...values)</code> and
+<code>array.prepend(...values)</code> also convert each source element to the destination element type.</p>
 <h3 id="array-fields">Array Fields <a href="v-types.html#array-fields" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>There are two fields that control the &quot;size&quot; of an array:</p>
 <ul>
@@ -1686,6 +1703,8 @@ are used when providing a custom sorting condition.</p>
 numbers.sort() // 1, 2, 3
 numbers.sort(a &gt; b) // 3, 2, 1
 </div>
+<p><code>sorted()</code> returns a sorted copy. Alias element types keep their overloaded <code>&lt;</code> operator,
+including when the receiver is an array literal or a parenthesized array literal.</p>
 <div class="language-v">struct User {
     age  int
     name string
@@ -1729,6 +1748,8 @@ custom_sort_fn := fn (a &amp;User, b &amp;User) int {
 users.sort_with_compare(custom_sort_fn)
 </div>
 <h3 id="array-slices">Array Slices <a href="v-types.html#array-slices" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Iteration over an array slice keeps the array's element type: iterating <code>[]string</code> yields
+strings, including when the containing function is reached through generic calls.</p>
 <p>A slice is a part of a parent array. Initially it refers to the elements
 between two indices separated by a <code>..</code> operator. The right-side index must
 be greater than or equal to the left side index.</p>
@@ -1879,8 +1900,10 @@ Mutable iteration over those fixed elements preserves the same backing lifetime.
 Pointer fields and indexed pointers retain the original fixed-array roots recorded by their owners.
 Borrowing does not clone elements or require a <code>clone()</code> method.</p>
 <p>Passing a local struct's fixed-array storage by reference keeps the local on the stack when
-the called function only reads or writes scalar fields and array elements. Calls that may retain
-the storage still move it to the heap; <code>-warn-about-allocs</code> reports these moves.
+the called function only reads or writes scalar fields and array elements, or passes the
+reference, or the address of an element (<code>&amp;buf[i]</code>), straight on to a function that does the
+same. Calls that may retain the storage still move it to the heap; <code>-warn-about-allocs</code> reports
+these moves.
 Calls through local function values remain conservative, including values that shadow
 function names.
 Explicitly destroying owned source elements invalidates views of those elements, as with other
@@ -2059,7 +2082,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L654"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L695"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2074,9 +2097,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-10T00:44:35.000Z">Last updated:
-                                        2026-10-10 00:44:35, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c6bb06f5c04d78f9f6d22a57c257d27e835ba40a">c6bb06f</a></time>
+                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
+                                        2026-10-12 23:35:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
                                 </div>
                             </div>
 

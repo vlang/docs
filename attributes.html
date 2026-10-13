@@ -946,6 +946,10 @@ See <a href="https://github.com/vlang/v/blob/master/doc/noalloc.md">Allocation c
 function/struct/enum declaration and applies only to the following declaration.
 Attributes with arguments support both <code>name: value</code> and call-style <code>name(value)</code> syntax.
 Call-style attributes can also use named arguments.</p>
+<p>The C backend emits <code>@[_constructor]</code> and <code>@[_destructor]</code> as GNU function attributes before the
+function declarator, so definitions compile with GCC and Clang. When supported by the C compiler,
+these hooks run before <code>main</code> and after it returns. They must not depend on V's runtime being
+initialized. MSVC ignores these attributes.</p>
 <div class="language-v">// @[flag] enables Enum types to be used as bitfields
 
 @[flag]
@@ -1209,7 +1213,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7886"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8008"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1224,9 +1228,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-10T00:44:35.000Z">Last updated:
-                                        2026-10-10 00:44:35, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c6bb06f5c04d78f9f6d22a57c257d27e835ba40a">c6bb06f</a></time>
+                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
+                                        2026-10-12 23:35:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
                                 </div>
                             </div>
 
