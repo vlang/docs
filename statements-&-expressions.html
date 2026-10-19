@@ -985,6 +985,12 @@ This works with the enum operand on either side of the comparison.
 Branch-local values keep their declared types; unrelated enum types cannot be compared this way.</p>
 <p>Appending an <code>if</code> or <code>match</code> expression to an enum array also supplies the element type
 for shorthand values in its branches. Every branch must produce a compatible enum value.</p>
+<p>When the first branch has type <code>?T</code>, later branches may supply <code>T</code> or <code>none</code>.
+A function returning <code>?void</code> supplies an optional value without a payload; it cannot replace
+<code>none</code> in a branch that needs <code>?int</code> or another option with a payload.</p>
+<p>An <code>if</code> or <code>match</code> expression stored as a function value may combine compatible functions
+with <code>unsafe { nil }</code>. Branch-local variables retain their types: a <code>voidptr</code> variable
+cannot be stored as a function value.</p>
 <h3 id="if-unwrapping"><code>If</code> unwrapping <a href="statements-&-expressions.html#if-unwrapping" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Anywhere you can use <code>or {}</code>, you can also use &quot;if unwrapping&quot;. This binds the unwrapped value
 of an expression to a variable when that expression is not none nor an error.
@@ -1160,8 +1166,12 @@ s := match number {
 
 // 'if' should be printed
 </div>
-<p>A match expression returns the value of the final expression from the matching branch.
-When inferring an enum result, a qualified value in the first branch, such as <code>Color.red</code>,
+<p>A match expression returns the value of the final expression from the matching branch.</p>
+<p>A <code>match</code> expression can propagate results with <code>!</code> in its branches, including results
+containing pointers to interfaces. A branch error propagates from the enclosing function.
+Where a pointer to an interface is expected, such as <code>&amp;Shape</code> or <code>?&amp;Shape</code>, the branches
+can return pointers to different types that implement that interface.</p>
+<p>When inferring an enum result, a qualified value in the first branch, such as <code>Color.red</code>,
 provides the type for shorthand values such as <code>.blue</code> in subsequent branches.
 This also applies to parenthesized shorthand values and bitwise expressions with flag enums.</p>
 <div class="language-v">enum Color {
@@ -1669,7 +1679,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2211"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2216"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1684,9 +1694,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

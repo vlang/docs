@@ -948,6 +948,12 @@ are a function of their arguments only, and their evaluation has no side effects
 An array returned from an immutable argument remains immutable, including when returned through
 a local function value, a narrowed <code>if</code> or <code>match</code> branch, or after an exiting <code>if</code> guard.
 Use <code>.clone()</code> for a mutable copy.</p>
+<p>A cloned map has separate entry storage. After replacing a copied struct's map field with
+a clone, replacing entries leaves the original map unchanged. The compiler may reject such
+writes if a reference to the containing struct could rebind the field, including references
+taken before the clone. A callback that may rebind a map also prevents subsequent entry writes
+from being treated as independent of the original; a callback that shadows the enclosing
+function's name still counts as a callback.</p>
 <p>A pointer returned through a callback can still refer to an immutable argument, even if the
 callback returns <code>voidptr</code>. Converting that result to a typed reference does not make the
 underlying object mutable. Different pointee types do not prove separate storage: a <code>voidptr</code>
@@ -1190,7 +1196,7 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3659"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3684"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1205,9 +1211,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

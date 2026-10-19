@@ -962,6 +962,8 @@ Use the <code>C.</code> prefix to refer to the C function.
 Note that such redeclarations only need to have enough details about the
 functions/structs that you want to use.
 Note also that they <em>do not have</em> to be complete, unlike the ones in the .h files.</p>
+<p>A C function receiving the address of a local can change its value. Subsequent expressions
+read that value even when the V binding was declared without <code>mut</code>.</p>
 <p>Parameter names in <code>C.</code> function declarations may start with uppercase letters, as in C headers.
 The lowercase naming rule still applies to parameters of ordinary V functions.</p>
 <p>Fields of a C struct returned by value can be accessed directly on the call, for example
@@ -1151,8 +1153,15 @@ fn main() {
 <h2 id="calling-v-from-c">Calling V from C <a href="v-and-c.html#calling-v-from-c" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>Since V can compile to C, calling V code from C is very easy, once you know how.</p>
 <p>Use <code>v -o file.c your_file.v</code> to generate a C file, corresponding to the V code.</p>
+<p>Use <code>v -o file.o your_file.v</code> to generate an object file for a later link. Production object
+builds keep machine code instead of automatically enabling LTO. On Windows, <code>-cc msvc</code> stages
+a <code>.obj</code> file and moves it to the requested output path, including a <code>.o</code> path.</p>
 <p>More details in <a href="https://github.com/vlang/v/blob/master/doc/../examples/call_v_from_c">call_v_from_c example</a>.</p>
 <h2 id="passing-c-compilation-flags">Passing C compilation flags <a href="v-and-c.html#passing-c-compilation-flags" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>Use <code>-dump-c-flags file.txt</code> to inspect the selected C compiler's flags, one argument per line.
+Use <code>-dump-c-flags -</code> for standard output. Monolithic bundled TCC builds share this flag plan
+with their actual command, including <code>-cstrict</code> warning options.
+On macOS, both the dump and TCC command resolve framework flags to their framework link files.</p>
 <p>Add <code>#flag</code> directives to the top of your V files to provide C compilation flags like:</p>
 <ul>
 <li><code>-I</code> for adding C include files search paths</li>
@@ -1549,7 +1558,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10347"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10443"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1564,9 +1573,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

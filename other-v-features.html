@@ -1087,6 +1087,29 @@ links a whole-function SHA-256 compression kernel from pure V.</p>
 <p>For more examples, see
 <a href="https://github.com/vlang/v/tree/master/vlib/v/slow_tests/assembly/asm_test.amd64.v">vlib/v/slow_tests/assembly/asm_test.amd64.v</a></p>
 <h2 id="hot-code-reloading">Hot code reloading <a href="other-v-features.html#hot-code-reloading" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The recommended way to iterate on a running program is <code>v watch</code>,
+which rebuilds and re-runs it whenever one of its <code>.v</code> files changes:</p>
+<pre><code class="language-bash">v watch run message.v
+</code></pre>
+<p>For veb web apps, <code>v watch</code> goes further and refreshes the browser for
+you. Run the app with the <code>veb_livereload</code> define:</p>
+<pre><code class="language-bash">v watch -d veb_livereload run .
+</code></pre>
+<p>Stylesheet changes are applied in place; page or template edits update
+the browser while preserving scroll position, focus, and typed form
+values. The page shows a notice while the app is rebuilding (hide it
+with <code>-d veb_livereload_no_toast</code>), and setups without server-sent
+events can poll instead (<code>-d veb_livereload_polling</code>, with
+<code>-d veb_livereload_poll_ms=500</code>), with backoff while the app restarts
+(<code>-d veb_livereload_retry_max_ms=1000</code>). See the
+<a href="https://github.com/vlang/v/tree/master/vlib/veb/README.md#quick-start">veb README</a>
+for the full list of options.</p>
+<h3 id="per-function-reloading-with-@live">Per-function reloading with <code>@[live]</code> <a href="other-v-features.html#per-function-reloading-with-@live" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Note: <code>@[live]</code> reloading currently has no effect with the default
+compiler (see <a href="https://github.com/vlang/v/issues/30198">vlang/v#30198</a>);
+use <code>v watch</code>, described above, to rebuild and restart the program.
+Restarting the program also resets its runtime state.
+The following example and commands describe the per-function mechanism.</p>
 <div class="language-v">module main
 
 import time
@@ -1238,7 +1261,7 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11091"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11199"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1253,9 +1276,9 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

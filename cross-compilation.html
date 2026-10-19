@@ -950,14 +950,18 @@
 </code></pre>
 <blockquote class="tip">
 <p>[!NOTE]
-Cross-compiling a Windows binary on a Linux machine requires the GNU C compiler for
-MinGW-w64 (targeting Win64) to first be installed.</p>
+Cross-compiling a Windows binary on a Linux or macOS machine requires the GNU C compiler for
+MinGW-w64 (targeting Win64) to first be installed. Without <code>-arch</code> and <code>-cc</code>, <code>-os windows</code>
+builds an amd64 executable with <code>x86_64-w64-mingw32-gcc</code>, also on an arm64 machine.</p>
 </blockquote>
 <p>For Ubuntu/Debian-based distributions:</p>
 <pre><code class="language-shell">sudo apt install gcc-mingw-w64-x86-64
 </code></pre>
 <p>For Arch based distributions:</p>
 <pre><code class="language-shell">sudo pacman -S mingw-w64-gcc
+</code></pre>
+<p>For macOS with Homebrew:</p>
+<pre><code class="language-shell">brew install mingw-w64
 </code></pre>
 <p>(Cross compiling for macOS is temporarily not possible.)</p>
 <p>If you don't have any C dependencies, that's all you need to do. This works even
@@ -1031,7 +1035,7 @@ output stays portable across targets of the same width.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10075"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10158"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1046,9 +1050,9 @@ output stays portable across targets of the same width.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

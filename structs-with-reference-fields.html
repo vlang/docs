@@ -944,6 +944,11 @@ reference value unless the struct already defines its own initial value.</p>
 for now data structures such as Linked Lists or Binary Trees that rely on reference
 fields that can use the value <code>0</code>, understanding that it is unsafe, and that it can
 cause a panic.</p>
+<p>A null reference has to be written as <code>unsafe { nil }</code>: outside <code>unsafe</code>, the compiler
+rejects direct <code>nil</code>, <code>0</code> and <code>voidptr(0)</code> constants where a non-option reference is expected.
+The same rule applies to explicitly typed global initializers when globals are enabled.
+Raw <code>voidptr</code> targets, C declarations, <code>.c.v</code> files and translated code retain their
+C interop rules. Comparisons with null values and optional references remain accepted.</p>
 <div class="language-v">struct Node {
     a &amp;Node
     b &amp;Node = unsafe { nil } // Auto-initialized to nil, use with caution!
@@ -974,7 +979,7 @@ println(qux)
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9409"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9484"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -989,9 +994,9 @@ println(qux)
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

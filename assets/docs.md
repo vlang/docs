@@ -54,6 +54,8 @@ If V is already installed on a machine, it can be upgraded to its latest version
 by using the V's built-in self-updater.
 To do so, run the command `v up`.
 This also refreshes the bundled TCC binaries used for fast C compilation.
+On macOS, TCC builds use its runtime thread fence directly, including when
+preprocessed C identifies ARM64 with `__arm64__` alone.
 
 After updating, `v up` refreshes previously cached vlib modules with the compiler
 and flags used to cache them, including normal and `-prod` builds. Unchanged
@@ -1017,6 +1019,9 @@ To use a format specifier, follow this pattern:
 See
 [Format Placeholder Specification](https://en.wikipedia.org/wiki/Printf_format_string#Format_placeholder_specification)
 for more information.
+
+Scientific float interpolation (`e`, `E`, `g`, or `G`) uses at least two exponent digits,
+without additional leading zeroes, including when a precision is specified.
 
 ```v
 x := 123.4567
@@ -2268,6 +2273,14 @@ Branch-local values keep their declared types; unrelated enum types cannot be co
 Appending an `if` or `match` expression to an enum array also supplies the element type
 for shorthand values in its branches. Every branch must produce a compatible enum value.
 
+When the first branch has type `?T`, later branches may supply `T` or `none`.
+A function returning `?void` supplies an optional value without a payload; it cannot replace
+`none` in a branch that needs `?int` or another option with a payload.
+
+An `if` or `match` expression stored as a function value may combine compatible functions
+with `unsafe { nil }`. Branch-local variables retain their types: a `voidptr` variable
+cannot be stored as a function value.
+
 #### `If` unwrapping
 Anywhere you can use `or {}`, you can also use "if unwrapping". This binds the unwrapped value
 of an expression to a variable when that expression is not none nor an error.
@@ -2481,6 +2494,12 @@ match false {
 ```
 
 A match expression returns the value of the final expression from the matching branch.
+
+A `match` expression can propagate results with `!` in its branches, including results
+containing pointers to interfaces. A branch error propagates from the enclosing function.
+Where a pointer to an interface is expected, such as `&Shape` or `?&Shape`, the branches
+can return pointers to different types that implement that interface.
+
 When inferring an enum result, a qualified value in the first branch, such as `Color.red`,
 provides the type for shorthand values such as `.blue` in subsequent branches.
 This also applies to parenthesized shorthand values and bitwise expressions with flag enums.
@@ -3488,6 +3507,12 @@ V doesn't have classes, but you can define methods on types.
 A method is a function with a special receiver argument.
 The receiver appears in its own argument list between the `fn` keyword and the method name.
 Methods must be in the same module as the receiver type.
+This also applies to receivers with any number of pointer levels
+and to types imported under another name.
+To add methods for an imported type, declare a local type alias and use it as the receiver.
+For a generic receiver such as `other.Box[T]`, the alias must also declare its type parameters:
+`type LocalBox[T] = other.Box[T]`. Use `LocalBox[T]` as the receiver and repeat `T` in the method's
+generic parameter list.
 
 In this example, the `can_register` method has a receiver of type `User` named `u`.
 The convention is not to use receiver names like `self` or `this`,
@@ -3671,6 +3696,13 @@ Function arguments are immutable by default, even when [references](#references)
 An array returned from an immutable argument remains immutable, including when returned through
 a local function value, a narrowed `if` or `match` branch, or after an exiting `if` guard.
 Use `.clone()` for a mutable copy.
+
+A cloned map has separate entry storage. After replacing a copied struct's map field with
+a clone, replacing entries leaves the original map unchanged. The compiler may reject such
+writes if a reference to the containing struct could rebind the field, including references
+taken before the clone. A callback that may rebind a map also prevents subsequent entry writes
+from being treated as independent of the original; a callback that shadows the enclosing
+function's name still counts as a callback.
 
 A pointer returned through a callback can still refer to an immutable argument, even if the
 callback returns `voidptr`. Converting that result to a typed reference does not make the
@@ -4876,6 +4908,9 @@ fn get_component[T](entity Entity) !T {
 
 If you want to return the smart-casted pointer itself, use `!&T` as the return type instead.
 
+After an optional interface passes a `!= none` check, an unsafe cast such as
+`unsafe { &T(value) }` uses its unwrapped interface value.
+
 Appending a smart-casted value to an array of its original interface type preserves the
 complete interface value. Both `animals << animal` and `animals << Animal(animal)` retain
 the underlying type and allow interface method calls on the appended element.
@@ -4918,6 +4953,10 @@ fn main() {
 	}
 }
 ```
+
+A test against another interface checks the type of the stored value at run time. It compiles
+even when no type implements both interfaces; it is then always `false`. Casting with
+`a as IBar` panics when the stored value does not implement `IBar`.
 
 For more information, see [Dynamic casts](#dynamic-casts).
 
@@ -5351,6 +5390,9 @@ fn main() {
 An Option stores either a value or `none`. It has no error field and cannot carry an error as
 its failure state. A Result stores either a value or an `IError`.
 An `IError` may still be an ordinary Option payload, for example `?IError`.
+A concrete value implementing `IError` is also a successful Result payload when it is assignable
+to the declared payload type, including `!IError` and compatible interfaces. Otherwise, returning
+that value from a Result function produces an error.
 
 A function returning only `!` or `?` has no success payload. Its return type is a Result or
 Option of `void`; callers still handle errors or absence with an `or` block or propagation.
@@ -5596,6 +5638,9 @@ A later declaration using a module type with the same name resolves to that modu
 
 Generic calls keep the identity of caller types even when an imported module declares a type
 with the same short name.
+When an imported generic constructs a caller's struct, omitted fields use that struct's defaults,
+including shared fields and fixed arrays. This applies to value and heap literals and
+Result returns.
 Inside a generic declaration, its type parameters take precedence over same-named concrete
 types. A concrete single-letter struct can still be passed as a generic type argument.
 
@@ -6071,6 +6116,9 @@ Avoid manually checking, whether the channel was closed or not, because that
 can introduce data races, if you are not careful.
 
 #### Channel Select
+
+Assertion messages inside a select branch can use values declared or received in that branch,
+including arrays and structs converted to strings.
 
 The `select` command allows monitoring several channels at the same time
 without noticeable CPU load. It consists of a list of possible transfers and associated branches
@@ -7296,6 +7344,25 @@ The formatter checks syntax without requiring the code to pass semantic checks.
 For example, it preserves closure captures and loop binder mutability while you edit
 incomplete code.
 
+Adjacent struct fields align their inline attributes, including fields with default values.
+Mixed volatile and non-volatile fields account for the width of the `volatile ` prefix.
+The alignment accounts for the type, the ` = ` separator, and the default value:
+
+```v
+struct SearchOptions {
+	quiet bool      @[long: quiet; short: q]
+	thold f64 = 0.9 @[long: thold; short: t]
+	query string    @[tail]
+}
+```
+
+Fields written on one line with semicolons retain their attribute alignment after formatting.
+An attributed default that spans several lines separates the attribute alignment groups around it.
+Comments between a default value and its attributes stay with that field, after its attributes.
+Deferred inline comments align with neighboring trailing field comments on the first pass.
+Fields following a multiline attributed default start a fresh trailing comment alignment group.
+Comments inside a default expression remain inside that expression.
+
 Backend options before `fmt`, such as `v -b arm64 fmt file.v`, or in `VFLAGS` are honored.
 The `arm64` and `eval` backends use the same source formatting rules as `c`.
 
@@ -7327,6 +7394,14 @@ so it may rewrite a file accepted by either check mode.
 
 To disable formatting for a block of code, wrap it with `// vfmt off` and
 `// vfmt on` comments.
+
+These directives retain their source order relative to struct field attributes.
+Attribute groups that cross a directive boundary retain the affected field's source text.
+This preservation also applies to the first field in a struct.
+Compile-time members also provide source boundaries for following field attributes.
+Header line comments stay on separate lines from preserved body text.
+CRLF line endings in preserved field prefixes are normalized to LF.
+A completed directive region before an attribute leaves the enabled field subject to formatting.
 
 ```bash
 // Not affected by fmt
@@ -9416,6 +9491,12 @@ for now data structures such as Linked Lists or Binary Trees that rely on refere
 fields that can use the value `0`, understanding that it is unsafe, and that it can
 cause a panic.
 
+A null reference has to be written as `unsafe { nil }`: outside `unsafe`, the compiler
+rejects direct `nil`, `0` and `voidptr(0)` constants where a non-option reference is expected.
+The same rule applies to explicitly typed global initializers when globals are enabled.
+Raw `voidptr` targets, C declarations, `.c.v` files and translated code retain their
+C interop rules. Comparisons with null values and optional references remain accepted.
+
 ```v
 struct Node {
 	a &Node
@@ -9949,6 +10030,8 @@ specification &ndash; as in the example [above](#atomics).
 
 An initializer for global variables must be explicitly converted to the
 desired target type. If no initializer is given a default initialization is done.
+Option and result globals can also be declared by type, such as `__global current ?int`
+and `__global status !int`, and assigned or reassigned later.
 Global map references can be initialized with empty or populated map literals, such as
 `&map[string]bool{}` or `&{'enabled': true}`. The referenced map is allocated and initialized
 before the declaring module's `init()` function runs.
@@ -10095,8 +10178,9 @@ v -os freebsd .
 ```
 
 > [!NOTE]
-> Cross-compiling a Windows binary on a Linux machine requires the GNU C compiler for
-> MinGW-w64 (targeting Win64) to first be installed.
+> Cross-compiling a Windows binary on a Linux or macOS machine requires the GNU C compiler for
+> MinGW-w64 (targeting Win64) to first be installed. Without `-arch` and `-cc`, `-os windows`
+> builds an amd64 executable with `x86_64-w64-mingw32-gcc`, also on an arm64 machine.
 
 For Ubuntu/Debian-based distributions:
 
@@ -10108,6 +10192,12 @@ For Arch based distributions:
 
 ```shell
 sudo pacman -S mingw-w64-gcc
+```
+
+For macOS with Homebrew:
+
+```shell
+brew install mingw-w64
 ```
 
 (Cross compiling for macOS is temporarily not possible.)
@@ -10333,8 +10423,14 @@ use `v help`, `v help build` and `v help build-c`.
 
 ### Native Backend binaries
 
-Currently there is no debugging support for binaries, created by the
-native backend (flag: `-b native`).
+`-b native` has been replaced by `-b arm64` for native ARM64 compilation on macOS.
+Enable the backend with `v -compile-backend arm64 self`, then compile with
+`v -b arm64 file.v`. The native ARM64 backend does not link a garbage collector yet, so it
+always builds as if `-gc none` was passed.
+A native AMD64 backend is not available yet; use `v -b c -arch amd64 file.v` for AMD64
+compilation through the C backend.
+
+Currently there is no debugging support for binaries created by the native ARM64 backend.
 
 ### Javascript Backend
 
@@ -10375,6 +10471,9 @@ Use the `C.` prefix to refer to the C function.
 Note that such redeclarations only need to have enough details about the
 functions/structs that you want to use.
 Note also that they *do not have* to be complete, unlike the ones in the .h files.
+
+A C function receiving the address of a local can change its value. Subsequent expressions
+read that value even when the V binding was declared without `mut`.
 
 Parameter names in `C.` function declarations may start with uppercase letters, as in C headers.
 The lowercase naming rule still applies to parameters of ordinary V functions.
@@ -10594,9 +10693,18 @@ Since V can compile to C, calling V code from C is very easy, once you know how.
 
 Use `v -o file.c your_file.v` to generate a C file, corresponding to the V code.
 
+Use `v -o file.o your_file.v` to generate an object file for a later link. Production object
+builds keep machine code instead of automatically enabling LTO. On Windows, `-cc msvc` stages
+a `.obj` file and moves it to the requested output path, including a `.o` path.
+
 More details in [call_v_from_c example](../examples/call_v_from_c).
 
 ### Passing C compilation flags
+
+Use `-dump-c-flags file.txt` to inspect the selected C compiler's flags, one argument per line.
+Use `-dump-c-flags -` for standard output. Monolithic bundled TCC builds share this flag plan
+with their actual command, including `-cstrict` warning options.
+On macOS, both the dump and TCC command resolve framework flags to their framework link files.
 
 Add `#flag` directives to the top of your V files to provide C compilation flags like:
 
@@ -11270,6 +11378,38 @@ For more examples, see
 [vlib/v/slow_tests/assembly/asm_test.amd64.v](https://github.com/vlang/v/tree/master/vlib/v/slow_tests/assembly/asm_test.amd64.v)
 
 ### Hot code reloading
+
+The recommended way to iterate on a running program is `v watch`,
+which rebuilds and re-runs it whenever one of its `.v` files changes:
+
+```bash
+v watch run message.v
+```
+
+For veb web apps, `v watch` goes further and refreshes the browser for
+you. Run the app with the `veb_livereload` define:
+
+```bash
+v watch -d veb_livereload run .
+```
+
+Stylesheet changes are applied in place; page or template edits update
+the browser while preserving scroll position, focus, and typed form
+values. The page shows a notice while the app is rebuilding (hide it
+with `-d veb_livereload_no_toast`), and setups without server-sent
+events can poll instead (`-d veb_livereload_polling`, with
+`-d veb_livereload_poll_ms=500`), with backoff while the app restarts
+(`-d veb_livereload_retry_max_ms=1000`). See the
+[veb README](https://github.com/vlang/v/tree/master/vlib/veb/README.md#quick-start)
+for the full list of options.
+
+#### Per-function reloading with `@[live]`
+
+Note: `@[live]` reloading currently has no effect with the default
+compiler (see [vlang/v#30198](https://github.com/vlang/v/issues/30198));
+use `v watch`, described above, to rebuild and restart the program.
+Restarting the program also resets its runtime state.
+The following example and commands describe the per-function mechanism.
 
 ```v live
 module main

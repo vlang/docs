@@ -949,6 +949,21 @@ A vfmt run is usually pretty cheap (takes &lt;30ms).</p>
 <p>The formatter checks syntax without requiring the code to pass semantic checks.
 For example, it preserves closure captures and loop binder mutability while you edit
 incomplete code.</p>
+<p>Adjacent struct fields align their inline attributes, including fields with default values.
+Mixed volatile and non-volatile fields account for the width of the <code>volatile </code> prefix.
+The alignment accounts for the type, the <code>=</code> separator, and the default value:</p>
+<div class="language-v">struct SearchOptions {
+    quiet bool      @[long: quiet; short: q]
+    thold f64 = 0.9 @[long: thold; short: t]
+    query string    @[tail]
+}
+</div>
+<p>Fields written on one line with semicolons retain their attribute alignment after formatting.
+An attributed default that spans several lines separates the attribute alignment groups around it.
+Comments between a default value and its attributes stay with that field, after its attributes.
+Deferred inline comments align with neighboring trailing field comments on the first pass.
+Fields following a multiline attributed default start a fresh trailing comment alignment group.
+Comments inside a default expression remain inside that expression.</p>
 <p>Backend options before <code>fmt</code>, such as <code>v -b arm64 fmt file.v</code>, or in <code>VFLAGS</code> are honored.
 The <code>arm64</code> and <code>eval</code> backends use the same source formatting rules as <code>c</code>.</p>
 <p>A function, loop, <code>if</code> branch or <code>match</code> branch whose body is a single statement
@@ -973,6 +988,13 @@ so it may rewrite a file accepted by either check mode.</p>
 <h3 id="disabling-the-formatting-locally">Disabling the formatting locally <a href="tools.html#disabling-the-formatting-locally" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>To disable formatting for a block of code, wrap it with <code>// vfmt off</code> and
 <code>// vfmt on</code> comments.</p>
+<p>These directives retain their source order relative to struct field attributes.
+Attribute groups that cross a directive boundary retain the affected field's source text.
+This preservation also applies to the first field in a struct.
+Compile-time members also provide source boundaries for following field attributes.
+Header line comments stay on separate lines from preserved body text.
+CRLF line endings in preserved field prefixes are normalized to LF.
+A completed directive region before an attribute leaves the enabled field subject to formatting.</p>
 <pre><code class="language-bash">// Not affected by fmt
 // vfmt off
 
@@ -1236,7 +1258,7 @@ code; use a matched benchmark to verify performance changes.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7279"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7327"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1251,9 +1273,9 @@ code; use a matched benchmark to verify performance changes.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

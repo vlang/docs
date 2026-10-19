@@ -941,7 +941,9 @@
 <p>If V is already installed on a machine, it can be upgraded to its latest version
 by using the V's built-in self-updater.
 To do so, run the command <code>v up</code>.
-This also refreshes the bundled TCC binaries used for fast C compilation.</p>
+This also refreshes the bundled TCC binaries used for fast C compilation.
+On macOS, TCC builds use its runtime thread fence directly, including when
+preprocessed C identifies ARM64 with <code>__arm64__</code> alone.</p>
 <p>After updating, <code>v up</code> refreshes previously cached vlib modules with the compiler
 and flags used to cache them, including normal and <code>-prod</code> builds. Unchanged
 modules are reused. Each module being cached is printed to standard output as
@@ -1011,9 +1013,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

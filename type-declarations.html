@@ -1275,6 +1275,8 @@ inside that branch. This matters when returning the value from a generic functio
 }
 </div>
 <p>If you want to return the smart-casted pointer itself, use <code>!&amp;T</code> as the return type instead.</p>
+<p>After an optional interface passes a <code>!= none</code> check, an unsafe cast such as
+<code>unsafe { &amp;T(value) }</code> uses its unwrapped interface value.</p>
 <p>Appending a smart-casted value to an array of its original interface type preserves the
 complete interface value. Both <code>animals &lt;&lt; animal</code> and <code>animals &lt;&lt; Animal(animal)</code> retain
 the underlying type and allow interface method calls on the appended element.</p>
@@ -1315,6 +1317,9 @@ fn main() {
     }
 }
 </div>
+<p>A test against another interface checks the type of the stored value at run time. It compiles
+even when no type implements both interfaces; it is then always <code>false</code>. Casting with
+<code>a as IBar</code> panics when the stored value does not implement <code>IBar</code>.</p>
 <p>For more information, see <a href="type-declarations.html#dynamic-casts">Dynamic casts</a>.</p>
 <h3 id="interface-method-definitions">Interface method definitions <a href="type-declarations.html#interface-method-definitions" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Also unlike Go, an interface can have its own methods, similar to how
@@ -1686,7 +1691,10 @@ fn main() {
 </div>
 <p>An Option stores either a value or <code>none</code>. It has no error field and cannot carry an error as
 its failure state. A Result stores either a value or an <code>IError</code>.
-An <code>IError</code> may still be an ordinary Option payload, for example <code>?IError</code>.</p>
+An <code>IError</code> may still be an ordinary Option payload, for example <code>?IError</code>.
+A concrete value implementing <code>IError</code> is also a successful Result payload when it is assignable
+to the declared payload type, including <code>!IError</code> and compatible interfaces. Otherwise, returning
+that value from a Result function produces an error.</p>
 <p>A function returning only <code>!</code> or <code>?</code> has no success payload. Its return type is a Result or
 Option of <code>void</code>; callers still handle errors or absence with an <code>or</code> block or propagation.</p>
 <p>With the C backend, Options store their payload inline. Wrapping a value or returning <code>none</code>
@@ -1881,6 +1889,9 @@ method is promoted from an embedded struct; the value binds that embedded receiv
 A later declaration using a module type with the same name resolves to that module type.</p>
 <p>Generic calls keep the identity of caller types even when an imported module declares a type
 with the same short name.
+When an imported generic constructs a caller's struct, omitted fields use that struct's defaults,
+including shared fields and fixed arrays. This applies to value and heap literals and
+Result returns.
 Inside a generic declaration, its type parameters take precedence over same-named concrete
 types. A concrete single-letter struct can still be passed as a generic type argument.</p>
 <p>Currently generic function definitions must declare their type parameters, but in
@@ -2040,7 +2051,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4456"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4488"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2055,9 +2066,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

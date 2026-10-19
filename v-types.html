@@ -1209,6 +1209,8 @@ uppercase type to force the use of uppercase hex digits and an uppercase <code>E
 <p>See
 <a href="https://en.wikipedia.org/wiki/Printf_format_string#Format_placeholder_specification">Format Placeholder Specification</a>
 for more information.</p>
+<p>Scientific float interpolation (<code>e</code>, <code>E</code>, <code>g</code>, or <code>G</code>) uses at least two exponent digits,
+without additional leading zeroes, including when a precision is specified.</p>
 <div class="language-v">x := 123.4567
 println('[${x:.2}]') // round to two decimal places =&gt; [123.46]
 println('[${x:10}]') // right-align with spaces on the left =&gt; [   123.457]
@@ -2082,7 +2084,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L695"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L697"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2097,9 +2099,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

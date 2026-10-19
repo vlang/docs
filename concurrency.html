@@ -1191,6 +1191,8 @@ which will cleanly break out of the loop, when the channel is closed and empty.
 Avoid manually checking, whether the channel was closed or not, because that
 can introduce data races, if you are not careful.</p>
 <h3 id="channel-select">Channel Select <a href="concurrency.html#channel-select" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Assertion messages inside a select branch can use values declared or received in that branch,
+including arrays and structs converted to strings.</p>
 <p>The <code>select</code> command allows monitoring several channels at the same time
 without noticeable CPU load. It consists of a list of possible transfers and associated branches
 of statements - similar to the <a href="statements-&-expressions.html#match">match</a> command:</p>
@@ -1473,7 +1475,7 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5776"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5821"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1488,9 +1490,9 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

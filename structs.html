@@ -1262,7 +1262,13 @@ println(user2.can_register()) // &quot;true&quot;
 <p>V doesn't have classes, but you can define methods on types.
 A method is a function with a special receiver argument.
 The receiver appears in its own argument list between the <code>fn</code> keyword and the method name.
-Methods must be in the same module as the receiver type.</p>
+Methods must be in the same module as the receiver type.
+This also applies to receivers with any number of pointer levels
+and to types imported under another name.
+To add methods for an imported type, declare a local type alias and use it as the receiver.
+For a generic receiver such as <code>other.Box[T]</code>, the alias must also declare its type parameters:
+<code>type LocalBox[T] = other.Box[T]</code>. Use <code>LocalBox[T]</code> as the receiver and repeat <code>T</code> in the method's
+generic parameter list.</p>
 <p>In this example, the <code>can_register</code> method has a receiver of type <code>User</code> named <code>u</code>.
 The convention is not to use receiver names like <code>self</code> or <code>this</code>,
 but a short, preferably one letter long, name.</p>
@@ -1339,7 +1345,7 @@ targeted.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3088"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3107"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1354,9 +1360,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 

@@ -987,8 +987,13 @@ e.g. <code>lldb hello</code></li>
 <li><a href="https://github.com/vlang/v/blob/master/doc/vscode.md">Visual Studio Code</a></li>
 </ul>
 <h2 id="native-backend-binaries">Native Backend binaries <a href="debugging.html#native-backend-binaries" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>Currently there is no debugging support for binaries, created by the
-native backend (flag: <code>-b native</code>).</p>
+<p><code>-b native</code> has been replaced by <code>-b arm64</code> for native ARM64 compilation on macOS.
+Enable the backend with <code>v -compile-backend arm64 self</code>, then compile with
+<code>v -b arm64 file.v</code>. The native ARM64 backend does not link a garbage collector yet, so it
+always builds as if <code>-gc none</code> was passed.
+A native AMD64 backend is not available yet; use <code>v -b c -arch amd64 file.v</code> for AMD64
+compilation through the C backend.</p>
+<p>Currently there is no debugging support for binaries created by the native ARM64 backend.</p>
 <h2 id="javascript-backend">Javascript Backend <a href="debugging.html#javascript-backend" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>To debug the generated Javascript output you can activate source maps:
 <code>v -b js -sourcemap hello.v -o hello.js</code></p>
@@ -1000,7 +1005,7 @@ native backend (flag: <code>-b native</code>).</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10275"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10365"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1015,9 +1020,9 @@ native backend (flag: <code>-b native</code>).</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-12T23:35:11.000Z">Last updated:
-                                        2026-10-12 23:35:11, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6449c245f148cc06fd07e53d988a2f0b84f3f40f">6449c24</a></time>
+                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
+                                        2026-10-18 03:57:43, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
                                 </div>
                             </div>
 
