@@ -550,6 +550,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="testing.html#running-tests"> Running tests</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#test-coverage"> Test coverage</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -605,6 +608,9 @@
                     <div class="nav-group-body">
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#git-pre-commit-hook"> Git pre-commit hook</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
@@ -1081,13 +1087,30 @@ fn test_subtest() {
     assert res.output.contains('other_test.v does not exist')
 }
 </div>
+<h2 id="test-coverage">Test coverage <a href="testing.html#test-coverage" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The C backend can record line and function coverage for a test run:</p>
+<pre><code class="language-sh">v -no-skip-unused -coverage vcov/ test mymodule/
+v cover vcov/
+v cover vcov/ --functions
+v cover vcov/ --uncovered
+v cover vcov/ --json coverage.json
+</code></pre>
+<p><code>-no-skip-unused</code> keeps functions that no test calls in the build. Function coverage
+records entry into a function, including one with an empty body; it does not measure branches.
+Reports combine function hits across test files. Delete the coverage directory before
+recording a fresh run so previous runs do not contribute hits.</p>
+<p><code>v cover vcov/ --write-tests --filter mymodule/</code> appends starter tests beside selected
+sources within the working directory. Use <code>--dry-run</code> to preview the generated contents.
+Existing tests are preserved. The starter can call functions with simple zero-value
+arguments; generic, option, result, tuple and other complex signatures get a comment instead.
+Replace the generated <code>assert true</code> with a meaningful assertion before using the tests.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6547"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6555"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1102,9 +1125,9 @@ fn test_subtest() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
-                                        2026-10-18 03:57:43, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
+                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
+                                        2026-10-19 17:01:25, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
                                 </div>
                             </div>
 
@@ -1147,6 +1170,9 @@ fn test_subtest() {
                                     </li>
                                     <li class="active">
                                         <a href="#running-tests">Running tests</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#test-coverage">Test coverage</a>
                                     </li>
                                 </ul>
                             </nav>

@@ -771,6 +771,8 @@ The digits are split into two halves in the compiler, so the C compiler never
 sees a constant it would quietly cut down to its low 64 bits. A value outside
 the range of the target type is an error: `u128(2^128)` is rejected rather than
 wrapped, and `i128(-2^127)` is allowed because that is the minimum.
+Negative literals keep their full magnitude before negation, including values below
+the `i64` minimum: `i128(-9223372036854775809)` is exactly -9223372036854775809.
 
 A bare literal still follows the rule that applies to every other integer in V, so
 it wants an explicit cast.
@@ -5658,6 +5660,9 @@ Inference also follows receivers obtained by unwrapping an option or propagating
 Nested generic calls preserve reference return types when passed directly to another generic
 call, including references stored as map values.
 
+Generic variadic calls in a reflected field loop infer each scalar or array argument as one
+element. Spreading an array with `...` instead infers the variadic element type from its contents.
+
 Another example:
 
 ```v
@@ -6168,6 +6173,9 @@ fn main() {
 	eprintln('> done')
 }
 ```
+
+`select` receive branches support fixed-array payloads, including fixed-array aliases, with GCC and
+Clang.
 
 The timeout branch is optional. If it is absent `select` waits for an unlimited amount of time.
 It is also possible to proceed immediately if no channel is ready in the moment `select` is called
@@ -6714,6 +6722,29 @@ fn test_subtest() {
 	assert res.output.contains('other_test.v does not exist')
 }
 ```
+
+### Test coverage
+
+The C backend can record line and function coverage for a test run:
+
+```sh
+v -no-skip-unused -coverage vcov/ test mymodule/
+v cover vcov/
+v cover vcov/ --functions
+v cover vcov/ --uncovered
+v cover vcov/ --json coverage.json
+```
+
+`-no-skip-unused` keeps functions that no test calls in the build. Function coverage
+records entry into a function, including one with an empty body; it does not measure branches.
+Reports combine function hits across test files. Delete the coverage directory before
+recording a fresh run so previous runs do not contribute hits.
+
+`v cover vcov/ --write-tests --filter mymodule/` appends starter tests beside selected
+sources within the working directory. Use `--dry-run` to preview the generated contents.
+Existing tests are preserved. The starter can call functions with simple zero-value
+arguments; generic, option, result, tuple and other complex signatures get a comment instead.
+Replace the generated `assert true` with a meaningful assertion before using the tests.
 
 ## Memory management
 
@@ -7414,6 +7445,32 @@ A completed directive region before an attribute leaves the enabled field subjec
 // Affected by fmt
 ... your code here ...
 ```
+
+### Git pre-commit hook
+
+`v git-fmt-hook install`, run inside a Git repository, installs a pre-commit
+hook that runs `v fmt -w` on the staged V files before every commit, so
+unformatted code never reaches the remote:
+
+```shell
+cd my-project
+v git-fmt-hook install
+```
+
+`v git-fmt-hook status` reports whether the hook is installed and current,
+and `v git-fmt-hook remove` removes it. Pass `--no-verify` to `git commit`
+to skip the hook for a single commit. Set
+`git config --bool --add hooks.stopCommitOfNonVfmtedVFiles true` to make the
+hook reject unformatted files instead of formatting them.
+
+On Windows the hook runs under Git Bash, MSYS2 or Cygwin, which resolve `v`
+through `env`. That only works if `v` is visible there: after `v symlink`,
+a native symlink covers all shells, and where only the `v.bat` fallback can
+be created, a POSIX shell shim is installed next to it for the same purpose.
+The shim preserves arguments and treats spaces, dollar signs, backticks, and apostrophes
+in the compiler's path literally.
+If the hook fails with `env: 'v': No such file or directory`, re-run
+`v symlink` with a current V and restart the shell.
 
 ### v mcp
 

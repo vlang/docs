@@ -550,6 +550,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="testing.html#running-tests"> Running tests</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#test-coverage"> Test coverage</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -605,6 +608,9 @@
                     <div class="nav-group-body">
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#git-pre-commit-hook"> Git pre-commit hook</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
@@ -999,7 +1005,9 @@ exact value:</p>
 <p>The digits are split into two halves in the compiler, so the C compiler never
 sees a constant it would quietly cut down to its low 64 bits. A value outside
 the range of the target type is an error: <code>u128(2^128)</code> is rejected rather than
-wrapped, and <code>i128(-2^127)</code> is allowed because that is the minimum.</p>
+wrapped, and <code>i128(-2^127)</code> is allowed because that is the minimum.
+Negative literals keep their full magnitude before negation, including values below
+the <code>i64</code> minimum: <code>i128(-9223372036854775809)</code> is exactly -9223372036854775809.</p>
 <p>A bare literal still follows the rule that applies to every other integer in V, so
 it wants an explicit cast.</p>
 <p>The promotion ladder has a row for both new types, so <code>wide + u64(1)</code> is a <code>u128</code>
@@ -2099,9 +2107,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
-                                        2026-10-18 03:57:43, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
+                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
+                                        2026-10-19 17:01:25, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
                                 </div>
                             </div>
 

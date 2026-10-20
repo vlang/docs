@@ -550,6 +550,9 @@
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="testing.html#running-tests"> Running tests</a>
                     </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="testing.html#test-coverage"> Test coverage</a>
+                    </div>
                     </div>
                     </div>
                     <div class="nav-group">
@@ -605,6 +608,9 @@
                     <div class="nav-group-body">
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-fmt"> v fmt</a>
+                    </div>
+                    <div class="nav-entry">
+                        <a class="nav-entry-link" href="tools.html#git-pre-commit-hook"> Git pre-commit hook</a>
                     </div>
                     <div class="nav-entry">
                         <a class="nav-entry-link" href="tools.html#v-mcp"> v mcp</a>
@@ -1005,6 +1011,26 @@ A completed directive region before an attribute leaves the enabled field subjec
 // Affected by fmt
 ... your code here ...
 </code></pre>
+<h2 id="git-pre-commit-hook">Git pre-commit hook <a href="tools.html#git-pre-commit-hook" class="header-anchor" aria-hidden="true">#</a></h2>
+<p><code>v git-fmt-hook install</code>, run inside a Git repository, installs a pre-commit
+hook that runs <code>v fmt -w</code> on the staged V files before every commit, so
+unformatted code never reaches the remote:</p>
+<pre><code class="language-shell">cd my-project
+v git-fmt-hook install
+</code></pre>
+<p><code>v git-fmt-hook status</code> reports whether the hook is installed and current,
+and <code>v git-fmt-hook remove</code> removes it. Pass <code>--no-verify</code> to <code>git commit</code>
+to skip the hook for a single commit. Set
+<code>git config --bool --add hooks.stopCommitOfNonVfmtedVFiles true</code> to make the
+hook reject unformatted files instead of formatting them.</p>
+<p>On Windows the hook runs under Git Bash, MSYS2 or Cygwin, which resolve <code>v</code>
+through <code>env</code>. That only works if <code>v</code> is visible there: after <code>v symlink</code>,
+a native symlink covers all shells, and where only the <code>v.bat</code> fallback can
+be created, a POSIX shell shim is installed next to it for the same purpose.
+The shim preserves arguments and treats spaces, dollar signs, backticks, and apostrophes
+in the compiler's path literally.
+If the hook fails with <code>env: 'v': No such file or directory</code>, re-run
+<code>v symlink</code> with a current V and restart the shell.</p>
 <h2 id="v-mcp">v mcp <a href="tools.html#v-mcp" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>v mcp</code> runs a <a href="https://modelcontextprotocol.io">Model Context Protocol</a> server
 that gives a coding agent the V compiler's own view of a project: what the code
@@ -1258,7 +1284,7 @@ code; use a matched benchmark to verify performance changes.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7327"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7358"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1273,9 +1299,9 @@ code; use a matched benchmark to verify performance changes.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-18T03:57:43.000Z">Last updated:
-                                        2026-10-18 03:57:43, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/6ebd90a3f1dc8e6c4979289dea49979011c7de0e">6ebd90a</a></time>
+                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
+                                        2026-10-19 17:01:25, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
                                 </div>
                             </div>
 
@@ -1306,6 +1332,9 @@ code; use a matched benchmark to verify performance changes.</li>
                                 <ul>
                                     <li class="active">
                                         <a href="#v-fmt">v fmt</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#git-pre-commit-hook">Git pre-commit hook</a>
                                     </li>
                                     <li class="active">
                                         <a href="#v-mcp">v mcp</a>
