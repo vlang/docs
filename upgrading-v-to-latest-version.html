@@ -948,12 +948,18 @@
 by using the V's built-in self-updater.
 To do so, run the command <code>v up</code>.
 This also refreshes the bundled TCC binaries used for fast C compilation.
+On Linux, an older compatible TCC bundle stays in place while its upstream revision
+is unchanged and it still passes the host compatibility check. Repeated updates
+preserve its file metadata so cached modules can reuse their objects.
 On macOS, TCC builds use its runtime thread fence directly, including when
 preprocessed C identifies ARM64 with <code>__arm64__</code> alone.</p>
 <p>After updating, <code>v up</code> refreshes previously cached vlib modules with the compiler
 and flags used to cache them, including normal and <code>-prod</code> builds. Unchanged
 modules are reused. Each module being cached is printed to standard output as
 <code>Caching module &lt;name&gt;...</code>. A failed cache refresh makes <code>v up</code> fail.
+The final configuration count includes checks that reused every cached object.
+Different build flags, program or test modes, and import sequences can require
+separate checks. Pass <code>v up -v</code> to see each checked configuration.
 Cached module headers preserve struct field attribute groups, so valid deprecation
 attributes do not introduce warnings during refresh.
 Ordinary builds report cache progress on standard error. Refreshes retain absolute
@@ -1019,9 +1025,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
-                                        2026-10-22 05:23:18, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
+                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
+                                        2026-10-22 17:59:59, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
                                 </div>
                             </div>
 

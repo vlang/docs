@@ -1023,6 +1023,8 @@ println(nums)
 it clear that the function being called will modify the value.</p>
 <p>A comptime <code>app.$method(...)</code> call also requires <code>mut</code> when passing a pointer variable
 to an explicit <code>mut param &amp;T</code> parameter.</p>
+<p>A mutable struct parameter refers to the caller's struct. Casting it to an integer
+produces that struct's address.</p>
 <p>It is preferable to return values instead of modifying arguments,
 e.g. <code>user = register(user)</code> (or <code>user.register()</code>) instead of <code>register(mut user)</code>.
 Modifying arguments should only be done in performance-critical parts of your application
@@ -1202,7 +1204,7 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3705"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3714"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1217,9 +1219,9 @@ The only guarantee is that 600 (from the body of <code>f</code>) will be printed
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
-                                        2026-10-22 05:23:18, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
+                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
+                                        2026-10-22 17:59:59, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
                                 </div>
                             </div>
 

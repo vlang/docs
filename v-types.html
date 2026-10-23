@@ -1873,6 +1873,8 @@ return type as its element type. Filtering still produces a dynamic array.</p>
 <p>V also supports arrays with fixed size. Unlike ordinary arrays, their
 length is constant. You cannot append elements to them, nor shrink them.
 You can only modify their elements in place.</p>
+<p>Iteration preserves the complete element type, including pointers to generic structs.
+For example, iterating over <code>[2]&amp;Box[string]</code> yields <code>&amp;Box[string]</code> values.</p>
 <p>However, access to the elements of fixed size arrays is more efficient,
 they need less memory than ordinary arrays, and unlike ordinary arrays,
 their data is on the stack, so you may want to use them as buffers if you
@@ -2094,7 +2096,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L706"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L712"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2109,9 +2111,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
-                                        2026-10-22 05:23:18, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
+                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
+                                        2026-10-22 17:59:59, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
                                 </div>
                             </div>
 

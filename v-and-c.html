@@ -1437,6 +1437,8 @@ Pointer-returning calls can also receive field assignments.
 Pointers to <code>char</code>, <code>i8</code>, and <code>u8</code> of the same pointer depth are interchangeable in translated
 assignments, returns, function arguments, and other typed values. Ordinary V files retain their
 pointer type checks; calls to C functions also accept these character pointers.</p>
+<p>In translated files, fixed arrays decay to pointers to their elements, including when compared
+with pointers. Nested array literals retain their full array type in these comparisons.</p>
 <p>Files marked <code>@[translated]</code> retain C scalar conversions between numbers, enums, and booleans.
 These scalars can be mixed in arithmetic expressions and compound assignments. Integral scalars
 can be used in bitwise expressions. Scalar values and pointers, including function pointers,
@@ -1570,7 +1572,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10622"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10634"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1585,9 +1587,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
-                                        2026-10-22 05:23:18, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
+                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
+                                        2026-10-22 17:59:59, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
                                 </div>
                             </div>
 
