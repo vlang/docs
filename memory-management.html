@@ -1091,6 +1091,17 @@ fn f() (RefStruct, &amp;MyStruct) {
 <p>Here <code>a</code> is stored on the stack since its address never leaves the function <code>f()</code>.
 However a reference to <code>b</code> is part of <code>e</code> which is returned. Also a reference to
 <code>c</code> is returned. For this reason <code>b</code> and <code>c</code> will be heap allocated.</p>
+<p>Returning an address into a dynamic array, string, or map uses that container's backing
+storage; it does not require moving the containing local or by-value parameter to the heap.
+An address into an inline fixed array can require moving its owner instead.
+Casting a local address to an integer preserves the lifetime of the addressed storage.
+Calling through an interface field likewise borrows the interface's object, without retaining
+the address of the interface header. Unwrapping a Result into a narrow scalar can leave its
+arguments on the stack when the callee is proven to only read their values. Unknown callees
+and callees that store or forward an argument retain its address sources conservatively,
+including calls evaluated inside another call's arguments. Integer results as wide as a pointer
+and floating point or multiple results can carry encoded pointers and retain those arguments
+conservatively.</p>
 <p>Heap allocation preserves value reads in declaration initializers. An initializer reads
 the bindings that are visible before the new declaration is installed.
 Leaving a nested scope restores the storage and type metadata of outer heap-backed bindings.</p>
@@ -1269,7 +1280,7 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6749"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6834"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1284,9 +1295,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

@@ -1153,6 +1153,8 @@ assert '-0b1111_0000_1010'.int() == -3850
 <p>For more advanced <code>string</code> processing and conversions, refer to the
 <a href="https://modules.vlang.io/strconv.html">vlib/strconv</a> module.</p>
 <h3 id="string-interpolation">String interpolation <a href="v-types.html#string-interpolation" class="header-anchor" aria-hidden="true">#</a></h3>
+<p>Array interpolation resolves each element in its declaring module, including when another
+imported module declares an enum with the same type name.</p>
 <p>Basic interpolation syntax is pretty simple - use <code>${</code> before a variable name and <code>}</code> after. The
 variable will be converted to a string and embedded into the literal:</p>
 <div class="language-v">name := 'Bob'
@@ -2092,7 +2094,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L697"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L706"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2107,9 +2109,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

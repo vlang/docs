@@ -1138,6 +1138,9 @@ unless a nested condition itself narrows the value.
 A negative type guard whose body exits also narrows the value after the guard and requires <code>mut</code>.</p>
 <p>Casting a pointer to an interface can be used directly as the receiver of a method returning
 multiple values. Interface data fields retain their individual types during the conversion.</p>
+<p>An explicit cast such as <code>pkg.Interface(value)</code> uses the interface from its declaring module,
+even if another imported module defines a sum type with the same name.
+Import aliases and selective imports retain this type identity.</p>
 <div class="language-v">// interface-example.1
 struct Dog {
     breed string
@@ -1427,14 +1430,68 @@ println(sum)
 </div>
 <p>The built-in method <code>type_name</code> returns the name of the currently held
 type.</p>
-<p>With sum types you could build recursive structures and write concise but powerful code on them.</p>
+<p>Copying a sum type copies its held value. Reference variants still refer to the same object.</p>
+<p>For example, after <code>b := a</code>, changing a scalar field of a value variant in <code>a</code> leaves <code>b</code>
+unchanged. Passing a sum by value follows the same rule. This follows the held type's ordinary
+copy behavior; it does not recursively clone objects reached through references or containers.</p>
+<p>References to a sum and reference variants refer to different storage:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Referenced storage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Value</code> with a <code>Point</code> variant</td>
+<td>A point held directly in the sum</td>
+</tr>
+<tr>
+<td><code>&amp;Value</code></td>
+<td>The complete sum, including its selected variant</td>
+</tr>
+<tr>
+<td><code>Value</code> with an <code>&amp;Point</code> variant</td>
+<td>A point allocated separately from the sum</td>
+</tr>
+</tbody>
+</table>
+<p>Value and reference variants, including different reference depths, are distinct variants.
+Use the declared variant type in <code>is</code>, <code>as</code>, and <code>match</code>.
+A reference to a selected value borrows that payload's storage. Keep the containing sum alive
+and its variant unchanged while using the reference. When an addressed projection comes from
+a temporary sum, the compiler retains storage for the addressed value, including fields and
+fixed-array elements.</p>
+<p>A mutable sum argument requires a variable of the sum type: it can replace the complete sum
+with another variant. Wrap a concrete value in a sum variable before passing it with <code>mut</code>.
+Inside a mutable smartcast, modifying a field modifies the selected payload in that sum.</p>
+<p>Sum payloads must have finite layout. References, dynamic arrays, and maps break recursive
+storage cycles; ordinary fields, options, and fixed arrays do not. A function variant stores
+a function reference, so its parameter and return types may refer to the containing sum type.
+This validity rule also applies to generic sum declarations used only as constraints.</p>
+<p>Migration from boxed sums: a recursive field previously written as <code>child Tree</code> must now use
+indirection, such as <code>child &amp;Tree</code> or <code>children []Tree</code>. This also applies to indirect and mutual
+cycles through other structs or sum types. An option <code>?Tree</code> still stores its <code>Tree</code> payload by
+value; it is not a nullable pointer and does not break a layout cycle. Use <code>?&amp;Tree</code> for an
+optional reference. A <code>?Tree</code> field outside the recursive variant graph remains valid.
+Recursive-layout errors identify the field path and inline type cycle, and suggest a reference
+or dynamic array to break it.</p>
+<p>With <a href="https://github.com/vlang/v/blob/master/doc/ownership.md">ownership checking</a>, a sum that owns its payload can move rather than copy.
+Ownership and <code>-autofree</code> builds also track pointer-variant borrowing and cleanup, and reject
+some escaping local references. Autofree uses the shared lifetime analysis with its compatibility
+copy policy. Default GC builds without either flag do not enable these additional checks.</p>
+<p>The experimental <a href="https://github.com/vlang/v/blob/master/doc/fastc.md">FastC backend</a> currently retains the older boxed sum representation
+and does not yet provide independent copies of value variants. Use the default C backend for
+the value semantics described here.</p>
+<p>Use references for recursive fields, as in this binary tree:</p>
 <div class="language-v">// V's binary tree
 struct Empty {}
 
 struct Node {
     value f64
-    left  Tree
-    right Tree
+    left  &amp;Tree
+    right &amp;Tree
 }
 
 type Tree = Empty | Node
@@ -1449,9 +1506,11 @@ fn sum(tree Tree) f64 {
 }
 
 fn main() {
-    left := Node{0.2, Empty{}, Empty{}}
-    right := Node{0.3, Empty{}, Node{0.4, Empty{}, Empty{}}}
-    tree := Node{0.5, left, right}
+    empty := Tree(Empty{})
+    left := Tree(Node{0.2, &amp;empty, &amp;empty})
+    leaf := Tree(Node{0.4, &amp;empty, &amp;empty})
+    right := Tree(Node{0.3, &amp;empty, &amp;leaf})
+    tree := Tree(Node{0.5, &amp;left, &amp;right})
     println(sum(tree)) // 0.2 + 0.3 + 0.4 + 0.5 = 1.4
 }
 </div>
@@ -2059,7 +2118,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4490"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4509"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2074,9 +2133,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

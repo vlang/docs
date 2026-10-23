@@ -965,6 +965,10 @@ fn main() {
     // }(3, 4)
 }
 </div>
+<p>A spawned call with a <code>mut param &amp;T</code> parameter receives the caller's mutable pointer
+storage, including when another function forwards that parameter. Keep that storage alive
+until the thread finishes; <code>wait()</code> also makes its field changes and pointer replacement
+available to the caller.</p>
 <p>If a spawned thread's handle is discarded, including inside a discarded array or struct,
 V detaches the thread. Keep its handle and call <code>wait()</code> when the result or completion matters.
 The detached thread releases an owned return value after its function finishes.
@@ -1355,11 +1359,17 @@ fn main() {
     println(words.len) // 3
 }
 </div>
+<p>A <code>shared</code> parameter already passes a reference to the synchronized storage.
+Declare it as <code>shared m map[K]V</code> and pass <code>shared m</code>. Explicit address arguments such
+as <code>shared &amp;m</code> are unsupported; remove <code>&amp;</code> from both the parameter type and the argument.</p>
 <p>Statements that change the map (<code>m[k] = v</code>, <code>m[k] += v</code>, <code>m[k]++</code>, <code>m[k] &lt;&lt; v</code>,
 <code>m.delete(k)</code> and <code>m.clear()</code>) take a <code>lock</code>. The whole statement runs with the map
 locked, so <code>m[k] = m[k] * 2</code> is atomic too. Reads (<code>m[k]</code>, <code>m[k] or { ... }</code>, <code>k in m</code>,
 <code>m.len</code>, <code>m.keys()</code>, <code>m.values()</code> and <code>m.clone()</code>) take an <code>rlock</code>. This works for
 <code>shared</code> variables, parameters, globals and struct fields.</p>
+<p>Custom map methods can operate on a <code>shared</code> map inside an explicit lock block.
+A method with a <code>mut map</code> receiver updates the map's contents, including when the method
+is defined in an imported module.</p>
 <p>Operations that must happen together still need an explicit block, and so do iterating
 over the map, <code>if v := m[k] {</code> and statements that use two <code>shared</code> maps:</p>
 <div class="language-v">shared m := map[string]int{}
@@ -1483,7 +1493,7 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5826"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5898"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1498,9 +1508,9 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

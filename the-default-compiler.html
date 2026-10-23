@@ -952,6 +952,14 @@ handled by the default compiler, and external tools are compiled with it first.<
 prunes stale builds while retaining fresh builds for other flags and checkouts.
 Pruning accepts only regular metadata files opened without following symbolic
 links. On Unix, it also checks ownership before reading another cache entry.</p>
+<p>Cached C builds preserve dependencies of reused modules and regenerate declarations
+and literals needed by changed program code, including fixed-array map keys.
+Warm <code>v run</code> builds retain shared and newly introduced string literals without
+duplicate C definitions.
+Programs using runtime <code>v.reflection</code> reparse original declarations to preserve
+source-file metadata while reusing eligible cached objects.
+Retries that reparse cached module sources preserve caller values for <code>V3_CACHE_FORCE_SOURCE</code>
+at compile time and when running the program.</p>
 <p>The standard bootstrap does not build the sibling <code>v1_fallback</code> executable
 (<code>v1_fallback.exe</code> on Windows). When V needs the compatibility compiler and the
 sibling is missing, it reports that it is running <code>make v1</code>. That target reuses
@@ -1000,9 +1008,9 @@ to see the default-compiler diagnostics without a fallback retry.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

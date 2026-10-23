@@ -1062,7 +1062,9 @@ is needed.</li>
 the default alignment. Use <code>@[packed]</code> if you want to <em>decrease</em> it. The alignment of any struct
 or union, should be at least a perfect multiple of the lowest common multiple of the alignments of
 all of the members of the struct or union.
-Heap-allocated fixed arrays of aligned structs, including fixed-array aliases, keep that alignment.</p>
+Heap-allocated fixed arrays of aligned structs, including fixed-array aliases, keep that alignment.
+An aligned local struct also keeps its alignment when the compiler moves it to the heap,
+including when using MSVC.</p>
 <p>Example:</p>
 <div class="language-v">// Each u16 in the `data` field below, takes 2 bytes, and we have 3 of them = 6 bytes.
 // The smallest power of 2, bigger than 6 is 8, i.e. with `@[aligned]`, the alignment
@@ -1151,6 +1153,12 @@ financial calculations.</li>
 compile time. However, in the case of a segmentation fault, the output will not contain stack trace
 information, making debugging more challenging. A stack overflow (for example from unbounded
 recursion) is then also no longer reported as <code>V panic: stack overflow</code>.</p>
+<p>On Windows, V reserves exception handling stack space for the main thread and threads
+started with <code>spawn</code>. An overflow-only vectored handler writes <code>V panic: stack overflow</code> to
+stderr and terminates the process with a nonzero exit code, even with <code>-d no_backtrace</code>.
+Other exceptions continue to their existing handlers.
+Address, Thread, Memory, and HWAddress sanitizer builds leave stack overflow handling to
+the sanitizer runtime.</p>
 <p>On macOS, signal handlers installed before V starts retain precedence, including TCC's
 backtrace handlers. V reports stack overflows when the signal still has its default disposition;
 compile with <code>-cc clang</code> to use this reporter without TCC's earlier handlers.</p>
@@ -1243,7 +1251,7 @@ rm pgo_gen
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9713"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9812"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1258,9 +1266,9 @@ rm pgo_gen
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

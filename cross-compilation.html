@@ -1021,7 +1021,10 @@ V runs on:</p>
 <ul>
 <li>A <code>$if</code> used as an <em>expression</em>. Its branches may have different types - for
 example <code>closure_thunk</code> in <code>vlib/builtin/closure</code> is a differently sized fixed
-array per architecture - which no guard around an expression can express.</li>
+array per architecture - which no guard around an expression can express. Where
+such a value has to follow the target, select it with statement-level <code>$if</code>s
+in a function used under <code>$if cross ?</code>, as <code>vlib/builtin</code> does for <code>min_int</code>,
+<code>max_int</code> and the closure thunks.</li>
 <li>A <code>$if</code> at file scope holding <em>declarations</em>. A function, type, constant or
 global cannot be wrapped in <code>#if</code> by the backend, so only the host's branch is
 emitted. Directives (<code>#include</code>, <code>#flag</code>) written at file scope <em>are</em> kept
@@ -1030,18 +1033,27 @@ from every branch and guarded, which is what makes the headers portable.</li>
 <code>x_linux.c.v</code> and <code>x_darwin.c.v</code> contributes only the generating host's
 variant, so generate the portable C on the platform whose variants are the
 portable ones.</li>
-<li>The pointer width. V's <code>int</code>, the type layouts and the literal ranges are
-baked for the generating target, so the output carries a check that fails the
-build with a clear <code>#error</code> when it is compiled for a different width. The
-output stays portable across targets of the same width.</li>
+<li>The literal ranges. They are checked for the generating target, so an <code>int</code>
+literal that only fits 64 bits is accepted, and truncated when the output is
+compiled for a 32-bit target. Use <code>i64</code> for such values.</li>
 </ul>
+<p>The pointer width itself is left to the C compiler. V's <code>int</code> is spelled
+<code>__v_int</code>, a typedef of <code>i64</code> or <code>i32</code> that the output defines from the
+compiler's target, and the map callbacks for <code>int</code> and pointer keys and the
+default thread stack size follow that width as well.</p>
+<p>The compiler's own snapshot (<code>v -cross cmd/v</code>, which <code>vc/v.c</code> is) writes the libc
+declarations it needs itself, with the layouts of 64-bit targets. On 32-bit
+targets the C libraries disagree on those layouts (glibc and musl differ in
+<code>time_t</code>, <code>off_t</code> and <code>struct stat</code>), so the snapshot also carries a variant that
+includes the system headers. The C compiler picks it on 32-bit targets; compile
+with <code>-D__V_HEADERLESS_LIBC=0</code> to use it on a 64-bit one too.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10215"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10323"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1056,9 +1068,9 @@ output stays portable across targets of the same width.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

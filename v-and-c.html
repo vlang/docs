@@ -968,6 +968,10 @@ Use the <code>C.</code> prefix to refer to the C function.
 Note that such redeclarations only need to have enough details about the
 functions/structs that you want to use.
 Note also that they <em>do not have</em> to be complete, unlike the ones in the .h files.</p>
+<p>Compatible <code>fn C.</code> redeclarations in different modules retain each module's own return type.
+For example, declaring a C pointer return as <code>&amp;u8</code> in one module and <code>voidptr</code> in another
+keeps pointer arithmetic in the first module independent of import order. Calls without a local
+or imported declaration use the builtin declaration when one is available.</p>
 <p>A C function receiving the address of a local can change its value. Subsequent expressions
 read that value even when the V binding was declared without <code>mut</code>.</p>
 <p>Parameter names in <code>C.</code> function declarations may start with uppercase letters, as in C headers.
@@ -1221,7 +1225,8 @@ Each flag must go on its own line (for now)</p>
 Module-cache builds keep that runtime in the program prefix; cached objects use its declarations.
 Exports in builds without a V <code>main</code> also share one guarded runtime initializer across
 cached modules, including the backtrace stubs used on musl systems.
-Native headers that cannot safely share state across units use a single compilation unit.</p>
+Native headers that cannot safely share state across units use a single compilation unit.
+The Windows stack overflow reporter supports parallel C compilation.</p>
 <p>To select C23 with a compiler that supports it, use
 <code>v -cc gcc -cflags '-std=gnu23' program.v</code>. Generated C uses the standard boolean keywords
 in C23 and supplies compatibility definitions for older C dialects.</p>
@@ -1489,7 +1494,8 @@ Casts like <code>t(x)</code> to a type whose name starts in lower case work insi
 <p>V can translate your C code to human readable V code, and generating V wrappers
 on top of C libraries.</p>
 <p>C2V currently uses Clang's AST to generate V, so to translate a C file to V
-you need to have Clang installed on your machine.</p>
+you need to have Clang installed on your machine.
+On first use, <code>v translate</code> downloads and compiles C2V automatically.</p>
 <p>Let's create a simple program <code>test.c</code> first:</p>
 <div class="language-c">#include &quot;stdio.h&quot;
 
@@ -1564,7 +1570,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10500"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10622"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1579,9 +1585,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 

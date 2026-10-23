@@ -1390,6 +1390,9 @@ A pointer to a nested array or map remains a reference container when iterated a
 including through parentheses or a closure capture.
 Fixed-array map values also refer to their entry storage, so changes through the reference update
 the map value.
+An enum entry reference can be compared with an enum value using <code>==</code> or <code>!=</code>, including
+shorthand values such as <code>.on</code>. The comparison reads the referenced enum value; comparing two
+enum pointers still compares their addresses.
 Aliases of array and map pointers preserve these reference semantics, including pointer rebinding.
 Parentheses around a mutable map container do not change whether assigning the loop value updates
 its entry.
@@ -1500,6 +1503,9 @@ until the surrounding scope of the defer ends. It is a convenient feature
 that allows you to group related actions (getting access to a resource
 and cleaning/freeing it after you are done) closely together, instead
 of spreading them across multiple potentially very remote lines of code.</p>
+<p>A <code>defer</code> body inherits the <code>unsafe</code> context where it is written, including <code>defer(fn)</code>
+bodies that run later outside that block. It may also contain its own explicit <code>unsafe</code> block.
+An <code>unsafe</code> block at a later return does not make a previously declared safe <code>defer</code> unsafe.</p>
 <div class="language-v">import os
 
 fn read_log() ! {
@@ -1685,7 +1691,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2218"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2230"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1700,9 +1706,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-19T17:01:25.000Z">Last updated:
-                                        2026-10-19 17:01:25, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/69cf59a6c8ac9ff2a75733b5203c7edd6fbcd09b">69cf59a</a></time>
+                                    <time datetime="2026-10-22T05:23:18.000Z">Last updated:
+                                        2026-10-22 05:23:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/64cbb502a7e99f984a6243680f0fd8274d33210f">64cbb50</a></time>
                                 </div>
                             </div>
 
