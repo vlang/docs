@@ -1201,7 +1201,9 @@ visibility: a <code>pub fn User.draw(...)</code> is accessible from other module
 <p>Instance methods can also be used as unbound function values, such as <code>f := User.register</code>.
 The receiver becomes the first parameter, so a mutable receiver is passed as <code>f(mut user)</code>.
 Inside a method reflection loop, <code>T.$method</code> likewise creates an unbound function value.
-Unbound and reflected method values follow the same method privacy and <code>mut</code> argument rules.</p>
+Unbound and reflected method values follow the same method privacy and <code>mut</code> argument rules.
+A reflected method bound to an instance, such as <code>f := app.$method</code>, can be stored in an array
+like other function values.</p>
 <blockquote class="tip">
 <p>[!NOTE]
 Note, that these are not constructors, but simple functions. V doesn't have constructors or
@@ -1351,7 +1353,7 @@ targeted.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3137"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3153"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1366,9 +1368,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

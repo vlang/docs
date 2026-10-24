@@ -950,12 +950,17 @@ do <code>type NewType = ExistingType</code>.<br/>
 This is a special case of a <a href="type-declarations.html#sum-types">sum type</a> declaration.</p>
 <p>Methods declared on a fixed-array alias keep that alias receiver, including methods whose names
 match builtin array methods.</p>
+<p>Enum aliases stored in struct fields support <code>.str()</code> and interpolation using the enum's value name.
+Aliases also inherit custom <code>.str()</code> methods, including after unwrapping an optional alias value.</p>
 <p>Numeric aliases use ordinary conversions for initialization:</p>
 <div class="language-v">type Decimal = f64
 
 amount := Decimal(0.0)
 </div>
 <h2 id="enums">Enums <a href="type-declarations.html#enums" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>C enum constants can initialize V enum members through <code>C.name</code>, including lowercase C names.
+Flag enum initializers specify bit positions and must be known to the V compiler at compile time;
+Integer casts of known V enum values can supply these positions; C enum constants cannot.</p>
 <p>Methods on an ordinary enum keep their definitions even when another module declares a
 flag enum with the same type name.</p>
 <p>An enum is a group of constant integer values, each having its own name,
@@ -1954,6 +1959,9 @@ method is promoted from an embedded struct; the value binds that embedded receiv
 A later declaration using a module type with the same name resolves to that module type.</p>
 <p>Generic calls keep the identity of caller types even when an imported module declares a type
 with the same short name.
+This also applies to iteration over a generic struct's <code>[]T</code> field: each loop variable
+keeps the concrete element type, including aliases, enums, interfaces, module names,
+and pointer modifiers.
 When an imported generic constructs a caller's struct, omitted fields use that struct's defaults,
 including shared fields and fixed arrays. This applies to value and heap literals and
 Result returns.
@@ -1968,6 +1976,11 @@ are resolved in the module that defines the method, so a caller type with the sa
 does not change the inferred type arguments. <code>typeof(call()).name</code> reports the concrete
 return type of an inferred generic method call.
 Inference also follows receivers obtained by unwrapping an option or propagating a result.</p>
+<p>Assigning a generic call to an optional variable or field does not make its inferred type
+arguments optional. For <code>fn identity[T](value T) T</code>, assigning <code>identity(3)</code> to <code>?int</code>
+infers <code>T</code> as <code>int</code> from the argument, then wraps the result in the destination option.
+For a declared optional return such as <code>fn optional[T](value T) ?T</code>, a <code>?f64</code> destination
+provides <code>f64</code> context to untyped numeric literals; typed arguments still determine their own type.</p>
 <p>Nested generic calls preserve reference return types when passed directly to another generic
 call, including references stored as map values.</p>
 <p>Generic variadic calls in a reflected field loop infer each scalar or array argument as one
@@ -2118,7 +2131,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4521"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4544"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2133,9 +2146,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

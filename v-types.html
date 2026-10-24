@@ -1381,6 +1381,9 @@ list of expressions surrounded by square brackets. An individual element can be
 accessed using an <em>index</em> expression. Indexing starts from <code>0</code>.</p>
 <p>A string literal keeps its string type even when its text names a type alias.
 For example, <code>['Speed']</code> contains strings, while <code>[Speed(7)]</code> contains <code>Speed</code> values.</p>
+<p>In <code>==</code> and <code>!=</code> comparisons, array and map literals use the element or value type of the
+other operand. This also applies when that operand propagates an option or result with <code>?</code>
+or <code>!</code>. Operands are evaluated from left to right.</p>
 <p>After an array literal, separate <code>&amp;&amp;</code> from either adjacent token with whitespace or a comment
 to use logical AND, as in <code>a == [] &amp;&amp; flag</code>. An attached <code>[]&amp;&amp;Type{}</code> declares an array of
 references to references. Separate <code>&amp;</code> on both sides to use the binary AND operator;
@@ -2111,9 +2114,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

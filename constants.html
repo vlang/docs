@@ -945,7 +945,10 @@
                         <main class="v-doc">
                             <h1 class="main">Constants</h1>
 <p>A constant can be qualified with its module name inside that module, including in module tests.</p>
-<p>A fixed array constant can be initialized by a function call; the call runs during initialization.</p>
+<p>A fixed array constant can be initialized by a function call; the call runs during initialization.
+Sum type constants with aggregate variants are initialized at startup, including when compiling
+with GCC.
+Their resolved sum type remains the same when an import alias shares its module prefix.</p>
 <div class="language-v">const pi = 3.14
 const world = '世界'
 
@@ -1028,7 +1031,7 @@ println('Top cities: ${top_cities.filter(.usa)}')
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4123"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4143"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1043,9 +1046,9 @@ println('Top cities: ${top_cities.filter(.usa)}')
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

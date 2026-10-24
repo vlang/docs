@@ -961,6 +961,11 @@ documentation for a list of common modules and their public symbols.</p>
 This may seem verbose at first, but it makes code much more readable
 and easier to understand - it's always clear which function from
 which module is being called. This is especially useful in large code bases.</p>
+<p>A function declared in the current module, or stored in a local variable, keeps its own
+behavior even when it has the same name as a standard library function. For example,
+<code>join_path('a', 'b')</code> calls that binding; <code>os.join_path('a', 'b')</code> calls the <code>os</code> function.
+A local function binding also takes precedence inside the library module that defines
+the same function name.</p>
 <p>Cyclic module imports are not allowed, like in Go.</p>
 <h2 id="selective-imports">Selective imports <a href="module-imports.html#selective-imports" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>You can also import specific functions and types from modules directly:</p>
@@ -1066,7 +1071,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2088"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2092"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1081,9 +1086,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

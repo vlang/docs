@@ -1297,6 +1297,11 @@ res2 := ch2.try_pop(mut b) // try to perform `b = &lt;-ch2`
 <p>The <code>try_push/pop()</code> methods will return immediately with one of the results
 <code>.success</code>, <code>.not_ready</code> or <code>.closed</code> - dependent on whether the object has been transferred or
 the reason why not.
+These methods also work in generic functions with a <code>chan T</code>. Their arguments must match the
+channel's element storage type, and <code>try_pop(mut value)</code> requires mutable destination storage.
+A sum-type channel requires storage of the full sum type when popping. A shared destination
+is writable inside its <code>lock</code> block. Pointer values can be pushed into a <code>chan voidptr</code>.
+Methods declared on a channel alias take precedence over these builtins.
 On an unbuffered channel, <code>try_push()</code> will return <code>.not_ready</code> unless a receiver is ready at
 the same time.
 Usage of these methods and fields in production is not recommended -
@@ -1493,7 +1498,7 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5910"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L5949"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1508,9 +1513,9 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

@@ -1356,7 +1356,13 @@ including generic functions and functions from imported modules.</p>
 <p>C identifiers are accessed with the <code>C</code> prefix similarly to how module-specific
 identifiers are accessed. Functions must be redeclared in V before they can be used.
 Any C types may be used behind the <code>C</code> prefix, but types must be redeclared in V in
-order to access type members.</p>
+order to access type members.
+An unreferenced <code>struct C.Name</code> declaration does not emit a C struct definition. Include its owning
+C header when using a header-defined struct.
+Using a C struct in <code>sizeof</code> or <code>__offsetof</code> references its layout,
+even without a value of that type.
+Generated optional wrappers, callback aliases, and fixed-array declarations also keep
+the C struct layouts they require.</p>
 <p>To redeclare complex types, such as in the following C code:</p>
 <div class="language-c">struct SomeCStruct {
     uint8_t implTraits;
@@ -1572,7 +1578,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10634"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10695"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1587,9 +1593,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 

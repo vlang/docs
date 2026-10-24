@@ -1035,6 +1035,11 @@ u_name := if v := arr[0] {
 }
 println(u_name) // John
 </div>
+<p>Use <code>if mut value := expression { ... }</code> when the unwrapped variable must be mutable,
+for example to pass it to a <code>mut</code> parameter. The binding stays mutable throughout the
+successful branch, including in <code>if</code> expressions and chained calls to generic functions
+or methods. This applies to option/result, map lookup, array lookup, and channel receive guards.
+Channel receive guards used as values also preserve a trailing <code>match</code> expression in either branch.</p>
 <h3 id="type-checks-and-casts">Type checks and casts <a href="statements-&-expressions.html#type-checks-and-casts" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can check the current type of a sum type using <code>is</code> and its negated form <code>!is</code>.</p>
 <p>Note that the variable's declared type stays the sum type itself. In the example
@@ -1691,7 +1696,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2239"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2249"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1706,9 +1711,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-22T17:59:59.000Z">Last updated:
-                                        2026-10-22 17:59:59, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ffc38ada48df34cbf3aa818c3410ce7fcdef5c1f">ffc38ad</a></time>
+                                    <time datetime="2026-10-23T15:08:27.000Z">Last updated:
+                                        2026-10-23 15:08:27, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d1df2de5377098c11f7326c1155f3ce32cfa0340">d1df2de</a></time>
                                 </div>
                             </div>
 
