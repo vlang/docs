@@ -1034,6 +1034,12 @@ Typed pointers must use the C element representation. For a C <code>int</code> a
 pass <code>&amp;values[0]</code>; V's platform-width <code>int</code> storage is incompatible on 64-bit targets.
 Pointer constants such as <code>C.NULL</code> and <code>C.INVALID_HANDLE_VALUE</code> retain their pointer type
 in assignments and comparisons.</p>
+<p>Ordinary V identifiers such as <code>near</code>, <code>far</code>, <code>pascal</code>, and <code>cdecl</code> can also be used when
+compiling for Windows. The C backend escapes these names to avoid Windows header macros,
+including in functions, local variables, and struct fields. Explicit <code>C.</code> references retain
+their original C names.
+TinyCC also supports explicitly aligned local structs on Windows through its <code>alloca</code> intrinsic.
+V identifiers named <code>alloca</code> are escaped so they cannot shadow this intrinsic.</p>
 <p>C globals can be exposed on the V side too. Use <code>@[c_extern] __global name C.Type</code>
 when you want to redeclare an external symbol explicitly, or
 <code>@[c_extern] __global const name C.Type</code> for an external <code>extern const</code> symbol.
@@ -1593,9 +1599,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-23T19:18:05.000Z">Last updated:
-                                        2026-10-23 19:18:05, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c4e254fab12e5354ec46cf8f06b2dcdc2de2e357">c4e254f</a></time>
+                                    <time datetime="2026-10-25T02:14:57.000Z">Last updated:
+                                        2026-10-25 02:14:57, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ff75f005fe464217d3649a39c36754cc0bb4abfa">ff75f00</a></time>
                                 </div>
                             </div>
 
