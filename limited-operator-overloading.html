@@ -1028,6 +1028,7 @@ They cannot be explicitly overridden.</p>
 <h3 id="type-restrictions">Type restrictions <a href="limited-operator-overloading.html#type-restrictions" class="header-anchor" aria-hidden="true">#</a></h3>
 <ul>
 <li>When overriding <code>&lt;</code> and <code>==</code>, the return type must be strictly <code>bool</code>.</li>
+<li>Enums and interfaces cannot overload operators, but an alias of an enum can.</li>
 <li>Both arguments must have the same type (just like with all operators in V).</li>
 <li>Overloaded operators have to return the same type as the argument
 (the exceptions are <code>&lt;</code> and <code>==</code>).</li>
@@ -1048,7 +1049,7 @@ or multidimensional syntax like <code>tensor[1, ..]</code>.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9775"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L9780"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1063,9 +1064,9 @@ or multidimensional syntax like <code>tensor[1, ..]</code>.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-23T19:18:05.000Z">Last updated:
-                                        2026-10-23 19:18:05, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/c4e254fab12e5354ec46cf8f06b2dcdc2de2e357">c4e254f</a></time>
+                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
+                                        2026-10-25 15:28:40, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
                                 </div>
                             </div>
 

@@ -949,14 +949,14 @@
 
 string
 
-i8    i16  int  i64  i128
+i8    i16  i32  i64  i128
 u8    u16  u32  u64  u128
+
+int, uint // platform-width signed and unsigned integers
 
 rune // represents a Unicode code point
 
 f32 f64
-
-isize, usize // platform-dependent, the size is how many bytes it takes to reference any location in memory
 
 voidptr // this one is mostly used for [C interoperability](#v-and-c)
 </div>
@@ -964,8 +964,12 @@ voidptr // this one is mostly used for [C interoperability](#v-and-c)
 <p>[!NOTE]
 <code>int</code> is a platform-width signed integer: 64 bits on 64-bit targets and 32 bits on 32-bit
 targets. Use <code>i32</code> or <code>i64</code> when you need a fixed width.
-Integer literal casts to <code>int</code> are checked against the target platform's width.</p>
+Integer literal casts to <code>int</code> are checked against the target platform's width.
+<code>uint</code> has the same width and is unsigned.</p>
 </blockquote>
+<p><code>isize</code> and <code>usize</code> are deprecated. Replace <code>isize</code> with <code>int</code> and <code>usize</code> with <code>uint</code>.
+Use <code>uint</code> for pointer addresses and C <code>size_t</code> values to preserve
+the full unsigned range. Existing spellings still compile with deprecation warnings.</p>
 <h2 id="128-bit-integers">128-bit integers <a href="v-types.html#128-bit-integers" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>i128</code> and <code>u128</code> hold 128 bits. The usual operators work on them: arithmetic,
 bitwise, shifts, comparisons, and casts to and from the other numeric types.</p>
@@ -2114,9 +2118,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T02:14:57.000Z">Last updated:
-                                        2026-10-25 02:14:57, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ff75f005fe464217d3649a39c36754cc0bb4abfa">ff75f00</a></time>
+                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
+                                        2026-10-25 15:28:40, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
                                 </div>
                             </div>
 
