@@ -990,7 +990,10 @@ for each inline-assembly statement, so prefer names such as <code>.Lloop%=</code
 functions. Numeric local labels such as <code>1:</code> with <code>1b</code> (backward) and <code>1f</code> (forward) references are
 also useful for short branches. Do not use an ordinary global-looking label in a raw block unless
 it is deliberately exported: two instantiations of a function can otherwise define the same
-assembler symbol.</p>
+assembler symbol. In x86 and arm64 raw blocks, the compiler warns about such a label inside a
+function unless it is an unquoted numeric label, uses <code>%=</code>, or is exported with <code>.globl</code>,
+<code>.global</code>, or <code>.weak</code>. Quoted symbol definitions are checked too: <code>&quot;1&quot;:</code> is an ordinary symbol,
+not a numeric local label.</p>
 <p>For a loop over a V buffer, bind a pointer and a block count as read-write register operands, bump
 the pointer inside the template, and decrement the count until it reaches zero:</p>
 <div class="language-v">mut ptr := data.data
@@ -1267,7 +1270,7 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11481"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11466"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1282,9 +1285,9 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

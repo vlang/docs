@@ -986,14 +986,20 @@ Assignment Operators
 &amp;&amp;= ||=
 </div>
 <p>Note: in V, <code>assert -10 % 7 == -3</code> passes. In programming, the sign of the remainder
-depends upon the signs of divisor and dividend.</p>
+depends upon the signs of divisor and dividend.
+For calendar-style modular arithmetic, use floored division instead:
+<code>math.divide_floored(-10, 7)</code> gives a quotient of <code>-2</code> with remainder <code>4</code>,
+and <code>math.modulo_floored(-10, 7) == 4</code>. For floats, use <code>math.floor_div</code>
+with <code>math.floor_mod</code>. New <code>//</code> and <code>%%</code> operators were considered, but <code>//</code>
+would conflict with line comments, so these library functions are the
+supported approach.</p>
 
                         </main>
                         <footer>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11928"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11916"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1008,9 +1014,9 @@ depends upon the signs of divisor and dividend.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

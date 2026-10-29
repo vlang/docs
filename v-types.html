@@ -969,7 +969,8 @@ Integer literal casts to <code>int</code> are checked against the target platfor
 </blockquote>
 <p><code>isize</code> and <code>usize</code> are deprecated. Replace <code>isize</code> with <code>int</code> and <code>usize</code> with <code>uint</code>.
 Use <code>uint</code> for pointer addresses and C <code>size_t</code> values to preserve
-the full unsigned range. Existing spellings still compile with deprecation warnings.</p>
+the full unsigned range. Existing spellings still compile with deprecation warnings.
+Pointer subtraction returns <code>int</code>, including in translated C code.</p>
 <h2 id="128-bit-integers">128-bit integers <a href="v-types.html#128-bit-integers" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>i128</code> and <code>u128</code> hold 128 bits. The usual operators work on them: arithmetic,
 bitwise, shifts, comparisons, and casts to and from the other numeric types.</p>
@@ -1684,7 +1685,8 @@ println(upper_fn) // ['HELLO', 'WORLD']
 </div>
 <p><code>it</code> is a builtin variable which refers to the element currently being
 processed in filter/map methods.</p>
-<p>Additionally, <code>.any()</code> and <code>.all()</code> can be used to conveniently test
+<p>User-defined struct methods named <code>map</code> keep their declared return type, including when chained.
+Additionally, <code>.any()</code> and <code>.all()</code> can be used to conveniently test
 for elements that satisfy a condition.</p>
 <div class="language-v">nums := [1, 2, 3]
 println(nums.any(it == 2)) // true
@@ -1798,7 +1800,10 @@ the parent array or the resulting slice is mutable, V inserts an implicit
 <code>.clone()</code> and shows a notice. This prevents changes through one array from
 affecting the other. If both arrays are immutable, the slice safely reuses the
 parent array's memory without cloning. The shared-memory examples below
-therefore use <code>unsafe {}</code> intentionally.</p>
+therefore use <code>unsafe {}</code> intentionally.
+Printing or interpolating the parent array shows changes made through such a shared slice.
+Formatting such a mutated array with <code>-b wasm</code> currently reports an unsupported
+runtime-formatting error.</p>
 <div class="language-v">mut a := [0, 1, 2, 3, 4, 5]
 
 // Create a slice, that reuses the *same memory* as the parent array
@@ -2103,7 +2108,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L712"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L731"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2118,9 +2123,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

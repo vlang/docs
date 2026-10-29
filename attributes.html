@@ -955,7 +955,8 @@ Call-style attributes can also use named arguments.</p>
 <p>The C backend emits <code>@[_constructor]</code> and <code>@[_destructor]</code> as GNU function attributes before the
 function declarator, so definitions compile with GCC and Clang. When supported by the C compiler,
 these hooks run before <code>main</code> and after it returns. They must not depend on V's runtime being
-initialized. MSVC ignores these attributes.</p>
+initialized. Both are builtin attributes and require no user-defined attribute schema.
+MSVC ignores these attributes.</p>
 <div class="language-v">// @[flag] enables Enum types to be used as bitfields
 
 @[flag]
@@ -1219,7 +1220,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8298"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8337"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1234,9 +1235,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

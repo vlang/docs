@@ -960,6 +960,13 @@ Programs using runtime <code>v.reflection</code> reparse original declarations t
 source-file metadata while reusing eligible cached objects.
 Retries that reparse cached module sources preserve caller values for <code>V3_CACHE_FORCE_SOURCE</code>
 at compile time and when running the program.</p>
+<p>The experimental unchanged-build receipt cache is disabled by default. Set
+<code>V3_ENABLE_UNCHANGED_BUILD_CACHE=1</code> to opt in; <code>-nocache</code> and
+<code>V3_DISABLE_UNCHANGED_BUILD_CACHE=1</code> disable it. Its early executable restore does
+not yet track all compile-time environment, module-search, or native linker inputs.
+Keep it disabled when those inputs can change between builds.
+Parallel monomorphization also remains opt-in through <code>V3_PARALLEL_MONOMORPHIZE=1</code>
+while nested generic-interface dispatch is being validated.</p>
 <p>The standard bootstrap does not build the sibling <code>v1_fallback</code> executable
 (<code>v1_fallback.exe</code> on Windows). When V needs the compatibility compiler and the
 sibling is missing, it reports that it is running <code>make v1</code>. That target reuses
@@ -993,7 +1000,7 @@ to see the default-compiler diagnostics without a fallback retry.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L136"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L147"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1008,9 +1015,9 @@ to see the default-compiler diagnostics without a fallback retry.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

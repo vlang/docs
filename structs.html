@@ -1022,6 +1022,13 @@ println(c) // &amp;Foo{ x: 2 } // Note `&amp;` prefixed.
 Array and map fields are allocated.
 In case of reference value, see <a href="structs-with-reference-fields.html">here</a>.</p>
 <p>It's also possible to define custom default values.</p>
+<p>A keyword-named field can follow a default value on the next line:</p>
+<div class="language-v">struct Settings {
+    enabled bool = true
+    in      string
+}
+</div>
+<p>The same rule applies to defaults such as <code>match</code> expressions, including fields named <code>or</code>.</p>
 <h2 id="required-fields">Required fields <a href="structs.html#required-fields" class="header-anchor" aria-hidden="true">#</a></h2>
 <div class="language-v">struct Foo {
     n int @[required]
@@ -1353,7 +1360,7 @@ targeted.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3158"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3182"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1368,9 +1375,9 @@ targeted.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

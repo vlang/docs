@@ -961,8 +961,17 @@ The final configuration count includes checks that reused every cached object.
 Different build flags, program or test modes, and import sequences can require
 separate checks. Pass <code>v up -v</code> to see each checked configuration.
 Cached module headers preserve struct field attribute groups, so valid deprecation
-attributes do not introduce warnings during refresh.
-Ordinary builds report cache progress on standard error. Refreshes retain absolute
+attributes do not introduce warnings during refresh.</p>
+<p><code>make</code> also warms the default test configuration's builtin module bundle, including
+<code>strings</code>, <code>strconv</code>, <code>hash</code> and <code>bits</code>. Compatible test builds reuse these objects
+when the program introduces new error types, retaining builtin error dispatch ID dependencies.
+Dispatch hash collisions retain the full error-type dependency. Without a bundled collector,
+the warmup uses <code>-gc none</code>; an explicit <code>-gc</code> setting takes precedence.
+A missing object for another module rebuilds that module while retaining compatible cached
+modules. Ignored local names remain stable when cached headers replace source files, so
+reparsed modules can reuse identical C objects. Compiler flags, source changes and dependency
+changes still invalidate the affected objects.</p>
+<p>Ordinary builds report cache progress on standard error. Refreshes retain absolute
 module search paths, resolved C compiler commands, and build modes. They omit
 linker-only flags, including operands embedded in <code>-cflags</code>. Relative <code>V3CACHE</code>
 and <code>VTMP</code> paths are resolved against the directory where <code>v up</code> was invoked.
@@ -1025,9 +1034,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

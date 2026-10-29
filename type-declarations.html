@@ -1470,7 +1470,9 @@ a temporary sum, the compiler retains storage for the addressed value, including
 fixed-array elements.</p>
 <p>A mutable sum argument requires a variable of the sum type: it can replace the complete sum
 with another variant. Wrap a concrete value in a sum variable before passing it with <code>mut</code>.
-Inside a mutable smartcast, modifying a field modifies the selected payload in that sum.</p>
+Inside a mutable smartcast, modifying a field modifies the selected payload in that sum.
+Assigning <code>0</code> to a sum with integer and reference variants selects the integer variant,
+including when its current variant is a reference.</p>
 <p>Sum payloads must have finite layout. References, dynamic arrays, and maps break recursive
 storage cycles; ordinary fields, options, and fixed arrays do not. A function variant stores
 a function reference, so its parameter and return types may refer to the containing sum type.
@@ -2131,7 +2133,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4549"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4586"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2146,9 +2148,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

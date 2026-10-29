@@ -965,7 +965,9 @@ constant separately:</p>
 <div class="language-v">const e = 2.71828
 </div>
 <p>A constant initializer may call a function with the same name, such as <code>const answer = answer()</code>.
-Reading the constant itself in its initializer is still a cycle.</p>
+Reading the constant itself in its initializer is still a cycle.
+Dependencies in initializer expressions and helper calls are resolved in the initializer's module
+and source file. This context is preserved when initialization waits for another constant.</p>
 <p>V constants are more flexible than in most languages. You can assign more complex values:</p>
 <div class="language-v">struct Color {
     r int
@@ -1031,7 +1033,7 @@ println('Top cities: ${top_cities.filter(.usa)}')
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4148"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4183"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1046,9 +1048,9 @@ println('Top cities: ${top_cities.filter(.usa)}')
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 

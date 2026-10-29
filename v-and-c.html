@@ -1034,10 +1034,10 @@ Typed pointers must use the C element representation. For a C <code>int</code> a
 pass <code>&amp;values[0]</code>; V's platform-width <code>int</code> storage is incompatible on 64-bit targets.
 Pointer constants such as <code>C.NULL</code> and <code>C.INVALID_HANDLE_VALUE</code> retain their pointer type
 in assignments and comparisons.</p>
-<p>Ordinary V identifiers such as <code>near</code>, <code>far</code>, <code>pascal</code>, and <code>cdecl</code> can also be used when
-compiling for Windows. The C backend escapes these names to avoid Windows header macros,
-including in functions, local variables, and struct fields. Explicit <code>C.</code> references retain
-their original C names.
+<p>Ordinary V identifiers such as <code>near</code>, <code>far</code>, <code>pascal</code>, <code>cdecl</code>, <code>min</code>, and <code>max</code> can also be
+used when compiling for Windows. The C backend escapes these names to avoid Windows header
+macros, including in functions, local variables, and struct fields. Explicit <code>C.</code> references
+retain their original C names.
 TinyCC also supports explicitly aligned local structs on Windows through its <code>alloca</code> intrinsic.
 V identifiers named <code>alloca</code> are escaped so they cannot shadow this intrinsic.</p>
 <p>C globals can be exposed on the V side too. Use <code>@[c_extern] __global name C.Type</code>
@@ -1325,6 +1325,11 @@ You can see a complete minimal example for using C code in a V wrapper module he
 <a href="https://github.com/vlang/v/tree/master/vlib/v/tests/project_with_c_code">project_with_c_code</a>.
 Another example, demonstrating passing structs from C to V and back again:
 <a href="https://github.com/vlang/v/tree/master/vlib/v/tests/project_with_c_code_2">interoperate between C to V to C</a>.</p>
+<p>V functions in the <code>main</code> module named <code>near</code>, <code>far</code>, <code>pascal</code>, or <code>cdecl</code> use reserved C names
+to avoid macros defined by Windows headers. Direct calls and function values use the same names.
+These remain distinct from V functions named <code>main__near</code>, <code>main__far</code>, <code>main__pascal</code>,
+or <code>main__cdecl</code>.
+Declarations in the <code>C</code> namespace retain their C names.</p>
 <h2 id="c-types">C types <a href="v-and-c.html#c-types" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V methods declared on a C struct can be called through imported fields and local copies of that
 struct. The method retains the visibility of its declaring V module.
@@ -1585,7 +1590,7 @@ with C interop. Other than those, using them could cause more issues than it sol
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10701"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10680"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1600,9 +1605,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-25T15:28:40.000Z">Last updated:
-                                        2026-10-25 15:28:40, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/abec0a455ae9d760ec8ce7e0fcc4633824cab990">abec0a4</a></time>
+                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
+                                        2026-10-28 00:04:02, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
                                 </div>
                             </div>
 
