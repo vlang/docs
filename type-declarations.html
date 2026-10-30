@@ -1989,7 +1989,10 @@ provides <code>f64</code> context to untyped numeric literals; typed arguments s
 <p>Nested generic calls preserve reference return types when passed directly to another generic
 call, including references stored as map values.</p>
 <p>Generic variadic calls in a reflected field loop infer each scalar or array argument as one
-element. Spreading an array with <code>...</code> instead infers the variadic element type from its contents.</p>
+element. Spreading an array with <code>...</code> instead infers the variadic element type from its contents.
+For <code>fn accept[T](items ...T)</code>, both <code>accept(1, 2)</code> and <code>accept(...[1, 2])</code> infer <code>T</code> as <code>int</code>.
+A separate type parameter absent from the parameters, return type, and constraints still needs
+an explicit type argument.</p>
 <p>Another example:</p>
 <div class="language-v">fn compare[T](a T, b T) int {
     if a &lt; b {
@@ -2151,9 +2154,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-30T04:39:08.000Z">Last updated:
-                                        2026-10-30 04:39:08, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a99bfa401039a1ce4ca3e08b435ed434d03da978">a99bfa4</a></time>
+                                    <time datetime="2026-10-30T21:47:53.000Z">Last updated:
+                                        2026-10-30 21:47:53, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/bfc309e17e7e8fd23f4c1e2444b8d8646ec13ddf">bfc309e</a></time>
                                 </div>
                             </div>
 
