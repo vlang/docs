@@ -1174,6 +1174,9 @@ v install --path &quot;$(v env VMODULES)&quot;
 <p><code>v env NAME</code> fails with an error naming the known settings if the name is not
 one of them. For a bug report, use <code>v doctor</code> instead: it also shows compiler
 versions, git state and C toolchain details.</p>
+<p>On Windows, V disables system loader dialogs for its child processes. A tool with a missing DLL
+can therefore fail without blocking commands such as <code>v doctor</code> on a popup. The tool's exit status
+is still reported normally; install or repair its dependencies to make it usable.</p>
 <p>Note that <code>VOSARGS</code> replaces the whole command line of every <code>v</code> invocation, so
 exporting it in a shell makes each later <code>v</code> call ignore its own arguments.</p>
 <h2 id="v-shader">v shader <a href="tools.html#v-shader" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -1284,7 +1287,7 @@ code; use a matched benchmark to verify performance changes.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7555"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7561"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1299,9 +1302,9 @@ code; use a matched benchmark to verify performance changes.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
-                                        2026-10-28 00:04:02, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
+                                    <time datetime="2026-10-30T02:24:19.000Z">Last updated:
+                                        2026-10-30 02:24:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5d6bf9de26ad003670c80d19964618ac78183cd7">5d6bf9d</a></time>
                                 </div>
                             </div>
 

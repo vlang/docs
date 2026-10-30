@@ -996,6 +996,8 @@ println('${a}, ${b}') // 1, 0
 <h2 id="warnings-and-declaration-errors">Warnings and declaration errors <a href="variables.html#warnings-and-declaration-errors" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>In development mode the compiler will warn you that you haven't used the variable
 (you'll get an &quot;unused variable&quot; warning).
+This includes variables declared by <code>for</code> loops. Use <code>_</code> for an unneeded loop index,
+key, or value.
 In production mode (enabled by passing the <code>-prod</code> flag to v – <code>v -prod foo.v</code>)
 it will not compile at all (like in Go).
 The compiler also emits an informational notice for private top-level functions
@@ -1066,9 +1068,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
-                                        2026-10-28 00:04:02, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
+                                    <time datetime="2026-10-30T02:24:19.000Z">Last updated:
+                                        2026-10-30 02:24:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5d6bf9de26ad003670c80d19964618ac78183cd7">5d6bf9d</a></time>
                                 </div>
                             </div>
 

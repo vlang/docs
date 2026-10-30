@@ -1973,6 +1973,9 @@ types. A concrete single-letter struct can still be passed as a generic type arg
 future versions, V will infer generic type parameters from single-letter type names in
 runtime parameter types. This is why the <code>find_by_id(1)</code> calls above can omit <code>[T]</code>,
 because the receiver argument <code>r</code> in the method declaration, uses a generic type <code>T</code>.</p>
+<p>A generic function can be specialized as a function value, such as <code>f := identity[int]</code>.
+Fixed-array lengths in its parameters, including C constants such as <code>[C.N]int</code>, do not
+add generic type parameters.</p>
 <p>Receiver inference also works across module imports and aliases. Declared receiver types
 are resolved in the module that defines the method, so a caller type with the same name
 does not change the inferred type arguments. <code>typeof(call()).name</code> reports the concrete
@@ -2133,7 +2136,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4586"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4588"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2148,9 +2151,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
-                                        2026-10-28 00:04:02, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
+                                    <time datetime="2026-10-30T02:24:19.000Z">Last updated:
+                                        2026-10-30 02:24:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5d6bf9de26ad003670c80d19964618ac78183cd7">5d6bf9d</a></time>
                                 </div>
                             </div>
 

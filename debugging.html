@@ -993,13 +993,41 @@ e.g. <code>lldb hello</code></li>
 <li><a href="https://github.com/vlang/v/blob/master/doc/vscode.md">Visual Studio Code</a></li>
 </ul>
 <h2 id="native-backend-binaries">Native Backend binaries <a href="debugging.html#native-backend-binaries" class="header-anchor" aria-hidden="true">#</a></h2>
-<p><code>-b native</code> has been replaced by <code>-b arm64</code> for native ARM64 compilation on macOS.
-Enable the backend with <code>v -compile-backend arm64 self</code>, then compile with
-<code>v -b arm64 file.v</code>. The native ARM64 backend does not link a garbage collector yet, so it
-always builds as if <code>-gc none</code> was passed.
-A native AMD64 backend is not available yet; use <code>v -b c -arch amd64 file.v</code> for AMD64
-compilation through the C backend.</p>
-<p>Currently there is no debugging support for binaries created by the native ARM64 backend.</p>
+<p><code>v self</code> builds the compiler with only the C backend by default. Selecting another backend,
+such as <code>v -b arm64 file.v</code>, automatically builds and runs a full compiler in the tool cache.
+Later requests reuse it until its compiler or source dependencies change. <code>VTOOLS_NO_CACHE=1</code>
+builds a temporary full compiler for each request instead. To include optional backends in <code>v</code>
+itself, use <code>v -compile-backend arm64 self</code> or <code>v -all-backends self</code>.</p>
+<p><code>-b native</code> has been replaced by <code>-b arm64</code> and <code>-b x64</code>. Use <code>v -b arm64 file.v</code> on macOS
+ARM64 or <code>v -b x64 file.v</code> on Linux AMD64. The native backends do not link a garbage collector yet,
+so they always
+build as if <code>-gc none</code> was passed. For x64, <code>-prod</code> enables SSA optimization, scalar register
+allocation, and optimized C helpers. Very large x64 modules may skip the global SSA pass to
+bound compiler memory. The ARM64 backend retains its existing optimization behavior.
+The x64 backend is experimental. Calls without a native implementation fail compilation
+or linking rather than producing placeholder implementations.
+It requires a Linux AMD64 host. Passing or returning C structs and arrays by value is
+currently unsupported and produces a diagnostic; pass pointers to C aggregates instead.
+Stored C function values support integer and pointer arguments with 64-bit integer, pointer,
+or void returns. Taking the address of a variadic C function, one with floating-point arguments
+or returns, or one returning a narrower integer produces a diagnostic. Direct C calls retain
+their scalar calling convention.
+C callbacks passed to or returned from C functions support 64-bit integer and pointer
+arguments, and 64-bit integer, pointer, or void returns. Unsupported callback conventions,
+including floating-point, narrow integer, aggregate, and variadic signatures, produce a diagnostic.</p>
+<p>Native 128-bit integers currently support integer widening, copying, bitwise <code>&amp;</code>, <code>|</code>, <code>^</code>,
+addition, subtraction, and shifts with constant counts from 0 through 127. Signed scalar
+widening sign-extends for both <code>i128</code> and <code>u128</code>; unsigned scalar widening zero-extends.
+Signed <code>i128 &gt;&gt;</code> preserves the sign; <code>u128 &gt;&gt;</code> and <code>&gt;&gt;&gt;</code> fill with zeroes.
+Comparisons, multiplication, division, remainder, unary negation and complement, variable shifts,
+compound assignments, increment/decrement, narrowing casts, and conversions to or from
+floating-point values are unsupported and produce a diagnostic. Matching, range iteration,
+and range membership with 128-bit values are also unsupported. Array and string indices and
+slice bounds must use scalar integers. Integer literals must fit in a single 64-bit limb;
+construct larger values with shifts and bitwise operations. Array <code>.index()</code> searches on
+128-bit elements are unsupported.
+Use the C backend for the full set of 128-bit operations.</p>
+<p>Currently there is no debugging support for binaries created by the native backends.</p>
 <h2 id="javascript-backend">Javascript Backend <a href="debugging.html#javascript-backend" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>To debug the generated Javascript output you can activate source maps:
 <code>v -b js -sourcemap hello.v -o hello.js</code></p>
@@ -1011,7 +1039,7 @@ compilation through the C backend.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10602"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10612"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1026,9 +1054,9 @@ compilation through the C backend.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-28T00:04:02.000Z">Last updated:
-                                        2026-10-28 00:04:02, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/9695dbbd726126c223de994e22df7f8fce8f5cf1">9695dbb</a></time>
+                                    <time datetime="2026-10-30T02:24:19.000Z">Last updated:
+                                        2026-10-30 02:24:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/5d6bf9de26ad003670c80d19964618ac78183cd7">5d6bf9d</a></time>
                                 </div>
                             </div>
 
