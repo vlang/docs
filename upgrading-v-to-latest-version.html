@@ -950,18 +950,17 @@ To do so, run the command <code>v up</code>.
 This also refreshes the bundled TCC binaries used for fast C compilation.
 On Linux, an older compatible TCC bundle stays in place while its upstream revision
 is unchanged and it still passes the host compatibility check. Repeated updates
-preserve its file metadata so cached modules can reuse their objects.
+preserve its file metadata.
 On macOS, TCC builds use its runtime thread fence directly, including when
 preprocessed C identifies ARM64 with <code>__arm64__</code> alone.</p>
-<p>After updating, <code>v up</code> refreshes previously cached vlib modules with the compiler
-and flags used to cache them, including normal and <code>-prod</code> builds. Unchanged
-modules are reused. Each module being cached is printed to standard output as
-<code>Caching module &lt;name&gt;...</code>. A failed cache refresh makes <code>v up</code> fail.
-The final configuration count includes checks that reused every cached object.
-Different build flags, program or test modes, and import sequences can require
-separate checks. Pass <code>v up -v</code> to see each checked configuration.
-Cached module headers preserve struct field attribute groups, so valid deprecation
-attributes do not introduce warnings during refresh.</p>
+<p>After a successful update, <code>v up</code> runs <code>v wipe-cache</code> to clear module, object,
+temporary, and compiled tool caches, even when V is already up to date.
+Subsequent builds recreate the caches they need. Previously recorded build
+configurations and test selectors are not replayed. A failed cache cleanup
+makes <code>v up</code> fail.
+On Windows, the cached updater exits before its launcher wipes the caches,
+so the running executable does not block cleanup. Cleanup failures are returned
+by the launcher.</p>
 <p><code>make</code> also warms the default test configuration's builtin module bundle, including
 <code>strings</code>, <code>strconv</code>, <code>hash</code> and <code>bits</code>. Compatible test builds reuse these objects
 when the program introduces new error types, retaining builtin error dispatch ID dependencies.
@@ -971,38 +970,12 @@ A missing object for another module rebuilds that module while retaining compati
 modules. Ignored local names remain stable when cached headers replace source files, so
 reparsed modules can reuse identical C objects. Compiler flags, source changes and dependency
 changes still invalidate the affected objects.</p>
-<p>Ordinary builds report cache progress on standard error. Refreshes retain absolute
-module search paths, resolved C compiler commands, and build modes. They omit
-linker-only flags, including operands embedded in <code>-cflags</code>. Relative <code>V3CACHE</code>
-and <code>VTMP</code> paths are resolved against the directory where <code>v up</code> was invoked.
-Refreshes retain each build's working directory for relative C compilation inputs
-and its effective <code>-run-only</code> test selectors and assertion display mode.
-Object flags include source <code>#flag</code> directives. Records with vanished project
-directories or required compile inputs are skipped. Builds without relative inputs
-or project interface scopes share refresh records across projects.
-Project directives are merged with flags from the updated modules, so changes to
-vlib <code>#flag</code> directives take effect during refresh. Cached TCC production builds
-apply the production optimization flags to both module objects and the program.
-Refreshes use the original entry when needed to preserve project interface
-implementers, stopping before linking or running the program. Refreshes
-retain absolute <code>-file-list</code> operands for live entries, re-expanding directories
-to include their current sources. Records whose listed files or directories vanished
-are skipped. Historical records sharing the same live command, working directory,
-entry and assertion display mode refresh once. Synthetic refreshes
-also replay source C driver options such as sanitizers at link time. Records for
-unavailable C compilers are skipped.
-Unreadable, truncated, and unsupported inventory files are skipped. Live entries
-retain their project source identity; after the project input changes, obsolete
-configurations are skipped until a successful build records the current inputs.
-Older live records without source identities require rebuilding the project once.
-Isolated test caches use the primary V compiler executable, including when
-<code>v up</code> runs through the fallback compiler or as a separate tool, or a build uses
-the delegated ownership compiler. Ownership dispatch preserves the primary path
-through <code>V3_PRIMARY_VEXE</code>, independently of the helper's <code>VEXE</code>.</p>
-<p>For caches created before V recorded their build settings, <code>v up</code> identifies the
-cached vlib modules and refreshes them in both modes for the available C compilers,
-for programs and tests. Successful migrations mark the old headers so subsequent
-updates use the new inventory without repeating the fallback matrix.</p>
+<p>Relative cache paths are resolved against the directory where <code>v up</code> was invoked.
+When <code>VCACHE</code> is unset, this includes the <code>.cache</code> directory under the first
+<code>VMODULES</code> entry, or <code>~/.vmodules/.cache</code> by default. Cleanup stops and returns a
+nonzero status if a cache folder cannot be removed or recreated.
+The separate <a href="https://github.com/vlang/v/blob/master/doc/../vlib/v/util/cache_refresh/README.md">module cache refresh utility</a>
+documents its inventory and replay APIs.</p>
 <p><code>v up</code> reports the agent skills that the new revision left behind, since a new
 revision may ship updated copies of them. It writes nothing: the skills belong to
 the user, and updating the compiler is not consent to overwrite them. Pass
@@ -1034,9 +1007,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-10-31T03:30:43.000Z">Last updated:
-                                        2026-10-31 03:30:43, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/e210b8679605356c62362f6b9cf226234d9f1c7c">e210b86</a></time>
+                                    <time datetime="2026-11-01T08:38:37.000Z">Last updated:
+                                        2026-11-01 08:38:37, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/8aad306d3b8f313df80086e56a137f8f7cda984f">8aad306</a></time>
                                 </div>
                             </div>
 
