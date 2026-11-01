@@ -1335,7 +1335,9 @@ Declarations in the <code>C</code> namespace retain their C names.</p>
 struct. The method retains the visibility of its declaring V module.
 Calls see methods from directly imported modules by their full module path.
 If a V alias of that C struct declares the same method, calls on the alias use its own method.</p>
-<p>C-backed struct aliases can also initialize constants, including when compiling with MSVC.</p>
+<p>C-backed struct aliases can also initialize constants, including when compiling with MSVC.
+A public V alias of a C struct can be initialized from another module without making the
+underlying C declaration public. Private alias names retain their usual visibility restrictions.</p>
 <p>Ordinary zero terminated C strings can be converted to V strings with
 <code>unsafe { &amp;char(cstring).vstring() }</code> or if you know their length already with
 <code>unsafe { &amp;char(cstring).vstring_with_len(len) }</code>.</p>
@@ -1605,9 +1607,9 @@ with C interop. Other than those, using them could cause more issues than it sol
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-01T08:38:37.000Z">Last updated:
-                                        2026-11-01 08:38:37, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/8aad306d3b8f313df80086e56a137f8f7cda984f">8aad306</a></time>
+                                    <time datetime="2026-11-01T09:22:49.000Z">Last updated:
+                                        2026-11-01 09:22:49, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/798238c3bfc9c97c8e0b2ef6abe7c3cc4579e255">798238c</a></time>
                                 </div>
                             </div>
 
