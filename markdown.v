@@ -56,7 +56,7 @@ fn extract_topics_from_markdown_parts(parts []Section, skip_first bool) []Topic 
 			continue
 		}
 
-		topic_title := extract_title_from_markdown_topic(part.text) or { panic(err) }
+		topic_title := extract_title_from_markdown_topic(part.text) or { panic('missing topic title') }
 		title := topic_title.title
 
 		filename := if index == 0 { 'index' } else { title_to_filename(title) }

@@ -4,7 +4,7 @@ import os
 import net.http
 import markdown
 import time
-import json
+import json2
 
 const v_doc_path = 'https://raw.githubusercontent.com/vlang/v/master/doc/docs.md'
 const output_path = 'output'
@@ -42,8 +42,8 @@ mut:
 fn (mut ctx Context) write_mapping() ! {
 	js_file_index := '
 	// Lookups of sections to files
-	vdocs.titles_to_fnames = ${json.encode_pretty(ctx.titles_to_fnames)};
-	vdocs.fnames = ${json.encode_pretty(ctx.pages)};'
+	vdocs.titles_to_fnames = ${json2.encode(ctx.titles_to_fnames, prettify: true, legacy_layout: true, escape_unicode: true, time_as_unix: true)};
+	vdocs.fnames = ${json2.encode(ctx.pages, prettify: true, legacy_layout: true, escape_unicode: true, time_as_unix: true)};'
 
 	js_src := os.read_file('templates/assets/scripts/v-docs.js') or {
 		eprintln('Failed to read file: ${err}')
