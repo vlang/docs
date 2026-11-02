@@ -999,6 +999,9 @@ fn main() {
     assert BitField.zero() == BitField.from('')!
 }
 </div>
+<p>Flag mutators require a mutable receiver in safe code. An <code>unsafe</code> block can mutate an
+addressable flag value through an immutable reference or binding. Named constants and
+expressions without addressable storage remain invalid receivers.</p>
 <div class="language-v">// @[_allow_multiple_values] allows an enum to have multiple duplicate values.
 // Use it carefully, only when you really need it.
 
@@ -1220,7 +1223,7 @@ fn main() {
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8365"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8367"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1235,9 +1238,9 @@ fn main() {
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-01T08:38:37.000Z">Last updated:
-                                        2026-11-01 08:38:37, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/8aad306d3b8f313df80086e56a137f8f7cda984f">8aad306</a></time>
+                                    <time datetime="2026-11-01T10:07:38.000Z">Last updated:
+                                        2026-11-01 10:07:38, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/b2334cae977661fb32f7cf958aed3cabca6c7f63">b2334ca</a></time>
                                 </div>
                             </div>
 

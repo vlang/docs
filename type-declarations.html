@@ -1913,7 +1913,9 @@ This also applies through concrete generic aliases and imported structs; default
 imports visible in the declaring file.
 Fixed array fields initialize each element with its specialized generic defaults.</p>
 <p>Generic types brought into scope by a selective import retain their declaring module when
-passed to generic functions and methods in other modules.</p>
+passed to generic functions and methods in other modules.
+Their struct literals also infer omitted type arguments from their field values, just as
+module-qualified literals do.</p>
 <p>Type arguments retain the module where they are declared when used in a generic struct from
 another module, including arguments inside arrays, pointers, and maps.</p>
 <p>Methods called on a generic factory result retain their dependencies in the compiled program.</p>
@@ -2154,9 +2156,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-01T08:38:37.000Z">Last updated:
-                                        2026-11-01 08:38:37, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/8aad306d3b8f313df80086e56a137f8f7cda984f">8aad306</a></time>
+                                    <time datetime="2026-11-01T10:07:38.000Z">Last updated:
+                                        2026-11-01 10:07:38, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/b2334cae977661fb32f7cf958aed3cabca6c7f63">b2334ca</a></time>
                                 </div>
                             </div>
 
