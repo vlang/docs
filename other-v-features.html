@@ -968,6 +968,10 @@ must be on the same source line. It may precede <code>add</code>, <code>adc</cod
 <code>addq</code> and <code>cmpxchgq</code>. Without a permitted same-line instruction, the parser reports
 <code>The lock prefix cannot be used on this instruction</code>. A same-line <code>lock:</code> remains valid as a
 label; a newline inside a comment also separates the prefix, instruction, or label colon.</p>
+<p>The C backend lowers <code>rv64</code> and <code>riscv64</code> blocks when building for <code>-arch riscv64</code>.
+Structured RISC-V assembly keeps destination-first operand order and lowers <code>[base]</code> and
+<code>[base + displacement]</code> to GNU memory operands. Floating-point registers such as <code>f1</code> retain
+their register names; quote a forward numeric label as <code>'1f'</code> to distinguish it from a register.</p>
 <p>The C backend also supports raw GNU assembly templates. In a <code>raw</code> block, V passes each
 double-quoted template string through unchanged and still checks the output, input, and clobber
 lists. Operands can use GNU's named form or V's <code>constraint (expression) as alias</code> form:</p>
@@ -1298,7 +1302,7 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11524"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11532"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1313,9 +1317,9 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-01T08:38:37.000Z">Last updated:
-                                        2026-11-01 08:38:37, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/8aad306d3b8f313df80086e56a137f8f7cda984f">8aad306</a></time>
+                                    <time datetime="2026-11-02T05:50:19.000Z">Last updated:
+                                        2026-11-02 05:50:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/dfe623cac8b36572cc70a2dd7040695b50d11b3e">dfe623c</a></time>
                                 </div>
                             </div>
 
