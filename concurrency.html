@@ -1299,6 +1299,7 @@ res2 := ch2.try_pop(mut b) // try to perform `b = &lt;-ch2`
 the reason why not.
 These methods also work in generic functions with a <code>chan T</code>. Their arguments must match the
 channel's element storage type, and <code>try_pop(mut value)</code> requires mutable destination storage.
+Arguments keep their active smartcasts, including when their address escapes.
 A sum-type channel requires storage of the full sum type when popping. A shared destination
 is writable inside its <code>lock</code> block. Pointer values can be pushed into a <code>chan voidptr</code>.
 Methods declared on a channel alias take precedence over these builtins.
@@ -1365,6 +1366,8 @@ fn main() {
 }
 </div>
 <p>A <code>shared</code> parameter already passes a reference to the synchronized storage.
+It keeps referring to the caller's storage when used as a mutable channel destination inside a
+<code>lock</code> block, including in generic functions.
 Declare it as <code>shared m map[K]V</code> and pass <code>shared m</code>. Explicit address arguments such
 as <code>shared &amp;m</code> are unsupported; remove <code>&amp;</code> from both the parameter type and the argument.</p>
 <p>Statements that change the map (<code>m[k] = v</code>, <code>m[k] += v</code>, <code>m[k]++</code>, <code>m[k] &lt;&lt; v</code>,
@@ -1513,9 +1516,9 @@ randomization reduced (<code>setarch $(uname -m) -R ./program</code>, or
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-03T01:29:04.000Z">Last updated:
-                                        2026-11-03 01:29:04, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d126ca3fd329aa7be68efcc2f61d074f8b5dfd3f">d126ca3</a></time>
+                                    <time datetime="2026-11-03T06:32:29.000Z">Last updated:
+                                        2026-11-03 06:32:29, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/007ebb8d4dea52efcafd0a8d50ad266e7eb8df78">007ebb8</a></time>
                                 </div>
                             </div>
 
