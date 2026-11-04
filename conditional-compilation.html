@@ -1206,6 +1206,15 @@ fn main() {
 // has int type
 // has string type
 </div>
+<p>Within a variant loop, <code>if value is variant</code> narrows expressions to the current payload type.
+Conjunctions and nested guards retain all active refinements. A mutable guard keeps the original
+sum storage available for reassignment. Each iteration infers its own local collection types;
+conditions using enclosing reflection metadata are checked after that metadata is substituted.
+Numeric comparisons with <code>variant.typ</code> use the same type index as <code>value.type_idx()</code>.
+Optional and result variants expose their wrapped type's metadata index, preserving pointer depth.
+Conditions using local metadata values are checked after unrolling, when their values are available.
+Matches retain their arm refinements while loop metadata is checked.
+Declaration guards such as <code>if payload := value</code> bind the unwrapped payload in their success branch.</p>
 <h3 id=".methods"><h4 id="comptime-methods">.methods</h4> <a href="#.methods" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can retrieve information about struct methods.
 Reflected method calls execute the ordinary method body, including calls into imported
@@ -1669,7 +1678,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8663"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8671"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1684,9 +1693,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-03T01:29:04.000Z">Last updated:
-                                        2026-11-03 01:29:04, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d126ca3fd329aa7be68efcc2f61d074f8b5dfd3f">d126ca3</a></time>
+                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
+                                        2026-11-04 04:27:13, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
                                 </div>
                             </div>
 

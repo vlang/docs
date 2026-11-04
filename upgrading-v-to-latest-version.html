@@ -948,9 +948,14 @@
 by using the V's built-in self-updater.
 To do so, run the command <code>v up</code>.
 This also refreshes the bundled TCC binaries used for fast C compilation.
+It asks the TCC repository which revision the bundle's branch is at; when that has
+not changed, the TCC checkout is not fetched or rewritten, and <code>v up</code> reports that
+TCC is already up to date.
 On Linux, an older compatible TCC bundle stays in place while its upstream revision
 is unchanged and it still passes the host compatibility check. Repeated updates
-preserve its file metadata.
+preserve its file metadata. When no commit of an unchanged branch suits the host,
+V keeps using the system compiler without checking the branch again; run
+<code>make fresh_tcc</code> to check it again, for example after upgrading the system.
 On macOS, TCC builds use its runtime thread fence directly, including when
 preprocessed C identifies ARM64 with <code>__arm64__</code> alone.</p>
 <p>After a successful update, <code>v up</code> runs <code>v wipe-cache</code> to clear module, object,
@@ -1007,9 +1012,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-03T06:32:29.000Z">Last updated:
-                                        2026-11-03 06:32:29, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/007ebb8d4dea52efcafd0a8d50ad266e7eb8df78">007ebb8</a></time>
+                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
+                                        2026-11-04 04:27:13, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
                                 </div>
                             </div>
 
