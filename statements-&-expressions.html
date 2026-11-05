@@ -1212,6 +1212,11 @@ typ := match c {
 println(typ)
 // 'lowercase'
 </div>
+<p>A <code>match</code> value assigned to a sum type may return its variants directly, including in map
+values, appended array elements, and struct fields. Different variant arms are wrapped individually;
+numeric arms retain their usual numeric promotion.
+Arms that exit through <code>return</code> or a non-returning call do not affect that promotion.
+Temporary match storage does not construct an unused sum variant or evaluate its field defaults.</p>
 <p>A match statement also can match the variant types of a <code>sumtype</code>. Note that
 in that case, the match is exhaustive, since all variant types are mentioned
 explicitly, so there is no need for an <code>else{}</code> branch.</p>
@@ -1696,7 +1701,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2257"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2266"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1711,9 +1716,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
-                                        2026-11-04 04:27:13, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
+                                    <time datetime="2026-11-05T22:25:11.000Z">Last updated:
+                                        2026-11-05 22:25:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7c4e55b0f7f03ee61a5138802f6e1d4457c45d2a">7c4e55b</a></time>
                                 </div>
                             </div>
 

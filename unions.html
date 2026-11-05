@@ -954,6 +954,23 @@ When constructing a union that contains interface storage, V clears the entire s
 initializing the selected member. This also applies to interfaces inside nested union members.
 An inactive interface member with no valid type tag formats as <code>unknown interface value</code>.
 Accessing an inactive member still requires <code>unsafe</code> and does not create a valid interface value.</p>
+<p>Anonymous unions can be declared as fields and initialized with <code>union { ... }</code>,
+using the field's declared union type. Initialize at most one member, just as with named unions:</p>
+<div class="language-v">struct Packet {
+    data union {
+        number u64
+        text   string
+    }
+}
+
+packet := Packet{
+    data: union { text: 'hello' }
+}
+assert unsafe { packet.data.text } == 'hello'
+</div>
+<p>Anonymous union values format as <code>union { ... }</code>, without an internal generated type name.</p>
+<p>An anonymous literal cannot yet initialize a C anonymous aggregate declared in a header.
+Anonymous C structs have the same limitation.</p>
 <h2 id="why-use-unions?">Why use unions? <a href="unions.html#why-use-unions?" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>One reason, as stated above, is to use less memory for storing things.  Since the size of a union
 is the size of the largest field in it, and the size of a struct is the size of all the fields in
@@ -1010,7 +1027,7 @@ Embedded struct arguments are not necessarily stored in the order listed.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3718"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L3733"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1025,9 +1042,9 @@ Embedded struct arguments are not necessarily stored in the order listed.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
-                                        2026-11-04 04:27:13, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
+                                    <time datetime="2026-11-05T22:25:11.000Z">Last updated:
+                                        2026-11-05 22:25:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7c4e55b0f7f03ee61a5138802f6e1d4457c45d2a">7c4e55b</a></time>
                                 </div>
                             </div>
 

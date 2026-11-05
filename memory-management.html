@@ -991,6 +991,11 @@ fn (data &amp;MyType) free() {
 </div>
 <p>Just as the compiler frees C data types with C's <code>free()</code>, it will statically insert
 <code>free()</code> calls for your data type at the end of each variable's lifetime.</p>
+<p>When a custom <code>free()</code> method directly calls builtin <code>free(receiver)</code>, explicitly calling it
+on a named value of its receiver type passes a shallow heap copy. Existing pointers, borrowed
+mutable receivers, and receivers already stored on the heap keep their original storage.
+Methods that only free fields receive the original value, so their field updates remain visible.
+This shallow copy does not duplicate any allocations referenced by the value's fields.</p>
 <p>Autofree can be enabled with an <code>-autofree</code> flag.</p>
 <p>For developers willing to have more low-level control, autofree can be disabled with
 <code>-manualfree</code>, or by adding a <code>[manualfree]</code> on each function that wants to manage its
@@ -1096,9 +1101,11 @@ storage; it does not require moving the containing local or by-value parameter t
 An address into an inline fixed array can require moving its owner instead.
 Casting a local address to an integer preserves the lifetime of the addressed storage.
 Calling through an interface field likewise borrows the interface's object, without retaining
-the address of the interface header. Unwrapping a Result into a narrow scalar can leave its
-arguments on the stack when the callee is proven to only read their values. Unknown callees
-and callees that store or forward an argument retain its address sources conservatively,
+the address of the interface header. Unwrapping a Result into a narrow scalar can leave named
+receiver values and identifier arguments on the stack when the callee is proven to borrow only
+their storage. Embedded pointers still retain the storage they reference. Dereferenced operands
+and mutable reference-iteration bindings remain conservative. Unknown callees and callees that
+store or forward an argument retain its address sources conservatively,
 including calls evaluated inside another call's arguments. Integer results as wide as a pointer
 and floating point or multiple results can carry encoded pointers and retain those arguments
 conservatively.</p>
@@ -1280,7 +1287,7 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L6968"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L7007"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1295,9 +1302,9 @@ final output). That's why this approach is <em>unsafe</em> and should be avoided
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
-                                        2026-11-04 04:27:13, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
+                                    <time datetime="2026-11-05T22:25:11.000Z">Last updated:
+                                        2026-11-05 22:25:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7c4e55b0f7f03ee61a5138802f6e1d4457c45d2a">7c4e55b</a></time>
                                 </div>
                             </div>
 

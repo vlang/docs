@@ -965,6 +965,7 @@ voidptr // this one is mostly used for [C interoperability](#v-and-c)
 <code>int</code> is a platform-width signed integer: 64 bits on 64-bit targets and 32 bits on 32-bit
 targets. Use <code>i32</code> or <code>i64</code> when you need a fixed width.
 Integer literal casts to <code>int</code> are checked against the target platform's width.
+Native ARM64 builds use the same platform width for <code>int</code>, <code>min_int</code>, and <code>max_int</code>.
 <code>uint</code> has the same width and is unsigned.</p>
 </blockquote>
 <p><code>isize</code> and <code>usize</code> are deprecated. Replace <code>isize</code> with <code>int</code> and <code>usize</code> with <code>uint</code>.
@@ -972,6 +973,9 @@ Use <code>uint</code> for pointer addresses and C <code>size_t</code> values to 
 the full unsigned range. Existing spellings still compile with deprecation warnings.
 Pointer subtraction returns <code>int</code>, including in translated C code.</p>
 <h2 id="128-bit-integers">128-bit integers <a href="v-types.html#128-bit-integers" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>The native ARM64 backend compares <code>i128</code> and <code>u128</code> using both 64-bit limbs.
+Signed ordering uses the high limb's sign; equality compares every bit.
+Ordering follows the signedness of the leftmost 128-bit operand, as in the C backend.</p>
 <p><code>i128</code> and <code>u128</code> hold 128 bits. The usual operators work on them: arithmetic,
 bitwise, shifts, comparisons, and casts to and from the other numeric types.</p>
 <div class="language-v">fn main() {
@@ -1930,6 +1934,10 @@ the called function only reads or writes scalar fields and array elements, or pa
 reference, or the address of an element (<code>&amp;buf[i]</code>), straight on to a function that does the
 same. Calls that may retain the storage still move it to the heap; <code>-warn-about-allocs</code> reports
 these moves.
+This also applies to reference receivers and implicitly referenced arguments when the callee
+calls a Result-returning function. Handling that Result with <code>!</code> or <code>or</code> does not itself
+require heap storage for a borrowed local. Pointers carried inside an aggregate still retain
+their original storage when the callee saves or returns them.
 Calls through local function values remain conservative, including values that shadow
 function names.
 Explicitly destroying owned source elements invalidates views of those elements, as with other
@@ -2123,9 +2131,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
-                                        2026-11-04 04:27:13, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
+                                    <time datetime="2026-11-05T22:25:11.000Z">Last updated:
+                                        2026-11-05 22:25:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7c4e55b0f7f03ee61a5138802f6e1d4457c45d2a">7c4e55b</a></time>
                                 </div>
                             </div>
 

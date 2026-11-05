@@ -1004,6 +1004,12 @@ so they always
 build as if <code>-gc none</code> was passed. For x64, <code>-prod</code> enables SSA optimization, scalar register
 allocation, and optimized C helpers. Very large x64 modules may skip the global SSA pass to
 bound compiler memory. The ARM64 backend retains its existing optimization behavior.
+ARM64 builds reject native source files included with <code>#include</code>, <code>#insert</code>, <code>#preinclude</code>, or
+<code>#postinclude</code>, because its linker cannot link those sources yet. Use the C backend for them.
+ARM64 resolves a fixed set of platform C constants. Other C constants produce an error;
+use the C backend when a header defines a constant the native backend does not support.
+The supported set includes the memory-order and pthread compatibility constants used by
+V's synchronization runtime.
 The x64 backend is experimental. Calls without a native implementation fail compilation
 or linking rather than producing placeholder implementations.
 It requires a Linux AMD64 host. Passing or returning C structs and arrays by value is
@@ -1016,16 +1022,16 @@ C callbacks passed to or returned from C functions support 64-bit integer and po
 arguments, and 64-bit integer, pointer, or void returns. Unsupported callback conventions,
 including floating-point, narrow integer, aggregate, and variadic signatures, produce a diagnostic.</p>
 <p>Native 128-bit integers currently support integer widening, copying, bitwise <code>&amp;</code>, <code>|</code>, <code>^</code>,
-addition, subtraction, and shifts with constant counts from 0 through 127. Signed scalar
-widening sign-extends for both <code>i128</code> and <code>u128</code>; unsigned scalar widening zero-extends.
+addition, subtraction, comparisons, and shifts with constant counts from 0 through 127.
+Signed scalar widening sign-extends for both <code>i128</code> and <code>u128</code>; unsigned scalar widening
+zero-extends.
 Signed <code>i128 &gt;&gt;</code> preserves the sign; <code>u128 &gt;&gt;</code> and <code>&gt;&gt;&gt;</code> fill with zeroes.
-Comparisons, multiplication, division, remainder, unary negation and complement, variable shifts,
+Multiplication, division, remainder, unary negation and complement, variable shifts,
 compound assignments, increment/decrement, narrowing casts, and conversions to or from
-floating-point values are unsupported and produce a diagnostic. Matching, range iteration,
-and range membership with 128-bit values are also unsupported. Array and string indices and
-slice bounds must use scalar integers. Integer literals must fit in a single 64-bit limb;
-construct larger values with shifts and bitwise operations. Array <code>.index()</code> searches on
-128-bit elements are unsupported.
+floating-point values are unsupported and produce a diagnostic. Range iteration with 128-bit
+values is also unsupported. Array and string indices and slice bounds must use scalar integers.
+Integer literals must fit in a single 64-bit limb; construct larger values with shifts and
+bitwise operations.
 Use the C backend for the full set of 128-bit operations.</p>
 <p>Currently there is no debugging support for binaries created by the native backends.</p>
 <h2 id="javascript-backend">Javascript Backend <a href="debugging.html#javascript-backend" class="header-anchor" aria-hidden="true">#</a></h2>
@@ -1039,7 +1045,7 @@ Use the C backend for the full set of 128-bit operations.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10654"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10704"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1054,9 +1060,9 @@ Use the C backend for the full set of 128-bit operations.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
-                                        2026-11-04 04:27:13, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
+                                    <time datetime="2026-11-05T22:25:11.000Z">Last updated:
+                                        2026-11-05 22:25:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7c4e55b0f7f03ee61a5138802f6e1d4457c45d2a">7c4e55b</a></time>
                                 </div>
                             </div>
 

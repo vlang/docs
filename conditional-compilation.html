@@ -1214,7 +1214,10 @@ Numeric comparisons with <code>variant.typ</code> use the same type index as <co
 Optional and result variants expose their wrapped type's metadata index, preserving pointer depth.
 Conditions using local metadata values are checked after unrolling, when their values are available.
 Matches retain their arm refinements while loop metadata is checked.
-Declaration guards such as <code>if payload := value</code> bind the unwrapped payload in their success branch.</p>
+Declaration guards such as <code>if payload := value</code> bind the unwrapped payload in their success branch.
+Exiting option guards also unwrap payloads for later statements in the same block.
+Each guard applies to the option layer visible before it.
+Type checks in loop conditions, assertions, and exiting guards preserve the optional payload type.</p>
 <h3 id=".methods"><h4 id="comptime-methods">.methods</h4> <a href="#.methods" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>You can retrieve information about struct methods.
 Reflected method calls execute the ordinary method body, including calls into imported
@@ -1678,7 +1681,7 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8671"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8718"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1693,9 +1696,9 @@ conditional blocks inside it, i.e. <code>$if linux {}</code> etc.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-04T04:27:13.000Z">Last updated:
-                                        2026-11-04 04:27:13, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a629e6ca3364e9729ce5e043ec7cebddf3823731">a629e6c</a></time>
+                                    <time datetime="2026-11-05T22:25:11.000Z">Last updated:
+                                        2026-11-05 22:25:11, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/7c4e55b0f7f03ee61a5138802f6e1d4457c45d2a">7c4e55b</a></time>
                                 </div>
                             </div>
 
