@@ -1160,6 +1160,13 @@ HTML source links use the common root of the nearest manifest and its declared
 source directories, including external <code>subdirs</code> and the <code>base_url</code> source folder.
 An unrelated enclosing Git checkout does not override this root. Without a
 manifest, a discovered Git root is used instead.</p>
+<p><code>backend: 'fastc'</code> makes the project build with the <a href="https://github.com/vlang/v/blob/master/doc/fastc.md">FastC backend</a>
+by default. It applies to every build, run, and test whose input file or
+folder belongs to that <code>v.mod</code>, the same as passing <code>-b fastc</code>. An explicit
+<code>-b</code> on the command line still wins, so <code>v -b c .</code> uses the C backend. Code
+given with <code>-e</code> or on standard input belongs to no project, and each target
+of <code>v test</code> uses the backend of its own <code>v.mod</code>. The accepted values are <code>c</code>,
+<code>fastc</code>, <code>arm64</code>, <code>x64</code>, and <code>wasm</code>.</p>
 <p>The name of your package should be used with the <code>module</code> directive
 at the top of all files in your package. For <code>mypackage.v</code>:</p>
 <div class="language-v">module mypackage
@@ -1199,7 +1206,7 @@ to allow for a better search experience.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8083"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8106"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1214,9 +1221,9 @@ to allow for a better search experience.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-05T22:25:26.000Z">Last updated:
-                                        2026-11-05 22:25:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/67011350d000d86c3fc2a925b505c590dbfdea88">6701135</a></time>
+                                    <time datetime="2026-11-08T02:06:16.000Z">Last updated:
+                                        2026-11-08 02:06:16, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/d98e46073a4c46d14318563d88421d30732c094e">d98e460</a></time>
                                 </div>
                             </div>
 
