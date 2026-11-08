@@ -995,12 +995,17 @@ Division or modulo by zero panics, as it does for the other integer types, and
 overflow wraps.</p>
 <p>The compiler does not require a 128-bit C type. Every operation becomes a call
 to a small helper, and the helper has two implementations: the C compiler's own
-<code>__int128</code> where it exists (gcc, clang), and one built from 64-bit limbs
-everywhere else (tcc, MSVC, every 32-bit target), where a 128-bit value is a
-struct. Both answer identically, down to the rounding of a cast to <code>f64</code>: the
-whole 128-bit magnitude is rounded once, rather than each limb on its own. Pass
+<code>__int128</code> where the C toolchain supports it, and one built from 64-bit limbs
+elsewhere, where a 128-bit value is a struct. The MSVC ABI uses this struct
+representation with both MSVC and <code>clang-cl</code>; its runtime does not supply Clang's
+native 128-bit division helpers. GCC and Clang for other ABIs keep using the
+native type where available. Both implementations answer identically, down to
+the rounding of a cast to <code>f64</code>: the whole 128-bit magnitude is rounded once,
+rather than each limb on its own. Pass
 <code>-d v3_no_native_int128</code> to force the portable implementation on a compiler that
 has the native type.</p>
+<p>C functions exchanging these values with V must use declarations matching the
+selected representation, including the struct representation with <code>clang-cl</code>.</p>
 <p>Managed arrays of wide integers and structs containing them retain 16-byte
 element alignment on both 32-bit and 64-bit targets, including after growth or cloning.</p>
 <p>Printing works through <code>str()</code>, so println and string interpolation show the
@@ -2116,7 +2121,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L710"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L727"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2131,9 +2136,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-05T22:25:26.000Z">Last updated:
-                                        2026-11-05 22:25:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/67011350d000d86c3fc2a925b505c590dbfdea88">6701135</a></time>
+                                    <time datetime="2026-11-07T23:20:35.000Z">Last updated:
+                                        2026-11-07 23:20:35, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ebd45ec07cda8984b91282a6c8e613a175881f03">ebd45ec</a></time>
                                 </div>
                             </div>
 

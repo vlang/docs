@@ -983,6 +983,20 @@ println(a) // 2
 println(b) // 3
 c, _ := foo() // ignore values using `_`
 </div>
+<p>A call returning multiple values can supply consecutive parameters of a non-variadic
+function or method. It can appear before or after ordinary arguments, as long as the
+expanded values match the receiving parameters. The returning function is evaluated once.</p>
+<div class="language-v">fn pair() (int, int) {
+    return 2, 3
+}
+
+fn digits(a int, b int, c int) int {
+    return a * 100 + b * 10 + c
+}
+
+assert digits(pair(), 4) == 234
+assert digits(1, pair()) == 123
+</div>
 
                         </main>
                         <footer>
@@ -1004,9 +1018,9 @@ c, _ := foo() // ignore values using `_`
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-05T22:25:26.000Z">Last updated:
-                                        2026-11-05 22:25:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/67011350d000d86c3fc2a925b505c590dbfdea88">6701135</a></time>
+                                    <time datetime="2026-11-07T23:20:35.000Z">Last updated:
+                                        2026-11-07 23:20:35, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ebd45ec07cda8984b91282a6c8e613a175881f03">ebd45ec</a></time>
                                 </div>
                             </div>
 
