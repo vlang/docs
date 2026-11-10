@@ -998,6 +998,19 @@ assembler symbol. In x86 and arm64 raw blocks, the compiler warns about such a l
 function unless it is an unquoted numeric label, uses <code>%=</code>, or is exported with <code>.globl</code>,
 <code>.global</code>, or <code>.weak</code>. Quoted symbol definitions are checked too: <code>&quot;1&quot;:</code> is an ordinary symbol,
 not a numeric local label.</p>
+<p>The 32-bit PowerPC C target (<code>-arch ppc</code>) supports <code>asm ppc raw</code>, including named
+operands, clobbers and assembly at module scope. Use GNU PowerPC assembler syntax
+inside the templates; the C compiler must support the target. Structured PowerPC
+assembly without <code>raw</code> is not supported. With the C backend, empty blocks and empty
+templates with only a <code>memory</code> clobber are allowed without <code>raw</code>, even when building
+for another target. Other backends reject these PowerPC blocks during parsing.
+For example:</p>
+<div class="language-v">mut ticks := u32(0)
+asm volatile ppc raw {
+    &quot;mftb %[ticks]&quot;
+    ; [ticks] &quot;=r&quot; (ticks)
+}
+</div>
 <p>In x86 raw blocks, the compiler also checks that a size suffix such as <code>movl</code> or <code>incq</code> matches the
 width of the register or named operand it acts on, and reports an error for a mismatch, as the
 GNU assembler does. Use an operand modifier such as <code>%k[name]</code> to select a narrower view of a
@@ -1302,7 +1315,7 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11616"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11695"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1317,9 +1330,9 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-05T22:25:26.000Z">Last updated:
-                                        2026-11-05 22:25:26, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/67011350d000d86c3fc2a925b505c590dbfdea88">6701135</a></time>
+                                    <time datetime="2026-11-10T17:50:18.000Z">Last updated:
+                                        2026-11-10 17:50:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/aebadc37aa3f57f80aea8674b76f07977b966bd8">aebadc3</a></time>
                                 </div>
                             </div>
 

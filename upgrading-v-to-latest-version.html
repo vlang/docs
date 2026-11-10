@@ -958,8 +958,10 @@ V keeps using the system compiler without checking the branch again; run
 <code>make fresh_tcc</code> to check it again, for example after upgrading the system.
 On macOS, TCC builds use its runtime thread fence directly, including when
 preprocessed C identifies ARM64 with <code>__arm64__</code> alone.</p>
-<p>After a successful update, <code>v up</code> runs <code>v wipe-cache</code> to clear module, object,
-temporary, and compiled tool caches, even when V is already up to date.
+<p>After a successful update that changes the V checkout or TCC, or rebuilds the compiler,
+<code>v up</code> runs <code>v wipe-cache</code> to clear module, object, temporary, and compiled tool caches.
+When nothing changes, the caches are preserved. If the TCC revision cannot be determined,
+the caches are cleared conservatively.
 Subsequent builds recreate the caches they need. Previously recorded build
 configurations and test selectors are not replayed. A failed cache cleanup
 makes <code>v up</code> fail.
@@ -1012,9 +1014,9 @@ and left alone; see <code>v skills update</code> below.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-08T02:06:16.000Z">Last updated:
-                                        2026-11-08 02:06:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d98e46073a4c46d14318563d88421d30732c094e">d98e460</a></time>
+                                    <time datetime="2026-11-10T17:50:18.000Z">Last updated:
+                                        2026-11-10 17:50:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/aebadc37aa3f57f80aea8674b76f07977b966bd8">aebadc3</a></time>
                                 </div>
                             </div>
 

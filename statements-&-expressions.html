@@ -1645,11 +1645,12 @@ need to defer a statement to execute right at the function end (like the above),
 if you are inside an inner scope (deep inside an <code>if</code> or <code>for</code>).</p>
 <p>For these more rare cases, you can use: <code>defer(fn) {}</code> instead of just <code>defer {}</code>.</p>
 <h3 id="recovering-from-panics">Recovering from panics <a href="statements-&-expressions.html#recovering-from-panics" class="header-anchor" aria-hidden="true">#</a></h3>
-<p>A panic runs the pending <code>defer</code> blocks of every function on the stack, newest
-first. Calling <code>recover()</code> directly in one of these blocks stops the panic, and
-returns its message. The function that deferred the block then runs its other
-deferred blocks, and returns normally, with the zero value of its result type.
-This works like <code>recover</code> in Go.</p>
+<p>In a program that calls <code>recover()</code>, a panic runs the pending <code>defer</code> blocks of
+every function on the stack, newest first. Calling <code>recover()</code> directly in one
+of these blocks stops the panic, and returns its message. The function that
+deferred the block then runs its other deferred blocks, and returns normally,
+with the zero value of its result type. <code>recover()</code> itself works like <code>recover</code>
+in Go.</p>
 <div class="language-v">fn parse_age(s string) int {
     defer {
         if msg := recover() {
@@ -1671,10 +1672,14 @@ fn main() {
 <p><code>recover()</code> returns <code>none</code> when there is no panic, and when it is not called
 directly in a deferred block that runs because of the panic (for example, in a
 function that such a block calls). A block can also run cleanup code without
-calling <code>recover()</code>: the panic then goes on to the callers, and if nothing
-recovers it, the program prints the message and exits once all deferred blocks
-ran. Runtime errors that panic, like an array index out of range, can be
+calling <code>recover()</code> itself: the panic then goes on to the callers, and if
+nothing recovers it, the program prints the message and exits once all deferred
+blocks ran. Runtime errors that panic, like an array index out of range, can be
 recovered as well. Signals, like a segmentation fault, cannot.</p>
+<p>Any call to <code>recover()</code> that <code>main</code> can reach counts, even one in a branch that
+is never taken. With <code>-no-skip-unused</code>, such a call in a function that nothing calls
+counts too. In a program without one, a panic runs no deferred blocks: the
+program prints the message and exits.</p>
 <h2 id="goto">Goto <a href="statements-&-expressions.html#goto" class="header-anchor" aria-hidden="true">#</a></h2>
 <p>V allows unconditionally jumping to a label with <code>goto</code>. The label name must be contained
 within the same function as the <code>goto</code> statement. A program may <code>goto</code> a label outside
@@ -1701,7 +1706,7 @@ a nested loop, and those do not risk violating memory-safety.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2289"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L2291"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1716,9 +1721,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-08T02:06:16.000Z">Last updated:
-                                        2026-11-08 02:06:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d98e46073a4c46d14318563d88421d30732c094e">d98e460</a></time>
+                                    <time datetime="2026-11-10T17:50:18.000Z">Last updated:
+                                        2026-11-10 17:50:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/aebadc37aa3f57f80aea8674b76f07977b966bd8">aebadc3</a></time>
                                 </div>
                             </div>
 

@@ -1162,7 +1162,8 @@ An unrelated enclosing Git checkout does not override this root. Without a
 manifest, a discovered Git root is used instead.</p>
 <p><code>backend: 'fastc'</code> makes the project build with the <a href="https://github.com/vlang/v/blob/master/doc/fastc.md">FastC backend</a>
 by default. It applies to every build, run, and test whose input file or
-folder belongs to that <code>v.mod</code>, the same as passing <code>-b fastc</code>. An explicit
+folder belongs to that <code>v.mod</code>, the same as passing <code>-b fastc</code>, except that
+only a <code>-b</code> on the command line keeps the generated C as <code>&lt;output&gt;.c</code>. An explicit
 <code>-b</code> on the command line still wins, so <code>v -b c .</code> uses the C backend. Code
 given with <code>-e</code> or on standard input belongs to no project, and each target
 of <code>v test</code> uses the backend of its own <code>v.mod</code>. The accepted values are <code>c</code>,
@@ -1206,7 +1207,7 @@ to allow for a better search experience.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8106"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L8114"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1221,9 +1222,9 @@ to allow for a better search experience.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-08T02:06:16.000Z">Last updated:
-                                        2026-11-08 02:06:16, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/d98e46073a4c46d14318563d88421d30732c094e">d98e460</a></time>
+                                    <time datetime="2026-11-10T17:50:18.000Z">Last updated:
+                                        2026-11-10 17:50:18, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/aebadc37aa3f57f80aea8674b76f07977b966bd8">aebadc3</a></time>
                                 </div>
                             </div>
 

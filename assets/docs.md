@@ -65,8 +65,10 @@ V keeps using the system compiler without checking the branch again; run
 On macOS, TCC builds use its runtime thread fence directly, including when
 preprocessed C identifies ARM64 with `__arm64__` alone.
 
-After a successful update, `v up` runs `v wipe-cache` to clear module, object,
-temporary, and compiled tool caches, even when V is already up to date.
+After a successful update that changes the V checkout or TCC, or rebuilds the compiler,
+`v up` runs `v wipe-cache` to clear module, object, temporary, and compiled tool caches.
+When nothing changes, the caches are preserved. If the TCC revision cannot be determined,
+the caches are cleared conservatively.
 Subsequent builds recreate the caches they need. Previously recorded build
 configurations and test selectors are not replayed. A failed cache cleanup
 makes `v up` fail.
@@ -3137,11 +3139,12 @@ For these more rare cases, you can use: `defer(fn) {}` instead of just `defer {}
 
 #### Recovering from panics
 
-A panic runs the pending `defer` blocks of every function on the stack, newest
-first. Calling `recover()` directly in one of these blocks stops the panic, and
-returns its message. The function that deferred the block then runs its other
-deferred blocks, and returns normally, with the zero value of its result type.
-This works like `recover` in Go.
+In a program that calls `recover()`, a panic runs the pending `defer` blocks of
+every function on the stack, newest first. Calling `recover()` directly in one
+of these blocks stops the panic, and returns its message. The function that
+deferred the block then runs its other deferred blocks, and returns normally,
+with the zero value of its result type. `recover()` itself works like `recover`
+in Go.
 
 ```v
 fn parse_age(s string) int {
@@ -3166,10 +3169,15 @@ fn main() {
 `recover()` returns `none` when there is no panic, and when it is not called
 directly in a deferred block that runs because of the panic (for example, in a
 function that such a block calls). A block can also run cleanup code without
-calling `recover()`: the panic then goes on to the callers, and if nothing
-recovers it, the program prints the message and exits once all deferred blocks
-ran. Runtime errors that panic, like an array index out of range, can be
+calling `recover()` itself: the panic then goes on to the callers, and if
+nothing recovers it, the program prints the message and exits once all deferred
+blocks ran. Runtime errors that panic, like an array index out of range, can be
 recovered as well. Signals, like a segmentation fault, cannot.
+
+Any call to `recover()` that `main` can reach counts, even one in a branch that
+is never taken. With `-no-skip-unused`, such a call in a function that nothing calls
+counts too. In a program without one, a panic runs no deferred blocks: the
+program prints the message and exits.
 
 ### Goto
 
@@ -8410,7 +8418,8 @@ project that locks other revisions of the same packages switches them back. Use
 
    `backend: 'fastc'` makes the project build with the [FastC backend](fastc.md)
    by default. It applies to every build, run, and test whose input file or
-   folder belongs to that `v.mod`, the same as passing `-b fastc`. An explicit
+   folder belongs to that `v.mod`, the same as passing `-b fastc`, except that
+   only a `-b` on the command line keeps the generated C as `<output>.c`. An explicit
    `-b` on the command line still wins, so `v -b c .` uses the C backend. Code
    given with `-e` or on standard input belongs to no project, and each target
    of `v test` uses the backend of its own `v.mod`. The accepted values are `c`,
@@ -10939,6 +10948,45 @@ reuses its executable while none of its inputs change.
 If a header needs Objective-C syntax, select the language with `#flag -x objective-c`;
 V does not infer the language from header contents.
 
+**Passing C structs by value**
+
+A V `struct Foo` and a C `struct Foo` are distinct types, even when their fields match.
+For a C function that takes or returns a struct by value, redeclare the native type with
+`struct C.Foo`. If the header defines a typedef, also use `@[typedef]`.
+A public type alias can expose it under a V module name:
+
+```v oksyntax
+module native
+
+#include "native.h"
+
+@[typedef]
+pub struct C.CallbackInfo {
+pub:
+	callback fn (voidptr) = unsafe { nil }
+	userdata voidptr
+}
+
+pub type CallbackInfo = C.CallbackInfo
+
+fn C.request(info C.CallbackInfo)
+
+// request passes the native callback-info value to C.
+pub fn request(info CallbackInfo) {
+	C.request(info)
+}
+```
+
+Callers can then use `native.CallbackInfo{callback: on_ready, userdata: data}`.
+The alias preserves the native type's identity; casting a separately declared V struct
+to its own V type does not convert it to the native C type.
+Use the exact C field names in the redeclaration and initializer, including camel case.
+Apply the same rule to nested structs, structs passed to callbacks, and returned structs.
+For example, a WebGPU binding needs native declarations for `WGPURequestAdapterCallbackInfo`,
+`WGPUStringView`, and `WGPUFuture`, rather than separate V structs with those names.
+Keep the field types consistent with the header too: C `size_t` corresponds to V `uint`,
+while C `int` corresponds to V `i32`.
+
 **C. function redeclarations**
 The situation is similar for `C.` functions. If you are going to call just 1 function in a
 library, but its .h header declares dozens of them, you will only need to declare that single
@@ -11710,6 +11758,22 @@ assembler symbol. In x86 and arm64 raw blocks, the compiler warns about such a l
 function unless it is an unquoted numeric label, uses `%=`, or is exported with `.globl`,
 `.global`, or `.weak`. Quoted symbol definitions are checked too: `"1":` is an ordinary symbol,
 not a numeric local label.
+
+The 32-bit PowerPC C target (`-arch ppc`) supports `asm ppc raw`, including named
+operands, clobbers and assembly at module scope. Use GNU PowerPC assembler syntax
+inside the templates; the C compiler must support the target. Structured PowerPC
+assembly without `raw` is not supported. With the C backend, empty blocks and empty
+templates with only a `memory` clobber are allowed without `raw`, even when building
+for another target. Other backends reject these PowerPC blocks during parsing.
+For example:
+
+```v ignore
+mut ticks := u32(0)
+asm volatile ppc raw {
+    "mftb %[ticks]"
+    ; [ticks] "=r" (ticks)
+}
+```
 
 In x86 raw blocks, the compiler also checks that a size suffix such as `movl` or `incq` matches the
 width of the register or named operand it acts on, and reports an error for a mismatch, as the
