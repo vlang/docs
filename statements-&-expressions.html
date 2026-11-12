@@ -985,6 +985,10 @@ x := if n &gt; 2 {
 }
 dump(x)
 </div>
+<p>An <code>if</code> expression combining a byte value with character literals that fit in a byte retains
+the byte type. For example, <code>name.bytes().map(if it == `-` { `_` } else { it })</code> produces
+<code>[]u8</code>, so the result supports <code>.bytestr()</code>. Wider literals and explicit rune values retain
+the rune type.</p>
 <p>When comparing an enum value with an <code>if</code> or <code>match</code> expression using <code>==</code> or <code>!=</code>,
 the enum operand supplies the type for shorthand values such as <code>.red</code> in the branches.
 This works with the enum operand on either side of the comparison.
@@ -1721,9 +1725,9 @@ a nested loop, and those do not risk violating memory-safety.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-12T16:55:53.000Z">Last updated:
-                                        2026-11-12 16:55:53, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/3800a40e20f0869f08a09538b115ac52d252d85a">3800a40</a></time>
+                                    <time datetime="2026-11-12T21:25:30.000Z">Last updated:
+                                        2026-11-12 21:25:30, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/f9ebca402799a19b449d38d2b55b97a95cc33b04">f9ebca4</a></time>
                                 </div>
                             </div>
 
