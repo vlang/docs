@@ -86,6 +86,10 @@ modules. Ignored local names remain stable when cached headers replace source fi
 reparsed modules can reuse identical C objects. Compiler flags, source changes and dependency
 changes still invalidate the affected objects.
 
+The stateless native helper used by `os` for file-descriptor polling supports module caching
+and parallel C compilation. Its dependencies are tracked through C compiler manifests;
+V does not inspect C headers to infer their ownership.
+
 Relative cache paths are resolved against the directory where `v up` was invoked.
 When `VCACHE` is unset, this includes the `.cache` directory under the first
 `VMODULES` entry, or `~/.vmodules/.cache` by default. Cleanup stops and returns a
@@ -1005,6 +1009,11 @@ assert '-0b1111_0000_1010'.int() == -3850
 For more advanced `string` processing and conversions, refer to the
 [vlib/strconv](https://modules.vlang.io/strconv.html) module.
 
+A loop such as `for part in s.split(',') { ... }` evaluates the source once and uses a snapshot
+of its bytes taken before the loop body runs. Reassigning the source or changing aliased backing
+storage in the body does not affect later parts. Each part is an independent, NUL-terminated copy,
+even when the compiler generates the parts on demand instead of building an array first.
+
 #### String interpolation
 
 Array interpolation resolves each element in its declaring module, including when another
@@ -1619,6 +1628,11 @@ nums := [1, 2, 3]
 println(nums.any(it == 2)) // true
 println(nums.all(it >= 2)) // false
 ```
+
+For `s.bytes().any(...)` and `s.bytes().all(...)`, the compiler can scan the string directly
+without allocating a temporary byte array when the predicate only compares bytes with literals
+or uses builtin byte classifiers such as `is_digit()`. Explicit lambda parameters may shadow
+the string receiver: `s.bytes().all(|s| s.is_digit())` checks whether every byte is a digit.
 
 There are further built-in methods for arrays:
 
@@ -8423,7 +8437,8 @@ project that locks other revisions of the same packages switches them back. Use
    `-b` on the command line still wins, so `v -b c .` uses the C backend. Code
    given with `-e` or on standard input belongs to no project, and each target
    of `v test` uses the backend of its own `v.mod`. The accepted values are `c`,
-   `fastc`, `arm64`, `x64`, and `wasm`.
+   `fastc`, `arm64`, `amd64`, and `wasm`. The aliases `x64`, `x86_64`, and `x86-64`
+   select `amd64`.
 
    The name of your package should be used with the `module` directive
    at the top of all files in your package. For `mypackage.v`:
@@ -10808,11 +10823,19 @@ Later requests reuse it until its compiler or source dependencies change. `VTOOL
 builds a temporary full compiler for each request instead. To include optional backends in `v`
 itself, use `v -compile-backend arm64 self` or `v -all-backends self`.
 
-`-b native` has been replaced by `-b arm64` and `-b x64`. Use `v -b arm64 file.v` on macOS
-ARM64 or `v -b x64 file.v` on Linux AMD64. The native backends do not link a garbage collector yet,
-so they always
-build as if `-gc none` was passed. For x64, `-prod` enables SSA optimization, scalar register
-allocation, and optimized C helpers. Very large x64 modules may skip the global SSA pass to
+Use `v -native file.v` or `v -b native file.v` to select the native backend for the target
+architecture. Without `-arch`, the target defaults to the compiler's host architecture.
+Pass `-arch amd64` to select `-b amd64` (`-b x64`), or `-arch arm64` to select `-b arm64`.
+The architecture option can appear before or after the native backend option.
+Explicit backend selection remains available, with the same platform requirements: macOS
+ARM64 and Linux AMD64 support executables. Linux ARM64 currently supports object output only;
+for example, `v -b native -arch arm64 -o hello_world.o hello_world.v` on Linux emits an ARM64
+ELF object, including from an AMD64 host. It does not link a Linux ARM64 executable.
+For a Linux AMD64 ELF object, use `v -b amd64 -o hello_world.o hello_world.v`.
+
+The native backends do not link a garbage collector yet, so they always build as if `-gc none`
+was passed. For AMD64, `-prod` enables SSA optimization, scalar register
+allocation, and optimized C helpers. Very large AMD64 modules may skip the global SSA pass to
 bound compiler memory. The ARM64 backend retains its existing optimization behavior.
 ARM64 executable linking is silent by default; use `-stats` to display compiler stage timings.
 ARM64 builds reject native source files included with `#include`, `#insert`, `#preinclude`, or
@@ -10821,10 +10844,20 @@ ARM64 resolves a fixed set of platform C constants. Other C constants produce an
 use the C backend when a header defines a constant the native backend does not support.
 The supported set includes the memory-order and pthread compatibility constants used by
 V's synchronization runtime.
-The x64 backend is experimental. Calls without a native implementation fail compilation
+The AMD64 backend is experimental. Calls without a native implementation fail compilation
 or linking rather than producing placeholder implementations.
 It requires a Linux AMD64 host. Passing or returning C structs and arrays by value is
 currently unsupported and produces a diagnostic; pass pointers to C aggregates instead.
+
+The AMD64 backend emits ELF object code and uses the host C toolchain to link a Linux
+executable. `-b x64`, `-b x86_64`, and `-b x86-64` remain aliases for `-b amd64`.
+To compile and run hello world on Linux AMD64:
+
+```sh
+v -b amd64 -o hello_world examples/hello_world.v
+./hello_world
+```
+
 Stored C function values support integer and pointer arguments with 64-bit integer, pointer,
 or void returns. Taking the address of a variadic C function, one with floating-point arguments
 or returns, or one returning a narrower integer produces a diagnostic. Direct C calls retain

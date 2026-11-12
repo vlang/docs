@@ -1166,6 +1166,10 @@ assert '-0b1111_0000_1010'.int() == -3850
 </div>
 <p>For more advanced <code>string</code> processing and conversions, refer to the
 <a href="https://modules.vlang.io/strconv.html">vlib/strconv</a> module.</p>
+<p>A loop such as <code>for part in s.split(',') { ... }</code> evaluates the source once and uses a snapshot
+of its bytes taken before the loop body runs. Reassigning the source or changing aliased backing
+storage in the body does not affect later parts. Each part is an independent, NUL-terminated copy,
+even when the compiler generates the parts on demand instead of building an array first.</p>
 <h3 id="string-interpolation">String interpolation <a href="v-types.html#string-interpolation" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Array interpolation resolves each element in its declaring module, including when another
 imported module declares an enum with the same type name.</p>
@@ -1701,6 +1705,10 @@ for elements that satisfy a condition.</p>
 println(nums.any(it == 2)) // true
 println(nums.all(it &gt;= 2)) // false
 </div>
+<p>For <code>s.bytes().any(...)</code> and <code>s.bytes().all(...)</code>, the compiler can scan the string directly
+without allocating a temporary byte array when the predicate only compares bytes with literals
+or uses builtin byte classifiers such as <code>is_digit()</code>. Explicit lambda parameters may shadow
+the string receiver: <code>s.bytes().all(|s| s.is_digit())</code> checks whether every byte is a digit.</p>
 <p>There are further built-in methods for arrays:</p>
 <ul>
 <li><code>a.repeat(n)</code> concatenates the array elements <code>n</code> times</li>
@@ -2121,7 +2129,7 @@ foo['c'] = 99
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L729"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L733"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2136,9 +2144,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-11T01:49:35.000Z">Last updated:
-                                        2026-11-11 01:49:35, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/e957563bb31e6a37b3a24d6156d3f125b4894df3">e957563</a></time>
+                                    <time datetime="2026-11-12T16:55:53.000Z">Last updated:
+                                        2026-11-12 16:55:53, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/3800a40e20f0869f08a09538b115ac52d252d85a">3800a40</a></time>
                                 </div>
                             </div>
 

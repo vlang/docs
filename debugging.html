@@ -998,11 +998,18 @@ such as <code>v -b arm64 file.v</code>, automatically builds and runs a full com
 Later requests reuse it until its compiler or source dependencies change. <code>VTOOLS_NO_CACHE=1</code>
 builds a temporary full compiler for each request instead. To include optional backends in <code>v</code>
 itself, use <code>v -compile-backend arm64 self</code> or <code>v -all-backends self</code>.</p>
-<p><code>-b native</code> has been replaced by <code>-b arm64</code> and <code>-b x64</code>. Use <code>v -b arm64 file.v</code> on macOS
-ARM64 or <code>v -b x64 file.v</code> on Linux AMD64. The native backends do not link a garbage collector yet,
-so they always
-build as if <code>-gc none</code> was passed. For x64, <code>-prod</code> enables SSA optimization, scalar register
-allocation, and optimized C helpers. Very large x64 modules may skip the global SSA pass to
+<p>Use <code>v -native file.v</code> or <code>v -b native file.v</code> to select the native backend for the target
+architecture. Without <code>-arch</code>, the target defaults to the compiler's host architecture.
+Pass <code>-arch amd64</code> to select <code>-b amd64</code> (<code>-b x64</code>), or <code>-arch arm64</code> to select <code>-b arm64</code>.
+The architecture option can appear before or after the native backend option.
+Explicit backend selection remains available, with the same platform requirements: macOS
+ARM64 and Linux AMD64 support executables. Linux ARM64 currently supports object output only;
+for example, <code>v -b native -arch arm64 -o hello_world.o hello_world.v</code> on Linux emits an ARM64
+ELF object, including from an AMD64 host. It does not link a Linux ARM64 executable.
+For a Linux AMD64 ELF object, use <code>v -b amd64 -o hello_world.o hello_world.v</code>.</p>
+<p>The native backends do not link a garbage collector yet, so they always build as if <code>-gc none</code>
+was passed. For AMD64, <code>-prod</code> enables SSA optimization, scalar register
+allocation, and optimized C helpers. Very large AMD64 modules may skip the global SSA pass to
 bound compiler memory. The ARM64 backend retains its existing optimization behavior.
 ARM64 executable linking is silent by default; use <code>-stats</code> to display compiler stage timings.
 ARM64 builds reject native source files included with <code>#include</code>, <code>#insert</code>, <code>#preinclude</code>, or
@@ -1011,11 +1018,17 @@ ARM64 resolves a fixed set of platform C constants. Other C constants produce an
 use the C backend when a header defines a constant the native backend does not support.
 The supported set includes the memory-order and pthread compatibility constants used by
 V's synchronization runtime.
-The x64 backend is experimental. Calls without a native implementation fail compilation
+The AMD64 backend is experimental. Calls without a native implementation fail compilation
 or linking rather than producing placeholder implementations.
 It requires a Linux AMD64 host. Passing or returning C structs and arrays by value is
-currently unsupported and produces a diagnostic; pass pointers to C aggregates instead.
-Stored C function values support integer and pointer arguments with 64-bit integer, pointer,
+currently unsupported and produces a diagnostic; pass pointers to C aggregates instead.</p>
+<p>The AMD64 backend emits ELF object code and uses the host C toolchain to link a Linux
+executable. <code>-b x64</code>, <code>-b x86_64</code>, and <code>-b x86-64</code> remain aliases for <code>-b amd64</code>.
+To compile and run hello world on Linux AMD64:</p>
+<pre><code class="language-sh">v -b amd64 -o hello_world examples/hello_world.v
+./hello_world
+</code></pre>
+<p>Stored C function values support integer and pointer arguments with 64-bit integer, pointer,
 or void returns. Taking the address of a variadic C function, one with floating-point arguments
 or returns, or one returning a narrower integer produces a diagnostic. Direct C calls retain
 their scalar calling convention.
@@ -1046,7 +1059,7 @@ Use the C backend for the full set of 128-bit operations.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10744"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10759"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1061,9 +1074,9 @@ Use the C backend for the full set of 128-bit operations.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-10T17:50:18.000Z">Last updated:
-                                        2026-11-10 17:50:18, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/aebadc37aa3f57f80aea8674b76f07977b966bd8">aebadc3</a></time>
+                                    <time datetime="2026-11-12T16:55:53.000Z">Last updated:
+                                        2026-11-12 16:55:53, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/3800a40e20f0869f08a09538b115ac52d252d85a">3800a40</a></time>
                                 </div>
                             </div>
 
