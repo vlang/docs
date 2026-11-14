@@ -965,6 +965,9 @@ while compiling your program.</li>
 compilation. Also keep using the same file path, so it is more stable,
 and easier to keep opened in an editor/IDE.</li>
 </ul>
+<p>Test builds (<code>v test</code> and <code>v file_test.v</code>) discard generated C after compilation,
+even with an explicit backend such as <code>-b c</code>. Use <code>-keepc</code> or <code>-o file.c</code> to retain it;
+<code>-cg</code> also retains its build directory for C source debugging.</p>
 <p>On macOS, debug builds keep their <code>.dSYM</code> bundle beside the final executable.</p>
 <p>For best debugging experience if you are writing a low-level wrapper for an existing
 C library, you can pass several of these flags at the same time:
@@ -1059,7 +1062,7 @@ Use the C backend for the full set of 128-bit operations.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10764"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10773"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1074,9 +1077,9 @@ Use the C backend for the full set of 128-bit operations.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-13T23:26:38.000Z">Last updated:
-                                        2026-11-13 23:26:38, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ce4f978a54f715fbac70bad1a607f783afbdc6da">ce4f978</a></time>
+                                    <time datetime="2026-11-14T22:31:14.000Z">Last updated:
+                                        2026-11-14 22:31:14, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/ad284379ed3aebe12800b1034215e7ccdf00f404">ad28437</a></time>
                                 </div>
                             </div>
 
