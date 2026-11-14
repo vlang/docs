@@ -1180,7 +1180,8 @@ so editing another live source file also triggers a reload.</p>
 <p>Single functions can be extracted as raw machine code with <code>-hot-fn</code>:</p>
 <pre><code class="language-bash">v -b arm64 -hot-fn next_value -o next_value.bin native_counter.v
 </code></pre>
-<p>Only self-contained <code>@[live]</code> functions are supported for now: functions
+<p>Extraction omits program startup and thread-local initialization.
+Only self-contained <code>@[live]</code> functions are supported for now: functions
 needing address fixups (calls, string literals, globals) are rejected at
 extract time instead of emitting silently broken machine code.
 <code>examples/hot_reload/message.v</code> is therefore not supported by the native
@@ -1315,7 +1316,7 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11733"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11742"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1330,9 +1331,9 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-13T23:26:38.000Z">Last updated:
-                                        2026-11-13 23:26:38, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ce4f978a54f715fbac70bad1a607f783afbdc6da">ce4f978</a></time>
+                                    <time datetime="2026-11-14T10:43:50.000Z">Last updated:
+                                        2026-11-14 10:43:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a450a8d026571f329acdc0034430b515a86eb1ac">a450a8d</a></time>
                                 </div>
                             </div>
 

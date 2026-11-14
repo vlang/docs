@@ -1375,6 +1375,7 @@ f2 := 456e+2 // 45600
 <h3 id="checked-integer-arithmetic">Checked integer arithmetic <a href="v-types.html#checked-integer-arithmetic" class="header-anchor" aria-hidden="true">#</a></h3>
 <p>Integer arithmetic wraps on overflow, a shift by the bit width or more gives <code>0</code>,
 and a cast to a smaller integer type keeps the low bits.
+String interpolation preserves that integer width before formatting a wrapped result.
 Two opt-in flags turn these into runtime panics:</p>
 <ul>
 <li><code>v -check-overflow</code> checks <code>+</code>, <code>-</code>, <code>*</code>, <code>++</code>, <code>--</code>, and <code>min / -1</code> and <code>min % -1</code>
@@ -1393,7 +1394,9 @@ fn hash_step(h u32, b u8) u32 {
 }
 </div>
 <h2 id="arrays">Arrays <a href="v-types.html#arrays" class="header-anchor" aria-hidden="true">#</a></h2>
-<p>Returning a new array through helper calls preserves each helper's parameter scope.</p>
+<p>Returning a new array through helper calls preserves each helper's parameter scope.
+Chained array methods also use the concrete result type of a generic mapper, as in
+<code>values.map(it.str()).join(', ')</code>.</p>
 <p>An array is a collection of data elements of the same type. An array literal is a
 list of expressions surrounded by square brackets. An individual element can be
 accessed using an <em>index</em> expression. Indexing starts from <code>0</code>.</p>
@@ -2010,7 +2013,9 @@ m.delete('two')
 </div>
 <p>Maps can have keys of type string, rune, integer, float, voidptr,
 enum, or fixed arrays of those supported key types.
-Struct keys are rejected, including when a generic key parameter is instantiated with a struct.</p>
+Struct keys are rejected, including when a generic key parameter is instantiated with a struct.
+The native ARM64 backend keeps fixed-array keys distinct from string keys even when their
+storage sizes are equal.</p>
 <p>The whole map can be initialized using this short syntax:</p>
 <div class="language-v">numbers := {
     'one': 1
@@ -2144,9 +2149,9 @@ foo['c'] = 99
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-13T23:26:38.000Z">Last updated:
-                                        2026-11-13 23:26:38, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ce4f978a54f715fbac70bad1a607f783afbdc6da">ce4f978</a></time>
+                                    <time datetime="2026-11-14T10:43:50.000Z">Last updated:
+                                        2026-11-14 10:43:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a450a8d026571f329acdc0034430b515a86eb1ac">a450a8d</a></time>
                                 </div>
                             </div>
 

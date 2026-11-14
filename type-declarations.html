@@ -1919,6 +1919,9 @@ module-qualified literals do.</p>
 <p>Type arguments retain the module where they are declared when used in a generic struct from
 another module, including arguments inside arrays, pointers, and maps.</p>
 <p>Methods called on a generic factory result retain their dependencies in the compiled program.</p>
+<p>The type of a field accessed directly on a generic function's result is determined by the
+concrete type arguments, including when they are inferred. For example, if <code>wrap(3)</code>
+returns a <code>Box[int]</code> with a <code>value</code> field of type <code>int</code>, <code>wrap(3).value &lt;&lt; 1</code> yields <code>6</code>.</p>
 <p>Returning a generic struct as a generic interface retains its concrete methods, including when
 an interface type argument is itself a generic interface.</p>
 <div class="language-v">
@@ -2141,7 +2144,7 @@ explicit V type instead.</li>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4697"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L4702"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -2156,9 +2159,9 @@ explicit V type instead.</li>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-13T23:26:38.000Z">Last updated:
-                                        2026-11-13 23:26:38, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/ce4f978a54f715fbac70bad1a607f783afbdc6da">ce4f978</a></time>
+                                    <time datetime="2026-11-14T10:43:50.000Z">Last updated:
+                                        2026-11-14 10:43:50, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/a450a8d026571f329acdc0034430b515a86eb1ac">a450a8d</a></time>
                                 </div>
                             </div>
 
