@@ -1187,9 +1187,9 @@ extract time instead of emitting silently broken machine code.
 <code>examples/hot_reload/message.v</code> is therefore not supported by the native
 path (its live function calls other functions and prints strings); it
 remains an example for the C shared-library workflow.</p>
-<p>Linux ARM64 output is experimental and currently supports relocatable objects
-only (<code>v -b arm64 -os linux -o program.o program.v</code>). Executable linking and
-native live reloading on Linux are not yet supported.</p>
+<p>Linux ARM64 output is experimental and supports executable linking with a Linux ARM64
+toolchain, as well as relocatable objects (<code>v -b arm64 -os linux -o program.o program.v</code>).
+Native live reloading on Linux is not yet supported.</p>
 <p>More examples, including a graphical application:
 <a href="https://github.com/vlang/v/tree/master/examples/hot_reload">github.com/vlang/v/tree/master/examples/hot_reload</a>.</p>
 <h3 id="about-keeping-states-in-hot-reloading-functions-with-v--live-run">About keeping states in hot reloading functions with v -live run <a href="#about-keeping-states-in-hot-reloading-functions-with-v--live-run" class="header-anchor" aria-hidden="true">#</a></h3>
@@ -1316,7 +1316,7 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11746"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L11751"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1331,9 +1331,9 @@ it. A relative file name is relative to the directory that V runs in. <code>@DIR
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-16T02:24:31.000Z">Last updated:
-                                        2026-11-16 02:24:31, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/bcb42f2dbbbfdfbd9182df2cdcc13008027ba687">bcb42f2</a></time>
+                                    <time datetime="2026-11-17T13:55:06.000Z">Last updated:
+                                        2026-11-17 13:55:06, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/eeee53a268261d8cd15a831b55704628ba710def">eeee53a</a></time>
                                 </div>
                             </div>
 
