@@ -821,6 +821,9 @@
                         <a class="nav-entry-link" href="debugging.html#c-backend-binaries-(default)"> C Backend binaries (Default)</a>
                     </div>
                     <div class="nav-entry">
+                        <a class="nav-entry-link" href="debugging.html#panics-and-stack-traces"> Panics and stack traces</a>
+                    </div>
+                    <div class="nav-entry">
                         <a class="nav-entry-link" href="debugging.html#native-backend-binaries"> Native Backend binaries</a>
                     </div>
                     <div class="nav-entry">
@@ -995,6 +998,34 @@ e.g. <code>lldb hello</code></li>
 <li><a href="https://github.com/vlang/v/blob/master/doc/codelite.md">CodeLite</a></li>
 <li><a href="https://github.com/vlang/v/blob/master/doc/vscode.md">Visual Studio Code</a></li>
 </ul>
+<h2 id="panics-and-stack-traces">Panics and stack traces <a href="debugging.html#panics-and-stack-traces" class="header-anchor" aria-hidden="true">#</a></h2>
+<p>A panic prints its message, the .v file and line of the <code>panic()</code> call, and a stack trace
+of the functions that led to it, innermost first:</p>
+<pre><code class="language-text">V panic: boom 3
+     at: p.v:3 in main.inner()
+ v hash: afbcf1d
+    pid: 0x2d72
+    tid: 0x2d72
+
+inner()
+middle()
+main()
+(build with `-g` to see the .v line of every frame)
+</code></pre>
+<p>Without <code>-g</code>, the executable has no line information, so only the <code>panic()</code> call has a .v
+line. <code>-prod</code> executables leave it out as well, so they do not contain source paths. Build
+with <code>-g</code> to see the .v line of every frame, like in Go:</p>
+<pre><code class="language-text">inner()
+    /home/user/p.v:3
+middle()
+    /home/user/p.v:9
+main()
+    /home/user/p.v:15
+</code></pre>
+<p>On macOS the lines come from <code>atos</code>, which can not read the debug information of TinyCC,
+so use <code>-cc clang -g</code> there. On Linux they come from <code>addr2line</code>. Panics that the runtime
+raises, like an array index out of range, show the .v line of your code only in such a
+stack trace.</p>
 <h2 id="native-backend-binaries">Native Backend binaries <a href="debugging.html#native-backend-binaries" class="header-anchor" aria-hidden="true">#</a></h2>
 <p><code>v self</code> builds the compiler with only the C backend by default. Selecting another backend,
 such as <code>v -b arm64 file.v</code>, automatically builds and runs a full compiler in the tool cache.
@@ -1067,7 +1098,7 @@ Use the C backend for the full set of 128-bit operations.</p>
                             <div class="edit-info">
                                 <div class="edit-link">
                                     <a class="link edit-link-button"
-                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10773"
+                                        href="https://github.com/vlang/v/edit/master/doc/docs.md#L10774"
                                         target="_blank" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             class="edit-link-icon">
@@ -1082,9 +1113,9 @@ Use the C backend for the full set of 128-bit operations.</p>
                                     </a>
                                 </div>
                                 <div class="last-updated">
-                                    <time datetime="2026-11-18T08:31:07.000Z">Last updated:
-                                        2026-11-18 08:31:07, V Commit: <a
-                                            href="https://github.com/vlang/v/commit/a7912e13da79df40ea19eea80bc14d34c75b40b4">a7912e1</a></time>
+                                    <time datetime="2026-11-19T19:48:19.000Z">Last updated:
+                                        2026-11-19 19:48:19, V Commit: <a
+                                            href="https://github.com/vlang/v/commit/63120d8adc9e2df2257bbcc6508f89725c7be7e5">63120d8</a></time>
                                 </div>
                             </div>
 
@@ -1115,6 +1146,9 @@ Use the C backend for the full set of 128-bit operations.</p>
                                 <ul>
                                     <li class="active">
                                         <a href="#c-backend-binaries-(default)">C Backend binaries (Default)</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#panics-and-stack-traces">Panics and stack traces</a>
                                     </li>
                                     <li class="active">
                                         <a href="#native-backend-binaries">Native Backend binaries</a>
